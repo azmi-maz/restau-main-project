@@ -5,4 +5,6 @@ module org.group.project {
 
     opens org.group.project to javafx.fxml;
     exports org.group.project;
+    exports org.group.project.controller;
+    opens org.group.project.controller to javafx.fxml;
 }
