@@ -86,6 +86,31 @@ public class Kitchen {
         return null;
     }
 
+    public List<FoodDrink> getAscendingListOfLeastItemOrdered(int numberLimit) {
+        // to do
+        return null;
+    }
+
+    public FoodDrink getLessPopularItemOrdered() {
+        // to do
+        return null;
+    }
+
+    public FoodDrink getMostPopularItemByType(String itemType) {
+        // to do
+        return null;
+    }
+
+    public FoodDrink getItemAsTheMostDailySpecial() {
+        // to do
+        return null;
+    }
+
+    public Customer getTheMostActiveCustomer() {
+        // to do
+        return null;
+    }
+
 
 
 
