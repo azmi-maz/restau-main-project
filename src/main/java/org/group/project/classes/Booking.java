@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * This class handles booking details made by customer.
  *
- * @author Azmi Maz
+ * @author azmi_maz
  */
 public class Booking {
     private final Customer customer;
