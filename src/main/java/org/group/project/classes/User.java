@@ -14,8 +14,8 @@ public class User {
      * This constructor creates a new user with basic data.
      *
      * @param firstName - First name of the user.
-     * @param lastName - Last name of the user.
-     * @param username - The username used to log in.
+     * @param lastName  - Last name of the user.
+     * @param username  - The username used to log in.
      */
     public User(String firstName, String lastName, String username) {
         this.firstName = firstName;
