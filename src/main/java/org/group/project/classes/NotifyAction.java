@@ -2,6 +2,8 @@ package org.group.project.classes;
 
 /**
  * This interface class handles notification to customer.
+ *
+ * @author azmi_maz
  */
 public interface NotifyAction {
 

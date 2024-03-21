@@ -1,10 +1,9 @@
 package org.group.project.classes;
 
 /**
- * This class handles notification data
+ * This class handles all users primary data
  *
  * @author azmi_maz
  */
-public class Notification {
-
+public class User {
 }
