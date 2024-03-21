@@ -19,10 +19,10 @@ public class Customer extends User {
     /**
      * This constructor creates a new customer.
      *
-     * @param firstName - the first name of the customer.
-     * @param lastName - the last name of the customer.
-     * @param username - the username given by the customer.
-     * @param customerId - the customer id, unique for each customer.
+     * @param firstName       - the first name of the customer.
+     * @param lastName        - the last name of the customer.
+     * @param username        - the username given by the customer.
+     * @param customerId      - the customer id, unique for each customer.
      * @param deliveryAddress - the delivery address in one single string.
      */
     public Customer(String firstName, String lastName, String username,
@@ -118,6 +118,7 @@ public class Customer extends User {
      */
     public List<FoodDrink> viewMenuList() {
         // to code
-        return new ArrayList<>() {};
+        return new ArrayList<>() {
+        };
     }
 }
