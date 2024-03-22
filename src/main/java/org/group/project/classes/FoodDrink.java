@@ -50,4 +50,14 @@ public class FoodDrink {
         return isDailySpecial;
     }
 
+    /**
+     * This method updates the daily special status of the item.
+     *
+     * @param isSpecial - the new update.
+     * @return true if the update was made successfully.
+     */
+    public void setItemDailySpecial(boolean isSpecial) {
+        isDailySpecial = isSpecial;
+    }
+
 }
