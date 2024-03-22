@@ -1,5 +1,8 @@
 package org.group.project.classes;
 
+/**
+ * This class represents driver role in the restaurant.
+ */
 public class Driver extends Staff {
     private boolean isAvailable;
 
