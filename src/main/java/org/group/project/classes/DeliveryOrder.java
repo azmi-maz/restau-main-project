@@ -13,16 +13,113 @@ public class DeliveryOrder extends Order {
     private String customerAddress;
     private LocalTime deliveryTime;
 
-
     /**
      * The constructor to initiate a delivery order with empty basket.
      *
-     * @param user      - the customer who is making the order.
+     * @param customer  - the customer who is making the order.
      * @param orderDate - the date of the order.
      * @param orderTime - the time of the order.
      */
-    public DeliveryOrder(User user, LocalDate orderDate,
+    public DeliveryOrder(Customer customer, LocalDate orderDate,
                          LocalTime orderTime) {
-        super(user, orderDate, orderTime, "delivery", "pending-approval");
+        super(customer, orderDate, orderTime, "delivery", "pending-approval");
+        customerAddress = customer.getDeliveryAddress();
+        // Default 30 mins for now - restaurant policy to deliver within 30
+        // mins.
+        deliveryTime = orderTime.plusMinutes(30);
+    }
+
+    /**
+     * Getter method to get the customer who made the delivery order.
+     *
+     * @return
+     */
+    public Customer getCustomer() {
+        return (Customer) super.getUser();
+    }
+
+    /**
+     * Getter method to get the date of the order.
+     *
+     * @return the order date.
+     */
+    public LocalDate getOrderDate() {
+        return super.getOrderDate();
+    }
+
+    /**
+     * Getter method to get the time of the order.
+     *
+     * @return the order time.
+     */
+    public LocalTime getOrderTime() {
+        return super.getOrderTime();
+    }
+
+    /**
+     * Getter method to get the type of the order.
+     *
+     * @return the order type.
+     */
+    public String getOrderType() {
+        return super.getOrderType();
+    }
+
+    /**
+     * Getter method to get the status of the order.
+     *
+     * @return the order status.
+     */
+    public String getOrderStatus() {
+        return super.getOrderStatus();
+    }
+
+    /**
+     * Getter method to get the address of the customer.
+     *
+     * @return the delivery address.
+     */
+    public String getCustomerAddress() {
+        return getCustomer().getDeliveryAddress();
+    }
+
+    /**
+     * This method assigns a driver to the order for delivery arrangement.
+     *
+     * @param driver - the driver tasked to deliver the order.
+     * @return the driver for the UI.
+     */
+    public Driver assignDriver(Driver driver) {
+        assignedDriver = driver;
+        return driver;
+    }
+
+    /**
+     * Getter method to get the assigned driver.
+     *
+     * @return the driver.
+     */
+    public Driver getDriver() {
+        return assignedDriver;
+    }
+
+    /**
+     * This method adds delivery time in minutes.
+     *
+     * @param addTimeInMinutes - the time in minutes.
+     * @return the new delivery time for UI.
+     */
+    public LocalTime addDeliveryTime(int addTimeInMinutes) {
+        deliveryTime = deliveryTime.plusMinutes(addTimeInMinutes);
+        return deliveryTime;
+    }
+
+    /**
+     * Getter method to get the delivery time.
+     *
+     * @return the delivery time.
+     */
+    public LocalTime getDeliveryTime() {
+        return deliveryTime;
     }
 }
