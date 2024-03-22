@@ -14,9 +14,9 @@ public class Staff extends User {
      * The constructor to create new staff and provide admin rights for
      * specified staff.
      *
-     * @param firstName - the first name of the staff.
-     * @param lastName - the last name of the staff.
-     * @param username - the username chosen by the staff.
+     * @param firstName     - the first name of the staff.
+     * @param lastName      - the last name of the staff.
+     * @param username      - the username chosen by the staff.
      * @param hasAdminRight - the right to access the system as an admin.
      */
     public Staff(String firstName, String lastName, String username,
