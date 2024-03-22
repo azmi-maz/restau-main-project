@@ -4,6 +4,8 @@ import java.util.List;
 
 /**
  * This class represents waiter role in the restaurant.
+ *
+ * @author azmi_maz
  */
 public class Waiter extends Staff {
 

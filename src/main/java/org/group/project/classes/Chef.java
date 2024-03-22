@@ -2,6 +2,8 @@ package org.group.project.classes;
 
 /**
  * This class represents Chef role in the restaurant.
+ *
+ * @author azmi_maz
  */
 public class Chef extends Staff {
 
