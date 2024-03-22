@@ -32,7 +32,7 @@ public class DeliveryOrder extends Order {
     /**
      * Getter method to get the customer who made the delivery order.
      *
-     * @return
+     * @return the customer.
      */
     public Customer getCustomer() {
         return (Customer) super.getUser();
