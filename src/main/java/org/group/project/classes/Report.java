@@ -23,6 +23,7 @@ public class Report {
      * @param reportId   - the unique report id.
      * @param reportType - the type of the report.
      * @param reportData - the main content of the report.
+     * @param staff - the staff who generated the report.
      */
     public Report(int reportId, String reportType, String reportData,
                   Staff staff) {
