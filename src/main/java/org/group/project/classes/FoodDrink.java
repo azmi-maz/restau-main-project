@@ -60,4 +60,14 @@ public class FoodDrink {
         isDailySpecial = isSpecial;
     }
 
+    /**
+     * This prints out FoodDrink item in "Item name: (item type)" format.
+     *
+     * @return the food item in specified format.
+     */
+    @Override
+    public String toString() {
+        return getItemName() + " (" + getItemType() + ")";
+    }
+
 }
