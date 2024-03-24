@@ -2,12 +2,10 @@ import org.group.project.classes.Booking;
 import org.group.project.classes.Customer;
 import org.group.project.classes.Floor;
 import org.group.project.classes.Table;
+import org.group.project.test.generators.BookingGenerator;
+import org.group.project.test.generators.CustomerGenerator;
+import org.group.project.test.generators.TableGenerator;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -15,47 +13,24 @@ public class FloorTests {
 
     @Test
     public void testGetAllUniqueBookings() {
-        Customer customer = new Customer("John", "Doe", "john.doe", 1, "41 " +
-                "Pine Street, Swansea");
-        Customer customer2 = new Customer("Jane", "Doe", "jane.doe", 2, "40 " +
-                "Short Street, Swansea");
+        Customer customer = CustomerGenerator.createCustomer1();
+        Customer customer2 = CustomerGenerator.createCustomer2();
 
-        Table tableA = new Table("Table A", 4);
-        Table tableB = new Table("Table B", 4);
-        Table tableC = new Table("Table C", 4);
+        Booking booking1 = BookingGenerator.createBooking1();
 
-        LocalDate bookingDate = LocalDate.of(2024, 2, 20);
-        LocalDate bookingDate2 = LocalDate.of(2024, 2, 20);
-
-        LocalTime bookingTime = LocalTime.of(7, 30);
-        LocalTime bookingTime2 = LocalTime.of(5, 30);
-
-        int numGuests = 4;
-        int numGuests2 = 2;
-
-        List<Table> tableRequests = new ArrayList<>();
-        List<Table> tableRequests2 = new ArrayList<>();
-
-        tableRequests.add(tableA);
-        tableRequests.add(tableB);
-
-        tableRequests2.add(tableB);
-        tableRequests2.add(tableC);
-
-        Booking booking1 = new Booking(customer, bookingDate, bookingTime,
-                numGuests, tableRequests);
-
-        Booking booking2 = new Booking(customer2, bookingDate2, bookingTime2,
-                numGuests2, tableRequests2);
+        Booking booking2 = BookingGenerator.createBooking2();
 
         Floor frontHouse = new Floor();
-        frontHouse.addNewTable(tableA);
-        frontHouse.addNewTable(tableB);
-        frontHouse.addNewTable(tableC);
+
+        Table tableA = TableGenerator.createTableOfFourSeats1();
+        Table tableB = TableGenerator.createTableOfFourSeats2();
+        Table tableC = TableGenerator.createTableOfFourSeats3();
 
         frontHouse.addBookingToReservation(booking1);
         frontHouse.addBookingToReservation(booking2);
 
+//        System.out.println(frontHouse.getBookingByTable(tableA).getFirst().getCustomer());
+//
 //        System.out.println("TableA: " + frontHouse.getBookingByTable(tableA));
 //        System.out.println("TableB: " + frontHouse.getBookingByTable(tableB));
 //        System.out.println("TableC: " + frontHouse.getBookingByTable(tableC));

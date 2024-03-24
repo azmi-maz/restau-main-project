@@ -43,7 +43,8 @@ public class Kitchen {
      * @return true if the ticket was added successfully.
      */
     public boolean addNewOrderTicket(Order newOrder) {
-        // to code
+
+        orderTickets.add(newOrder);
         return true;
     }
 
