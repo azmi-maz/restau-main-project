@@ -1,10 +1,8 @@
 import org.group.project.classes.Booking;
 import org.group.project.classes.Customer;
 import org.group.project.classes.Floor;
-import org.group.project.classes.Table;
 import org.group.project.test.generators.BookingGenerator;
 import org.group.project.test.generators.CustomerGenerator;
-import org.group.project.test.generators.TableGenerator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,12 +20,11 @@ public class FloorTests {
 
         Floor frontHouse = new Floor();
 
-        Table tableA = TableGenerator.createTableOfFourSeats1();
-        Table tableB = TableGenerator.createTableOfFourSeats2();
-        Table tableC = TableGenerator.createTableOfFourSeats3();
+        frontHouse.addNewTable(booking1.getTablePreference());
+        frontHouse.addNewTable(booking2.getTablePreference());
 
-        frontHouse.addBookingToReservation(booking1);
-        frontHouse.addBookingToReservation(booking2);
+        boolean addingBooking1 = frontHouse.addBookingToReservation(booking1);
+        boolean addingBooking2 = frontHouse.addBookingToReservation(booking2);
 
 //        System.out.println(frontHouse.getBookingByTable(tableA).getFirst().getCustomer());
 //
@@ -116,6 +113,15 @@ public class FloorTests {
 //                time5.isAfter(startTimeMinusOne) && time5.isBefore(endTimePlusOne);
 //        System.out.println(time5 + " > " + startTimeMinusOne + " & " + time5 +
 //                " < " + endTimePlusOne + ": " + timeRange5);
+
+//        System.out.println(frontHouse.getNamesOfTables());
+
+//        System.out.print("Before deletion: ");
+//        System.out.println(frontHouse.getAllUniqueBookings());
+//        System.out.println("Attempt to delete this booking: " + booking1);
+//        frontHouse.cancelBooking(booking1);
+//        System.out.print("After deletion: ");
+//        System.out.println(frontHouse.getAllUniqueBookings());
 
         assertEquals(true, true);
     }

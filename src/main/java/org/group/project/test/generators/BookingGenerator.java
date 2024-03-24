@@ -11,6 +11,10 @@ import java.util.List;
 
 public class BookingGenerator {
 
+    static Table tableA = TableGenerator.createTableOfFourSeats1();
+    static Table tableB = TableGenerator.createTableOfFourSeats2();
+    static Table tableC = TableGenerator.createTableOfFourSeats3();
+
     public static Booking createBooking1() {
         Customer customer = CustomerGenerator.createCustomer1();
 
@@ -20,9 +24,6 @@ public class BookingGenerator {
         int numGuests = 4;
 
         List<Table> tableRequests = new ArrayList<>();
-
-        Table tableA = TableGenerator.createTableOfFourSeats1();
-        Table tableB = TableGenerator.createTableOfFourSeats2();
 
         tableRequests.add(tableA);
         tableRequests.add(tableB);
@@ -40,9 +41,6 @@ public class BookingGenerator {
         int numGuests2 = 2;
 
         List<Table> tableRequests = new ArrayList<>();
-
-        Table tableB = TableGenerator.createTableOfFourSeats2();
-        Table tableC = TableGenerator.createTableOfFourSeats3();
 
         tableRequests.add(tableB);
         tableRequests.add(tableC);

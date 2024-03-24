@@ -30,12 +30,41 @@ public class Floor {
     }
 
     /**
+     * This method gets all the table names in the restaurant.
+     *
+     * @return the list of table names.
+     */
+    public List<String> getNamesOfTables() {
+        List<String> tableNames = new ArrayList<>();
+        tableBookings.keySet().stream().forEach(table -> tableNames.add(table.getTableName()));
+        return tableNames;
+    }
+
+    /**
      * This method add new table to the tableBookings.
      *
      * @param newTable - new table to be added.
      */
     public void addNewTable(Table newTable) {
-        tableBookings.put(newTable, new ArrayList<>());
+        if (!tableBookings.containsKey(newTable)) {
+            tableBookings.put(newTable, new ArrayList<>());
+        }
+    }
+
+    /**
+     * This method add new tables from a list of tables.
+     *
+     * @param newTables - the list of new tables to be added.
+     */
+    public void addNewTable(List<Table> newTables) {
+        for (Table table : newTables) {
+            Boolean tableMatches = tableBookings.keySet().stream().anyMatch(thisTable -> {
+                return thisTable.getTableName().equalsIgnoreCase(table.getTableName());
+            });
+            if (!tableMatches) {
+                tableBookings.put(table, new ArrayList<>());
+            }
+        }
     }
 
     /**
@@ -156,5 +185,27 @@ public class Floor {
             }
         }
         return filteredBookings;
+    }
+
+    /**
+     * This method cancel booking that hasn't already past the booking date.
+     *
+     * @param booking - the booking to be cancelled.
+     * @return true if the cancellation was made successfully.
+     */
+    public boolean cancelBooking(Booking booking) {
+
+        List<Booking> allUniqueBookings = getAllUniqueBookings();
+        Boolean isBookingExist = allUniqueBookings.contains(booking);
+        if (isBookingExist) {
+            for (Map.Entry<Table, List<Booking>> entry :
+                    tableBookings.entrySet()) {
+                if (entry.getValue().contains(booking)) {
+                    entry.getValue().remove(booking);
+                }
+            }
+            return true;
+        }
+        return false;
     }
 }
