@@ -134,12 +134,24 @@ public class Booking {
     }
 
     /**
-     * This method checks table availability of one table or more.
+     * This method checks if the number of guests matches or less than the
+     * tables requested.
      *
-     * @param tableRequest - List of tables that is requested by the customer.
+     * @param tableRequest - List of tables that are requested by the customer.
      * @return true if booking can be made, false if not.
      */
     public boolean checksTableAvailability(List<Table> tableRequest) {
+        int seatsAvailable = 0;
+        int seatsNeeded = getNumOfGuests();
+        for (Table table : tableRequest) {
+            seatsAvailable += table.getNumberOfSeats();
+        }
+
+        // If the no. of seats available is more than the no. of seats needed
+        // then it's ok to approve the booking.
+        if (seatsAvailable >= seatsNeeded) {
+            return true;
+        }
         return false;
     }
 
