@@ -1,5 +1,7 @@
+import org.group.project.classes.Chef;
 import org.group.project.classes.FoodDrink;
 import org.group.project.classes.Menu;
+import org.group.project.test.generators.ChefGenerator;
 import org.group.project.test.generators.FoodDrinkGenerator;
 import org.junit.jupiter.api.Test;
 
@@ -27,5 +29,18 @@ public class MenuTests {
 
     }
 
+    @Test
+    public void testChefCreateNewMenuItem() {
+        Menu menu = new Menu();
+        Chef chef1 = ChefGenerator.createChef1();
+        FoodDrink foodItem1 = FoodDrinkGenerator.createFoodItem1();
+        FoodDrink drinkItem1 = FoodDrinkGenerator.createDrinkItem1();
+
+        System.out.println(menu.getMenuOfItems());
+        chef1.createNewMenuItem(menu, foodItem1);
+        chef1.createNewMenuItem(menu, drinkItem1);
+        System.out.println("Chefs added new items");
+        System.out.println(menu.getMenuOfItems());
+    }
 
 }

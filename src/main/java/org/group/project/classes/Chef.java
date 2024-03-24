@@ -5,7 +5,7 @@ package org.group.project.classes;
  *
  * @author azmi_maz
  */
-public class Chef extends Staff {
+public class Chef extends Staff implements OrderAction {
 
     /**
      * The constructor to create new chef.
@@ -35,8 +35,32 @@ public class Chef extends Staff {
      * @param newItem - a new food or drink.
      * @return true if the new item was added sucessfully.
      */
-    public boolean createNewMenuItem(FoodDrink newItem) {
-        // to code
+    public boolean createNewMenuItem(Menu menuList, FoodDrink newItem) {
+
+        menuList.addItemToMenu(newItem);
         return true;
+    }
+
+    /**
+     * This method is not applicable for chefs.
+     *
+     * @param newOrder - a new order.
+     * @return null.
+     */
+    @Override
+    public Order createAnOrder(Order newOrder) {
+        // Chef does not need to create a new order.
+        return null;
+    }
+
+    /**
+     * This method allows chefs to update orders as complete.
+     *
+     * @param completedOrder - the order to be marked off as complete.
+     * @return true if order was updated successfully.
+     */
+    @Override
+    public boolean updateOrderStatus(Order completedOrder) {
+        return false;
     }
 }
