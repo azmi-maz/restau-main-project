@@ -33,7 +33,7 @@ public class Chef extends Staff implements OrderAction {
      * This method creates a new item and add it to the menu.
      *
      * @param newItem - a new food or drink.
-     * @return true if the new item was added sucessfully.
+     * @return true if the new item was added successfully.
      */
     public boolean createNewMenuItem(Menu menuList, FoodDrink newItem) {
 
