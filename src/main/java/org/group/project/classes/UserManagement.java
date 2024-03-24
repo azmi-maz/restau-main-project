@@ -1,5 +1,6 @@
 package org.group.project.classes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,6 +15,7 @@ public class UserManagement {
      * This constructor is default without any parameters.
      */
     public UserManagement() {
+        userList = new ArrayList<>();
     }
 
     /**
