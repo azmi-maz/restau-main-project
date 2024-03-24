@@ -35,7 +35,7 @@ public class FloorReport extends Report {
      *
      * @return the report for most active customer.
      */
-    public FloorReport getMostActiveCustomer() {
+    public FloorReport getMostActiveCustomerReport() {
         // to code
         return null;
     }
