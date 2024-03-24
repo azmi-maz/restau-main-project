@@ -12,7 +12,7 @@ public class Seat {
      * This constructor sets up a seat for a table.
      */
     public Seat() {
-        this.isAvailable = false;
+        this.isAvailable = true;
     }
 
     /**

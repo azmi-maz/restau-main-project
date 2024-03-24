@@ -41,6 +41,17 @@ public class Floor {
     }
 
     /**
+     * This method gets all the table availability status in the restaurant.
+     *
+     * @return the list of table availabilty for all tables.
+     */
+    public List<Boolean> getEachTableAvailability() {
+        List<Boolean> tableAvailability = new ArrayList<>();
+        tableBookings.keySet().stream().forEach(table -> tableAvailability.add(table.isTableFullyBooked()));
+        return tableAvailability;
+    }
+
+    /**
      * This method add new table to the tableBookings.
      *
      * @param newTable - new table to be added.
@@ -88,6 +99,14 @@ public class Floor {
         if (booking.getTablePreference().size() > 1) {
             List<Table> tables = booking.getTablePreference();
             for (Table table : tables) {
+
+                /*
+                 * To implement this, it requires tables to exist separately
+                 * based on date and time. And to implement checking those
+                 * table is available or not.
+                 */
+//                table.bookSeats(booking.getNumOfGuests());
+
                 tableBookings.get(table).add(booking);
             }
             return true;
@@ -116,6 +135,13 @@ public class Floor {
         return listOfBookings;
     }
 
+    /**
+     * Getter method to get bookings by date range.
+     *
+     * @param dateFrom - the start date for the filter.
+     * @param dateTo   - the end date for the filter.
+     * @return the list of bookings between two dates, inclusive.
+     */
     public List<Booking> getBookingsByDateRange(LocalDate dateFrom,
                                                 LocalDate dateTo) {
         List<Booking> allUniqueBookings = getAllUniqueBookings();
@@ -149,6 +175,15 @@ public class Floor {
         return filteredBookings;
     }
 
+    /**
+     * Getter method to get bookings within the same date and to filter
+     * between two time range.
+     *
+     * @param searchDate - the specific date when bookings are made.
+     * @param startTime - the start time of the filter.
+     * @param endTime - the end time of the filter.
+     * @return the list of bookings that matched all filter criteria.
+     */
     public List<Booking> getBookingsByDateAndTimeRange(LocalDate searchDate,
                                                        LocalTime startTime,
                                                        LocalTime endTime) {

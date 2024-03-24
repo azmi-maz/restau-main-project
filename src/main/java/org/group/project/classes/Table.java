@@ -51,6 +51,7 @@ public class Table {
      * @return true if the seat bookings are successful.
      */
     public boolean bookSeats(int seatsToBook) {
+
         if (seatsToBook == 0) {
             return false;
         }
@@ -63,7 +64,7 @@ public class Table {
 
         for (int i = 0; i < seats.size(); i++) {
             if (counter > 0 && seats.get(i).isAvailable()) {
-                seats.get(i).setAvailability(true);
+                seats.get(i).setAvailability(false);
                 counter--;
             }
         }
@@ -81,12 +82,18 @@ public class Table {
      * @return true if all the seats of table is booked.
      */
     public boolean isTableFullyBooked() {
+        int seatsBooked = getNumberOfSeats();
         for (Seat seat : seats) {
+//            System.out.println("Is this seat available? " + seat.isAvailable());
             if (!seat.isAvailable()) {
-                return false;
+                seatsBooked--;
             }
         }
-        return true;
+//        System.out.println("seatsBooked: " + seatsBooked);
+        if (seatsBooked == 0) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -95,16 +102,16 @@ public class Table {
      * @return the number of seats available.
      */
     public int checksHowManySeatsAvailable() {
-        if (isTableFullyBooked()) {
-            return 0;
-        }
         int count = 0;
-        for (Seat seat : seats) {
-            if (seat.isAvailable()) {
-                count++;
+        if (!isTableFullyBooked()) {
+            for (Seat seat : seats) {
+                if (seat.isAvailable()) {
+                    count++;
+                }
             }
+            return count;
         }
-        return count;
+        return 0;
     }
 
 

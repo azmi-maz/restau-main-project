@@ -24,7 +24,12 @@ public class FloorTests {
         frontHouse.addNewTable(booking2.getTablePreference());
 
         boolean addingBooking1 = frontHouse.addBookingToReservation(booking1);
-        boolean addingBooking2 = frontHouse.addBookingToReservation(booking2);
+
+        // To see if tables on the floor are available or not.
+        // Part of checking a more complex table availability process.
+//        System.out.println(frontHouse.getEachTableAvailability());
+
+//        boolean addingBooking2 = frontHouse.addBookingToReservation(booking2);
 
 //        System.out.println(frontHouse.getBookingByTable(tableA).getFirst().getCustomer());
 //
@@ -122,6 +127,7 @@ public class FloorTests {
 //        frontHouse.cancelBooking(booking1);
 //        System.out.print("After deletion: ");
 //        System.out.println(frontHouse.getAllUniqueBookings());
+
 
         assertEquals(true, true);
     }
