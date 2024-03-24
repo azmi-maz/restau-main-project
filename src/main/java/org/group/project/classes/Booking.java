@@ -144,19 +144,6 @@ public class Booking {
     }
 
     /**
-     * This method checks table availability of one table or more with
-     * specified booking length.
-     *
-     * @param tableRequest  - List of tables that is required by the customer.
-     * @param bookingLength - The booking length specified by the customer.
-     * @return true if booking can be made, false if not.
-     */
-    public boolean checksTableAvailability(List<Table> tableRequest,
-                                           int bookingLength) {
-        return false;
-    }
-
-    /**
      * This method updates the booking status.
      *
      * @param newStatus The new status to update the booking status.
