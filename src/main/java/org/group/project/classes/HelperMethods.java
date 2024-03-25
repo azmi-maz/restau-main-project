@@ -11,20 +11,19 @@ import java.util.Scanner;
  */
 public class HelperMethods {
 
+    /**
+     * This methods checks if a username is already registered or not.
+     * @param username - the username to check against the database.
+     * @return true if the username exist.
+     * @throws FileNotFoundException - if user file does not exist.
+     */
     public static boolean isUsernameExist(String username) throws FileNotFoundException {
 
-        File myFile = new File(FileNames.DATA.getDataFile("USERS"));
-        Scanner myReader = new Scanner(myFile);
-
-        while (myReader.hasNextLine()) {
-            String data = myReader.nextLine();
-            String[] splitData = data.split(",");
-            String getUsername = splitData[2];
-            if (getUsername.equalsIgnoreCase(username)) {
-                return true;
-            }
-        }
-        myReader.close();
-        return false;
+        File file = DataManager.getUserFile();
+        Scanner fileReader = new Scanner(file);
+        boolean isUsernameExist = DataManager.checksOneValueExist(fileReader,
+                2, username);
+        fileReader.close();
+        return isUsernameExist;
     }
 }

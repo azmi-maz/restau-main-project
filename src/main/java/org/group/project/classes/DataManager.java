@@ -13,6 +13,37 @@ import java.util.Scanner;
  */
 public class DataManager {
 
+    /**
+     * This method gets the users file.
+     * @return the users file.
+     */
+    public static File getUserFile() {
+        return new File(FileNames.DATA.getDataFile("USERS"));
+    }
+
+    /**
+     * This method checks if a value exist in a database.
+     * @param fileToRead - the file loaded on Scanner.
+     * @param index - the column index of a database.
+     * @param value - the value to compare against.
+     * @return true if the value already exist in the database.
+     */
+    public static boolean checksOneValueExist(Scanner fileToRead,
+                                              int index, String value) {
+
+        while (fileToRead.hasNextLine()) {
+            String data = fileToRead.nextLine();
+            String[] splitData = data.split(",");
+            String getUsername = splitData[index];
+
+            if (getUsername.equalsIgnoreCase(value)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Temporarily - to be reviewed
     public static void createFile() throws IOException {
 
         File myFile = new File(FileNames.DATA.getDataFile("USERS"));
@@ -23,7 +54,7 @@ public class DataManager {
             String[] splitData = data.split(",");
             String username = splitData[2];
             System.out.println(username);
-            if (username.equalsIgnoreCase("kyle.broflovski")){
+            if (username.equalsIgnoreCase(s"kyle.broflovski")) {
                 System.out.println("Hi, Kyle!");
                 break;
             }
