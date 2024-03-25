@@ -3,8 +3,9 @@ package org.group.project.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import org.group.project.classes.User;
-import org.group.project.test.generators.CustomerGenerator;
+import org.group.project.classes.HelperMethods;
+
+import java.io.IOException;
 
 public class LoginController {
 
@@ -15,31 +16,45 @@ public class LoginController {
     private Label resultLabel;
 
     @FXML
-    protected void onLoginButtonClick() throws InterruptedException {
-        // This is for testing only!
-        User user = CustomerGenerator.createCustomer1();
+    protected void onLoginButtonClick() throws IOException {
 
-        if (loginUsername.getText().equalsIgnoreCase(user.getUsername())){
-            System.out.println(resultLabel.getStyleClass());
+        boolean isUsernameExist =
+                HelperMethods.isUsernameExist(loginUsername.getText());
+
+        if (isUsernameExist) {
+
+//            System.out.println(resultLabel.getStyleClass());
+
+            // These remove error, success, hidden-label. Without removing
+            // all, the style name piles up
             resultLabel.getStyleClass().removeAll("error");
             resultLabel.getStyleClass().removeAll("success");
             resultLabel.getStyleClass().removeAll("hidden-label");
+
+            // This adds success css
             resultLabel.getStyleClass().add("success");
-            System.out.println(resultLabel.getStyleClass());
+
+//            System.out.println(resultLabel.getStyleClass());
+            // The success message
             resultLabel.setText("Login successful!");
         } else {
+
+            // The error message
             resultLabel.setText("Login unsuccessful. Please try again.");
-//            resultLabel.getStylesheets()
-//            resultLabel.getStylesheets().add("");
-//            resultLabel.setVisible(false);
-//            System.out.println(resultLabel.getClass());
-            System.out.println(resultLabel.getStyleClass());
+
+//            System.out.println(resultLabel.getStyleClass());
+
+            // These remove hidden-label, success and error. Without removing
+            // all, the style name piles up
             resultLabel.getStyleClass().removeAll("hidden-label");
             resultLabel.getStyleClass().removeAll("success");
             resultLabel.getStyleClass().removeAll("error");
+
+            // The adds the error css
             resultLabel.getStyleClass().add("error");
-            System.out.println(resultLabel.getStyleClass());
+//            System.out.println(resultLabel.getStyleClass());
         }
     }
+
 
 }

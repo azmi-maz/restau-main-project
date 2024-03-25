@@ -1,0 +1,6 @@
+john,doe,john.doe
+jane,doe,jane.doe
+eric,cartman,eric.cartman
+stan,marsh,stan.marsh
+kyle,broflovski,kyle.broflovski
+kenny,mccormick,kenny.mccormick
