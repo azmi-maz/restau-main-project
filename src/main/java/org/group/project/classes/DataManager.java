@@ -54,7 +54,7 @@ public class DataManager {
             String[] splitData = data.split(",");
             String username = splitData[2];
             System.out.println(username);
-            if (username.equalsIgnoreCase(s"kyle.broflovski")) {
+            if (username.equalsIgnoreCase("kyle.broflovski")) {
                 System.out.println("Hi, Kyle!");
                 break;
             }

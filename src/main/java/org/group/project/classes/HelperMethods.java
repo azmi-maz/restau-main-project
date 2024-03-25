@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class HelperMethods {
 
     /**
-     * This methods checks if a username is already registered or not.
+     * This method checks if a username is already registered or not.
      * @param username - the username to check against the database.
      * @return true if the username exist.
      * @throws FileNotFoundException - if user file does not exist.
@@ -26,4 +26,5 @@ public class HelperMethods {
         fileReader.close();
         return isUsernameExist;
     }
+
 }
