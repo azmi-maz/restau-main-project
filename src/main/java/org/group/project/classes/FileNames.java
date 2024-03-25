@@ -16,9 +16,9 @@ public enum FileNames {
     }
 
     private String getValue(String name) {
-        for (FileNames each : FileNames.values()) {
-            if (each.name().equals(name)) {
-                return each.fileName;
+        for (FileNames file : FileNames.values()) {
+            if (file.name().equals(name)) {
+                return file.fileName;
             }
         }
         return "";

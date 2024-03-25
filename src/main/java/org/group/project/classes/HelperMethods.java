@@ -22,7 +22,8 @@ public class HelperMethods {
         File file = DataManager.getUserFile();
         Scanner fileReader = new Scanner(file);
         boolean isUsernameExist = DataManager.checksOneValueExist(fileReader,
-                2, username);
+                DataFileStructure.getIndexByColName("USER","username"),
+                username);
         fileReader.close();
         return isUsernameExist;
     }
