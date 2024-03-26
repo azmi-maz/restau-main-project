@@ -7,6 +7,11 @@ import org.group.project.classes.HelperMethods;
 
 import java.io.IOException;
 
+/**
+ * This controller class handles login-view fxml events.
+ *
+ * @author azmi_maz
+ */
 public class LoginController {
 
     @FXML
