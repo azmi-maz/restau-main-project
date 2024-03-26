@@ -25,7 +25,7 @@ public class HelperMethods {
         File file = DataManager.getUserFile();
         Scanner fileReader = new Scanner(file);
         boolean isUsernameExist = DataManager.checksOneValueExist(fileReader,
-                DataFileStructure.getIndexByColName("USER", "username"),
+                DataFileStructure.getIndexByColName("USERS", "username"),
                 username);
         fileReader.close();
         return isUsernameExist;
@@ -39,15 +39,15 @@ public class HelperMethods {
      */
     public static int getNewCustomerId() throws FileNotFoundException {
 
-        List<String> listOfUsers = DataManager.allDataFromFile("USER");
+        List<String> listOfUsers = DataManager.allDataFromFile("USERS");
         int lastCustomerId = -1;
         for (String user : listOfUsers) {
             String[] userDetails = user.split(",");
             int isCustomerIndex = DataFileStructure.getIndexByColName(
-                    "USER",
+                    "USERS",
                     "isCustomer");
             int customerIdIndex = DataFileStructure.getIndexByColName(
-                    "USER",
+                    "USERS",
                     "customerId");
             boolean isCustomer =
                     Boolean.parseBoolean(userDetails[isCustomerIndex]);

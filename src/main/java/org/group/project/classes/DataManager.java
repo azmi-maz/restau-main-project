@@ -64,6 +64,7 @@ public abstract class DataManager {
             String data = fileReader.nextLine();
             resultArray.add(data);
         }
+        fileReader.close();
         return resultArray;
     }
 
@@ -84,7 +85,7 @@ public abstract class DataManager {
         if (isCustomer) {
             for (int i = 0; i < newUser.size(); i++) {
                 if (i == newUser.size() - 1) {
-                    formattedData += newUser.get(i);
+                    formattedData += newUser.get(i) + "\n";
                 } else {
                     formattedData = formattedData + newUser.get(i) + ",";
                 }

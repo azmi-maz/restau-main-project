@@ -6,26 +6,22 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity"
-      minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-      prefWidth="600.0" xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.group.project.controller.CustomerRegistrationController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.group.project.controller.CustomerRegistrationController">
    <children>
       <Label text="New registration" />
       <Label text="first name" />
-      <TextField text="enter first name" fx:id="firstName"/>
+      <TextField fx:id="firstName" promptText="enter first name" />
       <Label text="last name" />
-      <TextField text="enter last name" fx:id="lastName"/>
+      <TextField fx:id="lastName" promptText="enter last name" />
+      <Label text="username" />
+      <TextField fx:id="username" promptText="enter username" />
+      <Label fx:id="errorUsername" />
       <Label text="address" />
-      <TextField text="enter single-line address" fx:id="userAddress"/>
+      <TextField fx:id="address" promptText="enter single-line address" />
       <HBox alignment="CENTER" prefHeight="38.0" prefWidth="600.0">
          <children>
-            <Button mnemonicParsing="false" text="Confirm"
-                    onAction="#confirmButtonClick"/>
-            <Button mnemonicParsing="false" text="Cancel"
-                    onAction="#cancelButtonClick"/>
+            <Button mnemonicParsing="false" onAction="#confirmButtonClick" text="Confirm" />
+            <Button mnemonicParsing="false" onAction="#cancelButtonClick" text="Cancel" />
          </children>
       </HBox>
    </children>

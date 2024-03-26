@@ -1,6 +1,6 @@
-john,doe,john.doe
-jane,doe,jane.doe
-eric,cartman,eric.cartman
-stan,marsh,stan.marsh
-kyle,broflovski,kyle.broflovski
-kenny,mccormick,kenny.mccormick
+john,doe,john.doe,true,1,41 pine street; Swansea
+jane,doe,jane.doe,true,2,42 rose street; Swansea
+eric,cartman,eric.cartman,true,3,43 beach street; Swansea
+stan,marsh,stan.marsh,true,4,44 bowen street; Swansea
+kyle,broflovski,kyle.broflovski,true,5,45 belle vue street; Swansea
+kenny,mccormick,kenny.mccormick,true,6,46 clifton street; Swansea

@@ -11,14 +11,28 @@ import java.util.List;
  * @author azmi_maz
  */
 public enum DataFileStructure {
-    USER(new ArrayList<>(Arrays.asList("firstName", "lastName", "username",
-            "isCustomer", "customerId")));
+    USERS(Arrays.asList("firstName", "lastName", "username",
+            "isCustomer", "customerId", "address").toArray(new String[0]));
 
-    private List<String> structure;
+    private final List<String> structure = new ArrayList<>();
 
-    DataFileStructure(List<String> structure) {
-        List<String> fileStructure = new ArrayList<>();
-        fileStructure.addAll(structure);
+    DataFileStructure(String[] structure) {
+        this.structure.addAll(Arrays.asList(structure));
+    }
+
+    /**
+     * Getter method to get the list of strings by file structure name.
+     *
+     * @param name - the name of the file structure.
+     * @return the list of strings based on the name.
+     */
+    public static List<String> getValues(String name) {
+        for (DataFileStructure file : DataFileStructure.values()) {
+            if (file.name().equalsIgnoreCase(name)) {
+                return file.structure;
+            }
+        }
+        return null;
     }
 
     /**
