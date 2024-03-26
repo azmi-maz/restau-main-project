@@ -18,6 +18,7 @@ public abstract class DataManager {
 
     /**
      * This method gets the users file.
+     *
      * @return the users file.
      */
     public static File getUserFile() {
@@ -26,9 +27,10 @@ public abstract class DataManager {
 
     /**
      * This method checks if a value exist in a database.
+     *
      * @param fileToRead - the file loaded on Scanner.
-     * @param index - the column index of a database.
-     * @param value - the value to compare against.
+     * @param index      - the column index of a database.
+     * @param value      - the value to compare against.
      * @return true if the value already exist in the database.
      */
     public static boolean checksOneValueExist(Scanner fileToRead,
@@ -48,11 +50,13 @@ public abstract class DataManager {
 
     /**
      * This method gets all the data from a file.
+     *
      * @param fileName - the name of the file.
      * @return the list of strings that represent rows of data.
      * @throws FileNotFoundException - if file does not exist.
      */
-    public static List<String> allDataFromFile(String fileName) throws FileNotFoundException {
+    public static List<String> allDataFromFile(
+            String fileName) throws FileNotFoundException {
         File file = new File(FileNames.DATA.getDataFile(fileName));
         List<String> resultArray = new ArrayList<>();
         Scanner fileReader = new Scanner(file);
@@ -63,8 +67,44 @@ public abstract class DataManager {
         return resultArray;
     }
 
-    public static void appendNewUserToFile(List<String> newUser) {
+    /**
+     * This method appends new user data to the database.
+     *
+     * @param newUser    - the new user details in an array of String format.
+     * @param isCustomer - the user is a customer.
+     * @throws IOException - if file to append does not exist.
+     */
+    public static void appendNewUserToFile(List<String> newUser,
+                                           boolean isCustomer) throws IOException {
 
+        String fileName = FileNames.DATA.getDataFile("USERS");
+        FileWriter fileWriter = new FileWriter(fileName, true);
+
+        String formattedData = "";
+        if (isCustomer) {
+            for (int i = 0; i < newUser.size(); i++) {
+                if (i == newUser.size() - 1) {
+                    formattedData += newUser.get(i);
+                } else {
+                    formattedData = formattedData + newUser.get(i) + ",";
+                }
+            }
+        } else {
+            // To add in new staff
+        }
+
+        fileWriter.write(formattedData);
+        fileWriter.close();
+
+    }
+
+    /**
+     * This method deletes a user from the database.
+     *
+     * @param customerId - the id of the customer to be deleted.
+     */
+    public static void deleteUserFromFile(int customerId) {
+        // to code
     }
 
     // Temporarily - to be reviewed
