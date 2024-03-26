@@ -1,8 +1,11 @@
 package org.group.project.classes;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -11,7 +14,7 @@ import java.util.Scanner;
  *
  * @author azmi_maz
  */
-public class DataManager {
+public abstract class DataManager {
 
     /**
      * This method gets the users file.
@@ -41,6 +44,27 @@ public class DataManager {
             }
         }
         return false;
+    }
+
+    /**
+     * This method gets all the data from a file.
+     * @param fileName - the name of the file.
+     * @return the list of strings that represent rows of data.
+     * @throws FileNotFoundException - if file does not exist.
+     */
+    public static List<String> allDataFromFile(String fileName) throws FileNotFoundException {
+        File file = new File(FileNames.DATA.getDataFile(fileName));
+        List<String> resultArray = new ArrayList<>();
+        Scanner fileReader = new Scanner(file);
+        while (fileReader.hasNextLine()) {
+            String data = fileReader.nextLine();
+            resultArray.add(data);
+        }
+        return resultArray;
+    }
+
+    public static void appendNewUserToFile(List<String> newUser) {
+
     }
 
     // Temporarily - to be reviewed

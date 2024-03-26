@@ -2,6 +2,7 @@ package org.group.project.classes;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -13,19 +14,52 @@ public class HelperMethods {
 
     /**
      * This method checks if a username is already registered or not.
+     *
      * @param username - the username to check against the database.
      * @return true if the username exist.
      * @throws FileNotFoundException - if user file does not exist.
      */
-    public static boolean isUsernameExist(String username) throws FileNotFoundException {
+    public static boolean isUsernameExist(
+            String username) throws FileNotFoundException {
 
         File file = DataManager.getUserFile();
         Scanner fileReader = new Scanner(file);
         boolean isUsernameExist = DataManager.checksOneValueExist(fileReader,
-                DataFileStructure.getIndexByColName("USER","username"),
+                DataFileStructure.getIndexByColName("USER", "username"),
                 username);
         fileReader.close();
         return isUsernameExist;
+    }
+
+    /**
+     * This method gets a new customer id which is incremented from the last
+     * one.
+     *
+     * @return the new customer id for new customer.
+     */
+    public static int getNewCustomerId() throws FileNotFoundException {
+
+        List<String> listOfUsers = DataManager.allDataFromFile("USER");
+        int lastCustomerId = -1;
+        for (String user : listOfUsers) {
+            String[] userDetails = user.split(",");
+            int isCustomerIndex = DataFileStructure.getIndexByColName(
+                    "USER",
+                    "isCustomer");
+            int customerIdIndex = DataFileStructure.getIndexByColName(
+                    "USER",
+                    "customerId");
+            boolean isCustomer =
+                    Boolean.parseBoolean(userDetails[isCustomerIndex]);
+            if (isCustomer) {
+                lastCustomerId = Integer.parseInt(userDetails[customerIdIndex]);
+            }
+        }
+        if (lastCustomerId > -1) {
+            lastCustomerId++;
+            return lastCustomerId;
+        }
+        return lastCustomerId;
     }
 
 }
