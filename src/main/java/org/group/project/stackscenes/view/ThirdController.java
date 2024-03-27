@@ -6,55 +6,46 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import org.group.project.MainAppStack;
-import org.group.project.stackscenes.presenter.SecondPresenter;
+import org.group.project.stackscenes.presenter.ThirdPresenter;
 
 import java.io.IOException;
 
-public class SecondView implements PresenterView {
+public class ThirdController implements ControllerView {
 
     private Scene scene;
-    private SecondPresenter presenter;
+
+    private ThirdPresenter presenter;
 
     @FXML
     private Label label;
 
     @FXML
-    private Button nextButton;
-
-    @FXML
     private Button returnButton;
 
-    public SecondView(SecondPresenter presenter) {
 
+    public ThirdController(ThirdPresenter presenter) {
         this.presenter = presenter;
 
 
         try {
             FXMLLoader fxmlLoader =
-                    new FXMLLoader(MainAppStack.class.getResource("second" +
+                    new FXMLLoader(MainAppStack.class.getResource("third" +
                             ".fxml"));
             fxmlLoader.setController(this);
             scene = new Scene(fxmlLoader.load(), 400, 400);
-
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
 
-        nextButton.setOnAction(e -> {
-            presenter.goToThirdScene();
-        });
-
         returnButton.setOnAction(e -> {
-            presenter.returnToFirstScene();
+            presenter.returnToSecondScene();
         });
 
     }
 
-
     @Override
     public Scene getViewScene() {
-        // TODO Auto-generated method stub
         return scene;
     }
 }

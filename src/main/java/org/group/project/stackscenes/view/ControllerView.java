@@ -2,7 +2,7 @@ package org.group.project.stackscenes.view;
 
 import javafx.scene.Scene;
 
-public interface PresenterView {
+public interface ControllerView {
 
     public Scene getViewScene();
 

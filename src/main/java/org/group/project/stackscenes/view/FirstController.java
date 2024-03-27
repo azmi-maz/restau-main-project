@@ -10,7 +10,7 @@ import org.group.project.stackscenes.presenter.FirstPresenter;
 
 import java.io.IOException;
 
-public class FirstView implements PresenterView {
+public class FirstController implements ControllerView {
 
     private Scene scene;
 
@@ -28,7 +28,7 @@ public class FirstView implements PresenterView {
     @FXML
     private Label resultBox;
 
-    public FirstView(FirstPresenter presenter) {
+    public FirstController(FirstPresenter presenter) {
         this.presenter = presenter;
 
         try {

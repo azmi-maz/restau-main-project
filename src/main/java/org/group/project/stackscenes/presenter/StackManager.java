@@ -2,16 +2,16 @@ package org.group.project.stackscenes.presenter;
 
 import javafx.application.Platform;
 import javafx.stage.Stage;
-import org.group.project.stackscenes.view.PresenterView;
+import org.group.project.stackscenes.view.ControllerView;
 
 import java.util.Stack;
 
-public class PresenterManager {
+public class StackManager {
 
-    private Stack<AbstractPresenter> stack;
+    private Stack<Presenter> stack;
     private Stage stage;
 
-    public PresenterManager(Stage stage) {
+    public StackManager(Stage stage) {
         stack = new Stack<>();
         this.stage = stage;
     }
@@ -22,17 +22,17 @@ public class PresenterManager {
             throw new RuntimeException("There are not presenters.");
         }
 
-        AbstractPresenter topPresenter = stack.peek();
+        Presenter topPresenter = stack.peek();
 
-        AbstractPresenter derivedPresenter = topPresenter.getDerivedPresenter();
-        PresenterView derivedView = derivedPresenter.getPresenterView();
+        Presenter derivedPresenter = topPresenter.getDerivedPresenter();
+        ControllerView derivedView = derivedPresenter.getPresenterView();
 
         stage.setScene(derivedView.getViewScene());
         stack.add(derivedPresenter);
     }
 
 
-    public void setInitialPresenter(AbstractPresenter presenter) {
+    public void setInitialPresenter(Presenter presenter) {
         if(stack.size() != 0) {
             throw new RuntimeException("There is already an initial presenter.");
         }
@@ -52,8 +52,8 @@ public class PresenterManager {
             System.exit(0);
         }
 
-        AbstractPresenter currentTopPresenter = stack.peek();
-        PresenterView currentTopView = currentTopPresenter.getPresenterView();
+        Presenter currentTopPresenter = stack.peek();
+        ControllerView currentTopView = currentTopPresenter.getPresenterView();
 
         stage.setScene(currentTopView.getViewScene());
 

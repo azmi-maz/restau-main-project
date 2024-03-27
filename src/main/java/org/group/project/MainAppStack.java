@@ -3,7 +3,7 @@ package org.group.project;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.group.project.stackscenes.presenter.FirstPresenter;
-import org.group.project.stackscenes.presenter.PresenterManager;
+import org.group.project.stackscenes.presenter.StackManager;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ public class MainAppStack extends Application {
 
         primaryStage.setTitle("Multiple Scenes JavaFX");
 
-        PresenterManager manager = new PresenterManager(primaryStage);
+        StackManager manager = new StackManager(primaryStage);
         FirstPresenter firstPresenter = new FirstPresenter(manager);
 
         manager.setInitialPresenter(firstPresenter);

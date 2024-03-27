@@ -1,23 +1,23 @@
 package org.group.project.stackscenes.presenter;
 
-import org.group.project.stackscenes.view.FirstView;
-import org.group.project.stackscenes.view.PresenterView;
+import org.group.project.stackscenes.view.FirstController;
+import org.group.project.stackscenes.view.ControllerView;
 
-public class FirstPresenter extends AbstractPresenter {
+public class FirstPresenter extends Presenter {
 
-    private FirstView view;
+    private FirstController view;
 
     private int btn_clicked = 0;
 
     private static final int GO_TO_SECOND_SCENE_BTN = 1;
 
-    public FirstPresenter(PresenterManager presenterStack) {
+    public FirstPresenter(StackManager presenterStack) {
         super(presenterStack);
-        view = new FirstView(this);
+        view = new FirstController(this);
     }
 
     @Override
-    public AbstractPresenter getDerivedPresenter() {
+    public Presenter getDerivedPresenter() {
         if (btn_clicked == GO_TO_SECOND_SCENE_BTN) {
             return new SecondPresenter(getPresenterStack());
         }
@@ -34,7 +34,7 @@ public class FirstPresenter extends AbstractPresenter {
     }
 
     @Override
-    public PresenterView getPresenterView() {
+    public ControllerView getPresenterView() {
         return view;
     }
 }

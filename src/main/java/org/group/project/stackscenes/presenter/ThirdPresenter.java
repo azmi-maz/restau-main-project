@@ -1,20 +1,20 @@
 package org.group.project.stackscenes.presenter;
 
-import org.group.project.stackscenes.view.PresenterView;
-import org.group.project.stackscenes.view.ThirdView;
+import org.group.project.stackscenes.view.ControllerView;
+import org.group.project.stackscenes.view.ThirdController;
 
-public class ThirdPresenter extends AbstractPresenter {
-    private ThirdView view;
+public class ThirdPresenter extends Presenter {
+    private ThirdController view;
 
-    public ThirdPresenter(PresenterManager presenterStack) {
+    public ThirdPresenter(StackManager presenterStack) {
         super(presenterStack);
 
-        view = new ThirdView(this);
+        view = new ThirdController(this);
 
     }
 
     @Override
-    public AbstractPresenter getDerivedPresenter() {
+    public Presenter getDerivedPresenter() {
         // TODO Auto-generated method stub
         return null;
     }
@@ -24,7 +24,7 @@ public class ThirdPresenter extends AbstractPresenter {
     }
 
     @Override
-    public PresenterView getPresenterView() {
+    public ControllerView getPresenterView() {
         return view;
     }
 }
