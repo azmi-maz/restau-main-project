@@ -13,7 +13,8 @@
 <?import javafx.scene.layout.HBox?>
 <VBox alignment="CENTER"
       xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.group.project.controller.LoginController" stylesheets="@css/main-header.css">
+      fx:controller="org.group.project.controller.LoginController"
+      stylesheets="@css/main-header.css" >
     <Label text="Welcome to Cafe94" styleClass="welcome-header-label"/>
     <Label text="Where every bite is a delight"
            styleClass="welcome-subheader-label"/>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      stylesheets="@css/main-header.css">
+    <Button fx:id="nextButton" mnemonicParsing="false"
+            text="Go to second Scene">
+        <VBox.margin>
+            <Insets bottom="20.0"/>
+        </VBox.margin>
+    </Button>
+    <Button fx:id="exitButton" mnemonicParsing="false" text="Exit"/>
+    <Label fx:id="resultBox"/>
+</VBox>
