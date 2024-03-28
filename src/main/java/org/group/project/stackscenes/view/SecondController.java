@@ -31,7 +31,8 @@ public class SecondController implements ControllerView {
 
         try {
             FXMLLoader fxmlLoader =
-                    new FXMLLoader(MainAppStack.class.getResource("second" +
+                    new FXMLLoader(MainAppStack.class.getResource(
+                            "stack-test/second" +
                             ".fxml"));
             fxmlLoader.setController(this);
             scene = new Scene(fxmlLoader.load(), 400, 400);

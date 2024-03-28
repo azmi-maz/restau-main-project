@@ -145,7 +145,8 @@ public class CountryViewerController {
         // We need to use a try-catch block as the loading of the FXML file can fail.
         try {
             // Create a FXML loader for loading the Edit Country FXML file.
-            FXMLLoader fxmlLoader = new FXMLLoader(MainAppMultiWindows.class.getResource("EditCountry.fxml"));
+            FXMLLoader fxmlLoader =
+                    new FXMLLoader(MainAppMultiWindows.class.getResource("multiwindow-test/EditCountry.fxml"));
 
             // Run the loader
             BorderPane editRoot = (BorderPane) fxmlLoader.load();

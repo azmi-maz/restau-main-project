@@ -11,12 +11,14 @@ import java.util.List;
  * @author azmi_maz
  */
 public enum DataFileStructure {
-    USERS(Arrays.asList("firstName", "lastName", "username",
+    USERS("customerId", Arrays.asList("firstName", "lastName", "username",
             "isCustomer", "customerId", "address").toArray(new String[0]));
 
+    private final String uniqueId;
     private final List<String> structure = new ArrayList<>();
 
-    DataFileStructure(String[] structure) {
+    DataFileStructure(String uniqueId, String[] structure) {
+        this.uniqueId = uniqueId;
         this.structure.addAll(Arrays.asList(structure));
     }
 
@@ -49,4 +51,19 @@ public enum DataFileStructure {
         }
         return -1;
     }
+
+    /**
+     * This method gets the uniqueId column of a database.
+     * @param fileName - the name of the database.
+     * @return the index column that contains the uniqueId.
+     */
+    public static int getIndexColOfUniqueId(String fileName) {
+        for (DataFileStructure file : DataFileStructure.values()) {
+            if (file.name().equalsIgnoreCase(fileName)) {
+                return file.structure.indexOf(file.uniqueId);
+            }
+        }
+        return -1;
+    }
+
 }

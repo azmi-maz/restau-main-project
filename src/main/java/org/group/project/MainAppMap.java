@@ -9,22 +9,17 @@ import org.group.project.mapscenes.view.ViewOne;
 import org.group.project.mapscenes.view.ViewThree;
 import org.group.project.mapscenes.view.ViewTwo;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Builds all scenes and display the main one.
- * 
- * @author Knute Snortum
- * @version 2018-05-24
- */
 public class MainAppMap extends Application {
 	
 	/** Holds the various scenes to switch between */
 	private static Map<SceneName, Scene> scenes = new HashMap<>();
 	
 	@Override
-	public void start(Stage stage) {
+	public void start(Stage stage) throws IOException {
 		
 		// Create and store all scenes up front
 		scenes.put(SceneName.MAIN, new MainView(stage).getScene());

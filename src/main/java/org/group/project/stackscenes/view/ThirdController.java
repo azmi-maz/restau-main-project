@@ -29,7 +29,8 @@ public class ThirdController implements ControllerView {
 
         try {
             FXMLLoader fxmlLoader =
-                    new FXMLLoader(MainAppStack.class.getResource("third" +
+                    new FXMLLoader(MainAppStack.class.getResource("stack" +
+                            "-test/third" +
                             ".fxml"));
             fxmlLoader.setController(this);
             scene = new Scene(fxmlLoader.load(), 400, 400);

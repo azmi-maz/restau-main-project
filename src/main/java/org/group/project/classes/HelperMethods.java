@@ -2,6 +2,8 @@ package org.group.project.classes;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -60,6 +62,34 @@ public class HelperMethods {
             return lastCustomerId;
         }
         return lastCustomerId;
+    }
+
+    /**
+     * This method gets a row of data that matches an id from a specified
+     * database.
+     *
+     * @param fileName - the name of the database.
+     * @param findId   - the unique id that identify a row of data.
+     * @return list of string of one row of data.
+     */
+    public static List<String> getDataById(String fileName,
+                                           String findId) throws FileNotFoundException {
+
+        List<String> fileData = DataManager.allDataFromFile(fileName);
+        List<String> rowFound = new ArrayList<>();
+        int colIndex = DataFileStructure.getIndexColOfUniqueId(fileName);
+
+        for (String row : fileData) {
+            String[] rowDetails = row.split(",");
+            if (rowDetails[colIndex].equalsIgnoreCase(findId)) {
+                String[] data = row.split(",");
+                Collections.addAll(rowFound, data);
+            }
+        }
+        if (!rowFound.isEmpty()) {
+            return rowFound;
+        }
+        return null;
     }
 
 }

@@ -25,7 +25,8 @@ public class MainAppMultiWindows extends Application {
         try {
             // Load the main scene.
             FXMLLoader fxmlloader =
-                    new FXMLLoader(MainAppMultiWindows.class.getResource("CountryViewer.fxml"));
+                    new FXMLLoader(MainAppMultiWindows.class.getResource(
+                            "multiwindow-test/CountryViewer.fxml"));
             BorderPane root = (BorderPane) fxmlloader.load();
             Scene scene = new Scene(root, MAIN_WINDOW_WIDTH,
                     MAIN_WINDOW_HEIGHT);

@@ -1,20 +1,35 @@
 package org.group.project.mapscenes.view;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.group.project.MainAppMap;
 import org.group.project.mapscenes.controller.ViewThreeController;
+import org.group.project.scenes.WindowSize;
 
-/**
- * Creates and returns the scene for the third view.
- * 
- * @author Knute Snortum
- * @version 2018-05-24
- */
-public class ViewThree extends ViewBase {
+import java.io.IOException;
 
-	/** Must inject a stage */
+public class ViewThree {
+
+	private Stage stage;
+
 	public ViewThree(Stage stage) {
-		super(stage, "This is scene 3",
-				e -> new ViewThreeController(stage).handleMousePress(e));
+		this.stage = stage;
+	}
+
+	public Scene getScene() throws IOException {
+
+		ViewThreeController viewThreeController =
+				new ViewThreeController(stage);
+
+		FXMLLoader fxmlLoader = new FXMLLoader(MainAppMap.class.getResource(
+				"map-test/test" +
+						"-small.fxml"));
+		fxmlLoader.setController(viewThreeController);
+		Scene scene = new Scene(fxmlLoader.load(), WindowSize.MAIN.HEIGHT,
+				WindowSize.MAIN.WIDTH);
+
+		return scene;
 	}
 
 }

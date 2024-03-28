@@ -2,13 +2,8 @@ package org.group.project.mapscenes.view;
 
 import javafx.scene.Scene;
 
-/** Guarantees that the method {@link #getScene()} is present */ 
+import java.io.IOException;
+
 public interface ViewMaker {
-	
-	/**
-	 * Build and return a scene for this view
-	 * 
-	 * @return the Scene for this view
-	 */
-	Scene getScene();
+	Scene getScene() throws IOException;
 }

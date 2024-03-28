@@ -1,20 +1,34 @@
 package org.group.project.mapscenes.view;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.group.project.MainAppMap;
 import org.group.project.mapscenes.controller.ViewTwoController;
+import org.group.project.scenes.WindowSize;
 
-/**
- * Creates and returns the scene for the second view.
- * 
- * @author Knute Snortum
- * @version 2018-05-24
- */
-public class ViewTwo extends ViewBase {
+import java.io.IOException;
 
-	/** Must inject a stage */
+public class ViewTwo {
+
+	private Stage stage;
+
 	public ViewTwo(Stage stage) {
-		super(stage, "This is scene 2",
-				e -> new ViewTwoController(stage).handleMousePress(e));
+		this.stage = stage;
+	}
+
+	public Scene getScene() throws IOException {
+
+		ViewTwoController viewTwoController = new ViewTwoController(stage);
+
+		FXMLLoader fxmlLoader = new FXMLLoader(MainAppMap.class.getResource(
+				"map-test/test" +
+						"-small.fxml"));
+		fxmlLoader.setController(viewTwoController);
+		Scene scene = new Scene(fxmlLoader.load(), WindowSize.MAIN.HEIGHT,
+				WindowSize.MAIN.WIDTH);
+
+		return scene;
 	}
 
 }

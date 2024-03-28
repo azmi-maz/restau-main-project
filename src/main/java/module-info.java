@@ -13,4 +13,5 @@ module org.group.project {
     opens org.group.project.scenes to javafx.fxml;
     opens org.group.project.stackscenes.view to javafx.fxml;
     opens org.group.project.multiwindows to javafx.fxml;
+    opens org.group.project.mapscenes.controller to javafx.fxml;
 }

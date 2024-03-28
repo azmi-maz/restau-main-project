@@ -6,7 +6,7 @@
 
 <VBox alignment="CENTER"
       xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      stylesheets="@css/main-header.css">
+      stylesheets="@../css/main-header.css">
     <Button fx:id="nextButton" mnemonicParsing="false"
             text="Go to second Scene">
         <VBox.margin>

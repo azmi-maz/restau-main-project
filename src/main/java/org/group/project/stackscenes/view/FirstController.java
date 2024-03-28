@@ -33,7 +33,8 @@ public class FirstController implements ControllerView {
 
         try {
             FXMLLoader fxmlLoader =
-                new FXMLLoader(MainAppStack.class.getResource("first.fxml"));
+                new FXMLLoader(MainAppStack.class.getResource("stack" +
+                        "-test/first.fxml"));
             fxmlLoader.setController(this);
             scene = new Scene(fxmlLoader.load(), 400, 400);
         } catch (IOException e) {
