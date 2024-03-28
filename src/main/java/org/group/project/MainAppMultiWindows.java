@@ -11,14 +11,14 @@ public class MainAppMultiWindows extends Application {
     // Constants for the main window
     private static final int MAIN_WINDOW_WIDTH = 600;
     private static final int MAIN_WINDOW_HEIGHT = 400;
-    private static final String WINDOW_TITLE = "Countries of Europe";
+    private static final String WINDOW_TITLE = "User Management";
 
     // Constants for the edit window.
     // We make them public and allow the controllers to access these,
     // so that we keep all window constants in one place.
     public static final int EDIT_WINDOW_WIDTH = 400;
     public static final int EDIT_WINDOW_HEIGHT = 250;
-    public static final String EDIT_WINDOW_TITLE = "Edit Europe";
+    public static final String EDIT_WINDOW_TITLE = "Edit User";
 
     @Override
     public void start(Stage primaryStage) {

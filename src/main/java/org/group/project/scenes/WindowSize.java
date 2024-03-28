@@ -9,12 +9,12 @@ public enum WindowSize {
     MAIN(1400, 700),
     SMALL(400, 400);
 
-    public final int HEIGHT;
     public final int WIDTH;
+    public final int HEIGHT;
 
-    WindowSize(int height, int width) {
-        this.HEIGHT = height;
+    WindowSize(int width, int height) {
         this.WIDTH = width;
+        this.HEIGHT = height;
     }
 
 }

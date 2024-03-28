@@ -3,7 +3,10 @@ package org.group.project.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import org.group.project.Main;
 import org.group.project.classes.HelperMethods;
+import org.group.project.scenes.MainScenes;
 
 import java.io.IOException;
 
@@ -13,6 +16,8 @@ import java.io.IOException;
  * @author azmi_maz
  */
 public class LoginController {
+
+    private Stage stage;
 
     @FXML
     private TextField loginUsername;
@@ -42,6 +47,10 @@ public class LoginController {
 //            System.out.println(resultLabel.getStyleClass());
             // The success message
             resultLabel.setText("Login successful!");
+
+            Main.getStage().setScene(Main.getScenes().get(MainScenes.CUSTOMER));
+
+
         } else {
 
             // The error message
@@ -60,6 +69,7 @@ public class LoginController {
 //            System.out.println(resultLabel.getStyleClass());
         }
     }
+
 
 
 }
