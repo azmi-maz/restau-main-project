@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class EditCountryController {
+public class EditUserController {
     @FXML
     Button cancelButton;
     @FXML Button confirmButton;

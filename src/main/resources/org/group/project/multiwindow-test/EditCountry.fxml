@@ -13,7 +13,7 @@
 
 <BorderPane fx:id="rootPane" prefHeight="241.0" prefWidth="370.0"
             xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.group.project.multiwindows.EditCountryController">
+            fx:controller="org.group.project.multiwindows.EditUserController">
    <top>
       <Label text="Edit Country" BorderPane.alignment="CENTER">
          <font>
