@@ -1,8 +1,7 @@
-package org.group.project.controller;
+package org.group.project.controller.customer;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import org.group.project.classes.ImageLoader;
 
 import java.net.URISyntaxException;
@@ -13,44 +12,22 @@ public class CustomerHomepageNavbarController {
     private Button menuButton;
 
     @FXML
-    private Label menuLabel;
-
-    @FXML
     private Button reservationButton;
-
-    @FXML
-    private Label reservationLabel;
 
     @FXML
     private Button historyButton;
 
     @FXML
-    private Label historyLabel;
-
-    @FXML
     private Button notificationButton;
-
-    @FXML
-    private Label notificationLabel;
 
     @FXML
     private Button helpButton;
 
     @FXML
-    private Label helpLabel;
-
-    @FXML
     private Button settingButton;
 
     @FXML
-    private Label settingLabel;
-
-    @FXML
     private Button userButton;
-
-    @FXML
-    private Label userLabel;
-
 
     public void initialize() throws URISyntaxException {
 

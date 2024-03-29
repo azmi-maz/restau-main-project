@@ -1,4 +1,4 @@
-package org.group.project.controller;
+package org.group.project.controller.customer;
 
 import javafx.event.Event;
 import javafx.fxml.FXML;
