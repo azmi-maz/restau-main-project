@@ -6,23 +6,44 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.group.project.controller.customer.CustomerRegistrationController">
-   <children>
-      <Label text="New registration" />
-      <Label text="first name" />
-      <TextField fx:id="firstName" promptText="enter first name" />
-      <Label text="last name" />
-      <TextField fx:id="lastName" promptText="enter last name" />
-      <Label text="username" />
-      <TextField fx:id="username" promptText="enter username" />
-      <Label fx:id="errorUsername" />
-      <Label text="address" />
-      <TextField fx:id="address" promptText="enter single-line address" />
-      <HBox alignment="CENTER" prefHeight="38.0" prefWidth="600.0">
-         <children>
-            <Button mnemonicParsing="false" onAction="#confirmButtonClick" text="Confirm" />
-            <Button mnemonicParsing="false" onAction="#cancelButtonClick" text="Cancel" />
-         </children>
-      </HBox>
-   </children>
+
+<VBox alignment="CENTER"
+      maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.group.project.controller.customer.CustomerRegistrationController"
+      fx:id="newCustomerWindow"
+>
+    <children>
+        <Label text="New registration"/>
+        <Label text="first name"/>
+        <TextField fx:id="firstName" promptText="enter first name"
+                   text="first"
+                   styleClass="firstName"/>
+        <Label text="last name"/>
+        <TextField fx:id="lastName" promptText="enter last name"
+                   text="last"
+                   styleClass="lastName"/>
+        <Label text="username"/>
+        <TextField fx:id="username" promptText="enter username"
+                   text="first.last"
+                   styleClass="username"/>
+        <Label fx:id="errorUsernameLabel"
+               styleClass="errorUsernameLabel"
+        />
+        <Label text="address"/>
+        <TextField fx:id="address" promptText="enter address"
+                   text="41 swan street, Swansea, SA2 8DE"
+                   styleClass="address"/>
+        <HBox alignment="CENTER" prefHeight="51.0" prefWidth="600.0">
+            <children>
+                <Button fx:id="confirmButton" mnemonicParsing="false"
+                        styleClass="confirmButton"
+                        text="Confirm"/>
+                <Button fx:id="cancelButton" mnemonicParsing="false"
+                        styleClass="cancelButton"
+                        text="Cancel"/>
+            </children>
+        </HBox>
+    </children>
 </VBox>

@@ -54,11 +54,10 @@ public class Main extends Application {
 //        stage.setScene(scene);
 //        stage.show();
 
-//        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("new" +
-//                "-customer-registration" +
-//                ".fxml"));
-//        Scene scene = new Scene(fxmlLoader.load(), WindowSize.MAIN.WIDTH,
-//                WindowSize.MAIN.HEIGHT);
+//        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("smallwindows" +
+//                "/new-customer-registration.fxml"));
+//        Scene scene = new Scene(fxmlLoader.load(), WindowSize.SMALL.WIDTH,
+//                WindowSize.SMALL.HEIGHT);
 //        stage.setTitle("Cafe94 Restaurant");
 //        stage.setScene(scene);
 //        stage.show();

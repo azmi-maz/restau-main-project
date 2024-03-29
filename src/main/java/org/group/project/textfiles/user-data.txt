@@ -4,3 +4,19 @@
 4,stan,marsh,stan.marsh,driver,,44,0,false,true,5
 5,kyle,broflovski,kyle.broflovski,chef,,44,0,false,false,0
 6,kenny,mccormick,kenny.mccormick,manager,,44,0,true,false,0
+7,first,last,first.last,customer,0,0,false,false,0
+8,first,last,first.last,customer,0,0,false,false,0
+9,first,last,first.last,customer,0,0,false,false,0
+10,first,last,first.last,customer,0,0,false,false,0
+11,first,last,first.last,customer,0,0,false,false,0
+12,first,last,first.last,41 swan street; Swansea; SA2 8DE,0,0,false,false,0
+13,first,last,first.last,customer,41 swan street; Swansea; SA2 8DE,0,0,false,false,0
+14,first,last,first.last,customer,41 swan street; Swansea; SA2 8DE,0,0,false,false,0
+15,first,last,first.last,customer,41 swan street; Swansea; SA2 8DE,0,0,false,false,0
+16,first,last,first.last,customer,41 swan street; Swansea; SA2 8DE,0,0,false,false,0
+17,first,last,first.last,customer,41 swan street; Swansea; SA2 8DE,0,0,false,false,0
+18,first,last,first.last,customer,41 swan street; Swansea; SA2 8DE,0,0,false,false,0
+19,first,last,first.last,customer,41 swan street; Swansea; SA2 8DE,0,0,false,false,0
+20,first,last,first.last,customer,41 swan street; Swansea; SA2 8DE,0,0,false,false,0
+21,first,last,first.last2,customer,41 swan street; Swansea; SA2 8DE,0,0,false,false,0
+22,James,Hol,james.hol,customer,41 swan street; Swansea; SA2 8DE,0,0,false,false,0

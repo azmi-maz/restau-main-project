@@ -1,14 +1,19 @@
 package org.group.project.controller.customer;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import org.group.project.Main;
+import org.group.project.classes.AlertPopUpWindow;
 import org.group.project.classes.DataFileStructure;
 import org.group.project.classes.DataManager;
 import org.group.project.classes.HelperMethods;
 import org.group.project.exceptions.InvalidUserException;
+import org.group.project.scenes.MainScenes;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,71 +38,112 @@ public class CustomerRegistrationController {
     private TextField username;
 
     @FXML
-    private Label errorUsername;
+    private Label errorUsernameLabel;
+
+    @FXML
+    private Button confirmButton;
+
+    @FXML
+    private Button cancelButton;
+
+    @FXML
+    private VBox newCustomerWindow;
 
     @FXML
     protected void confirmButtonClick() {
 
         try {
-            // Clean up any error labels.
-            // Need to handle css here; visibility or z-index or height
-            // invisibile?
-            errorUsername.setText(null);
+            // Clean up any error label.
+            errorUsernameLabel.setText(null);
+            errorUsernameLabel.setVisible(false);
+            errorUsernameLabel.setStyle("-fx-font-size: 1");
 
-            // This is for a new customer.
+            // New customer
             List<String> newUserDetails = new ArrayList<>();
-            List<TextField> dataRow = new ArrayList<>(Arrays.asList(firstName, lastName, address, username));
+            List<TextField> dataRow = new ArrayList<>(Arrays.asList(firstName,
+                    lastName, username, address));
             List<String> fileRowStructure = new ArrayList<>(Arrays.asList());
             fileRowStructure.addAll(DataFileStructure.getValues("USERS"));
 
+            boolean isColumnMatched = false;
             for (String colName : fileRowStructure) {
                 for (TextField textField : dataRow) {
-                    if (textField != null && colName.equalsIgnoreCase(textField.getId())) {
-                        newUserDetails.add(textField.getText());
+                    if (textField != null && colName
+                            .equalsIgnoreCase(textField.getId())) {
+                        if (textField.getId().equalsIgnoreCase("address")) {
+                            newUserDetails.add(HelperMethods
+                                    .formatAddressToWrite(textField.getText()));
+                        } else {
+                            newUserDetails.add(textField.getText());
+                        }
+                        isColumnMatched = true;
                     }
+                }
+                if (!isColumnMatched) {
+                    newUserDetails.add("");
+                    isColumnMatched = false;
                 }
             }
 
             // Checks username is not duplicate
             boolean usernameAlreadyExist =
                     HelperMethods.isUsernameExist(username.getText());
-
             if (usernameAlreadyExist) {
-                throw new InvalidUserException("Username already exist. Please " +
+                throw new InvalidUserException("Username already exist. " +
+                        "Please " +
                         "use another username.");
             }
 
             // Is a customer
             newUserDetails.add(DataFileStructure.getIndexByColName("USERS",
-                    "isCustomer"), "true");
+                    "userType"), "customer");
 
             // Customer id
-            newUserDetails.add(DataFileStructure.getIndexByColName("USERS",
-                            "customerId"),
-                    Integer.toString(HelperMethods.getNewCustomerId()));
+            newUserDetails.set(DataFileStructure.getIndexByColName("USERS",
+                            "userId"),
+                    Integer.toString(HelperMethods.getNewUserId()));
+
+            // Not applicable for customer
+            newUserDetails.addAll(Arrays.asList("0", "0", "false", "false",
+                    "0"));
 
             // Add the new user to file
-            DataManager.appendNewUserToFile(newUserDetails, true);
+            DataManager.appendNewUserToFile(newUserDetails);
 
-            // Need to handle css success format.
-            errorUsername.setText("successful");
+            AlertPopUpWindow.displayConfirmationWindow(
+                    "Registration Successful!",
+                    "Thank you for joining Cafe94, " + firstName.getText() + "!"
+            );
 
+            closeWindow();
 
-        } catch (Exception e) {
-            errorUsername.setText(e.getMessage());
-            // Need to handle css error format.
+            Main.getStage().setScene(Main.getScenes().get(MainScenes.CUSTOMER));
 
-            e.printStackTrace();
+        } catch (Exception error) {
+            errorUsernameLabel.setText(error.getMessage());
+            errorUsernameLabel.setVisible(true);
+            errorUsernameLabel.setStyle("-fx-font-size: 11");
+
+            error.printStackTrace();
         }
-
     }
 
     @FXML
-    protected void cancelButtonClick() {
-
+    protected void closeWindow() {
+        Stage stage = (Stage) newCustomerWindow.getScene().getWindow();
+        stage.close();
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
+    @FXML
+    public void initialize() {
+
+        // Reset error label
+        errorUsernameLabel.setVisible(false);
+        errorUsernameLabel.setStyle("-fx-font-size: 1");
+
+
+        confirmButton.setOnMousePressed(e -> confirmButtonClick());
+        cancelButton.setOnMousePressed(e -> closeWindow());
 
     }
 }

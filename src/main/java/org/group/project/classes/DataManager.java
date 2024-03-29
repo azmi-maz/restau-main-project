@@ -71,41 +71,34 @@ public abstract class DataManager {
     /**
      * This method appends new user data to the database.
      *
-     * @param newUser    - the new user details in an array of String format.
-     * @param isCustomer - the user is a customer.
+     * @param newUser - the new user details in an array of String format.
      * @throws IOException - if file to append does not exist.
      */
-    public static void appendNewUserToFile(List<String> newUser,
-                                           boolean isCustomer) throws IOException {
+    public static void appendNewUserToFile(
+            List<String> newUser) throws IOException {
 
         String fileName = FileNames.DATA.getDataFile("USERS");
         FileWriter fileWriter = new FileWriter(fileName, true);
 
         String formattedData = "";
-        if (isCustomer) {
-            for (int i = 0; i < newUser.size(); i++) {
-                if (i == newUser.size() - 1) {
-                    formattedData += newUser.get(i) + "\n";
-                } else {
-                    formattedData = formattedData + newUser.get(i) + ",";
-                }
+        for (int i = 0; i < newUser.size(); i++) {
+            if (i == newUser.size() - 1) {
+                formattedData += newUser.get(i) + "\n";
+            } else {
+                formattedData = formattedData + newUser.get(i) + ",";
             }
-        } else {
-            // To add in new staff
         }
-
         fileWriter.write(formattedData);
         fileWriter.close();
-
     }
 
     /**
      * This method deletes a user from the database.
      *
-     * @param customerId - the id of the customer to be deleted.
+     * @param userId - the id of the user to be deleted.
      */
-    public static void deleteUserFromFile(int customerId) {
-        // to code
+    public static void deleteUserFromFile(int userId) {
+
     }
 
     // Temporarily - to be reviewed

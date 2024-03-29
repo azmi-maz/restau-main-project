@@ -1,12 +1,18 @@
 package org.group.project.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.group.project.Main;
+import org.group.project.MainAppMultiWindows;
 import org.group.project.classes.HelperMethods;
 import org.group.project.scenes.MainScenes;
+import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
 
@@ -24,6 +30,9 @@ public class LoginController {
 
     @FXML
     private Label resultLabel;
+
+    @FXML
+    private Hyperlink newFoodie;
 
     @FXML
     protected void onLoginButtonClick() throws IOException {
@@ -70,6 +79,34 @@ public class LoginController {
         }
     }
 
+    @FXML
+    protected void onNewFoodieClick() {
+
+        try {
+
+            FXMLLoader fxmlLoader =
+                    new FXMLLoader(MainAppMultiWindows.class.getResource(
+                            "smallwindows" +
+                                    "/new-customer-registration.fxml"));
+
+            Scene newCustomerRegistration = new Scene(fxmlLoader.load(),
+                    WindowSize.SMALL.WIDTH,
+                    WindowSize.SMALL.HEIGHT);
+
+            Stage newCustomerRegistrationStage = new Stage();
+            newCustomerRegistrationStage.setScene(newCustomerRegistration);
+            newCustomerRegistrationStage.setTitle("New Customer Registration");
+
+            newCustomerRegistrationStage.initModality(Modality.APPLICATION_MODAL);
+
+            newCustomerRegistrationStage.showAndWait();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+    }
 
 
 }

@@ -2,10 +2,7 @@ package org.group.project.classes;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * This class contains helper functions to assist in data handling.
@@ -39,23 +36,16 @@ public class HelperMethods {
      *
      * @return the new customer id for new customer.
      */
-    public static int getNewCustomerId() throws FileNotFoundException {
+    public static int getNewUserId() throws FileNotFoundException {
 
         List<String> listOfUsers = DataManager.allDataFromFile("USERS");
         int lastCustomerId = -1;
         for (String user : listOfUsers) {
             String[] userDetails = user.split(",");
-            int isCustomerIndex = DataFileStructure.getIndexByColName(
-                    "USERS",
-                    "isCustomer");
             int customerIdIndex = DataFileStructure.getIndexByColName(
                     "USERS",
-                    "customerId");
-            boolean isCustomer =
-                    Boolean.parseBoolean(userDetails[isCustomerIndex]);
-            if (isCustomer) {
-                lastCustomerId = Integer.parseInt(userDetails[customerIdIndex]);
-            }
+                    "userId");
+            lastCustomerId = Integer.parseInt(userDetails[customerIdIndex]);
         }
         if (lastCustomerId > -1) {
             lastCustomerId++;
@@ -90,6 +80,28 @@ public class HelperMethods {
             return rowFound;
         }
         return null;
+    }
+
+    /**
+     * This method formats address to transform any symbols incompatible for
+     * data storage.
+     *
+     * @param address - the unformatted address taken from textfield.
+     * @return an address with the correct format.
+     */
+    public static String formatAddressToWrite(String address) {
+        return address.replaceAll(",", ";");
+    }
+
+    /**
+     * This method formats address to transform any symbols compatible for
+     * users to read.
+     *
+     * @param address - the formatted address taken from database.
+     * @return an address with the correct format.
+     */
+    public static String formatAddressToRead(String address) {
+        return address.replaceAll(";", ",");
     }
 
 }
