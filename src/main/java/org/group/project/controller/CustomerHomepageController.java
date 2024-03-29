@@ -33,9 +33,6 @@ public class CustomerHomepageController {
 
         mainTitle.setText("Welcome, John!");
 
-//        button1.setOnMousePressed(e -> testAlert(e));
-//        label1.setText("Test Button");
-
         Image bgImage = new Image(Main.class.getResource("images" +
                 "/background/main-bg" +
                 ".jpg").toURI().toString());
