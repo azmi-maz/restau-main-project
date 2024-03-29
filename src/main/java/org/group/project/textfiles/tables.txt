@@ -1,0 +1,11 @@
+Table A,2
+Table B,2
+Table C,2
+Table D,2
+Table E,4
+Table F,4
+Table G,4
+Table H,4
+Table I,8
+Table J,8
+Table K,10

@@ -11,8 +11,30 @@ import java.util.List;
  * @author azmi_maz
  */
 public enum DataFileStructure {
-    USERS("customerId", Arrays.asList("firstName", "lastName", "username",
-            "isCustomer", "customerId", "address").toArray(new String[0]));
+    USERS("userId", Arrays.asList("userId", "firstName", "lastName",
+            "username", "userType", "address", "numOfHoursToWork",
+            "numOfTotalHoursWorked", "hasAdminRight", "isAvailable",
+            "maxDeliveries").toArray(new String[0])),
+    TABLES("tableName",
+            Arrays.asList("tableName", "numOfSeats").toArray(new String[0])),
+    BOOKINGS("bookingId", Arrays.asList("bookingId", "userId",
+            "bookingDate", "bookingTime", "numOfGuests", "bookingLength",
+            "tablePreference", "bookingStatus").toArray(new String[0])),
+    MENU("itemName",
+            Arrays.asList("itemName", "itemType").toArray(new String[0])),
+    NOTIFICATION("notificationId",
+            Arrays.asList("notificationId", "userId", "notificationDate",
+                    "notificationTime", "notificationType", "readStatus",
+                    "messageBody").toArray(new String[0])),
+    ORDERS("orderId",
+            Arrays.asList("orderId", "userId", "orderDate", "orderTime",
+                    "orderType", "orderStatus", "estimatedPickupTime",
+                    "assignedDriver", "deliveryTime", "orderedLists"
+            ).toArray(new String[0])),
+    REPORTS("reportId",
+            Arrays.asList("reportId", "reportType", "generatedBy",
+                    "generatedOnDate", "generatedOnTime", "reportData"
+            ).toArray(new String[0]));
 
     private final String uniqueId;
     private final List<String> structure = new ArrayList<>();
@@ -39,8 +61,9 @@ public enum DataFileStructure {
 
     /**
      * This method helps to get the index of a column in a database.
+     *
      * @param fileName - the file that contains the data.
-     * @param colName - the column header in that database.
+     * @param colName  - the column header in that database.
      * @return column index of the column header.
      */
     public static int getIndexByColName(String fileName, String colName) {
@@ -54,6 +77,7 @@ public enum DataFileStructure {
 
     /**
      * This method gets the uniqueId column of a database.
+     *
      * @param fileName - the name of the database.
      * @return the index column that contains the uniqueId.
      */

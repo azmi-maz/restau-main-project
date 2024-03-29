@@ -1,0 +1,25 @@
+steak au poivre,food
+marseilles shrimp stew,food
+duck à l'orange,food
+lyon chicken,food
+coq au vin,food
+stuffed pork tenderloins,food
+lobster thermidor,food
+strip steak frites,food
+classic duck confit,food
+pear tarte tatin,food
+chocolate soufflé,food
+classic creme brûlée,food
+croquembouche profiterole tower,food
+manhattan,drink
+margarita,drink
+cosmopolitan,drink
+bloody mary,drink
+white russian,drink
+mojito,drink
+negroni,drink
+daiquiri,drink
+martini,drink
+piña colada,drink
+irish coffee,drink
+long island iced tea,drink

@@ -7,7 +7,13 @@ package org.group.project.classes;
  */
 public enum FileNames {
     DATA("src/main/java/org/group/project/textfiles/"),
-    USERS("username-data.txt");
+    USERS("user-data.txt"),
+    TABLES("tables.txt"),
+    BOOKINGS("booking-data.txt"),
+    MENU("menu.txt"),
+    NOTIFICATION("notification-data.txt"),
+    ORDERS("order-data.txt"),
+    REPORTS("report-data.txt");
 
     private final String fileName;
 
