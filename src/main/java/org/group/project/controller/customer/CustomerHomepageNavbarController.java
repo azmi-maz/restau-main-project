@@ -55,6 +55,10 @@ public class CustomerHomepageNavbarController {
             CustomerScenesMap.getCustomerStage().setScene(CustomerScenesMap.getScenes().get(CustomerMapsMain.BOOKING));
         });
 
+        menuButton.setOnMousePressed(e -> {
+            CustomerScenesMap.getCustomerStage().setScene(CustomerScenesMap.getScenes().get(CustomerMapsMain.MENU));
+        });
+
         // TODO set up other buttons
 
     }

@@ -3,6 +3,7 @@ package org.group.project.scenes;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.group.project.scenes.customer.mainViews.BookingsView;
+import org.group.project.scenes.customer.mainViews.MenuOrderView;
 import org.group.project.scenes.main.CustomerView;
 
 import java.io.IOException;
@@ -26,6 +27,8 @@ public class CustomerScenesMap {
                 new CustomerView(stage).getScene());
         customerScenes.put(CustomerMapsMain.BOOKING,
                 new BookingsView(stage).getScene());
+        customerScenes.put(CustomerMapsMain.MENU,
+                new MenuOrderView(stage).getScene());
 //        customerScenes.put(CustomerMapsMain.NOTIFICATION, new ViewOne(stage).getScene());
 //        customerScenes.put(CustomerMapsMain.MENU, new ViewOne(stage).getScene
 //        ());

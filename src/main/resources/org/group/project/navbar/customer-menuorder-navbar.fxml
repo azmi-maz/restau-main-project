@@ -21,24 +21,6 @@
         </VBox>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
             <children>
-                <Button fx:id="takeawayButton" mnemonicParsing="false"
-                        styleClass="takeawayButton"/>
-                <Label fx:id="takeawayButtonLabel"
-                       styleClass="takeawayButtonLabel"
-                       text="Order Takeaway"/>
-            </children>
-        </VBox>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-            <children>
-                <Button fx:id="deliveryButton" mnemonicParsing="false"
-                        styleClass="deliveryButton"/>
-                <Label fx:id="deliveryButtonLabel"
-                       styleClass="deliveryButtonLabel"
-                       text="Order Delivery"/>
-            </children>
-        </VBox>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-            <children>
                 <Button fx:id="cartButton" mnemonicParsing="false"
                         styleClass="cartButton"/>
                 <Label fx:id="cartButtonLabel" styleClass="cartButtonLabel"
