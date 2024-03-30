@@ -2,6 +2,7 @@ package org.group.project.classes;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +63,29 @@ public class Booking {
     }
 
     /**
+     * Booking constructor where booking data is fully complete for viewing
+     * purpose.
+     *
+     * @param customer      - customer who is making a table reservation.
+     * @param bookingDate   - the date for the table reservation.
+     * @param bookingTime   - the time for the table reservation.
+     * @param numOfGuests   - number of guests for the table reservation.
+     * @param tableRequest  - list of one table or more for the guests.
+     * @param bookingLength - the booking length requested by customer.
+     */
+    public Booking(Customer customer, LocalDate bookingDate,
+                   LocalTime bookingTime, int numOfGuests,
+                   List<Table> tableRequest, int bookingLength, String status) {
+        this.customer = customer;
+        this.bookingDate = bookingDate;
+        this.bookingTime = bookingTime;
+        this.numOfGuests = numOfGuests;
+        this.tablePreference.addAll(tableRequest);
+        this.bookingLengthInHour = bookingLength;
+        this.bookingStatus = status;
+    }
+
+    /**
      * Getter method to get customer.
      *
      * @return Customer who made the booking.
@@ -86,6 +110,10 @@ public class Booking {
      */
     public LocalDate getBookingDate() {
         return bookingDate;
+    }
+
+    public String getBookingDateInFormat() {
+        return bookingDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     /**
@@ -122,6 +150,15 @@ public class Booking {
      */
     public List<Table> getTablePreference() {
         return tablePreference;
+    }
+
+    /**
+     * This method prints out the table lists in TableView friendly-format.
+     *
+     * @return the list of table preferences.
+     */
+    public String getTableNames() {
+        return getTablePreference().toString().replace("[","").replace("]","");
     }
 
     /**
@@ -162,6 +199,24 @@ public class Booking {
      */
     public void updateBookingStatus(String newStatus) {
         this.bookingStatus = newStatus;
+    }
+
+    /**
+     * This method gets the time when a booking ends.
+     *
+     * @return the time a booking ends.
+     */
+    public LocalTime getEndBookingTime() {
+        return bookingTime.plusHours(bookingLengthInHour);
+    }
+
+    /**
+     * This method show the period of booking time from start to end.
+     *
+     * @return the time period of a booking.
+     */
+    public String getTimePeriodOfBooking() {
+        return bookingTime.toString() + " - " + getEndBookingTime().toString();
     }
 
 

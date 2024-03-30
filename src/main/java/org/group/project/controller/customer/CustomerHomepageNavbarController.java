@@ -3,6 +3,8 @@ package org.group.project.controller.customer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import org.group.project.classes.ImageLoader;
+import org.group.project.scenes.CustomerMapsMain;
+import org.group.project.scenes.CustomerScenesMap;
 
 import java.net.URISyntaxException;
 
@@ -29,6 +31,10 @@ public class CustomerHomepageNavbarController {
     @FXML
     private Button userButton;
 
+//    public CustomerHomepageNavbarController(Stage stage) {
+//        this.stage = stage;
+//    }
+
     public void initialize() throws URISyntaxException {
 
         ImageLoader.setUpGraphicButton(menuButton, 25, 25, "cart");
@@ -44,6 +50,10 @@ public class CustomerHomepageNavbarController {
         ImageLoader.setUpGraphicButton(settingButton, 25, 25, "settings");
 
         ImageLoader.setUpGraphicButton(userButton, 25, 25, "user");
+
+        reservationButton.setOnMousePressed(e -> {
+            CustomerScenesMap.getCustomerStage().setScene(CustomerScenesMap.getScenes().get(CustomerMapsMain.BOOKING));
+        });
 
     }
 

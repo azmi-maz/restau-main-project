@@ -1,7 +1,9 @@
 package org.group.project.scenes.main;
 
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.group.project.Main;
 import org.group.project.mapscenes.view.ViewMaker;
@@ -13,16 +15,13 @@ public class CustomerView implements ViewMaker {
 
     private Stage stage;
 
+    @FXML
+    private BorderPane borderPane;
+
     public CustomerView(Stage stage) throws IOException {
 
         this.stage = stage;
 
-//        CustomerScenesMap customerScenes = new CustomerScenesMap(stage);
-
-        // Start with the main scene
-//        stage.setScene(customerScenes.getScenes().get(CustomerMapsMain.HOME));
-//        stage.setTitle("Cafe94 Restaurant");
-//        stage.show();
     }
 
     @Override
@@ -30,6 +29,7 @@ public class CustomerView implements ViewMaker {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
                 "homepages/customer-homepage.fxml"));
+
         return new Scene(fxmlLoader.load(), WindowSize.MAIN.WIDTH,
                 WindowSize.MAIN.HEIGHT);
     }

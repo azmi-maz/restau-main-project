@@ -1,25 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <HBox prefHeight="100.0" prefWidth="200.0">
-         <children>
-             <fx:include source="../../navbar/customer-main-navbar.fxml" />
-         </children>
-      </HBox>
-      <HBox prefHeight="29.0" prefWidth="600.0">
-         <children>
-            <Label fx:id="tableCol1" text="Label" />
-            <Label fx:id="tableCol2" text="Label" />
-            <Label fx:id="tableCol3" text="Label" />
-         </children>
-      </HBox>
-      <ListView fx:id="bookingsList" prefHeight="200.0" prefWidth="200.0" />
-   </children>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.group.project.controller.customer.CustomerBookingsHistoryViewController">
+    <children>
+        <HBox alignment="CENTER" prefHeight="68.0" prefWidth="461.0">
+            <Label prefHeight="17.0" prefWidth="178.0" text="Reservation History" />
+            <fx:include source="../../navbar/customer-reservation-history-navbar.fxml" />
+        </HBox>
+      <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
+         <center>
+             <ImageView fx:id="bgImage" fitHeight="150.0" fitWidth="200.0"
+                        pickOnBounds="true" preserveRatio="true"
+                        BorderPane.alignment="CENTER"/>
+              <TableView fx:id="reservationTable" maxHeight="500.0"
+                         maxWidth="1300.0"
+                         BorderPane.alignment="CENTER">
+                  <columns>
+                      <TableColumn fx:id="customerColumn" prefWidth="75.0" />
+                      <TableColumn fx:id="bookingDateColumn" prefWidth="75.0" />
+                      <TableColumn fx:id="bookingTimeColumn" prefWidth="75.0" />
+                      <TableColumn fx:id="numOfGuestsColumn" prefWidth="75.0" />
+                      <TableColumn fx:id="bookingLengthColumn" prefWidth="75.0" />
+                      <TableColumn fx:id="tablePreferenceColumn" prefWidth="75.0" />
+                      <TableColumn fx:id="bookingStatusColumn" prefWidth="75.0" />
+                      <TableColumn fx:id="actionButtonColumn"
+                                   prefWidth="75.0" />
+                  </columns>
+              </TableView>
+         </center>
+      </BorderPane>
+    </children>
 </VBox>

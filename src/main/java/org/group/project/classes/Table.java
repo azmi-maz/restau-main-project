@@ -114,5 +114,15 @@ public class Table {
         return 0;
     }
 
+    /**
+     * To print the table name.
+     *
+     * @return the table name.
+     */
+    @Override
+    public String toString() {
+        return tableName;
+    }
+
 
 }

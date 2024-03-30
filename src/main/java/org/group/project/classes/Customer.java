@@ -122,4 +122,18 @@ public class Customer extends User {
         };
     }
 
+    /**
+     * To print the first name and last name of a customer.
+     *
+     * @return the first and last name of a customer.
+     */
+    @Override
+    public String toString() {
+        return String.format("%s%s %s%s",
+                firstName.substring(0, 1).toUpperCase(),
+                firstName.substring(1),
+                lastName.substring(0, 1).toUpperCase(),
+                lastName.substring(1));
+    }
+
 }

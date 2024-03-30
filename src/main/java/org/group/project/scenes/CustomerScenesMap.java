@@ -11,27 +11,42 @@ import java.util.Map;
 
 public class CustomerScenesMap {
 
+    private static Stage stage;
+
     /** Holds the various scenes to switch between */
     private static Map<CustomerMapsMain, Scene> customerScenes =
             new HashMap<>();
 
     public CustomerScenesMap(Stage stage) throws IOException {
 
+        CustomerScenesMap.stage = stage;
+
         // Create and store all scenes up front
-        customerScenes.put(CustomerMapsMain.HOME, new CustomerView(stage).getScene());
-        customerScenes.put(CustomerMapsMain.MENU, new BookingsView(stage).getScene());
+        customerScenes.put(CustomerMapsMain.HOME,
+                new CustomerView(stage).getScene());
+        customerScenes.put(CustomerMapsMain.BOOKING,
+                new BookingsView(stage).getScene());
 //        customerScenes.put(CustomerMapsMain.NOTIFICATION, new ViewOne(stage).getScene());
-//        customerScenes.put(CustomerMapsMain.BOOKING, new ViewOne(stage).getScene());
+//        customerScenes.put(CustomerMapsMain.MENU, new ViewOne(stage).getScene
+//        ());
 //        customerScenes.put(CustomerMapsMain.ORDER, new ViewOne(stage).getScene());
 
-        stage.setScene(customerScenes.get(CustomerMapsMain.HOME));
-        stage.setTitle("Cafe94 Restaurant");
-        stage.show();
+//        stage.setScene(Main.getScenes().get(MainScenes.CUSTOMER));
+//        stage.setTitle("Cafe94 Restaurant");
+//        stage.show();
 
     }
 
     public static Map<CustomerMapsMain, Scene> getScenes() {
         return customerScenes;
+    }
+
+    public Scene getScene() throws IOException {
+        return customerScenes.get(CustomerMapsMain.HOME);
+    }
+
+    public static Stage getCustomerStage() {
+        return stage;
     }
 
 }

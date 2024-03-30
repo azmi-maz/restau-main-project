@@ -1,9 +1,6 @@
 package org.group.project.controller.customer;
 
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,12 +16,6 @@ public class CustomerHomepageController {
 
     @FXML
     private Label mainTitle;
-
-    @FXML
-    private Button button1;
-
-    @FXML
-    private Label label1;
 
     @FXML
     private ImageView bgImage;
@@ -46,14 +37,6 @@ public class CustomerHomepageController {
                 BackgroundPosition.CENTER,
                 bSize)));
 
-    }
-
-    public void testAlert(Event e) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error: For Testing");
-        alert.setHeaderText(null);
-        alert.setContentText("More info here.");
-        alert.showAndWait();
     }
 
 

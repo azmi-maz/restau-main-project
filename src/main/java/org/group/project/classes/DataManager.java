@@ -26,6 +26,15 @@ public abstract class DataManager {
     }
 
     /**
+     * This method gets the bookings file.
+     *
+     * @return the bookings file.
+     */
+    public static File getBookingsFile() {
+        return new File(FileNames.DATA.getDataFile("BOOKINGS"));
+    }
+
+    /**
      * This method checks if a value exist in a database.
      *
      * @param fileToRead - the file loaded on Scanner.

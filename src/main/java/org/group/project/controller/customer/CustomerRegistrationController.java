@@ -112,7 +112,8 @@ public class CustomerRegistrationController {
 
             AlertPopUpWindow.displayConfirmationWindow(
                     "Registration Successful!",
-                    "Thank you for joining Cafe94, " + firstName.getText() + "!"
+                    "Thank you for joining Cafe94, " + firstName.getText() +
+                            "!" +"\n" + "Feeling hangry?"
             );
 
             closeWindow();

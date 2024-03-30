@@ -18,7 +18,8 @@
         >
             <children>
                 <Label fx:id="mainTitle" text="Main Title"/>
-                <fx:include source="../navbar/customer-main-navbar.fxml"/>
+                <fx:include source="../navbar/customer-main-navbar.fxml"
+                            fx:id="customerHomeNavbar"/>
             </children>
         </HBox>
     </top>
