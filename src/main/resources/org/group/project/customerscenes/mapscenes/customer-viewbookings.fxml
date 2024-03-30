@@ -15,7 +15,7 @@
                         pickOnBounds="true" preserveRatio="true"
                         BorderPane.alignment="CENTER"/>
               <TableView fx:id="reservationTable" maxHeight="500.0"
-                         maxWidth="1300.0"
+                         maxWidth="1200.0"
                          BorderPane.alignment="CENTER">
                   <columns>
                       <TableColumn fx:id="customerColumn" prefWidth="75.0" />
@@ -25,8 +25,14 @@
                       <TableColumn fx:id="bookingLengthColumn" prefWidth="75.0" />
                       <TableColumn fx:id="tablePreferenceColumn" prefWidth="75.0" />
                       <TableColumn fx:id="bookingStatusColumn" prefWidth="75.0" />
-                      <TableColumn fx:id="actionButtonColumn"
-                                   prefWidth="75.0" />
+                      <TableColumn fx:id="actionButtonColumn">
+                          <columns>
+                              <TableColumn fx:id="actionButtonColumn1"
+                                           prefWidth="35.0"/>
+                              <TableColumn fx:id="actionButtonColumn2"
+                                           prefWidth="35.0"/>
+                          </columns>
+                      </TableColumn>
                   </columns>
               </TableView>
          </center>

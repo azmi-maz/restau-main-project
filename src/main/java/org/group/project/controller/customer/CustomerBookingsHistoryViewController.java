@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -42,6 +43,15 @@ public class CustomerBookingsHistoryViewController {
 
     @FXML
     private TableColumn<Booking, String> bookingStatusColumn;
+
+    @FXML
+    private TableColumn<Booking, Button> actionButtonColumn;
+
+    @FXML
+    private TableColumn<Booking, Button> actionButtonColumn1;
+
+    @FXML
+    private TableColumn<Booking, Button> actionButtonColumn2;
 
 
     private List<String> tableReservations;
@@ -146,7 +156,7 @@ public class CustomerBookingsHistoryViewController {
                 new PropertyValueFactory<>("bookingTime"));
 
         numOfGuestsColumn.setText("No. of Guests");
-        numOfGuestsColumn.setMinWidth(150);
+        numOfGuestsColumn.setMinWidth(90);
         numOfGuestsColumn.setStyle("-fx-alignment: CENTER;");
         numOfGuestsColumn.setCellValueFactory(
                 new PropertyValueFactory<>("numOfGuests"));
@@ -174,6 +184,32 @@ public class CustomerBookingsHistoryViewController {
         bookingStatusColumn.setStyle("-fx-alignment: CENTER;");
         bookingStatusColumn.setCellValueFactory(
                 new PropertyValueFactory<>("bookingStatus"));
+
+        actionButtonColumn.setText("Action");
+
+        actionButtonColumn1.setMinWidth(65);
+        actionButtonColumn1.setStyle("-fx-alignment: CENTER;");
+        actionButtonColumn1.setCellValueFactory(cellData -> {
+            Button editButton = new Button();
+            ImageLoader.setUpGraphicButton(editButton, 15, 15, "view-details");
+            // TODO create a method to handle view details by booking
+            editButton.setOnMousePressed(e -> {
+                System.out.println(cellData.getValue().getCustomer().getFirstName());
+            });
+            return new SimpleObjectProperty<>(editButton);
+        });
+
+        actionButtonColumn2.setMinWidth(65);
+        actionButtonColumn2.setStyle("-fx-alignment: CENTER;");
+        actionButtonColumn2.setCellValueFactory(cellData -> {
+            Button cancelButton = new Button();
+            ImageLoader.setUpGraphicButton(cancelButton, 15, 15, "cancel");
+            // TODO create a method to handle table reservation cancellation
+            cancelButton.setOnMousePressed(e -> {
+                System.out.println(cellData.getValue().getCustomer().getFirstName());
+            });
+            return new SimpleObjectProperty<>(cancelButton);
+        });
 
         reservationTable.setItems(data);
 

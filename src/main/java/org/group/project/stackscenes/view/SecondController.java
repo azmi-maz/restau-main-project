@@ -55,7 +55,6 @@ public class SecondController implements ControllerView {
 
     @Override
     public Scene getViewScene() {
-        // TODO Auto-generated method stub
         return scene;
     }
 }

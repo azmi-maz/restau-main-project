@@ -15,7 +15,6 @@ public class ThirdPresenter extends Presenter {
 
     @Override
     public Presenter getDerivedPresenter() {
-        // TODO Auto-generated method stub
         return null;
     }
 
