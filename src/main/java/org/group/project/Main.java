@@ -40,8 +40,16 @@ public class Main extends Application {
 //        stage.setTitle("Cafe94 Restaurant");
 //        stage.show();
 
+//        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
+//                "customerscenes/mapscenes/customer-viewbookings.fxml"));
+//        Scene scene = new Scene(fxmlLoader.load(), WindowSize.MAIN.WIDTH,
+//                WindowSize.MAIN.HEIGHT);
+//        stage.setTitle("Cafe94 Restaurant");
+//        stage.setScene(scene);
+//        stage.show();
+
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
-                "customerscenes/mapscenes/customer-viewbookings.fxml"));
+                "customerscenes/mapscenes/customer-menuorder.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), WindowSize.MAIN.WIDTH,
                 WindowSize.MAIN.HEIGHT);
         stage.setTitle("Cafe94 Restaurant");
