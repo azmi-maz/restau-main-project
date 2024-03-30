@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="68.0" prefWidth="592.0"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.group.project.controller.customer.CustomerMenuOrderNavbarController">
+    <children>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <children>
+                <Button fx:id="homeButton" mnemonicParsing="false"
+                        styleClass="homeButton"/>
+                <Label fx:id="homeButtonLabel" styleClass="homeButtonLabel"
+                       text="Return to Home"/>
+            </children>
+        </VBox>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <children>
+                <Button fx:id="takeawayButton" mnemonicParsing="false"
+                        styleClass="takeawayButton"/>
+                <Label fx:id="takeawayButtonLabel"
+                       styleClass="takeawayButtonLabel"
+                       text="Order Takeaway"/>
+            </children>
+        </VBox>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <children>
+                <Button fx:id="deliveryButton" mnemonicParsing="false"
+                        styleClass="deliveryButton"/>
+                <Label fx:id="deliveryButtonLabel"
+                       styleClass="deliveryButtonLabel"
+                       text="Order Delivery"/>
+            </children>
+        </VBox>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <children>
+                <Button fx:id="cartButton" mnemonicParsing="false"
+                        styleClass="cartButton"/>
+                <Label fx:id="cartButtonLabel" styleClass="cartButtonLabel"
+                       text="Cart"/>
+            </children>
+        </VBox>
+    </children>
+</HBox>
