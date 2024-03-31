@@ -29,10 +29,10 @@ public class CustomerScenesMap {
                 new BookingsView(stage).getScene());
         customerScenes.put(CustomerMapsMain.MENU,
                 new MenuOrderView(stage).getScene());
-//        customerScenes.put(CustomerMapsMain.NOTIFICATION, new ViewOne(stage).getScene());
-//        customerScenes.put(CustomerMapsMain.MENU, new ViewOne(stage).getScene
-//        ());
-//        customerScenes.put(CustomerMapsMain.ORDER, new ViewOne(stage).getScene());
+        customerScenes.put(CustomerMapsMain.ORDER,
+                new MenuOrderView(stage).getScene());
+        customerScenes.put(CustomerMapsMain.NOTIFICATION,
+                new MenuOrderView(stage).getScene());
 
 //        stage.setScene(Main.getScenes().get(MainScenes.CUSTOMER));
 //        stage.setTitle("Cafe94 Restaurant");
