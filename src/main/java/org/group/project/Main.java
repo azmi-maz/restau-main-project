@@ -57,6 +57,22 @@ public class Main extends Application {
 //        stage.setScene(scene);
 //        stage.show();
 
+//        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
+//                "waiterscenes/mapscenes/waiter-approvebookings.fxml"));
+//        Scene scene = new Scene(fxmlLoader.load(), WindowSize.MAIN.WIDTH,
+//                WindowSize.MAIN.HEIGHT);
+//        stage.setTitle("Cafe94 Restaurant");
+//        stage.setScene(scene);
+//        stage.show();
+
+//        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
+//                "waiterscenes/mapscenes/waiter-approvedeliveries.fxml"));
+//        Scene scene = new Scene(fxmlLoader.load(), WindowSize.MAIN.WIDTH,
+//                WindowSize.MAIN.HEIGHT);
+//        stage.setTitle("Cafe94 Restaurant");
+//        stage.setScene(scene);
+//        stage.show();
+
 
     }
 

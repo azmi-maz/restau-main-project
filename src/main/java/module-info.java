@@ -15,4 +15,9 @@ module org.group.project {
     opens org.group.project.multiwindows to javafx.fxml;
     opens org.group.project.mapscenes.controller to javafx.fxml;
     opens org.group.project.controllers.customer to javafx.fxml;
+    opens org.group.project.controllers.chef to javafx.fxml;
+    opens org.group.project.controllers.driver to javafx.fxml;
+    opens org.group.project.controllers.manager to javafx.fxml;
+    opens org.group.project.controllers.waiter to javafx.fxml;
+
 }
