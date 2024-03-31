@@ -30,6 +30,8 @@ public class ManagerScenesMap {
         managerScenes.put(ManagerMapsMain.REPORT,
                 new ReportsView(stage).getScene());
 
+        // TODO setting and user scene?
+
 
 //        stage.setScene(Main.getScenes().get(ManagerMapsMain.HOME));
 //        stage.setTitle("Cafe94 Restaurant");
