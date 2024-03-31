@@ -4,6 +4,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.group.project.scenes.customer.mainViews.BookingsView;
 import org.group.project.scenes.customer.mainViews.MenuOrderView;
+import org.group.project.scenes.customer.mainViews.NotificationView;
+import org.group.project.scenes.customer.mainViews.OrdersView;
 import org.group.project.scenes.main.CustomerView;
 
 import java.io.IOException;
@@ -30,9 +32,9 @@ public class CustomerScenesMap {
         customerScenes.put(CustomerMapsMain.MENU,
                 new MenuOrderView(stage).getScene());
         customerScenes.put(CustomerMapsMain.ORDER,
-                new MenuOrderView(stage).getScene());
+                new OrdersView(stage).getScene());
         customerScenes.put(CustomerMapsMain.NOTIFICATION,
-                new MenuOrderView(stage).getScene());
+                new NotificationView(stage).getScene());
 
 //        stage.setScene(Main.getScenes().get(MainScenes.CUSTOMER));
 //        stage.setTitle("Cafe94 Restaurant");
