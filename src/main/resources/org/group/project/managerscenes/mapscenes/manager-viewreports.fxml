@@ -12,6 +12,9 @@
       <HBox alignment="CENTER" prefHeight="59.0" prefWidth="600.0">
          <children>
             <Label id="headerLabel" styleClass="headerLabel" text="View Report" />
+            <fx:include
+                    source="../../navbar/manager/manager-returnhome-navbar.fxml"
+                    fx:id="managerReturnHomeNavbar"/>
          </children>
       </HBox>
       <ChoiceBox id="reportTypeChoiceBox" prefWidth="150.0" styleClass="reportTypeChoiceBox" />
