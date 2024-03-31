@@ -12,6 +12,9 @@
       <HBox alignment="CENTER" prefHeight="73.0" prefWidth="600.0">
          <children>
             <Label id="headerLabel" styleClass="headerLabel" text="Welcome, John!" />
+            <fx:include
+                    source="../navbar/driver/driver-main-navbar.fxml"
+                    fx:id="driverHomeNavbar"/>
          </children>
       </HBox>
       <BorderPane prefHeight="322.0" prefWidth="600.0">

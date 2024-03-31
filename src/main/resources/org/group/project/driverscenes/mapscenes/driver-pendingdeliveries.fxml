@@ -13,6 +13,9 @@
       <HBox alignment="CENTER" prefHeight="67.0" prefWidth="600.0">
          <children>
             <Label id="headerLabel" styleClass="headerLabel" text="Pending Deliveries" />
+             <fx:include
+                     source="../../navbar/driver/driver-returnhome-navbar.fxml"
+                     fx:id="driverReturnHomeNavbar"/>
          </children>
       </HBox>
       <BorderPane prefHeight="323.0" prefWidth="600.0">
