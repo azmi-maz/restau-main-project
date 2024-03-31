@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -10,24 +9,20 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox alignment="CENTER" prefHeight="64.0" prefWidth="600.0">
+      <HBox alignment="CENTER" prefHeight="70.0" prefWidth="600.0">
          <children>
-            <Label id="headerLabel" styleClass="headerLabel" text="Order Details" />
+            <Label id="headerLabel" styleClass="headerLabel" text="Order Confirmation" />
          </children>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="38.0" prefWidth="600.0">
-         <children>
-            <Label id="orderTypeLabel" styleClass="orderTypeLabel" text="Order Type" />
-            <ChoiceBox id="choiceBox" prefWidth="150.0" styleClass="choiceBox" />
-         </children>
-      </HBox>
-      <BorderPane prefHeight="297.0" prefWidth="600.0">
+      <Label id="orderTypeLabel" alignment="TOP_LEFT" styleClass="orderTypeLabel" text="Order Type" />
+      <BorderPane prefHeight="313.0" prefWidth="600.0">
          <bottom>
-            <HBox alignment="CENTER" prefHeight="69.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" prefHeight="67.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button id="confirmButton" mnemonicParsing="false" styleClass="confirmButton" text="Confirm Order" />
+                  <Button id="cardButton" mnemonicParsing="false" styleClass="cardButton" text="Debit/ Credit Card" />
+                  <Button id="cashButton" mnemonicParsing="false" styleClass="cashButton" text="Pay with Cash" />
                   <Button id="cancelButton" mnemonicParsing="false" styleClass="cancelButton" text="Cancel Order" />
                </children>
             </HBox>
