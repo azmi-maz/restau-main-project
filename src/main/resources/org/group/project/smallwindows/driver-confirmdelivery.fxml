@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label id="headerLabel" styleClass="headerLabel" text="Delivery Order Details" />
+      <Label id="customerIdLabel" styleClass="customerIdLabel" text="customer id" />
+      <TextField id="customerIdTextField" styleClass="customerIdTextField" />
+      <HBox prefHeight="68.0" prefWidth="600.0">
+         <children>
+            <VBox prefHeight="68.0" prefWidth="203.0">
+               <children>
+                  <Label id="firstNameLabel" styleClass="firstNameLabel" text="first name" />
+                  <TextField id="firstNameTextField" styleClass="firstNameTextField" />
+               </children>
+            </VBox>
+            <VBox prefHeight="68.0" prefWidth="216.0">
+               <children>
+                  <Label id="lastNameLabel" styleClass="lastNameLabel" text="last name" />
+                  <TextField id="lastNameTextField" styleClass="lastNameTextField" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <Label id="addressLabel" styleClass="addressLabel" text="customer address" />
+      <TextField id="addressTextField" styleClass="addressTextField" />
+      <HBox alignment="CENTER" prefHeight="64.0" prefWidth="600.0">
+         <children>
+            <Button id="deliveryCompletedButton" mnemonicParsing="false" styleClass="deliveryCompletedButton" text="Delivery Completed" />
+            <Button id="returnButton" mnemonicParsing="false" styleClass="returnButton" text="Return" />
+         </children>
+      </HBox>
+   </children>
+</VBox>
