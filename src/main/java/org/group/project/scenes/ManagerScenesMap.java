@@ -2,9 +2,9 @@ package org.group.project.scenes;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.group.project.scenes.customer.mainViews.BookingsView;
-import org.group.project.scenes.customer.mainViews.MenuOrderView;
-import org.group.project.scenes.main.CustomerView;
+import org.group.project.scenes.main.ManagerView;
+import org.group.project.scenes.manager.mainViews.ManagementView;
+import org.group.project.scenes.manager.mainViews.ReportsView;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,11 +24,11 @@ public class ManagerScenesMap {
 
         // Create and store all scenes up front
         managerScenes.put(ManagerMapsMain.HOME,
-                new CustomerView(stage).getScene());
+                new ManagerView(stage).getScene());
         managerScenes.put(ManagerMapsMain.MANAGEMENT,
-                new BookingsView(stage).getScene());
+                new ManagementView(stage).getScene());
         managerScenes.put(ManagerMapsMain.REPORT,
-                new MenuOrderView(stage).getScene());
+                new ReportsView(stage).getScene());
 
 
 //        stage.setScene(Main.getScenes().get(ManagerMapsMain.HOME));
