@@ -31,10 +31,10 @@ public class Main extends Application {
         scenes.put(MainScenes.CUSTOMER, new CustomerScenesMap(stage).getScene());
         scenes.put(MainScenes.MANAGER, new ManagerScenesMap(stage).getScene());
         scenes.put(MainScenes.WAITER, new WaiterScenesMap(stage).getScene());
-        scenes.put(MainScenes.CHEF, new CustomerScenesMap(stage).getScene());
+        scenes.put(MainScenes.CHEF, new ChefScenesMap(stage).getScene());
         scenes.put(MainScenes.DRIVER, new DriverScenesMap(stage).getScene());
 
-        // Logoff scene? to login
+        // TODO Logoff scene? to login
 
         // Start with user log in
         stage.setScene(scenes.get(MainScenes.LOGIN));

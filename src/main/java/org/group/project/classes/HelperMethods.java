@@ -104,4 +104,45 @@ public class HelperMethods {
         return address.replaceAll(";", ",");
     }
 
+    // TODO comment
+    public static int findUserIdByUsername(
+            String username) throws FileNotFoundException {
+        List<String> listOfUsers = DataManager.allDataFromFile("USERS");
+        int searchUserId = -1;
+        for (String user : listOfUsers) {
+            String[] userDetails = user.split(",");
+            int userIdIndex = DataFileStructure.getIndexByColName(
+                    "USERS",
+                    "userId");
+            int usernameIndex = DataFileStructure.getIndexByColName(
+                    "USERS",
+                    "username");
+            if (userDetails[usernameIndex].equalsIgnoreCase(username)) {
+                searchUserId = Integer.parseInt(userDetails[userIdIndex]);
+            }
+        }
+        if (searchUserId > -1) {
+            return searchUserId;
+        }
+        return searchUserId;
+    }
+
+    // TODO comment
+    public static List<String> getUserDataByUsername(
+            String username) throws FileNotFoundException {
+        if (!isUsernameExist(username)) {
+            return null;
+        } else {
+            String userId = Integer.toString(findUserIdByUsername(username));
+            return getDataById("USERS", userId);
+        }
+    }
+
+    public static String getUserTypeFromDataString(List<String> userData) {
+        int userTypeIndex = DataFileStructure.getIndexByColName("USERS",
+                "userType");
+
+        return userData.get(userTypeIndex);
+    }
+
 }

@@ -15,6 +15,7 @@ import org.group.project.scenes.MainScenes;
 import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * This controller class handles login-view fxml events.
@@ -57,8 +58,30 @@ public class LoginController {
             // The success message
             resultLabel.setText("Login successful!");
 
-            // To handle redirection of staff etc.
-            Main.getStage().setScene(Main.getScenes().get(MainScenes.CUSTOMER));
+            // TODO Try catch?
+            List<String> registeredUserDetails =
+                    HelperMethods.getUserDataByUsername(loginUsername.getText());
+
+            String userType =
+                    HelperMethods.getUserTypeFromDataString(registeredUserDetails).toLowerCase();
+
+            switch (userType) {
+                case "manager":
+                    Main.getStage().setScene(Main.getScenes().get(MainScenes.MANAGER));
+                    break;
+                case "waiter":
+                    Main.getStage().setScene(Main.getScenes().get(MainScenes.WAITER));
+                    break;
+                case "chef":
+                    Main.getStage().setScene(Main.getScenes().get(MainScenes.CHEF));
+                    break;
+                case "driver":
+                    Main.getStage().setScene(Main.getScenes().get(MainScenes.DRIVER));
+                    break;
+                default:
+                    Main.getStage().setScene(Main.getScenes().get(MainScenes.CUSTOMER));
+                    break;
+            }
 
 
         } else {
