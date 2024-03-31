@@ -12,7 +12,11 @@
    <children>
       <HBox alignment="CENTER" prefHeight="77.0" prefWidth="600.0">
          <children>
-            <Label id="headerLabel" styleClass="headerLabel" text="Pending Action" />
+            <Label id="headerLabel" styleClass="headerLabel"
+                   text="Pending Bookings" />
+             <fx:include
+                     source="../../navbar/waiter/waiter-pendingdeliveries-navbar.fxml"
+                     fx:id="waiterPendingDeliveryNavbar"/>
          </children>
       </HBox>
       <BorderPane prefHeight="320.0" prefWidth="600.0">

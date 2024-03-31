@@ -18,8 +18,8 @@
         </VBox>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
             <children>
-                <Button fx:id="pendingDeliveryButton" mnemonicParsing="false"/>
-                <Label fx:id="pendingDeliveryLabel" text="Pending Delivery"/>
+                <Button fx:id="pendingTablesButton" mnemonicParsing="false"/>
+                <Label fx:id="pendingTablesLabel" text="Table Reservation"/>
             </children>
         </VBox>
     </children>

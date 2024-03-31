@@ -14,22 +14,22 @@ public class WaiterPendingTableNavbarController {
     private Button homeButton;
 
     @FXML
-    private Button pendingDeliveryButton;
+    private Button pendingTablesButton;
 
     public void initialize() throws URISyntaxException {
 
         ImageLoader.setUpGraphicButton(homeButton, 25, 25,
                 "undo");
 
-        ImageLoader.setUpGraphicButton(pendingDeliveryButton, 25, 25,
-                "delivery");
+        ImageLoader.setUpGraphicButton(pendingTablesButton, 25, 25,
+                "reservation");
 
         homeButton.setOnMousePressed(e -> {
             WaiterScenesMap.getWaiterStage().setScene(WaiterScenesMap.getScenes().get(WaiterMapsMain.HOME));
         });
 
-        pendingDeliveryButton.setOnMousePressed(e -> {
-            WaiterScenesMap.getWaiterStage().setScene(WaiterScenesMap.getScenes().get(WaiterMapsMain.DELIVERY));
+        pendingTablesButton.setOnMousePressed(e -> {
+            WaiterScenesMap.getWaiterStage().setScene(WaiterScenesMap.getScenes().get(WaiterMapsMain.BOOKING));
         });
 
 

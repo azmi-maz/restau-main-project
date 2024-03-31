@@ -15,6 +15,9 @@
       <HBox alignment="CENTER" prefHeight="63.0" prefWidth="600.0">
          <children>
             <Label id="headerLabel" styleClass="headerLabel" text="Dine-in Order" />
+            <fx:include
+                    source="../../navbar/waiter/waiter-dineinorder-navbar.fxml"
+                    fx:id="waiterDineinOrderNavbar"/>
          </children>
       </HBox>
       <BorderPane prefHeight="327.0" prefWidth="600.0">

@@ -12,6 +12,9 @@
       <HBox alignment="CENTER" prefHeight="63.0" prefWidth="600.0">
          <children>
             <Label id="headerLabel" styleClass="headerLabel" text="Welcome, John!" />
+            <fx:include
+                    source="../navbar/waiter/waiter-main-navbar.fxml"
+                    fx:id="waiterHomeNavbar"/>
          </children>
       </HBox>
       <BorderPane prefHeight="332.0" prefWidth="600.0">
