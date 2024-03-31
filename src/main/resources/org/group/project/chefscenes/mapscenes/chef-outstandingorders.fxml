@@ -13,6 +13,8 @@
       <HBox alignment="CENTER" prefHeight="62.0" prefWidth="600.0">
          <children>
             <Label id="headerLabel" styleClass="headerLabel" text="Outstanding Orders" />
+             <fx:include source="../../navbar/chef/chef-returnhome-navbar.fxml"
+                         fx:id="chefReturnHomeNavbar"/>
          </children>
       </HBox>
       <BorderPane prefHeight="322.0" prefWidth="600.0">

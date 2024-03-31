@@ -12,6 +12,8 @@
       <HBox alignment="CENTER" prefHeight="74.0" prefWidth="600.0">
          <children>
             <Label id="headerLabel" styleClass="headerLabel" text="Welcome, John!" />
+            <fx:include source="../navbar/chef/chef-main-navbar.fxml"
+                        fx:id="chefHomeNavbar"/>
          </children>
       </HBox>
       <BorderPane prefHeight="320.0" prefWidth="600.0">
