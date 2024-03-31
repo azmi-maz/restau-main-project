@@ -31,13 +31,9 @@ public class CustomerHomepageNavbarController {
     @FXML
     private Button userButton;
 
-//    public CustomerHomepageNavbarController(Stage stage) {
-//        this.stage = stage;
-//    }
-
     public void initialize() throws URISyntaxException {
 
-        ImageLoader.setUpGraphicButton(menuButton, 25, 25, "cart");
+        ImageLoader.setUpGraphicButton(menuButton, 25, 25, "menu");
 
         ImageLoader.setUpGraphicButton(reservationButton, 25, 25, "reservation");
 
@@ -51,15 +47,33 @@ public class CustomerHomepageNavbarController {
 
         ImageLoader.setUpGraphicButton(userButton, 25, 25, "user");
 
-        reservationButton.setOnMousePressed(e -> {
-            CustomerScenesMap.getCustomerStage().setScene(CustomerScenesMap.getScenes().get(CustomerMapsMain.BOOKING));
-        });
-
         menuButton.setOnMousePressed(e -> {
             CustomerScenesMap.getCustomerStage().setScene(CustomerScenesMap.getScenes().get(CustomerMapsMain.MENU));
         });
 
-        // TODO set up other buttons
+        reservationButton.setOnMousePressed(e -> {
+            CustomerScenesMap.getCustomerStage().setScene(CustomerScenesMap.getScenes().get(CustomerMapsMain.BOOKING));
+        });
+
+        historyButton.setOnMousePressed(e -> {
+            CustomerScenesMap.getCustomerStage().setScene(CustomerScenesMap.getScenes().get(CustomerMapsMain.ORDER));
+        });
+
+        notificationButton.setOnMousePressed(e -> {
+            CustomerScenesMap.getCustomerStage().setScene(CustomerScenesMap.getScenes().get(CustomerMapsMain.NOTIFICATION));
+        });
+
+        helpButton.setOnMousePressed(e -> {
+            // TODO help scene?
+        });
+
+        settingButton.setOnMousePressed(e -> {
+            // TODO setting scene
+        });
+
+        userButton.setOnMousePressed(e -> {
+            // TODO user window
+        });
 
     }
 

@@ -36,6 +36,8 @@ public class CustomerScenesMap {
         customerScenes.put(CustomerMapsMain.NOTIFICATION,
                 new NotificationView(stage).getScene());
 
+        // TODO help scene and setting scene
+
 //        stage.setScene(Main.getScenes().get(MainScenes.CUSTOMER));
 //        stage.setTitle("Cafe94 Restaurant");
 //        stage.show();
