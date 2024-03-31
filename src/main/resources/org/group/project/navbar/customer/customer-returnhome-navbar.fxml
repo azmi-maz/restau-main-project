@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="592.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.group.project.controller.customer.CustomerBookingsHistoryNavbarController">
+    <children>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <children>
+                <Button fx:id="returnButton" mnemonicParsing="false" styleClass="returnIcon" />
+                <Label fx:id="returnIconLabel" styleClass="returnIconLabel" text="Return to Home" />
+            </children>
+        </VBox>
+    </children>
+</HBox>
