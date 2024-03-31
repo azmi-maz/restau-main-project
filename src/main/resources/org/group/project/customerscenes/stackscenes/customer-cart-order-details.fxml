@@ -15,6 +15,9 @@
       <HBox alignment="CENTER" prefHeight="64.0" prefWidth="600.0">
          <children>
             <Label id="headerLabel" styleClass="headerLabel" text="Order Details" />
+            <fx:include
+                    source="../../navbar/customer/customer-orderdetails-navbar.fxml"
+                    fx:id="customerOrderDetailsNavbar"/>
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="38.0" prefWidth="600.0">

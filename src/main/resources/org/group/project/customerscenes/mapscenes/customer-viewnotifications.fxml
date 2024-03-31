@@ -13,6 +13,9 @@
       <HBox alignment="CENTER" prefHeight="71.0" prefWidth="600.0">
          <children>
             <Label id="headerLabel" styleClass="headerLabel" text="Notification" />
+             <fx:include
+                     source="../../navbar/customer/customer-returnhome-navbar.fxml"
+                     fx:id="customerReturnHomeNavbar"/>
          </children>
       </HBox>
       <BorderPane prefHeight="320.0" prefWidth="600.0">

@@ -14,6 +14,9 @@
       <HBox alignment="CENTER" prefHeight="70.0" prefWidth="600.0">
          <children>
             <Label id="headerLabel" styleClass="headerLabel" text="Order Confirmation" />
+            <fx:include
+                    source="../../navbar/customer/customer-returnhome-navbar.fxml"
+                    fx:id="customerReturnHomeNavbar"/>
          </children>
       </HBox>
       <Label id="orderTypeLabel" alignment="TOP_LEFT" styleClass="orderTypeLabel" text="Order Type" />

@@ -12,6 +12,9 @@
       <HBox alignment="CENTER" prefHeight="69.0" prefWidth="600.0">
          <children>
             <Label id="headerLabel" styleClass="headerLabel" text="Order History" />
+             <fx:include
+                     source="../../navbar/customer/customer-returnhome-navbar.fxml"
+                     fx:id="customerReturnHomeNavbar"/>
          </children>
       </HBox>
       <BorderPane prefHeight="322.0" prefWidth="600.0">
