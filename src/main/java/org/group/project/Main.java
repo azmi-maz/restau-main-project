@@ -1,12 +1,9 @@
 package org.group.project;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.group.project.scenes.CustomerScenesMap;
-import org.group.project.scenes.MainScenes;
-import org.group.project.scenes.WindowSize;
+import org.group.project.scenes.*;
 import org.group.project.scenes.main.LoginView;
 
 import java.io.IOException;
@@ -31,17 +28,18 @@ public class Main extends Application {
         Main.stage = stage;
 
         scenes.put(MainScenes.LOGIN, new LoginView(stage).getScene());
-//        scenes.put(MainScenes.CUSTOMER, new CustomerView(stage).getScene());
         scenes.put(MainScenes.CUSTOMER, new CustomerScenesMap(stage).getScene());
-//        scenes.put(MainScenes.MANAGER, new MainView(stage).getScene());
-//        scenes.put(MainScenes.WAITER, new MainView(stage).getScene());
-//        scenes.put(MainScenes.CHEF, new MainView(stage).getScene());
-//        scenes.put(MainScenes.DRIVER, new MainView(stage).getScene());
+        scenes.put(MainScenes.MANAGER, new ManagerScenesMap(stage).getScene());
+        scenes.put(MainScenes.WAITER, new WaiterScenesMap(stage).getScene());
+        scenes.put(MainScenes.CHEF, new CustomerScenesMap(stage).getScene());
+        scenes.put(MainScenes.DRIVER, new DriverScenesMap(stage).getScene());
+
+        // Logoff scene? to login
 
         // Start with user log in
-//        stage.setScene(scenes.get(MainScenes.LOGIN));
-//        stage.setTitle("Cafe94 Restaurant");
-//        stage.show();
+        stage.setScene(scenes.get(MainScenes.LOGIN));
+        stage.setTitle("Cafe94 Restaurant");
+        stage.show();
 
 //        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
 //                "customerscenes/mapscenes/customer-viewbookings.fxml"));
@@ -51,13 +49,13 @@ public class Main extends Application {
 //        stage.setScene(scene);
 //        stage.show();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
-                "customerscenes/mapscenes/customer-menuorder.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), WindowSize.MAIN.WIDTH,
-                WindowSize.MAIN.HEIGHT);
-        stage.setTitle("Cafe94 Restaurant");
-        stage.setScene(scene);
-        stage.show();
+//        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
+//                "customerscenes/mapscenes/customer-menuorder.fxml"));
+//        Scene scene = new Scene(fxmlLoader.load(), WindowSize.MAIN.WIDTH,
+//                WindowSize.MAIN.HEIGHT);
+//        stage.setTitle("Cafe94 Restaurant");
+//        stage.setScene(scene);
+//        stage.show();
 
 
     }

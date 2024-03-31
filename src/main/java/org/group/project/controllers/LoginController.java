@@ -1,4 +1,4 @@
-package org.group.project.controller;
+package org.group.project.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -57,6 +57,7 @@ public class LoginController {
             // The success message
             resultLabel.setText("Login successful!");
 
+            // To handle redirection of staff etc.
             Main.getStage().setScene(Main.getScenes().get(MainScenes.CUSTOMER));
 
 

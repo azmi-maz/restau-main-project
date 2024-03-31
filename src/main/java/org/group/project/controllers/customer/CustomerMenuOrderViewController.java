@@ -1,4 +1,4 @@
-package org.group.project.controller.customer;
+package org.group.project.controllers.customer;
 
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;

@@ -1,4 +1,4 @@
-package org.group.project.controller.waiter;
+package org.group.project.controllers.waiter;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

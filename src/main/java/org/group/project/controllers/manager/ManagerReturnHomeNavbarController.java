@@ -1,4 +1,4 @@
-package org.group.project.controller.manager;
+package org.group.project.controllers.manager;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

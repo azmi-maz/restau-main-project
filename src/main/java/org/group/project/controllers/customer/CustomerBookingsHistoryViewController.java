@@ -1,4 +1,4 @@
-package org.group.project.controller.customer;
+package org.group.project.controllers.customer;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;

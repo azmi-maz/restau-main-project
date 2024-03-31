@@ -1,4 +1,4 @@
-package org.group.project.controller.waiter;
+package org.group.project.controllers.waiter;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,28 +8,28 @@ import org.group.project.scenes.WaiterScenesMap;
 
 import java.net.URISyntaxException;
 
-public class WaiterPendingDeliveryNavbarController {
+public class WaiterDineinOrderNavbarController {
 
     @FXML
     private Button homeButton;
 
     @FXML
-    private Button pendingTablesButton;
+    private Button addItemButton;
 
     public void initialize() throws URISyntaxException {
 
         ImageLoader.setUpGraphicButton(homeButton, 25, 25,
                 "undo");
 
-        ImageLoader.setUpGraphicButton(pendingTablesButton, 25, 25,
-                "reservation");
+        ImageLoader.setUpGraphicButton(addItemButton, 25, 25,
+                "circle-plus");
 
         homeButton.setOnMousePressed(e -> {
             WaiterScenesMap.getWaiterStage().setScene(WaiterScenesMap.getScenes().get(WaiterMapsMain.HOME));
         });
 
-        pendingTablesButton.setOnMousePressed(e -> {
-            WaiterScenesMap.getWaiterStage().setScene(WaiterScenesMap.getScenes().get(WaiterMapsMain.BOOKING));
+        addItemButton.setOnMousePressed(e -> {
+            // TODO link with add item
         });
 
 
