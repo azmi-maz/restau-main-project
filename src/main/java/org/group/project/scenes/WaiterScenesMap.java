@@ -2,8 +2,10 @@ package org.group.project.scenes;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.group.project.scenes.customer.mainViews.BookingsView;
-import org.group.project.scenes.main.CustomerView;
+import org.group.project.scenes.main.WaiterView;
+import org.group.project.scenes.waiter.mainViews.BookingView;
+import org.group.project.scenes.waiter.mainViews.DeliveryView;
+import org.group.project.scenes.waiter.mainViews.DineInView;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,9 +27,13 @@ public class WaiterScenesMap {
 
         // Create and store all scenes up front
         waiterScenes.put(WaiterMapsMain.HOME,
-                new CustomerView(stage).getScene());
+                new WaiterView(stage).getScene());
         waiterScenes.put(WaiterMapsMain.DELIVERY,
-                new BookingsView(stage).getScene());
+                new DeliveryView(stage).getScene());
+        waiterScenes.put(WaiterMapsMain.BOOKING,
+                new BookingView(stage).getScene());
+        waiterScenes.put(WaiterMapsMain.DINEIN,
+                new DineInView(stage).getScene());
 
 //        stage.setScene(Main.getScenes().get(MainScenes.CUSTOMER));
 //        stage.setTitle("Cafe94 Restaurant");
