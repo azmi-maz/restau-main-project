@@ -22,6 +22,9 @@ public class Main extends Application {
 
     private static Stage stage;
 
+    // TODO the static application name here Cafe94 Restaurant and use it in
+    //  all classes.
+
     @Override
     public void start(Stage stage) throws IOException {
 

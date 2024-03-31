@@ -8,7 +8,7 @@ import org.group.project.scenes.CustomerScenesMap;
 
 import java.net.URISyntaxException;
 
-public class CustomerBookingsHistoryNavbarController {
+public class CustomerReturnHomeNavbarController {
 
     @FXML
     private Button returnButton;
