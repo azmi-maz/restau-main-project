@@ -2,8 +2,8 @@ package org.group.project.scenes;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.group.project.scenes.customer.mainViews.BookingsView;
-import org.group.project.scenes.main.CustomerView;
+import org.group.project.scenes.driver.mainViews.DeliveryView;
+import org.group.project.scenes.main.DriverView;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,9 +25,9 @@ public class DriverScenesMap {
 
         // Create and store all scenes up front
         driverScenes.put(DriverMapsMain.HOME,
-                new CustomerView(stage).getScene());
+                new DriverView(stage).getScene());
         driverScenes.put(DriverMapsMain.DELIVERY,
-                new BookingsView(stage).getScene());
+                new DeliveryView(stage).getScene());
 
 //        stage.setScene(Main.getScenes().get(MainScenes.CUSTOMER));
 //        stage.setTitle("Cafe94 Restaurant");
