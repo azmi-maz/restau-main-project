@@ -7,6 +7,7 @@ package org.group.project.scenes;
  */
 public enum WindowSize {
     MAIN(1400, 700),
+    MEDIUM(700, 500),
     SMALL(400, 400);
 
     public final int WIDTH;
