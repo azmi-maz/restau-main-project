@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import org.group.project.classes.ImageLoader;
 import org.group.project.scenes.CustomerMapsMain;
 import org.group.project.scenes.CustomerScenesMap;
+import org.group.project.scenes.customer.stackViews.MenuController;
 
 public class CustomerMenuOrderNavbarController {
 
@@ -25,6 +26,8 @@ public class CustomerMenuOrderNavbarController {
         ImageLoader.setUpGraphicButton(cartButton, 25, 25, "cart");
 
         cartButton.setOnMousePressed(e -> {
+            System.out.println("Cart button pressed");
+            MenuController.presenter.goToCart();
 //            CustomerScenesMap.getCustomerStage().setScene(CustomerScenesMap.getScenes().get(CustomerMapsMain.HOME));
         });
 

@@ -1,16 +1,29 @@
 package org.group.project.controllers.customer;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.group.project.Main;
+import org.group.project.classes.FoodDrink;
+import org.group.project.scenes.WindowSize;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CustomerMenuOrderViewController {
+
+    @FXML
+    private VBox mainVBox;
 
     @FXML
     private GridPane gridPane;
@@ -18,6 +31,7 @@ public class CustomerMenuOrderViewController {
     @FXML
     private ImageView bgImage;
 
+    private List<FoodDrink> orderList = new ArrayList<>();
 
     public void initialize() throws URISyntaxException {
 
@@ -25,9 +39,9 @@ public class CustomerMenuOrderViewController {
                 "/background/white-floor" +
                 ".jpg").toURI().toString());
 
-        BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,
-                BackgroundSize.AUTO, true, true
-                , true, false);
+        BackgroundSize bSize = new BackgroundSize(2000,
+                1500, false, false
+                , false, false);
 
         gridPane.setBackground(new Background(new BackgroundImage(bgImage,
                 BackgroundRepeat.REPEAT,
@@ -80,7 +94,7 @@ public class CustomerMenuOrderViewController {
         Image image22 = new Image(Main.class.getResource("images" +
                 "/menu/steak-au-poivre.png").toURI().toString());
         Image image23 = new Image(Main.class.getResource("images" +
-                "/menu/marseille-shrimp-stew.png").toURI().toString());
+                "/menu/marseilles-shrimp-stew.png").toURI().toString());
         Image image24 = new Image(Main.class.getResource("images" +
                 "/menu/daiquiri.png").toURI().toString());
         Image image25 = new Image(Main.class.getResource("images" +
@@ -190,33 +204,32 @@ public class CustomerMenuOrderViewController {
 
 
         // Add ImageViews to the GridPane
-//        gridPane.setGridLinesVisible(true);
-        gridPane.add(imageView1, 0, 0,2,1);
+        gridPane.add(imageView1, 0, 0, 2, 1);
         gridPane.add(imageView2, 2, 0, 2, 1);
-        gridPane.add(imageView3, 4, 0,2,2);
+        gridPane.add(imageView3, 4, 0, 2, 2);
         gridPane.add(imageView4, 0, 1, 2, 2);
         gridPane.add(imageView5, 2, 1, 2, 1);
-        gridPane.add(imageView6, 4, 2,2,1);
-        gridPane.add(imageView7, 0, 3,2,1);
-        gridPane.add(imageView8, 2, 2,2,3);
-        gridPane.add(imageView9, 4, 3,2,2);
+        gridPane.add(imageView6, 4, 2, 2, 1);
+        gridPane.add(imageView7, 0, 3, 2, 1);
+        gridPane.add(imageView8, 2, 2, 2, 3);
+        gridPane.add(imageView9, 4, 3, 2, 2);
         gridPane.add(imageView10
-                , 0, 4,2,1);
-        gridPane.add(imageView11, 2, 4,2,2);
-        gridPane.add(imageView12, 0, 5,2,1);
-        gridPane.add(imageView13, 4, 5,2,1);
-        gridPane.add(imageView14, 2, 6,2,2);
-        gridPane.add(imageView15, 4, 6,2,1);
-        gridPane.add(imageView16, 0, 6,2,2);
-        gridPane.add(imageView17, 2, 7,4,1);
-        gridPane.add(imageView18, 0, 8,3,1);
-        gridPane.add(imageView19, 2, 8,3,1);
+                , 0, 4, 2, 1);
+        gridPane.add(imageView11, 2, 4, 2, 2);
+        gridPane.add(imageView12, 0, 5, 2, 1);
+        gridPane.add(imageView13, 4, 5, 2, 1);
+        gridPane.add(imageView14, 2, 6, 2, 2);
+        gridPane.add(imageView15, 4, 6, 2, 1);
+        gridPane.add(imageView16, 0, 6, 2, 2);
+        gridPane.add(imageView17, 2, 7, 4, 1);
+        gridPane.add(imageView18, 0, 8, 3, 1);
+        gridPane.add(imageView19, 2, 8, 3, 1);
         gridPane.add(imageView20, 4, 8, 2, 2);
-        gridPane.add(imageView21, 0, 9,2,1);
-        gridPane.add(imageView22, 2, 9,2,2);
-        gridPane.add(imageView23, 4, 10,2,2);
-        gridPane.add(imageView24, 0, 10,2,2);
-        gridPane.add(imageView25, 2, 10,2,2);
+        gridPane.add(imageView21, 0, 9, 2, 1);
+        gridPane.add(imageView22, 2, 9, 2, 2);
+        gridPane.add(imageView23, 4, 10, 2, 2);
+        gridPane.add(imageView24, 0, 10, 2, 2);
+        gridPane.add(imageView25, 2, 10, 2, 2);
 
         GridPane.setHalignment(imageView1, HPos.RIGHT);
         GridPane.setValignment(imageView1, VPos.BOTTOM);
@@ -293,5 +306,62 @@ public class CustomerMenuOrderViewController {
         GridPane.setHalignment(imageView25, HPos.CENTER);
         GridPane.setValignment(imageView25, VPos.BOTTOM);
 
+        gridPane.setOnMouseClicked(e -> {
+
+            boolean isImageViewSelected = e.getTarget() instanceof ImageView;
+
+            if (isImageViewSelected) {
+                javafx.scene.Node imageNode =
+                        (javafx.scene.Node) e.getTarget();
+                ImageView imageView = (ImageView) imageNode;
+                String imageUrl = imageView.getImage().getUrl();
+                String imageName = Arrays.stream(imageUrl.toString().split(
+                        "/")).toList().getLast();
+
+                try {
+                    FXMLLoader fxmlLoader =
+                            new FXMLLoader(Main.class.getResource(
+                                    "smallwindows/add-edit-order-item" +
+                                            ".fxml"));
+
+                    String labelName = "";
+                    String modifiedName = imageName.replace(".png", "");
+                    String[] labelNameArray = modifiedName.split("-");
+                    for (String string : labelNameArray) {
+                        labelName += string.substring(0, 1).toUpperCase();
+                        labelName += string.substring(1);
+                        labelName += " ";
+                    }
+
+                    BorderPane borderPane = fxmlLoader.load();
+
+                    CustomerMenuOrderAddEditItemController controller =
+                            fxmlLoader.getController();
+
+                    controller.setItemToEdit("images/menu/" + imageName,
+                            labelName, orderList);
+                    Scene editScene = new Scene(borderPane,
+                            WindowSize.MEDIUM.WIDTH,
+                            WindowSize.MEDIUM.HEIGHT);
+
+                    Stage editStage = new Stage();
+                    editStage.setScene(editScene);
+                    // TODO Should final variable this
+                    editStage.setTitle("Add Order Item");
+
+                    editStage.initModality(Modality.APPLICATION_MODAL);
+
+                    editStage.showAndWait();
+                } catch (IOException ex) {
+                    // TODO catch error
+                    throw new RuntimeException(ex);
+                } catch (URISyntaxException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
+        });
+
     }
+
 }
