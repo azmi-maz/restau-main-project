@@ -13,14 +13,6 @@
     <children>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
             <children>
-                <Button fx:id="homeButton" mnemonicParsing="false"
-                        styleClass="homeButton"/>
-                <Label fx:id="homeButtonLabel" styleClass="homeButtonLabel"
-                       text="Return to Home"/>
-            </children>
-        </VBox>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-            <children>
                 <Button fx:id="returnToMenuButton" mnemonicParsing="false"
                         styleClass="returnToMenuButton"/>
                 <Label fx:id="returnToMenuButtonLabel"

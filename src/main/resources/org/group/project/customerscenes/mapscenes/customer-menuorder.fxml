@@ -1,31 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--        fx:controller="org.group.project.controllers.customer.CustomerMenuOrderViewController"-->
+
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<VBox maxHeight="-Infinity" maxWidth="-Infinity"
-      minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-      prefWidth="600.0" xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.group.project.controllers.customer.CustomerMenuOrderViewController">
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="mainVBox"
+      maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+      stylesheets="@../../css/image.css" xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <HBox alignment="CENTER" prefHeight="68.0" prefWidth="461.0">
-            <Label prefHeight="17.0" prefWidth="178.0"
-                   text="Menu"/>
-            <fx:include source="../../navbar/customer/customer-menuorder-navbar.fxml"
-                        fx:id="customerMenuOrderNavbar"/>
+            <Label prefHeight="17.0" prefWidth="178.0" text="Menu"/>
+            <fx:include fx:id="customerMenuOrderNavbar"
+                        source="../../navbar/customer/customer-menuorder-navbar.fxml"/>
         </HBox>
         <BorderPane fx:id="borderPane" prefHeight="1400.0" prefWidth="700.0">
             <center>
                 <ScrollPane BorderPane.alignment="CENTER">
                     <content>
-                        <ImageView fx:id="bgImage" fitHeight="150.0" fitWidth="200.0"
-                                   pickOnBounds="true" preserveRatio="true"
+                        <ImageView fx:id="bgImage" fitHeight="150.0"
+                                   fitWidth="200.0" pickOnBounds="true"
+                                   preserveRatio="true"
                                    BorderPane.alignment="CENTER"/>
                         <GridPane fx:id="gridPane" alignment="CENTER"
-                                  prefHeight="5000.0" prefWidth="1400.0"
-                        >
+                                  prefHeight="5000.0" prefWidth="1400.0">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES"
                                                    minWidth="10.0"
