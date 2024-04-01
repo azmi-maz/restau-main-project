@@ -42,13 +42,13 @@ public class FirstController implements ControllerView {
             throw new RuntimeException(e.getMessage());
         }
 
-        nextButton.setOnAction(e -> {
-            presenter.goToSecondScene();
-        });
-
-        exitButton.setOnAction(e -> {
-            presenter.exit();
-        });
+//        nextButton.setOnAction(e -> {
+//            presenter.goToSecondScene();
+//        });
+//
+//        exitButton.setOnAction(e -> {
+//            presenter.exit();
+//        });
 
     }
 

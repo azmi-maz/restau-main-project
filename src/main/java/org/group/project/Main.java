@@ -59,7 +59,7 @@ public class Main extends Application {
 
 //        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
 //                "waiterscenes/mapscenes/waiter-approvebookings.fxml"));
-//        Scene scene = new Scene(fxmlLoader.load(), WindowSize.MAIN.WIDTH,
+//        Scene scene = new Scene(fxmlLoader.load()john, WindowSize.MAIN.WIDTH,
 //                WindowSize.MAIN.HEIGHT);
 //        stage.setTitle("Cafe94 Restaurant");
 //        stage.setScene(scene);

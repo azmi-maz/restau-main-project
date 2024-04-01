@@ -1,16 +1,16 @@
 steak au poivre,food
 marseilles shrimp stew,food
-duck à l'orange,food
+duck a lorange,food
 lyon chicken,food
 coq au vin,food
-stuffed pork tenderloins,food
+stuffed pork tenderloin,food
 lobster thermidor,food
-strip steak frites,food
+strip steak frite,food
 classic duck confit,food
 pear tarte tatin,food
-chocolate soufflé,food
-classic creme brûlée,food
-croquembouche profiterole tower,food
+chocolate souffle,food
+classic creme brulee,food
+croquembouche,food
 manhattan,drink
 margarita,drink
 cosmopolitan,drink
@@ -20,6 +20,6 @@ mojito,drink
 negroni,drink
 daiquiri,drink
 martini,drink
-piña colada,drink
+pina colada,drink
 irish coffee,drink
 long island iced tea,drink
