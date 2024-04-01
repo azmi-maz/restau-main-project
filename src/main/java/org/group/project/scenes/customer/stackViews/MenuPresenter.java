@@ -26,7 +26,6 @@ public class MenuPresenter extends Presenter {
     }
 
     public void goToCart() {
-        System.out.println("Cart here");
         btn_clicked = GO_TO_SECOND_SCENE_BTN;
         notifyManagerToAddNewPresenter();
     }

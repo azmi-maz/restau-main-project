@@ -53,7 +53,6 @@ public class CustomerBookingsHistoryViewController {
     @FXML
     private TableColumn<Booking, Button> actionButtonColumn2;
 
-
     private List<String> tableReservations;
 
     @FXML

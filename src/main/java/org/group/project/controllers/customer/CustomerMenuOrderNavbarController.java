@@ -26,7 +26,6 @@ public class CustomerMenuOrderNavbarController {
         ImageLoader.setUpGraphicButton(cartButton, 25, 25, "cart");
 
         cartButton.setOnMousePressed(e -> {
-            System.out.println("Cart button pressed");
             MenuController.presenter.goToCart();
 //            CustomerScenesMap.getCustomerStage().setScene(CustomerScenesMap.getScenes().get(CustomerMapsMain.HOME));
         });

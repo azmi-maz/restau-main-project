@@ -14,6 +14,7 @@ public class MenuOrderView implements ViewMaker {
 
     private MenuPresenter menuPresenter;
 
+
     public MenuOrderView(Stage stage) {
 
         manager = new StackManager(stage);

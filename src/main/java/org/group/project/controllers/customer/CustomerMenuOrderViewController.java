@@ -16,7 +16,6 @@ import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,7 +30,11 @@ public class CustomerMenuOrderViewController {
     @FXML
     private ImageView bgImage;
 
-    private List<FoodDrink> orderList = new ArrayList<>();
+    private List<FoodDrink> orderList;
+
+    public CustomerMenuOrderViewController(List<FoodDrink> orderList) {
+        this.orderList = orderList;
+    }
 
     public void initialize() throws URISyntaxException {
 
@@ -321,7 +324,7 @@ public class CustomerMenuOrderViewController {
                 try {
                     FXMLLoader fxmlLoader =
                             new FXMLLoader(Main.class.getResource(
-                                    "smallwindows/add-edit-order-item" +
+                                    "smallwindows/add-order-item" +
                                             ".fxml"));
 
                     String labelName = "";
@@ -335,7 +338,7 @@ public class CustomerMenuOrderViewController {
 
                     BorderPane borderPane = fxmlLoader.load();
 
-                    CustomerMenuOrderAddEditItemController controller =
+                    CustomerMenuOrderAddItemController controller =
                             fxmlLoader.getController();
 
                     controller.setItemToEdit("images/menu/" + imageName,

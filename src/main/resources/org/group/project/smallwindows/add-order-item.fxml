@@ -15,10 +15,10 @@
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:id="borderPane"
-            fx:controller="org.group.project.controllers.customer.CustomerMenuOrderAddEditItemController"
+            fx:controller="org.group.project.controllers.customer.CustomerMenuOrderAddItemController"
 >
     <center>
-        <ImageView fx:id="menuImage" fitHeight="150.0" fitWidth="200.0"
+        <ImageView fx:id="menuImage" fitHeight="450.0" fitWidth="400.0"
                    pickOnBounds="true" preserveRatio="true"
                    styleClass="menuImage" BorderPane.alignment="CENTER"/>
     </center>

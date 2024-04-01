@@ -14,7 +14,7 @@ import org.group.project.classes.FoodDrink;
 import java.net.URISyntaxException;
 import java.util.List;
 
-public class CustomerMenuOrderAddEditItemController {
+public class CustomerMenuOrderAddItemController {
 
     @FXML
     private ImageView menuImage;
@@ -69,8 +69,24 @@ public class CustomerMenuOrderAddEditItemController {
 
         // TODO handle not integer value and negative integer
 
-        for (int i = 0; i < itemQuantity; i++) {
-            mainList.add(new FoodDrink(menuItemName, itemType));
+        boolean isNewItem = true;
+        for (FoodDrink foodItem : mainList) {
+            if (foodItem.getItemName().equalsIgnoreCase(menuItemName)) {
+                isNewItem = false;
+                for (int i = 0; i < itemQuantity; i++) {
+                    foodItem.incrementQuantity();
+                }
+            }
+        }
+
+        if (isNewItem) {
+            FoodDrink newItem = new FoodDrink(menuItemName, itemType, 1);
+            if (itemQuantity > 1) {
+                for (int i = 1; i < itemQuantity; i++) {
+                    newItem.incrementQuantity();
+                }
+            }
+            mainList.add(newItem);
         }
 
         closeWindow();
@@ -87,7 +103,7 @@ public class CustomerMenuOrderAddEditItemController {
     public void onChange() {
         // TODO do the error check here for wrong numberformaterror add Alert
         //  here
-        System.out.println("Quantity Field changed to " + quantityTextField.getText());
+//        System.out.println("Quantity Field changed to " + quantityTextField.getText());
     }
 
 
