@@ -9,6 +9,10 @@ public class FoodDrink {
     private String itemName;
     private String itemType;
 
+    private int quantity;
+
+    // TODO image url
+
     private boolean isDailySpecial;
 
 
@@ -21,6 +25,26 @@ public class FoodDrink {
     public FoodDrink(String itemName, String itemType) {
         this.itemName = itemName;
         this.itemType = itemType;
+    }
+
+    /**
+     * This constructor creates a new menu item with quantity.
+     *
+     * @param itemName - the name of the food or drink.
+     * @param itemType - the type of the item, either food or drink.
+     * @param quantity - the quantity of item.
+     */
+    public FoodDrink(String itemName, String itemType, int quantity) {
+        this.itemName = itemName;
+        this.itemType = itemType;
+        this.quantity = quantity;
+    }
+
+    /**
+     * This method increment item quantity by one.
+     */
+    public void incrementQuantity() {
+        quantity += 1;
     }
 
     /**
@@ -42,6 +66,15 @@ public class FoodDrink {
     }
 
     /**
+     * Getter method to get the item quantity.
+     *
+     * @return the quantity of the item.
+     */
+    public int getQuantity() {
+        return quantity;
+    }
+
+    /**
      * Getter method to check if the item is daily special or not.
      *
      * @return true if the item is daily special.
@@ -60,6 +93,11 @@ public class FoodDrink {
         isDailySpecial = isSpecial;
     }
 
+    // TODO comment
+    public String getItemNameForDisplay() {
+        return itemName.substring(0,1).toUpperCase() + itemName.substring(1);
+    }
+
     /**
      * This prints out FoodDrink item in "Item name: (item type)" format.
      *
@@ -67,7 +105,7 @@ public class FoodDrink {
      */
     @Override
     public String toString() {
-        return getItemName() + " (" + getItemType() + ")";
+        return getItemName() + " (" + getItemType() + ")" + getQuantity();
     }
 
 }
