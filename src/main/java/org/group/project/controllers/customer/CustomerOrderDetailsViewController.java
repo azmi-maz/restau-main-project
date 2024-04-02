@@ -13,10 +13,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import org.group.project.Main;
+import org.group.project.classes.Customer;
 import org.group.project.classes.FoodDrink;
+import org.group.project.classes.Order;
+import org.group.project.scenes.customer.stackViews.OrderDetailsController;
+import org.group.project.test.generators.CustomerGenerator;
 
 import java.net.URISyntaxException;
-import java.util.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 
 public class CustomerOrderDetailsViewController {
 
@@ -36,6 +42,8 @@ public class CustomerOrderDetailsViewController {
     private ImageView bgImage;
 
     private List<FoodDrink> orderList;
+
+    private List<Order> newOrder;
 
     @FXML
     private TableColumn<FoodDrink, String> noColumn;
@@ -65,10 +73,10 @@ public class CustomerOrderDetailsViewController {
     private ObservableList<FoodDrink> data =
             FXCollections.observableArrayList();
 
-//    private List<FoodDrink> foodCounter = new ArrayList<>();
-
-    public CustomerOrderDetailsViewController(List<FoodDrink> orderList) {
+    public CustomerOrderDetailsViewController(List<FoodDrink> orderList,
+                                              List<Order> newOrder) {
         this.orderList = orderList;
+        this.newOrder = newOrder;
     }
 
     public void initialize() throws URISyntaxException {
@@ -88,6 +96,8 @@ public class CustomerOrderDetailsViewController {
 
         choiceBox.getItems().add("Delivery Order");
         choiceBox.getItems().add("Takeaway Order");
+
+        choiceBox.setValue("Delivery Order");
 
         data.addAll(orderList);
 
@@ -125,5 +135,54 @@ public class CustomerOrderDetailsViewController {
 
         orderDetailsTable.setItems(data);
 
+        confirmButton.setOnMousePressed(e -> {
+            newOrder.clear();
+            newOrder.add(createNewOrder());
+            OrderDetailsController.presenter.goToConfirmation();
+        });
+
+        // TODO cancel button returns to menu with orderlist erased?
+        cancelButton.setOnMousePressed(e -> {
+
+        });
+
+    }
+
+    public Order createNewOrder() {
+        // TODO get user from main homepage, temp using dummy user
+        Customer newCustomer = CustomerGenerator.createCustomer1();
+
+        LocalDate dateNow = LocalDate.now();
+        LocalTime timeNow = LocalTime.now();
+
+        // TODO choicebox must not be empty
+        String orderType = choiceBox.getValue();
+        if (orderType.equalsIgnoreCase("delivery order")) {
+            orderType = "delivery";
+        } else {
+            orderType = "takeaway";
+        }
+
+        // TODO constant variables, where to final static
+        String orderStatus = "";
+        if (orderType.equalsIgnoreCase("delivery order")) {
+            orderStatus = "pending-approval";
+        } else {
+            orderStatus = "pending";
+        }
+
+        Order orderDetails = new Order(
+                newCustomer,
+                dateNow,
+                timeNow,
+                orderType,
+                orderStatus
+        );
+
+        for (FoodDrink item : orderList) {
+            orderDetails.addItemToOrderList(item);
+        }
+
+        return orderDetails;
     }
 }
