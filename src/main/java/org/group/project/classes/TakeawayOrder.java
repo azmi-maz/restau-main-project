@@ -30,7 +30,7 @@ public class TakeawayOrder extends Order {
      * @return the customer.
      */
     public Customer getCustomer() {
-        return (Customer) super.getUser();
+        return super.getCustomer();
     }
 
     /**
