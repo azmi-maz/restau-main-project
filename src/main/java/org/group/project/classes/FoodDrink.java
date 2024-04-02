@@ -105,7 +105,7 @@ public class FoodDrink {
      */
     @Override
     public String toString() {
-        return getItemName() + " (" + getItemType() + ")" + getQuantity();
+        return getItemName() + " (" + getItemType() + ") quantity: " + getQuantity();
     }
 
 }
