@@ -16,6 +16,7 @@ import org.group.project.Main;
 import org.group.project.classes.Customer;
 import org.group.project.classes.FoodDrink;
 import org.group.project.classes.Order;
+import org.group.project.scenes.customer.stackViews.MenuController;
 import org.group.project.scenes.customer.stackViews.OrderDetailsController;
 import org.group.project.test.generators.CustomerGenerator;
 
@@ -138,12 +139,13 @@ public class CustomerOrderDetailsViewController {
         confirmButton.setOnMousePressed(e -> {
             newOrder.clear();
             newOrder.add(createNewOrder());
-            OrderDetailsController.presenter.goToConfirmation();
+            OrderDetailsController.presenter.goToOrderConfirmation();
         });
 
         // TODO cancel button returns to menu with orderlist erased?
         cancelButton.setOnMousePressed(e -> {
-
+            OrderDetailsController.presenter.returnToMenu();
+            MenuController.orderList.clear();
         });
 
     }

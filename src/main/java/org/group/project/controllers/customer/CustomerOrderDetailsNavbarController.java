@@ -17,7 +17,7 @@ public class CustomerOrderDetailsNavbarController {
         ImageLoader.setUpGraphicButton(returnToMenuButton, 25, 25, "undo");
 
         returnToMenuButton.setOnMousePressed(e -> {
-            OrderDetailsController.presenter.returnToFirstScene();
+            OrderDetailsController.presenter.returnToMenu();
 //            CustomerScenesMap.getCustomerStage().setScene(CustomerScenesMap.getScenes().get(CustomerMapsMain.MENU));
 
         });

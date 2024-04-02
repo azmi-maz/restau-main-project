@@ -18,7 +18,7 @@ public class OrderDetailsPresenter extends Presenter {
         view = new OrderDetailsController(this);
     }
 
-    public void goToConfirmation() {
+    public void goToOrderConfirmation() {
         clickedBtn = GO_TO_THIRD_SCENE_BTN;
         notifyManagerToAddNewPresenter();
     }
@@ -31,7 +31,7 @@ public class OrderDetailsPresenter extends Presenter {
         return null;
     }
 
-    public void returnToFirstScene() {
+    public void returnToMenu() {
         notifyManagerToDeletePresenter();
     }
 
