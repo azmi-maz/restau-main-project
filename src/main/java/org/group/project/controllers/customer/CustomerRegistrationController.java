@@ -108,7 +108,7 @@ public class CustomerRegistrationController {
                     "0"));
 
             // Add the new user to file
-            DataManager.appendNewUserToFile(newUserDetails);
+            DataManager.appendDataToFile("USERS", newUserDetails);
 
             AlertPopUpWindow.displayInformationWindow(
                     "Registration Successful!",
