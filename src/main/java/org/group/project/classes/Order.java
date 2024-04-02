@@ -18,6 +18,11 @@ public class Order {
     private String orderStatus;
     private List<FoodDrink> orderedFoodDrinkLists;
 
+    // TODO is this needed?
+    public Order() {
+
+    }
+
     /**
      * The constructor to initiate an order with empty basket.
      *
@@ -38,12 +43,21 @@ public class Order {
     }
 
     /**
-     * Getter method to get the user who made the order
+     * Getter method to get the customer who made the order
      *
-     * @return User as either customer or waiter, depends on the order.
+     * @return the customer.
      */
-    public User getUser() {
-        return user;
+    public Customer getCustomer() {
+        return (Customer) user;
+    }
+
+    /**
+     * Getter method to get the waiter who made the order
+     *
+     * @return the waiter.
+     */
+    public Waiter getWaiter() {
+        return (Waiter) user;
     }
 
     /**
