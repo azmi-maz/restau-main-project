@@ -110,10 +110,11 @@ public class CustomerRegistrationController {
             // Add the new user to file
             DataManager.appendNewUserToFile(newUserDetails);
 
-            AlertPopUpWindow.displayConfirmationWindow(
+            AlertPopUpWindow.displayInformationWindow(
                     "Registration Successful!",
                     "Thank you for joining Cafe94, " + firstName.getText() +
-                            "!" +"\n" + "Feeling hangry?"
+                            "!" + "\n" + "Feeling hangry?",
+                    "Yes, I am."
             );
 
             closeWindow();

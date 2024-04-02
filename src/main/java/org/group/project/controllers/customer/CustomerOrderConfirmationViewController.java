@@ -10,14 +10,19 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import org.group.project.Main;
+import org.group.project.classes.AlertPopUpWindow;
 import org.group.project.classes.FoodDrink;
 import org.group.project.classes.Order;
+import org.group.project.scenes.customer.stackViews.MenuController;
+import org.group.project.scenes.customer.stackViews.OrderConfirmationController;
+import org.group.project.scenes.customer.stackViews.OrderDetailsController;
 
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 public class CustomerOrderConfirmationViewController {
 
@@ -160,5 +165,59 @@ public class CustomerOrderConfirmationViewController {
             orderDetailsTextArea.setText(takeawayOrderTemplate);
         }
 
+        // TODO write to database
+        cardButton.setOnAction(e -> {
+//            addOrderToDatabase();
+//            cancelConfirmationAndGoBackToMenu();
+            promptOrderSuccessful();
+        });
+
+        // TODO fix order, check if it works
+        cashButton.setOnAction(e -> {
+//            addOrderToDatabase();
+//            cancelConfirmationAndGoBackToMenu();
+            promptOrderSuccessful();
+
+        });
+
+        // TODO fix order, check if it works
+        cancelButton.setOnAction(e -> {
+
+            Optional<ButtonType> userChoice = promptForUserAcknowledgement();
+
+            if (userChoice.get()
+                    .getButtonData().toString()
+                    .equalsIgnoreCase("OK_DONE")) {
+                cancelConfirmationAndGoBackToMenu();
+            }
+
+        });
+
+    }
+
+    // TODO add order to database
+    public void addOrderToDatabase() {
+
+    }
+
+    public void promptOrderSuccessful() {
+        AlertPopUpWindow.displayInformationWindow(
+                "Order Request Successful",
+                "Thank you for your order!",
+                "Ok"
+        );
+    }
+
+    public Optional<ButtonType> promptForUserAcknowledgement() {
+        return AlertPopUpWindow.displayConfirmationWindow(
+                "Cancel Order Request",
+                "Do you want to cancel this order?"
+        );
+    }
+
+    public void cancelConfirmationAndGoBackToMenu() {
+        OrderConfirmationController.presenter.returnToOrderDetails();
+        OrderDetailsController.presenter.returnToMenu();
+        MenuController.orderList.clear();
     }
 }
