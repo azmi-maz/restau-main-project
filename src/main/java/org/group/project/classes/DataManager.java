@@ -78,36 +78,155 @@ public abstract class DataManager {
     }
 
     /**
-     * This method appends new user data to the database.
-     *
-     * @param newUser - the new user details in an array of String format.
-     * @throws IOException - if file to append does not exist.
+     * This method appends a new line of data into a file.
+     * @param fileType - specify the data file to append the new line.
+     * @param newLine - the new line of data.
+     * @throws IOException - if the fileType is non-existent.
      */
-    public static void appendNewUserToFile(
-            List<String> newUser) throws IOException {
+    public static void appendDataToFile(
+            String fileType,
+            List<String> newLine) throws IOException {
 
-        String fileName = FileNames.DATA.getDataFile("USERS");
-        FileWriter fileWriter = new FileWriter(fileName, true);
+        String getFile = FileNames.DATA.getDataFile(fileType);
+        FileWriter fileWriter = new FileWriter(getFile, true);
 
-        String formattedData = "";
-        for (int i = 0; i < newUser.size(); i++) {
-            if (i == newUser.size() - 1) {
-                formattedData += newUser.get(i) + "\n";
-            } else {
-                formattedData = formattedData + newUser.get(i) + ",";
-            }
-        }
-        fileWriter.write(formattedData);
+        String formattedData = formatArrayToString(newLine);
+        fileWriter.write(formattedData + System.lineSeparator());
         fileWriter.close();
     }
 
     /**
-     * This method deletes a user from the database.
-     *
-     * @param userId - the id of the user to be deleted.
+     * This method is to format array to string separated with commas.
+     * @param line - the array to be formatted.
+     * @return - the string format of the input array.
+     * @param <T> - either Array or List/ArrayList.
      */
-    public static void deleteUserFromFile(int userId) {
+    public static <T> String formatArrayToString(T line) {
+        String formattedLine = "";
+        if (line instanceof List) {
+            List<T> lineArray = (List<T>) line;
+            for (int i = 0; i < lineArray.size(); i++) {
+                if (i == lineArray.size() - 1) {
+                    formattedLine += lineArray.get(i);
+                } else {
+                    formattedLine = formattedLine + lineArray.get(i) + ",";
+                }
+            }
+        } else if (line instanceof String[]) {
+            String[] lineArray = (String[]) line;
+            for (int i = 0; i < lineArray.length; i++) {
+                if (i == lineArray.length - 1) {
+                    formattedLine += lineArray[i];
+                } else {
+                    formattedLine = formattedLine + lineArray[i] + ",";
+                }
+            }
+        }
+        return formattedLine;
+    }
 
+
+    /**
+     * This method deletes a data in a file based on unique id.
+     * @param fileType - specify the data file to append the new line.
+     * @param uniqueId - the unique id of the data to be deleted.
+     * @param <T> - either Integer or String type of id.
+     * @throws IOException - if the fileType is non-existent.
+     */
+    public static <T> void deleteUniqueIdFromFile(String fileType,
+                                                  T uniqueId) throws IOException {
+        File inputFile = new File(FileNames.DATA.getDataFile(fileType));
+        File tempFile = new File("myTempFile.txt");
+
+        FileWriter fileWriter = new FileWriter(tempFile, true);
+
+        Scanner fileReader = new Scanner(inputFile);
+        while (fileReader.hasNextLine()) {
+            String data = fileReader.nextLine();
+            String[] dataDetails = data.split(",");
+            int uniqueIdIndex = DataFileStructure.getIndexColOfUniqueId(
+                    fileType);
+            if (uniqueId instanceof Integer) {
+                int getUniqueId = Integer.parseInt(dataDetails[uniqueIdIndex]);
+                int deleteUniqueId = Integer.parseInt(String.valueOf(uniqueId));
+                if (getUniqueId != deleteUniqueId) {
+                    fileWriter.write(data + System.lineSeparator());
+                } else {
+                    // TODO to return this to UI?
+//                    System.out.println("Deleted: " + data);
+                }
+            } else if (uniqueId instanceof String) {
+                String getUniqueId = dataDetails[uniqueIdIndex];
+                String deleteUniqueId = String.valueOf(uniqueId);
+                if (!getUniqueId.equalsIgnoreCase(deleteUniqueId)) {
+                    fileWriter.write(data + System.lineSeparator());
+                } else {
+//                    System.out.println("Deleted: " + data);
+                }
+            }
+
+        }
+
+        fileReader.close();
+        fileWriter.close();
+        tempFile.renameTo(inputFile);
+
+    }
+
+    /**
+     * This method replace a column data in a file based on a unique id.
+     * @param fileType - specify the data file to append the new line.
+     * @param uniqueId - the unique id of the data to be deleted.
+     * @param columnName - the attribute/column name to edit.
+     * @param newData - the new value/data for the specified column.
+     * @param <T> - either Integer or String of id.
+     * @throws IOException - if the fileType is non-existent.
+     */
+    public static <T> void editColumnDataByUniqueId(
+            String fileType,
+            T uniqueId,
+            String columnName,
+            String newData
+    ) throws IOException {
+        File inputFile = new File(FileNames.DATA.getDataFile(fileType));
+        File tempFile = new File("myTempFile.txt");
+
+        FileWriter fileWriter = new FileWriter(tempFile, true);
+        Scanner fileReader = new Scanner(inputFile);
+
+        while (fileReader.hasNextLine()) {
+            String data = fileReader.nextLine();
+            String[] dataDetails = data.split(",");
+            int columnIndexToEdit =
+                    DataFileStructure.getIndexByColName(fileType, columnName);
+            int uniqueIdIndex = DataFileStructure.getIndexColOfUniqueId(
+                    fileType);
+            if (uniqueId instanceof Integer) {
+                int getUniqueId = Integer.parseInt(dataDetails[uniqueIdIndex]);
+                int uniqueIdToEdit = Integer.parseInt(String.valueOf(uniqueId));
+                if (getUniqueId != uniqueIdToEdit) {
+                    fileWriter.write(data + System.lineSeparator());
+                } else {
+                    dataDetails[columnIndexToEdit] = newData;
+                    String editedDate = formatArrayToString(dataDetails);
+                    fileWriter.write(editedDate + System.lineSeparator());
+                }
+            } else if (uniqueId instanceof String) {
+                String getUniqueId = dataDetails[uniqueIdIndex];
+                String uniqueIdToEdit = String.valueOf(uniqueId);
+                if (!getUniqueId.equalsIgnoreCase(uniqueIdToEdit)) {
+                    fileWriter.write(data + System.lineSeparator());
+                } else {
+                    dataDetails[columnIndexToEdit] = newData;
+                    String editedDate = formatArrayToString(dataDetails);
+                    fileWriter.write(editedDate + System.lineSeparator());
+                }
+            }
+        }
+
+        fileReader.close();
+        fileWriter.close();
+        tempFile.renameTo(inputFile);
     }
 
     // Temporarily - to be reviewed
@@ -139,6 +258,20 @@ public abstract class DataManager {
     }
 
     public static void main(String[] args) throws IOException {
-        createFile();
+//        deleteUniqueIdFromFile("USERS", 1);
+//        deleteUniqueIdFromFile("USERS", 3);
+
+//        List<String> newUser = DataLineGenerator.createCustomerLine1();
+
+//        appendDataToFile("USERS", newUser);
+
+//        editColumnDataByUniqueId("USERS", 4, "userType", "chef");
+
+//        List<String> newCustomer = DataLineGenerator.createCustomerLine1();
+//        appendDataToFile("USERS",newCustomer);
+
+
     }
+
+
 }
