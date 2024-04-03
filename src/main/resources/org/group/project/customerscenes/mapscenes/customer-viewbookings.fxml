@@ -4,41 +4,52 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.group.project.controllers.customer.CustomerBookingsHistoryViewController">
+<VBox maxHeight="-Infinity"
+      maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.group.project.controllers.customer.CustomerBookingsHistoryViewController">
     <children>
         <HBox alignment="CENTER" prefHeight="68.0" prefWidth="461.0">
-            <Label prefHeight="17.0" prefWidth="178.0" text="Reservation History" />
+            <Label prefHeight="17.0" prefWidth="178.0"
+                   text="Reservation History"/>
             <fx:include
-                    source="../../navbar/customer/customer-returnhome-navbar.fxml"
-                    fx:id="customerReturnHomeNavbar"/>
+                    source="../../navbar/customer/customer-tablereservation-navbar.fxml"
+                    fx:id="customerTableReservationNavbar"/>
         </HBox>
-      <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
-         <center>
-             <ImageView fx:id="bgImage" fitHeight="150.0" fitWidth="200.0"
-                        pickOnBounds="true" preserveRatio="true"
-                        BorderPane.alignment="CENTER"/>
-              <TableView fx:id="reservationTable" maxHeight="500.0"
-                         maxWidth="1200.0"
-                         BorderPane.alignment="CENTER">
-                  <columns>
-                      <TableColumn fx:id="customerColumn" prefWidth="75.0" />
-                      <TableColumn fx:id="bookingDateColumn" prefWidth="75.0" />
-                      <TableColumn fx:id="bookingTimeColumn" prefWidth="75.0" />
-                      <TableColumn fx:id="numOfGuestsColumn" prefWidth="75.0" />
-                      <TableColumn fx:id="bookingLengthColumn" prefWidth="75.0" />
-                      <TableColumn fx:id="tablePreferenceColumn" prefWidth="75.0" />
-                      <TableColumn fx:id="bookingStatusColumn" prefWidth="75.0" />
-                      <TableColumn fx:id="actionButtonColumn">
-                          <columns>
-                              <TableColumn fx:id="actionButtonColumn1"
-                                           prefWidth="35.0"/>
-                              <TableColumn fx:id="actionButtonColumn2"
-                                           prefWidth="35.0"/>
-                          </columns>
-                      </TableColumn>
-                  </columns>
-              </TableView>
-         </center>
-      </BorderPane>
+        <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
+            <center>
+                <ImageView fx:id="bgImage" fitHeight="150.0" fitWidth="200.0"
+                           pickOnBounds="true" preserveRatio="true"
+                           BorderPane.alignment="CENTER"/>
+                <TableView fx:id="reservationTable" maxHeight="500.0"
+                           maxWidth="1175.0"
+                           BorderPane.alignment="CENTER">
+                    <columns>
+                        <TableColumn fx:id="customerColumn" prefWidth="75.0"/>
+                        <TableColumn fx:id="bookingDateColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="bookingTimeColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="numOfGuestsColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="bookingLengthColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="tablePreferenceColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="bookingStatusColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="actionButtonColumn">
+                            <columns>
+                                <TableColumn fx:id="actionButtonColumn1"
+                                             prefWidth="35.0"/>
+                                <TableColumn fx:id="actionButtonColumn2"
+                                             prefWidth="35.0"/>
+                            </columns>
+                        </TableColumn>
+                    </columns>
+                </TableView>
+            </center>
+        </BorderPane>
     </children>
 </VBox>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<?import javafx.scene.control.TextField?>
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity"
+      maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:id="vbox"
+      fx:controller="org.group.project.controllers.customer.CustomerEditBookingController"
+>
+    <children>
+        <Label fx:id="headerLabel" styleClass="headerLabel"
+               text="Table Reservation"/>
+        <Label fx:id="reservationDateLabel" styleClass="reservationDateLabel"
+               text="Reservation Date"/>
+        <DatePicker fx:id="reservationDatePicker"
+                    styleClass="reservationDatePicker"/>
+        <Label fx:id="reservationTimeLabel" styleClass="reservationTimeLabel"
+               text="Reservation Time"/>
+        <ChoiceBox fx:id="reservationTimeChoiceBox" prefWidth="150.0"
+                   styleClass="reservationTimeChoiceBox"/>
+        <Label fx:id="numOfGuestsLabel" styleClass="numOfGuestsLabel"
+               text="Max no. of guests"/>
+        <ChoiceBox fx:id="numOfGuestsChoiceBox" prefWidth="150.0"
+                   styleClass="numOfGuestsChoiceBox"/>
+        <Label fx:id="lenOfReservationTimeLabel"
+               styleClass="lenOfReservationTimeLabel"
+               text="Length of Reservation Time"/>
+        <ChoiceBox fx:id="lenOfReservationTimeChoiceBox" prefWidth="150.0"
+                   styleClass="lenOfReservationTimeChoiceBox"/>
+        <HBox alignment="CENTER" prefHeight="65.0" prefWidth="600.0">
+            <children>
+                <Button fx:id="saveChangesButton" mnemonicParsing="false"
+                        styleClass="saveChangesButton" text="Save Changes"/>
+                <Button fx:id="closeButton" mnemonicParsing="false"
+                        styleClass="closeButton" text="Close"/>
+            </children>
+        </HBox>
+    </children>
+</VBox>
