@@ -31,6 +31,11 @@
                text="Max no. of guests"/>
         <ChoiceBox fx:id="numOfGuestsChoiceBox" prefWidth="150.0"
                    styleClass="numOfGuestsChoiceBox"/>
+        <Label fx:id="tablePreferenceLabel"
+               styleClass="tablePreferenceLabel"
+               text="Table Preference"/>
+        <ChoiceBox fx:id="tablePreferenceChoiceBox" prefWidth="150.0"
+                   styleClass="tablePreferenceChoiceBox"/>
         <Label fx:id="lenOfReservationTimeLabel"
                styleClass="lenOfReservationTimeLabel"
                text="Length of Reservation Time"/>
