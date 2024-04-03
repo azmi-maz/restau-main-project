@@ -61,11 +61,17 @@ public class CustomerBookingsHistoryViewController {
     @FXML
     private TableColumn<Booking, Button> actionButtonColumn2;
 
+    @FXML
+    private Button newReservationButton;
+
+    private String userId;
+
     private List<String> tableReservations;
 
     @FXML
     private TableView<Booking> reservationTable = new TableView<>();
-    private ObservableList<Booking> data = FXCollections.observableArrayList();
+    private ObservableList<Booking> data =
+            FXCollections.observableArrayList();
 
     @FXML
     private BorderPane borderPane;
@@ -88,8 +94,10 @@ public class CustomerBookingsHistoryViewController {
                 BackgroundPosition.CENTER,
                 bSize)));
 
-        refreshReservationList();
+        // TODO get userId from the main.
+        userId = "1";
 
+        refreshReservationList();
 
         customerColumn.setText("Customer");
         customerColumn.setMinWidth(150);
@@ -136,7 +144,6 @@ public class CustomerBookingsHistoryViewController {
             return new SimpleObjectProperty<>(table);
         });
 
-
         bookingStatusColumn.setText("Status");
         bookingStatusColumn.setMinWidth(200);
         bookingStatusColumn.setStyle("-fx-alignment: CENTER;");
@@ -155,6 +162,8 @@ public class CustomerBookingsHistoryViewController {
             LocalDate reservationDate = cellData.getValue().getBookingDate();
             LocalTime reservationTime = cellData.getValue().getBookingTime();
             int numOfGuests = cellData.getValue().getNumOfGuests();
+            String tablePreference =
+                    cellData.getValue().getTableNames().toString();
             int bookingLength = cellData.getValue().getBookingLengthInHour();
 
             editButton.setOnMousePressed(e -> {
@@ -171,7 +180,8 @@ public class CustomerBookingsHistoryViewController {
                             fxmlLoader.getController();
 
                     controller.setBookingToView(bookingId, reservationDate,
-                            reservationTime, numOfGuests, bookingLength);
+                            reservationTime, numOfGuests,
+                            tablePreference, bookingLength);
 
                     Scene editScene = new Scene(vbox,
                             WindowSize.SMALL.WIDTH,
@@ -228,10 +238,50 @@ public class CustomerBookingsHistoryViewController {
 
         reservationTable.setItems(data);
 
+        ImageLoader.setUpGraphicButton(newReservationButton, 25, 25, "edit");
+
+        newReservationButton.setOnAction(e -> {
+
+            // TODO open new form
+            try {
+                FXMLLoader fxmlLoader =
+                        new FXMLLoader(Main.class.getResource(
+                                "smallwindows/customer-add-booking" +
+                                        ".fxml"));
+
+                VBox vbox = fxmlLoader.load();
+
+                CustomerAddBookingController controller =
+                        fxmlLoader.getController();
+
+                controller.prepareNewBooking(userId);
+
+                Scene editScene = new Scene(vbox,
+                        WindowSize.SMALL.WIDTH,
+                        WindowSize.SMALL.HEIGHT);
+
+                Stage editStage = new Stage();
+                editStage.setScene(editScene);
+                // TODO Should final variable this
+                editStage.setTitle("New Reservation Request");
+
+                editStage.initModality(Modality.APPLICATION_MODAL);
+
+                editStage.showAndWait();
+
+                refreshReservationList();
+
+            } catch (IOException ex) {
+                // TODO catch error
+                throw new RuntimeException(ex);
+            }
+        });
+
     }
 
-    // TODO comment
-    private void refreshReservationList() throws FileNotFoundException {
+    // TODO comment, public because CustomerAddBookingController needs to use
+    //  this
+    public void refreshReservationList() throws FileNotFoundException {
 
         // TODO comment that this clears up the list everytime it refresh
         reservationTable.getItems().clear();

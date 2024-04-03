@@ -27,6 +27,9 @@ public class CustomerEditBookingController {
     private ChoiceBox numOfGuestsChoiceBox;
 
     @FXML
+    private ChoiceBox tablePreferenceChoiceBox;
+
+    @FXML
     private ChoiceBox lenOfReservationTimeChoiceBox;
 
     @FXML
@@ -39,19 +42,56 @@ public class CustomerEditBookingController {
 
     public void initialize() {
 
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(6, 30));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(7, 00));
+        // TODO enum this?
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(10, 00));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(10, 30));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(11, 00));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(11, 30));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(12, 00));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(12, 30));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(13, 00));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(13, 30));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(14, 00));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(14, 30));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(15, 00));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(15, 30));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(16, 00));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(16, 30));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(17, 00));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(17, 30));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(18, 00));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(18, 30));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(19, 00));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(19, 30));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(20, 00));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(20, 30));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(21, 00));
 
-        // TODO check if these values are correct
+        // TODO
         numOfGuestsChoiceBox.getItems().add("2");
         numOfGuestsChoiceBox.getItems().add("4");
         numOfGuestsChoiceBox.getItems().add("8");
         numOfGuestsChoiceBox.getItems().add("10");
 
+
         lenOfReservationTimeChoiceBox.getItems().add("1");
         lenOfReservationTimeChoiceBox.getItems().add("2");
         lenOfReservationTimeChoiceBox.getItems().add("3");
         lenOfReservationTimeChoiceBox.getItems().add("4");
+        lenOfReservationTimeChoiceBox.getItems().add("5");
+
+        // TODO enum or get from database
+        tablePreferenceChoiceBox.getItems().add("Table A");
+        tablePreferenceChoiceBox.getItems().add("Table B");
+        tablePreferenceChoiceBox.getItems().add("Table C");
+        tablePreferenceChoiceBox.getItems().add("Table D");
+        tablePreferenceChoiceBox.getItems().add("Table E");
+        tablePreferenceChoiceBox.getItems().add("Table F");
+        tablePreferenceChoiceBox.getItems().add("Table G");
+        tablePreferenceChoiceBox.getItems().add("Table H");
+        tablePreferenceChoiceBox.getItems().add("Table I");
+        tablePreferenceChoiceBox.getItems().add("Table J");
+        tablePreferenceChoiceBox.getItems().add("Table K");
 
         saveChangesButton.setOnAction(e -> {
             // TODO set new value
@@ -64,6 +104,8 @@ public class CustomerEditBookingController {
                     + Integer.parseInt(timeArray[1]);
 
             String numOfGuests = numOfGuestsChoiceBox.getValue().toString();
+            String tablePreference =
+                    tablePreferenceChoiceBox.getValue().toString();
             String bookingLength =
                     lenOfReservationTimeChoiceBox.getValue().toString();
 
@@ -75,6 +117,8 @@ public class CustomerEditBookingController {
                         "bookingTime", bookingTime);
                 DataManager.editColumnDataByUniqueId("BOOKINGS", bookingId,
                         "numOfGuests", numOfGuests);
+                DataManager.editColumnDataByUniqueId("BOOKINGS", bookingId,
+                        "tablePreference", tablePreference);
                 DataManager.editColumnDataByUniqueId("BOOKINGS", bookingId,
                         "bookingLength", bookingLength);
             } catch (IOException ex) {
@@ -95,6 +139,7 @@ public class CustomerEditBookingController {
                                  LocalDate reservationDate,
                                  LocalTime reservationTime,
                                  int numOfGuests,
+                                 String tablePreference,
                                  int bookingLength) {
         this.bookingId = bookingId;
         // TODO cant seem to apply DateTimeFormatter.ofPattern("dd/MM/yyyy")
@@ -102,6 +147,7 @@ public class CustomerEditBookingController {
         reservationTimeChoiceBox.setValue(reservationTime);
         numOfGuestsChoiceBox.setValue(String.valueOf(numOfGuests));
         lenOfReservationTimeChoiceBox.setValue(bookingLength);
+        tablePreferenceChoiceBox.setValue(tablePreference);
     }
 
     private void closeWindow() {
