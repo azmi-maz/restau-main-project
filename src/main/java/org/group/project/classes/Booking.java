@@ -12,6 +12,7 @@ import java.util.List;
  * @author azmi_maz
  */
 public class Booking {
+    private final int bookingId;
     private final Customer customer;
     private final LocalDate bookingDate;
     private final LocalTime bookingTime;
@@ -30,9 +31,10 @@ public class Booking {
      * @param numOfGuests  - number of guests for the table reservation.
      * @param tableRequest - list of one table or more for the guests.
      */
-    public Booking(Customer customer, LocalDate bookingDate,
+    public Booking(int bookingId, Customer customer, LocalDate bookingDate,
                    LocalTime bookingTime, int numOfGuests,
                    List<Table> tableRequest) {
+        this.bookingId = bookingId;
         this.customer = customer;
         this.bookingDate = bookingDate;
         this.bookingTime = bookingTime;
@@ -51,9 +53,10 @@ public class Booking {
      * @param tableRequest  - list of one table or more for the guests.
      * @param bookingLength - the booking length requested by customer.
      */
-    public Booking(Customer customer, LocalDate bookingDate,
+    public Booking(int bookingId, Customer customer, LocalDate bookingDate,
                    LocalTime bookingTime, int numOfGuests,
                    List<Table> tableRequest, int bookingLength) {
+        this.bookingId = bookingId;
         this.customer = customer;
         this.bookingDate = bookingDate;
         this.bookingTime = bookingTime;
@@ -73,9 +76,10 @@ public class Booking {
      * @param tableRequest  - list of one table or more for the guests.
      * @param bookingLength - the booking length requested by customer.
      */
-    public Booking(Customer customer, LocalDate bookingDate,
+    public Booking(int bookingId, Customer customer, LocalDate bookingDate,
                    LocalTime bookingTime, int numOfGuests,
                    List<Table> tableRequest, int bookingLength, String status) {
+        this.bookingId = bookingId;
         this.customer = customer;
         this.bookingDate = bookingDate;
         this.bookingTime = bookingTime;
@@ -83,6 +87,11 @@ public class Booking {
         this.tablePreference.addAll(tableRequest);
         this.bookingLengthInHour = bookingLength;
         this.bookingStatus = status;
+    }
+
+    // TODO comment
+    public int getBookingId() {
+        return bookingId;
     }
 
     /**
