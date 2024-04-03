@@ -18,8 +18,6 @@ public class OrderDetailsController implements ControllerView {
     private Scene scene;
 
     public static OrderDetailsPresenter presenter;
-
-//    public static Order newOrder = new Order();
     public static List<Order> newOrder = new ArrayList<>();
 
     private List<FoodDrink> orderList;

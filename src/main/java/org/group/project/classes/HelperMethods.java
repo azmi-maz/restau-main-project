@@ -54,6 +54,23 @@ public class HelperMethods {
         return lastCustomerId;
     }
 
+    // TODO note this only works if unique id is Integer type
+    public static int getNewIdByFile(
+            String fileType) throws FileNotFoundException {
+        List<String> listOfData = DataManager.allDataFromFile(fileType);
+        int lastId = -1;
+        for (String data : listOfData) {
+            String[] dataDetails = data.split(",");
+            int uniqueIdIndex = DataFileStructure.getIndexColOfUniqueId(fileType);
+            lastId = Integer.parseInt(dataDetails[uniqueIdIndex]);
+        }
+        if (lastId > -1) {
+            lastId++;
+            return lastId;
+        }
+        return lastId;
+    }
+
     /**
      * This method gets a row of data that matches an id from a specified
      * database.

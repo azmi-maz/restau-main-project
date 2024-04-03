@@ -18,11 +18,6 @@ public class Order {
     private String orderStatus;
     private List<FoodDrink> orderedFoodDrinkLists;
 
-    // TODO is this needed?
-    public Order() {
-
-    }
-
     /**
      * The constructor to initiate an order with empty basket.
      *
@@ -103,6 +98,15 @@ public class Order {
      */
     public List<FoodDrink> getOrderedFoodDrinkLists() {
         return orderedFoodDrinkLists;
+    }
+
+    // TODO comment
+    public List<String> getListOfItemNamesInOrderList() {
+        List<String> tempList = new ArrayList<>();
+        for (FoodDrink item : orderedFoodDrinkLists) {
+            tempList.add(item.getItemName().trim());
+        }
+        return tempList;
     }
 
     /**
