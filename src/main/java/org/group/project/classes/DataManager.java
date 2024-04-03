@@ -125,6 +125,30 @@ public abstract class DataManager {
         return formattedLine;
     }
 
+    public static <T> String formatLongArrayToOneColumnString(T line) {
+        String formattedLine = "";
+        if (line instanceof List) {
+            List<T> lineArray = (List<T>) line;
+            for (int i = 0; i < lineArray.size(); i++) {
+                if (i == lineArray.size() - 1) {
+                    formattedLine += lineArray.get(i);
+                } else {
+                    formattedLine = formattedLine + lineArray.get(i) + ";";
+                }
+            }
+        } else if (line instanceof String[]) {
+            String[] lineArray = (String[]) line;
+            for (int i = 0; i < lineArray.length; i++) {
+                if (i == lineArray.length - 1) {
+                    formattedLine += lineArray[i];
+                } else {
+                    formattedLine = formattedLine + lineArray[i] + ";";
+                }
+            }
+        }
+        return formattedLine;
+    }
+
 
     /**
      * This method deletes a data in a file based on unique id.
