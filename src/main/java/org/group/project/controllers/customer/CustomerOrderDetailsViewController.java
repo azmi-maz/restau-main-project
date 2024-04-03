@@ -4,26 +4,28 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.group.project.Main;
-import org.group.project.classes.Customer;
-import org.group.project.classes.FoodDrink;
-import org.group.project.classes.Order;
+import org.group.project.classes.*;
+import org.group.project.scenes.WindowSize;
 import org.group.project.scenes.customer.stackViews.MenuController;
 import org.group.project.scenes.customer.stackViews.OrderDetailsController;
 import org.group.project.test.generators.CustomerGenerator;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 public class CustomerOrderDetailsViewController {
 
@@ -80,6 +82,13 @@ public class CustomerOrderDetailsViewController {
         this.newOrder = newOrder;
     }
 
+    private void refreshOrderList() {
+        orderDetailsTable.getItems().clear();
+        data.clear();
+        data.addAll(orderList);
+        orderDetailsTable.setItems(data);
+    }
+
     public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
@@ -99,8 +108,6 @@ public class CustomerOrderDetailsViewController {
         choiceBox.getItems().add("Takeaway Order");
 
         choiceBox.setValue("Delivery Order");
-
-        data.addAll(orderList);
 
         noColumn.setText("No.");
         noColumn.setMinWidth(40);
@@ -133,8 +140,76 @@ public class CustomerOrderDetailsViewController {
                 new PropertyValueFactory<>("quantity"));
 
         actionButtonColumn.setText("Action");
+        actionButtonColumn1.setStyle("-fx-padding: 0; -fx-margin: 0; " +
+                "-fx-background-color: transparent; -fx-text-fill: transparent;");
 
-        orderDetailsTable.setItems(data);
+
+        actionButtonColumn1.setMinWidth(35);
+        actionButtonColumn1.setStyle("-fx-alignment: CENTER;");
+        actionButtonColumn1.setCellValueFactory(cellData -> {
+            Button editButton = new Button();
+
+            ImageLoader.setUpGraphicButton(editButton, 15, 15, "edit");
+            String imageFile = cellData.getValue().getImageFileName();
+            String labelName = cellData.getValue().getItemNameForDisplay();
+
+            editButton.setOnMousePressed(e -> {
+                try {
+                    FXMLLoader fxmlLoader =
+                            new FXMLLoader(Main.class.getResource(
+                                    "smallwindows/edit-order-item" +
+                                            ".fxml"));
+
+                    BorderPane borderPane = fxmlLoader.load();
+
+                    CustomerMenuOrderEditItemController controller =
+                            fxmlLoader.getController();
+
+                    controller.setItemToEdit("images/menu/" + imageFile,
+                            labelName, orderList);
+                    Scene editScene = new Scene(borderPane,
+                            WindowSize.MEDIUM.WIDTH,
+                            WindowSize.MEDIUM.HEIGHT);
+
+                    Stage editStage = new Stage();
+                    editStage.setScene(editScene);
+                    // TODO Should final variable this
+                    editStage.setTitle("Edit Order Item");
+
+                    editStage.initModality(Modality.APPLICATION_MODAL);
+
+                    editStage.showAndWait();
+
+                    refreshOrderList();
+
+                } catch (IOException ex) {
+                    // TODO catch error
+                    throw new RuntimeException(ex);
+                } catch (URISyntaxException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+            });
+
+            return new SimpleObjectProperty<>(editButton);
+        });
+
+        actionButtonColumn2.setText("");
+        actionButtonColumn2.setMinWidth(35);
+        actionButtonColumn2.setStyle("-fx-alignment: CENTER;");
+        actionButtonColumn2.setCellValueFactory(cellData -> {
+            Button deleteButton = new Button();
+
+            ImageLoader.setUpGraphicButton(deleteButton, 15, 15, "delete");
+            FoodDrink item = cellData.getValue();
+
+            deleteButton.setOnMousePressed(e -> {
+                orderList.remove(item);
+                refreshOrderList();
+            });
+
+            return new SimpleObjectProperty<>(deleteButton);
+        });
 
         confirmButton.setOnMousePressed(e -> {
             newOrder.clear();
@@ -144,10 +219,37 @@ public class CustomerOrderDetailsViewController {
 
         // TODO cancel button returns to menu with orderlist erased?
         cancelButton.setOnMousePressed(e -> {
-            OrderDetailsController.presenter.returnToMenu();
-            MenuController.orderList.clear();
+
+            Optional<ButtonType> userChoice = promptForUserAcknowledgement();
+
+            if (userChoice.get()
+                    .getButtonData().toString()
+                    .equalsIgnoreCase("OK_DONE")) {
+                cancelConfirmationAndGoBackToMenu();
+            }
         });
 
+        refreshOrderList();
+
+        // TODO to delete this if not in use
+//        addTableViewStyle();
+
+    }
+
+    // TODO this works but has warning errors
+    private void addTableViewStyle() {
+//        orderDetailsTable.skinProperty().addListener((a, b, newSkin) ->
+//        {
+//            TableView table = (TableView) orderDetailsTable.lookup(
+//                    "TableView");
+//
+//            System.out.println(table);
+//            System.out.println(table.getStylesheets().add(String.valueOf(Main.class.getResource("css/table-view" +
+//                ".css"))));
+//
+//
+//
+//        });
     }
 
     public Order createNewOrder() {
@@ -186,5 +288,17 @@ public class CustomerOrderDetailsViewController {
         }
 
         return orderDetails;
+    }
+
+    public Optional<ButtonType> promptForUserAcknowledgement() {
+        return AlertPopUpWindow.displayConfirmationWindow(
+                "Cancel Order Request",
+                "Do you want to cancel this order?"
+        );
+    }
+
+    public void cancelConfirmationAndGoBackToMenu() {
+        OrderDetailsController.presenter.returnToMenu();
+        MenuController.orderList.clear();
     }
 }

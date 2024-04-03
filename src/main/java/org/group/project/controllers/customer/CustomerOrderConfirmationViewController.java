@@ -10,17 +10,19 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import org.group.project.Main;
-import org.group.project.classes.AlertPopUpWindow;
-import org.group.project.classes.FoodDrink;
-import org.group.project.classes.Order;
+import org.group.project.classes.*;
 import org.group.project.scenes.customer.stackViews.MenuController;
 import org.group.project.scenes.customer.stackViews.OrderConfirmationController;
 import org.group.project.scenes.customer.stackViews.OrderDetailsController;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -167,15 +169,15 @@ public class CustomerOrderConfirmationViewController {
 
         // TODO write to database
         cardButton.setOnAction(e -> {
-//            addOrderToDatabase();
-//            cancelConfirmationAndGoBackToMenu();
+            addOrderToDatabase();
+            cancelConfirmationAndGoBackToMenu();
             promptOrderSuccessful();
         });
 
         // TODO fix order, check if it works
         cashButton.setOnAction(e -> {
-//            addOrderToDatabase();
-//            cancelConfirmationAndGoBackToMenu();
+            addOrderToDatabase();
+            cancelConfirmationAndGoBackToMenu();
             promptOrderSuccessful();
 
         });
@@ -198,12 +200,52 @@ public class CustomerOrderConfirmationViewController {
     // TODO add order to database
     public void addOrderToDatabase() {
 
+        // TODO handle try catch properly
+        try {
+            String orderId = String.valueOf(HelperMethods.getNewIdByFile("ORDERS"));
+            String userId = String.valueOf(orderDetails.getCustomer().getCustomerId());
+            String orderDate = orderDetails.getOrderDate().getYear() + "-"
+                    + orderDetails.getOrderDate().getMonthValue() + "-"
+                    + orderDetails.getOrderDate().getDayOfMonth();
+            String orderTime =
+                    orderDetails.getOrderTime().getHour() + "-"
+                            + orderDetails.getOrderTime().getMinute();
+            String orderType = orderDetails.getOrderType();
+            String orderStatus = orderDetails.getOrderStatus();
+            String estimatedPickupTime = "";
+            String assignedDriver = "";
+            String deliveryTime = "";
+            String orderLists = DataManager.formatLongArrayToOneColumnString(
+                    orderDetails.getListOfItemNamesInOrderList());
+
+            List<String> newOrderForDatabase = new ArrayList<>(Arrays.asList(
+                    orderId,
+                    userId,
+                    orderDate,
+                    orderTime,
+                    orderType,
+                    orderStatus,
+                    estimatedPickupTime,
+                    assignedDriver,
+                    deliveryTime,
+                    orderLists
+            ));
+
+            DataManager.appendDataToFile("ORDERS", newOrderForDatabase);
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+
+            // TODO appendDataToFile catch
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void promptOrderSuccessful() {
         AlertPopUpWindow.displayInformationWindow(
                 "Order Request Successful",
-                "Thank you for your order!",
+                "Thank you! Your request is being processed now.",
                 "Ok"
         );
     }

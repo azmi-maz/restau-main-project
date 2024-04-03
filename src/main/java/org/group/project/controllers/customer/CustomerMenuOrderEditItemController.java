@@ -4,14 +4,20 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import org.group.project.Main;
 import org.group.project.classes.FoodDrink;
 
 import java.net.URISyntaxException;
 import java.util.List;
 
 public class CustomerMenuOrderEditItemController {
+
+    @FXML
+    private ImageView menuImage;
 
     @FXML
     private Label itemNameLabel;
@@ -27,7 +33,7 @@ public class CustomerMenuOrderEditItemController {
     private String itemName;
 
     @FXML
-    private Button addItemButton;
+    private Button saveChangesButton;
 
     @FXML
     private Button cancelButton;
@@ -37,8 +43,8 @@ public class CustomerMenuOrderEditItemController {
 
     public void initialize() {
 
-        addItemButton.setOnMousePressed(e -> {
-            addNewItem(itemNameLabel.getText());
+        saveChangesButton.setOnMousePressed(e -> {
+            editItem(itemNameLabel.getText());
         });
 
         cancelButton.setOnMousePressed(e -> {
@@ -49,36 +55,31 @@ public class CustomerMenuOrderEditItemController {
 
     public void setItemToEdit(String imageUrl, String itemName,
                               List<FoodDrink> mainList) throws URISyntaxException {
-
+        menuImage.setImage(new Image(Main.class.getResource(imageUrl).toURI().toString()));
+        itemNameLabel.setText(itemName);
+        this.mainList = mainList;
     }
 
-    public void addNewItem(String itemName) {
+    public void editItem(String itemName) {
 
         String menuItemName = itemName.toLowerCase();
-        // TODO need to retrieve type from database
-        String itemType = "food";
-        int itemQuantity = Integer.parseInt(quantityTextField.getText());
 
         // TODO handle not integer value and negative integer
+        int itemQuantity = Integer.parseInt(quantityTextField.getText());
 
-        boolean isNewItem = true;
+        FoodDrink tempItem = null;
+
         for (FoodDrink foodItem : mainList) {
             if (foodItem.getItemName().equalsIgnoreCase(menuItemName)) {
-                isNewItem = false;
-                for (int i = 0; i < itemQuantity; i++) {
-                    foodItem.incrementQuantity();
+                if (itemQuantity >= 1) {
+                    foodItem.setQuantity(itemQuantity);
+                } else if (itemQuantity == 0) {
+                    tempItem = foodItem;
                 }
             }
         }
-
-        if (isNewItem) {
-            FoodDrink newItem = new FoodDrink(menuItemName, itemType, 1);
-            if (itemQuantity > 1) {
-                for (int i = 1; i < itemQuantity; i++) {
-                    newItem.incrementQuantity();
-                }
-            }
-            mainList.add(newItem);
+        if (tempItem != null) {
+            mainList.remove(tempItem);
         }
 
         closeWindow();

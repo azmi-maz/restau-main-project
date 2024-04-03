@@ -2,6 +2,7 @@ package org.group.project.controllers.customer;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import org.group.project.classes.AlertPopUpWindow;
 import org.group.project.classes.ImageLoader;
 import org.group.project.scenes.CustomerMapsMain;
 import org.group.project.scenes.CustomerScenesMap;
@@ -26,10 +27,21 @@ public class CustomerMenuOrderNavbarController {
         ImageLoader.setUpGraphicButton(cartButton, 25, 25, "cart");
 
         cartButton.setOnMousePressed(e -> {
-            MenuController.presenter.goToCart();
-//            CustomerScenesMap.getCustomerStage().setScene(CustomerScenesMap.getScenes().get(CustomerMapsMain.HOME));
+            if (MenuController.orderList.isEmpty()) {
+                promptOrderlistEmpty();
+            } else {
+                MenuController.presenter.goToCart();
+            }
         });
 
+    }
+
+    public void promptOrderlistEmpty() {
+        AlertPopUpWindow.displayInformationWindow(
+                "Order Request",
+                "Your cart is empty. Please select at least one item.",
+                "Ok"
+        );
     }
 
 
