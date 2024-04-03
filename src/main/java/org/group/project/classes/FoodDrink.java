@@ -48,12 +48,26 @@ public class FoodDrink {
     }
 
     /**
+     * Setter method to set the quantity to a new one.
+     * @param newQuantity - the quantity of the item.
+     */
+    public void setQuantity(int newQuantity) {
+        quantity = newQuantity;
+    }
+
+    /**
      * Getter method to get the item name.
      *
      * @return the name of the item.
      */
     public String getItemName() {
         return itemName;
+    }
+
+    // TODO to check if this is needed vs ImageUrl attribute
+    public String getImageFileName() {
+        return itemName.trim().replaceAll(" ", "-")
+                .toLowerCase() + ".png";
     }
 
     /**
