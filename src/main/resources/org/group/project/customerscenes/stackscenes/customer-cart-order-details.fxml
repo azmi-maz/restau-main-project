@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.skin.TableHeaderRow?>
 <VBox maxHeight="-Infinity"
       maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21"
@@ -35,7 +36,8 @@
                            BorderPane.alignment="CENTER"/>
                 <TableView fx:id="orderDetailsTable" maxHeight="400.0"
                            maxWidth="445.0"
-                           BorderPane.alignment="CENTER">
+                           BorderPane.alignment="CENTER"
+                >
                     <columns>
                         <TableColumn fx:id="noColumn"
                                      prefWidth="75.0"/>
@@ -48,7 +50,8 @@
                         <TableColumn fx:id="actionButtonColumn">
                             <columns>
                                 <TableColumn fx:id="actionButtonColumn1"
-                                             prefWidth="35.0"/>
+                                             prefWidth="35.0"
+                                />
                                 <TableColumn fx:id="actionButtonColumn2"
                                              prefWidth="35.0"/>
                             </columns>

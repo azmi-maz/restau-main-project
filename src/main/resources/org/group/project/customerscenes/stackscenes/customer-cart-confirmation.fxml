@@ -34,7 +34,8 @@
                 <VBox alignment="CENTER">
                     <TableView fx:id="orderDetailsTable" maxHeight="300.0"
                                maxWidth="445.0"
-                               BorderPane.alignment="CENTER">
+                               BorderPane.alignment="CENTER"
+                    >
                         <columns>
                             <TableColumn fx:id="noColumn"
                                          prefWidth="75.0"/>
