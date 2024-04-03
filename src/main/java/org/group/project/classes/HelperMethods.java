@@ -67,6 +67,10 @@ public class HelperMethods {
         if (lastId > -1) {
             lastId++;
             return lastId;
+        } else {
+            // TODO have not tested if there are no lines at all, should
+            //  return 1?
+            lastId = 1;
         }
         return lastId;
     }

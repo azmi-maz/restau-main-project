@@ -38,6 +38,7 @@ public class Main extends Application {
 
         // Start with user log in
         stage.setScene(scenes.get(MainScenes.LOGIN));
+        // TODO final variable constant this
         stage.setTitle("Cafe94 Restaurant");
         stage.show();
 

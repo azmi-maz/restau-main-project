@@ -82,13 +82,6 @@ public class CustomerOrderDetailsViewController {
         this.newOrder = newOrder;
     }
 
-    private void refreshOrderList() {
-        orderDetailsTable.getItems().clear();
-        data.clear();
-        data.addAll(orderList);
-        orderDetailsTable.setItems(data);
-    }
-
     public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
@@ -217,7 +210,7 @@ public class CustomerOrderDetailsViewController {
             OrderDetailsController.presenter.goToOrderConfirmation();
         });
 
-        // TODO cancel button returns to menu with orderlist erased?
+        // TODO cancel button returns to menu with orderlist erased
         cancelButton.setOnMousePressed(e -> {
 
             Optional<ButtonType> userChoice = promptForUserAcknowledgement();
@@ -234,6 +227,14 @@ public class CustomerOrderDetailsViewController {
         // TODO to delete this if not in use
 //        addTableViewStyle();
 
+    }
+
+    // TODO comment
+    private void refreshOrderList() {
+        orderDetailsTable.getItems().clear();
+        data.clear();
+        data.addAll(orderList);
+        orderDetailsTable.setItems(data);
     }
 
     // TODO this works but has warning errors

@@ -4,22 +4,30 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.group.project.Main;
 import org.group.project.classes.*;
+import org.group.project.scenes.WindowSize;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CustomerBookingsHistoryViewController {
 
@@ -80,57 +88,8 @@ public class CustomerBookingsHistoryViewController {
                 BackgroundPosition.CENTER,
                 bSize)));
 
-        tableReservations = DataManager.allDataFromFile("BOOKINGS");
+        refreshReservationList();
 
-        for (String booking : tableReservations) {
-            List<String> bookingDetails = List.of(booking.split(","));
-            List<String> bookingDateDetails =
-                    List.of(bookingDetails.get(2).split("-"));
-            List<String> bookingTimeDetails =
-                    List.of(bookingDetails.get(3).split("-"));
-//            System.out.println(bookingDetails);
-            Customer customer;
-            LocalDate bookingDate =
-                    LocalDate.of(Integer.parseInt(bookingDateDetails.get(0)),
-                            Integer.parseInt(bookingDateDetails.get(1)),
-                            Integer.parseInt(bookingDateDetails.get(2)));
-            LocalTime bookingTime =
-                    LocalTime.of(Integer.parseInt(bookingTimeDetails.get(0)),
-                            Integer.parseInt(bookingTimeDetails.get(1)));
-            int numOfGuests = Integer.parseInt(bookingDetails.get(4));
-            int bookingLength = Integer.parseInt(bookingDetails.get(5));
-            String[] bookingTables = bookingDetails.get(6).split(";");
-            String bookingStatus = bookingDetails.get(7);
-            List<Table> tablePreference = new ArrayList<>();
-            List<String> customerString = HelperMethods.getDataById("USERS",
-                    bookingDetails.get(DataFileStructure.getIndexByColName(
-                            "BOOKINGS", "userId")));
-            for (String rawTable : bookingTables) {
-                List<String> rawTableDetails = HelperMethods.getDataById(
-                        "TABLES", rawTable);
-                tablePreference.add(new Table(rawTableDetails.get(0),
-                        Integer.parseInt(rawTableDetails.get(1))));
-            }
-            if (customerString != null) {
-                customer = new Customer(
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "firstName")),
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "lastName")),
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "username")),
-                        Integer.parseInt(customerString.get(DataFileStructure.getIndexByColName("USERS", "userId"))),
-                        HelperMethods.formatAddressToRead(customerString.get(DataFileStructure.getIndexByColName("USERS", "address")))
-                );
-                data.add(new Booking(
-                        customer,
-                        bookingDate,
-                        bookingTime,
-                        numOfGuests,
-                        tablePreference,
-                        bookingLength,
-                        bookingStatus
-                ));
-            }
-
-        }
 
         customerColumn.setText("Customer");
         customerColumn.setMinWidth(150);
@@ -191,9 +150,48 @@ public class CustomerBookingsHistoryViewController {
         actionButtonColumn1.setCellValueFactory(cellData -> {
             Button editButton = new Button();
             ImageLoader.setUpGraphicButton(editButton, 15, 15, "view-details");
-            // TODO create a method to handle view details by booking
+            int bookingId =
+                    cellData.getValue().getBookingId();
+            LocalDate reservationDate = cellData.getValue().getBookingDate();
+            LocalTime reservationTime = cellData.getValue().getBookingTime();
+            int numOfGuests = cellData.getValue().getNumOfGuests();
+            int bookingLength = cellData.getValue().getBookingLengthInHour();
+
             editButton.setOnMousePressed(e -> {
-                System.out.println(cellData.getValue().getCustomer().getFirstName());
+
+                try {
+                    FXMLLoader fxmlLoader =
+                            new FXMLLoader(Main.class.getResource(
+                                    "smallwindows/customer-view-booking" +
+                                            ".fxml"));
+
+                    VBox vbox = fxmlLoader.load();
+
+                    CustomerEditBookingController controller =
+                            fxmlLoader.getController();
+
+                    controller.setBookingToView(bookingId, reservationDate,
+                            reservationTime, numOfGuests, bookingLength);
+
+                    Scene editScene = new Scene(vbox,
+                            WindowSize.SMALL.WIDTH,
+                            WindowSize.SMALL.HEIGHT);
+
+                    Stage editStage = new Stage();
+                    editStage.setScene(editScene);
+                    // TODO Should final variable this
+                    editStage.setTitle("View Table Reservation");
+
+                    editStage.initModality(Modality.APPLICATION_MODAL);
+
+                    editStage.showAndWait();
+
+                    refreshReservationList();
+
+                } catch (IOException ex) {
+                    // TODO catch error
+                    throw new RuntimeException(ex);
+                }
             });
             return new SimpleObjectProperty<>(editButton);
         });
@@ -201,17 +199,116 @@ public class CustomerBookingsHistoryViewController {
         actionButtonColumn2.setMinWidth(65);
         actionButtonColumn2.setStyle("-fx-alignment: CENTER;");
         actionButtonColumn2.setCellValueFactory(cellData -> {
-            Button cancelButton = new Button();
-            ImageLoader.setUpGraphicButton(cancelButton, 15, 15, "cancel");
-            // TODO create a method to handle table reservation cancellation
-            cancelButton.setOnMousePressed(e -> {
-                System.out.println(cellData.getValue().getCustomer().getFirstName());
+            Button deleteButton = new Button();
+            ImageLoader.setUpGraphicButton(deleteButton, 15, 15, "delete");
+            int bookingId =
+                    cellData.getValue().getBookingId();
+
+            // TODO comment - delete the reservation and refresh list
+            deleteButton.setOnMousePressed(e -> {
+                Optional<ButtonType> userChoice =
+                        promptForUserAcknowledgement();
+
+                if (userChoice.get()
+                        .getButtonData().toString()
+                        .equalsIgnoreCase("OK_DONE")) {
+                    deleteBooking(bookingId);
+
+                    // TODO try catch
+                    try {
+                        refreshReservationList();
+                    } catch (FileNotFoundException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+
             });
-            return new SimpleObjectProperty<>(cancelButton);
+            return new SimpleObjectProperty<>(deleteButton);
         });
 
         reservationTable.setItems(data);
 
+    }
+
+    // TODO comment
+    private void refreshReservationList() throws FileNotFoundException {
+
+        // TODO comment that this clears up the list everytime it refresh
+        reservationTable.getItems().clear();
+        data.clear();
+
+        // TODO to filter based on userid
+        tableReservations = DataManager.allDataFromFile("BOOKINGS");
+
+        for (String booking : tableReservations) {
+            List<String> bookingDetails = List.of(booking.split(","));
+            int bookingId = Integer.parseInt(bookingDetails.get(0));
+            List<String> bookingDateDetails =
+                    List.of(bookingDetails.get(2).split("-"));
+            List<String> bookingTimeDetails =
+                    List.of(bookingDetails.get(3).split("-"));
+            Customer customer;
+            LocalDate bookingDate =
+                    LocalDate.of(Integer.parseInt(bookingDateDetails.get(0)),
+                            Integer.parseInt(bookingDateDetails.get(1)),
+                            Integer.parseInt(bookingDateDetails.get(2)));
+            LocalTime bookingTime =
+                    LocalTime.of(Integer.parseInt(bookingTimeDetails.get(0)),
+                            Integer.parseInt(bookingTimeDetails.get(1)));
+            int numOfGuests = Integer.parseInt(bookingDetails.get(4));
+            int bookingLength = Integer.parseInt(bookingDetails.get(5));
+            String[] bookingTables = bookingDetails.get(6).split(";");
+            String bookingStatus = bookingDetails.get(7);
+            List<Table> tablePreference = new ArrayList<>();
+
+            // TODO filter by current userId
+            List<String> customerString = HelperMethods.getDataById("USERS",
+                    bookingDetails.get(DataFileStructure.getIndexByColName(
+                            "BOOKINGS", "userId")));
+            for (String rawTable : bookingTables) {
+                List<String> rawTableDetails = HelperMethods.getDataById(
+                        "TABLES", rawTable);
+                tablePreference.add(new Table(rawTableDetails.get(0),
+                        Integer.parseInt(rawTableDetails.get(1))));
+            }
+            if (customerString != null) {
+                customer = new Customer(
+                        customerString.get(DataFileStructure.getIndexByColName("USERS", "firstName")),
+                        customerString.get(DataFileStructure.getIndexByColName("USERS", "lastName")),
+                        customerString.get(DataFileStructure.getIndexByColName("USERS", "username")),
+                        Integer.parseInt(customerString.get(DataFileStructure.getIndexByColName("USERS", "userId"))),
+                        HelperMethods.formatAddressToRead(customerString.get(DataFileStructure.getIndexByColName("USERS", "address")))
+                );
+                data.add(new Booking(
+                        bookingId,
+                        customer,
+                        bookingDate,
+                        bookingTime,
+                        numOfGuests,
+                        tablePreference,
+                        bookingLength,
+                        bookingStatus
+                ));
+            }
+        }
+
+    }
+
+    public Optional<ButtonType> promptForUserAcknowledgement() {
+        return AlertPopUpWindow.displayConfirmationWindow(
+                "Cancel Table Reservation Request",
+                "Do you want to cancel this reservation?"
+        );
+    }
+
+    public void deleteBooking(int bookingId) {
+        // TODO try catch
+        try {
+            DataManager.deleteUniqueIdFromFile("BOOKINGS",
+                    bookingId);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
 }
