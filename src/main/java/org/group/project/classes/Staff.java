@@ -10,6 +10,9 @@ public class Staff extends User {
     protected int numOfTotalHoursWorked;
     protected boolean hasAdminRight;
 
+    // TODO MAX_STAFF_HOURS = 44, also in ManagerStaffManagementDetailsController
+    // TODO MIN_STAFF_HOURS = 0, also in ManagerStaffManagementDetailsController
+
     /**
      * The constructor to create new staff and provide admin rights for
      * specified staff.
@@ -24,6 +27,16 @@ public class Staff extends User {
         super(firstName, lastName, username);
         this.numOfHoursToWork = 44;
         this.hasAdminRight = hasAdminRight;
+    }
+
+    // TODO comment
+    public Staff(String firstName, String lastName, String username,
+                 boolean hasAdminRight, int numOfHoursToWork, int numOfTotalHoursWorked) {
+        super(firstName, lastName, username);
+        this.numOfHoursToWork = 44;
+        this.hasAdminRight = hasAdminRight;
+        this.numOfHoursToWork = numOfHoursToWork;
+        this.numOfTotalHoursWorked = numOfTotalHoursWorked;
     }
 
     /**
