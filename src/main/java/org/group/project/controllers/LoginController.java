@@ -84,6 +84,8 @@ public class LoginController {
                     break;
             }
 
+            // TODO reset the loginUsername textfield and resultLabel
+
 
         } else {
 

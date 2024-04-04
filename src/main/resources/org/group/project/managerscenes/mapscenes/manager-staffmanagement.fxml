@@ -1,32 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-
-
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <HBox alignment="CENTER" prefHeight="58.0" prefWidth="600.0">
-         <children>
-            <Label id="headerLabel" styleClass="headerLabel" text="Staff Management" />
-             <fx:include
-                     source="../../navbar/manager/manager-management-navbar.fxml"
-                     fx:id="managerManagementNavbar"/>
-         </children>
-      </HBox>
-      <BorderPane prefHeight="340.0" prefWidth="600.0">
-         <center>
-            <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-              <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
-              </columns>
-            </TableView>
-         </center>
-      </BorderPane>
-   </children>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<VBox alignment="TOP_CENTER"
+      maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.group.project.controllers.manager.ManagerStaffManagementViewController"
+>
+    <children>
+        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="600.0">
+            <children>
+                <Label id="headerLabel" styleClass="headerLabel"
+                       text="Staff Management"/>
+                <fx:include
+                        source="../../navbar/manager/manager-management-navbar.fxml"
+                        fx:id="managerManagementNavbar"/>
+            </children>
+        </HBox>
+        <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
+            <center>
+                <ImageView fx:id="bgImage" fitHeight="150.0" fitWidth="200.0"
+                           pickOnBounds="true" preserveRatio="true"
+                           BorderPane.alignment="CENTER"/>
+                <TableView fx:id="staffListTable" maxHeight="550.0"
+                           maxWidth="823.0"
+                           BorderPane.alignment="CENTER">
+                    <columns>
+                        <TableColumn fx:id="firstNameColumn" prefWidth="75.0"/>
+                        <TableColumn fx:id="lastNameColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="hoursLeftColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="totalHoursColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="positionColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="actionButtonColumn">
+                            <columns>
+                                <TableColumn fx:id="actionButtonColumn1"
+                                             prefWidth="35.0"/>
+                                <TableColumn fx:id="actionButtonColumn2"
+                                             prefWidth="35.0"/>
+                            </columns>
+                        </TableColumn>
+                    </columns>
+                </TableView>
+            </center>
+        </BorderPane>
+    </children>
 </VBox>
