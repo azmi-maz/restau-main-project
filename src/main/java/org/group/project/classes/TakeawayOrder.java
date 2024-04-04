@@ -2,6 +2,7 @@ package org.group.project.classes;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 /**
  * This class handles takeaway orders.
@@ -22,6 +23,14 @@ public class TakeawayOrder extends Order {
         // Default 30 mins for now - restaurant policy to prepare within 30
         // mins.
         estimatedPickupTime = orderTime.plusMinutes(30);
+    }
+
+    // TODO comment to get updated data
+    public TakeawayOrder(Customer customer, LocalDate orderDate,
+                         LocalTime orderTime, LocalTime estimatedPickupTime,
+                         String orderStatus, List<FoodDrink> orderedList) {
+        super(customer, orderDate, orderTime, "takeaway", orderStatus, orderedList);
+        this.estimatedPickupTime = estimatedPickupTime;
     }
 
     /**
