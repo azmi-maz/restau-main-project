@@ -55,4 +55,10 @@ public class Driver extends Staff {
     public void setMaxDeliveries(int maxDeliveries) {
         this.maxDeliveries = maxDeliveries;
     }
+
+    // TODO comment
+    @Override
+    public String toString() {
+        return super.getDataForListDisplay();
+    }
 }

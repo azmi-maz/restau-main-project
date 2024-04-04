@@ -54,6 +54,7 @@ public class User {
 
     /**
      * This method converts a string array back to user.
+     *
      * @param rawData - the user data in string array format.
      * @return a user object.
      */
@@ -84,10 +85,15 @@ public class User {
 
     /**
      * Get the user data and format it to fit with list display.
+     *
      * @return A user data.
      */
     public String getDataForListDisplay() {
-        return firstName + " " + lastName;
+        return String.format("%s%s %s%s",
+                firstName.substring(0, 1).toUpperCase(),
+                firstName.substring(1),
+                lastName.substring(0, 1).toUpperCase(),
+                lastName.substring(1));
     }
 
 }

@@ -129,11 +129,7 @@ public class Customer extends User {
      */
     @Override
     public String toString() {
-        return String.format("%s%s %s%s",
-                firstName.substring(0, 1).toUpperCase(),
-                firstName.substring(1),
-                lastName.substring(0, 1).toUpperCase(),
-                lastName.substring(1));
+        return super.getDataForListDisplay();
     }
 
 }
