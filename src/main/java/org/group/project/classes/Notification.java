@@ -2,6 +2,7 @@ package org.group.project.classes;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * This class handles notification data for users.
@@ -38,6 +39,11 @@ public class Notification {
      */
     public LocalDate getNotificationDate() {
         return notificationDate;
+    }
+
+    // TODO comment
+    public String getNotificationDateInFormat() {
+        return notificationDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     /**
