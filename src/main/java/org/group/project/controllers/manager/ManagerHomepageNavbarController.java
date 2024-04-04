@@ -2,7 +2,9 @@ package org.group.project.controllers.manager;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import org.group.project.Main;
 import org.group.project.classes.ImageLoader;
+import org.group.project.scenes.MainScenes;
 import org.group.project.scenes.ManagerMapsMain;
 import org.group.project.scenes.ManagerScenesMap;
 
@@ -22,6 +24,9 @@ public class ManagerHomepageNavbarController {
     @FXML
     private Button userButton;
 
+    @FXML
+    private Button logOffButton;
+
     public void initialize() throws URISyntaxException {
 
         ImageLoader.setUpGraphicButton(managementButton, 25, 25,
@@ -33,6 +38,7 @@ public class ManagerHomepageNavbarController {
 
         ImageLoader.setUpGraphicButton(userButton, 25, 25, "user");
 
+        ImageLoader.setUpGraphicButton(logOffButton, 25, 25, "power");
 
         managementButton.setOnMousePressed(e -> {
             ManagerScenesMap.getManagerStage().setScene(ManagerScenesMap.getScenes().get(ManagerMapsMain.MANAGEMENT));
@@ -48,6 +54,11 @@ public class ManagerHomepageNavbarController {
 
         userButton.setOnMousePressed(e -> {
             // TODO settinf scene?
+        });
+
+        logOffButton.setOnMousePressed(e -> {
+            // TODO remove all active user info here
+            Main.getStage().setScene(Main.getScenes().get(MainScenes.LOGIN));
         });
 
     }
