@@ -7,16 +7,27 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label id="headerLabel" styleClass="headerLabel" text="Notification Details" />
-      <Label id="dateStampLabel" styleClass="dateStampLabel" text="Date Stamp Here" />
-      <Label id="subjectLabel" styleClass="subjectLabel" text="Subject Stamp" />
-      <TextArea id="notificationTextArea" prefHeight="200.0" prefWidth="200.0" styleClass="notificationTextArea" />
-      <HBox alignment="CENTER" prefHeight="49.0" prefWidth="600.0">
-         <children>
-            <Button id="returnButton" mnemonicParsing="false" styleClass="returnButton" text="Return" />
-         </children>
-      </HBox>
-   </children>
+<VBox alignment="TOP_CENTER"
+      maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:id="vbox"
+      fx:controller="org.group.project.controllers.customer.CustomerNotificationDetailsController"
+>
+    <children>
+        <Label fx:id="headerLabel" styleClass="headerLabel"
+               text="Notification Details"/>
+        <Label fx:id="dateStampLabel" styleClass="dateStampLabel"
+               text="Date Stamp Here"/>
+        <Label fx:id="subjectLabel" styleClass="subjectLabel"
+               text="Subject Stamp"/>
+        <TextArea fx:id="notificationTextArea" prefHeight="200.0" prefWidth="200.0"
+                  styleClass="notificationTextArea"/>
+        <HBox alignment="CENTER" prefHeight="49.0" prefWidth="600.0">
+            <children>
+                <Button fx:id="returnButton" mnemonicParsing="false"
+                        styleClass="returnButton" text="Return"/>
+            </children>
+        </HBox>
+    </children>
 </VBox>
