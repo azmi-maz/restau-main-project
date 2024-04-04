@@ -4,6 +4,8 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
@@ -12,8 +14,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.group.project.Main;
 import org.group.project.classes.*;
+import org.group.project.scenes.WindowSize;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -125,7 +130,7 @@ public class ManagerStaffManagementViewController {
             if (userType != "") {
                 String temp = userType;
                 userType = "";
-                userType = temp.substring(0,1).toUpperCase()
+                userType = temp.substring(0, 1).toUpperCase()
                         + temp.substring(1);
             }
 
@@ -139,8 +144,71 @@ public class ManagerStaffManagementViewController {
         actionButtonColumn1.setCellValueFactory(cellData -> {
             Button editButton = new Button();
             ImageLoader.setUpGraphicButton(editButton, 15, 15, "edit");
+            String firstName = cellData.getValue().getFirstNameForDisplay();
+            String lastName = cellData.getValue().getLastNameForDisplay();
+            int hoursLeft = cellData.getValue().getNumOfHoursToWork();
+            int totalHoursWorked = cellData.getValue().getNumOfTotalHoursWorked();
+            String position;
+            String userId;
+
+            // TODO try catch
+            String searchUserType = "";
+            String searchUserId = "";
+            try {
+                List<String> getUserData = HelperMethods.getUserDataByUsername(cellData.getValue().getUsername());
+                searchUserType = getUserData.get(DataFileStructure.getIndexByColName("USERS", "userType"));
+                searchUserId = getUserData.get(DataFileStructure.getIndexColOfUniqueId("USERS"));
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
+            position = searchUserType;
+            userId = searchUserId;
 
 
+            editButton.setOnAction(e -> {
+
+                try {
+                    FXMLLoader fxmlLoader =
+                            new FXMLLoader(Main.class.getResource(
+                                    "smallwindows/manager-edit-user" +
+                                            ".fxml"));
+
+                    VBox vbox = fxmlLoader.load();
+
+                    ManagerStaffManagementDetailsController controller =
+                            fxmlLoader.getController();
+
+                    controller.setStaffDetails(
+                            userId,
+                            firstName,
+                            lastName,
+                            hoursLeft,
+                            totalHoursWorked,
+                            position
+                    );
+
+                    Scene editScene = new Scene(vbox,
+                            WindowSize.SMALL.WIDTH,
+                            WindowSize.SMALL.HEIGHT);
+
+                    Stage editStage = new Stage();
+                    editStage.setScene(editScene);
+                    // TODO Should final variable this
+                    editStage.setTitle("Edit Details");
+
+                    editStage.initModality(Modality.APPLICATION_MODAL);
+
+                    editStage.showAndWait();
+
+                    refreshStaffList();
+
+                } catch (IOException ex) {
+                    // TODO catch error
+                    throw new RuntimeException(ex);
+                }
+
+            });
 
 
             return new SimpleObjectProperty<>(editButton);
@@ -206,6 +274,8 @@ public class ManagerStaffManagementViewController {
             String lastName = userDetails.get(DataFileStructure.getIndexByColName("USERS", "lastName"));
             String username = userDetails.get(DataFileStructure.getIndexByColName("USERS", "username"));
             boolean hasAdminRight = Boolean.parseBoolean(userDetails.get(DataFileStructure.getIndexByColName("USERS", "hasAdminRight")));
+            int numOfHoursToWork = Integer.parseInt(userDetails.get(DataFileStructure.getIndexByColName("USERS", "numOfHoursToWork")));
+            int numOfTotalHoursWorked = Integer.parseInt(userDetails.get(DataFileStructure.getIndexByColName("USERS", "numOfTotalHoursWorked")));
 
 
             // TODO try catch
@@ -220,12 +290,14 @@ public class ManagerStaffManagementViewController {
             String userType = searchUserType;
 
             if (!userType.equalsIgnoreCase("customer")
-            && !userType.equalsIgnoreCase("manager")) {
+                    && !userType.equalsIgnoreCase("manager")) {
                 data.add(new Staff(
                         firstName,
                         lastName,
                         username,
-                        hasAdminRight
+                        hasAdminRight,
+                        numOfHoursToWork,
+                        numOfTotalHoursWorked
                 ));
             }
         }
@@ -234,7 +306,7 @@ public class ManagerStaffManagementViewController {
     public Optional<ButtonType> promptForUserAcknowledgement(String user) {
         return AlertPopUpWindow.displayConfirmationWindow(
                 "Delete User Request",
-                "Do you want to delete " + user +"?"
+                "Do you want to delete " + user + "?"
         );
     }
 
