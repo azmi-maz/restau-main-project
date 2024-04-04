@@ -1,23 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
-
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <HBox alignment="CENTER" prefHeight="59.0" prefWidth="600.0">
-         <children>
-            <Label id="headerLabel" styleClass="headerLabel" text="View Report" />
-            <fx:include
-                    source="../../navbar/manager/manager-returnhome-navbar.fxml"
-                    fx:id="managerReturnHomeNavbar"/>
-         </children>
-      </HBox>
-      <ChoiceBox id="reportTypeChoiceBox" prefWidth="150.0" styleClass="reportTypeChoiceBox" />
-      <TextArea id="reportTextArea" prefHeight="296.0" prefWidth="600.0" styleClass="reportTextArea" />
-   </children>
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity"
+      maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.group.project.controllers.manager.ManagerReportViewController"
+>
+    <children>
+        <HBox alignment="CENTER" prefHeight="59.0" prefWidth="600.0">
+            <children>
+                <Label fx:id="headerLabel" styleClass="headerLabel"
+                       text="View Report"/>
+                <fx:include
+                        source="../../navbar/manager/manager-returnhome-navbar.fxml"
+                        fx:id="managerReturnHomeNavbar"/>
+            </children>
+        </HBox>
+        <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
+            <top>
+                <ChoiceBox fx:id="reportTypeChoiceBox" prefWidth="150.0"
+                           styleClass="reportTypeChoiceBox"
+                           BorderPane.alignment="CENTER"
+                />
+            </top>
+            <center>
+                <ImageView fx:id="bgImage" fitHeight="150.0" fitWidth="200.0"
+                           pickOnBounds="true" preserveRatio="true"/>
+                    <TextArea fx:id="reportTextArea" maxHeight="400.0"
+                              maxWidth="600.0"
+                              styleClass="reportTextArea"
+                              BorderPane.alignment="CENTER"
+                    />
+            </center>
+        </BorderPane>
+    </children>
 </VBox>
