@@ -109,7 +109,7 @@ public class Notification {
      *
      * @return - the notification message body.
      */
-    public String getNotificationBody() {
+    public String getMessageBody() {
         return messageBody;
     }
 
