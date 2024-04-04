@@ -22,6 +22,7 @@ public class Staff extends User {
     public Staff(String firstName, String lastName, String username,
                  boolean hasAdminRight) {
         super(firstName, lastName, username);
+        this.numOfHoursToWork = 44;
         this.hasAdminRight = hasAdminRight;
     }
 
@@ -31,7 +32,7 @@ public class Staff extends User {
      * @param hours - the hours that a staff need to spend working.
      * @return true if the update was made successfully.
      */
-    public boolean setNumbersOfHoursToWork(int hours) {
+    public boolean setNumOfHoursToWork(int hours) {
         this.numOfHoursToWork = hours;
         // to code
         return true;
@@ -43,7 +44,7 @@ public class Staff extends User {
      * @param hours - the hours that was spent working.
      * @return true if the update was made successfully.
      */
-    public boolean setNumberOfTotalHoursWorked(int hours) {
+    public boolean setNumOfTotalHoursWorked(int hours) {
         this.numOfTotalHoursWorked = hours;
         // to code
         return true;
@@ -54,7 +55,7 @@ public class Staff extends User {
      *
      * @return the number of hours to work.
      */
-    public int getNumberOfHoursToWork() {
+    public int getNumOfHoursToWork() {
         return numOfHoursToWork;
     }
 
@@ -63,7 +64,12 @@ public class Staff extends User {
      *
      * @return the number of hours worked.
      */
-    public int getNumberOfHoursWorked() {
+    public int getNumOfTotalHoursWorked() {
         return numOfTotalHoursWorked;
+    }
+
+    // TODO comment
+    public boolean getHasAdminRight() {
+        return hasAdminRight;
     }
 }
