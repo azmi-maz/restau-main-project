@@ -4,6 +4,8 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -12,13 +14,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.group.project.Main;
 import org.group.project.classes.DataFileStructure;
 import org.group.project.classes.DataManager;
 import org.group.project.classes.ImageLoader;
 import org.group.project.classes.Notification;
+import org.group.project.scenes.WindowSize;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -101,8 +107,8 @@ public class CustomerNotificationViewController {
                 new PropertyValueFactory<>("notificationType"));
 
         bodyColumn.setText("Message Body");
-        bodyColumn.setMinWidth(150);
-        bodyColumn.setStyle("-fx-alignment: CENTER;");
+        bodyColumn.setMinWidth(372);
+        bodyColumn.setStyle("-fx-alignment: CENTER-LEFT;");
         bodyColumn.setCellValueFactory(
                 new PropertyValueFactory<>("messageBody"));
 
@@ -114,10 +120,49 @@ public class CustomerNotificationViewController {
             // TODO use tool tips for other buttons, where necessary
             viewButton.setTooltip(new Tooltip("View details"));
             ImageLoader.setUpGraphicButton(viewButton, 15, 15, "view-details");
-
+            LocalDate notificationDate = cellData.getValue().getNotificationDate();
+            LocalTime notificationTime = cellData.getValue().getNotificationTime();
+            String notificationType = cellData.getValue().getNotificationType();
+            String messageBody = cellData.getValue().getMessageBody();
 
             viewButton.setOnAction(e -> {
+                try {
+                    FXMLLoader fxmlLoader =
+                            new FXMLLoader(Main.class.getResource(
+                                    "smallwindows/customer-notification-details" +
+                                            ".fxml"));
 
+                    VBox vbox = fxmlLoader.load();
+
+                    CustomerNotificationDetailsController controller =
+                            fxmlLoader.getController();
+
+                    controller.populateNotificationDetails(
+                            notificationDate,
+                            notificationTime,
+                            notificationType,
+                            messageBody
+                    );
+
+                    Scene editScene = new Scene(vbox,
+                            WindowSize.SMALL.WIDTH,
+                            WindowSize.SMALL.HEIGHT);
+
+                    Stage editStage = new Stage();
+                    editStage.setScene(editScene);
+                    // TODO Should final variable this
+                    editStage.setTitle("View Notification Details");
+
+                    editStage.initModality(Modality.APPLICATION_MODAL);
+
+                    editStage.showAndWait();
+
+                    refreshNotificationList();
+
+                } catch (IOException ex) {
+                    // TODO catch error
+                    throw new RuntimeException(ex);
+                }
 
             });
 
