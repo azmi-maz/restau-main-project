@@ -1,6 +1,6 @@
-1,1,2024-2-15,12-30,dinein,pending,,,,bloody mary;marseilles;shrimp stew;coq au vin
-2,2,2024-2-20,14-30,delivery,pending,,4,17-30,bloody mary;marseilles;shrimp stew;coq au vin
-3,1,2024-2-19,19-00,takeaway,pending,15-30,,,bloody mary;marseilles;shrimp stew;coq au vin
-4,1,2024-4-3,3-3,delivery,pending,,,,chocolate souffle;classic duck confit
-5,1,2024-4-3,3-10,takeaway,pending,,,,chocolate souffle
-6,1,2024-4-3,3-11,delivery,pending,,,,coq au vin;lobster thermidor;lyon chicken
+1,1,2024-2-15,12-30,dinein,pending,,,,bloody mary;bloody mary;bloody mary;bloody mary;bloody mary;marseilles shrimp stew;coq au vin
+2,2,2024-2-20,14-30,delivery,pending-delivery,,4,17-30,bloody mary;bloody mary;marseilles;marseilles;duck a lorange
+3,1,2024-2-19,19-0,takeaway,pending-pickup,19-30,,,marseilles;marseilles;shrimp stew;coq au vin;coq au vin;stuffed pork tenderloin
+4,1,2024-4-3,3-30,delivery,pending-delivery,,4,4-30,chocolate souffle;classic duck confit;classic duck confit;classic duck confit
+5,1,2024-4-3,3-10,takeaway,pending,3-50,,,chocolate souffle;pear tarte tatin;classic creme brulee;croquembouche;cosmopolitan
+6,1,2024-4-3,3-11,delivery,pending-approval,,4,4-20,coq au vin;lobster thermidor;bloody mary;martini;daiquiri;pina colada;long island iced tea
