@@ -32,15 +32,16 @@ public class Notification {
     public Notification(int notificationId,
                         int userId,
                         LocalDate notificationDate,
-                        LocalTime notificationTime, String messageBody,
-                        String notificationType) {
+                        LocalTime notificationTime,
+                        String notificationType,
+                        String messageBody) {
         this.notificationId = notificationId;
         this.userId = userId;
         this.notificationDate = notificationDate;
         this.notificationTime = notificationTime;
         this.notificationType = notificationType;
-        readStatus = false;
         this.messageBody = messageBody;
+        readStatus = false;
     }
 
     // TODO comment
@@ -48,16 +49,16 @@ public class Notification {
                         int userId,
                         LocalDate notificationDate,
                         LocalTime notificationTime,
-                        boolean readStatus,
+                        String notificationType,
                         String messageBody,
-                        String notificationType) {
+                        boolean readStatus) {
         this.notificationId = notificationId;
         this.userId = userId;
         this.notificationDate = notificationDate;
         this.notificationTime = notificationTime;
         this.notificationType = notificationType;
-        this.readStatus = readStatus;
         this.messageBody = messageBody;
+        this.readStatus = readStatus;
     }
 
     /**
@@ -72,6 +73,11 @@ public class Notification {
     // TODO comment
     public String getNotificationDateInFormat() {
         return notificationDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+
+    // TODO comment
+    public String getNotificationTimeInFormat() {
+        return notificationTime.format(DateTimeFormatter.ofPattern("HH:mm a"));
     }
 
     // TODO comment
