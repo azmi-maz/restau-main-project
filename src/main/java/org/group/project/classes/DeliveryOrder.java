@@ -2,6 +2,7 @@ package org.group.project.classes;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 /**
  * This class handles delivery orders.
@@ -27,6 +28,17 @@ public class DeliveryOrder extends Order {
         // Default 30 mins for now - restaurant policy to deliver within 30
         // mins.
         deliveryTime = orderTime.plusMinutes(30);
+    }
+
+    // TODO comment to get updated data
+    public DeliveryOrder(Customer customer, LocalDate orderDate,
+                         LocalTime orderTime, LocalTime deliveryTime,
+                         String orderStatus, Driver assignedDriver,
+                         List<FoodDrink> orderedList) {
+        super(customer, orderDate, orderTime, "delivery", orderStatus, orderedList);
+        customerAddress = customer.getDeliveryAddress();
+        this.deliveryTime = deliveryTime;
+        this.assignedDriver = assignedDriver;
     }
 
     /**
