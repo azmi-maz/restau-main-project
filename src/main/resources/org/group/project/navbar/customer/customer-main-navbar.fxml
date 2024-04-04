@@ -52,5 +52,11 @@
                 <Label fx:id="userLabel" text="User"/>
             </children>
         </VBox>
+        <VBox alignment="CENTER" prefHeight="61.0" prefWidth="87.0">
+            <children>
+                <Button fx:id="logOffButton" mnemonicParsing="false"/>
+                <Label fx:id="logOffLabel" text="Log Out"/>
+            </children>
+        </VBox>
     </children>
 </HBox>

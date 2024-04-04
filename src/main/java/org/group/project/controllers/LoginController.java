@@ -56,6 +56,7 @@ public class LoginController {
 
 //            System.out.println(resultLabel.getStyleClass());
             // The success message
+            // TODO have to clean this off after sign in, else logged off still have this displayed
             resultLabel.setText("Login successful!");
 
             // TODO Try catch?
