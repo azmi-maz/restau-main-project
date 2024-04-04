@@ -2,9 +2,11 @@ package org.group.project.controllers.chef;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import org.group.project.Main;
 import org.group.project.classes.ImageLoader;
 import org.group.project.scenes.ChefMapsMain;
 import org.group.project.scenes.ChefScenesMap;
+import org.group.project.scenes.MainScenes;
 
 import java.net.URISyntaxException;
 
@@ -22,6 +24,9 @@ public class ChefHomepageNavbarController {
     @FXML
     private Button userButton;
 
+    @FXML
+    private Button logOffButton;
+
     public void initialize() throws URISyntaxException {
 
         ImageLoader.setUpGraphicButton(outstandingOrderButton, 25, 25,
@@ -32,6 +37,8 @@ public class ChefHomepageNavbarController {
         ImageLoader.setUpGraphicButton(menuButton, 25, 25, "menu");
 
         ImageLoader.setUpGraphicButton(userButton, 25, 25, "user");
+
+        ImageLoader.setUpGraphicButton(logOffButton, 25, 25, "power");
 
         outstandingOrderButton.setOnMousePressed(e -> {
             ChefScenesMap.getChefStage().setScene(ChefScenesMap.getScenes().get(ChefMapsMain.OUTSTANDING));
@@ -47,6 +54,11 @@ public class ChefHomepageNavbarController {
 
         userButton.setOnMousePressed(e -> {
            // TODO user scene?
+        });
+
+        logOffButton.setOnMousePressed(e -> {
+            // TODO remove all active user info here
+            Main.getStage().setScene(Main.getScenes().get(MainScenes.LOGIN));
         });
 
     }
