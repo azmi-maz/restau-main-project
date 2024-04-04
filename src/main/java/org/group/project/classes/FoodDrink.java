@@ -25,6 +25,7 @@ public class FoodDrink {
     public FoodDrink(String itemName, String itemType) {
         this.itemName = itemName;
         this.itemType = itemType;
+        this.quantity = 1;
     }
 
     /**
