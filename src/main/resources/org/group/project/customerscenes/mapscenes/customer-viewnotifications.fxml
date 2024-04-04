@@ -1,32 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-
-
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <HBox alignment="CENTER" prefHeight="71.0" prefWidth="600.0">
-         <children>
-            <Label id="headerLabel" styleClass="headerLabel" text="Notification" />
-             <fx:include
-                     source="../../navbar/customer/customer-returnhome-navbar.fxml"
-                     fx:id="customerReturnHomeNavbar"/>
-         </children>
-      </HBox>
-      <BorderPane prefHeight="320.0" prefWidth="600.0">
-         <center>
-            <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-              <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
-              </columns>
-            </TableView>
-         </center>
-      </BorderPane>
-   </children>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<VBox alignment="TOP_CENTER"
+      maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:id="vbox"
+      fx:controller="org.group.project.controllers.customer.CustomerNotificationViewController"
+>
+    <children>
+        <HBox alignment="CENTER" prefHeight="71.0" prefWidth="600.0">
+            <children>
+                <Label fx:id="headerLabel" styleClass="headerLabel"
+                       text="Notification"/>
+                <fx:include
+                        source="../../navbar/customer/customer-returnhome-navbar.fxml"
+                        fx:id="customerReturnHomeNavbar"/>
+            </children>
+        </HBox>
+        <BorderPane fx:id="borderPane" prefHeight="1400.0" prefWidth="700.0">
+            <center>
+                <ImageView fx:id="bgImage" fitHeight="150.0" fitWidth="200.0"
+                           pickOnBounds="true" preserveRatio="true"
+                           BorderPane.alignment="CENTER"/>
+                <TableView fx:id="notificationTable" maxHeight="550.0"
+                           maxWidth="679.0"
+                           BorderPane.alignment="CENTER">
+                    <columns>
+                        <TableColumn fx:id="dateColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="timeColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="typeColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="bodyColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="actionButtonColumn"
+                                     prefWidth="75.0"/>
+                    </columns>
+                </TableView>
+            </center>
+        </BorderPane>
+    </children>
 </VBox>
