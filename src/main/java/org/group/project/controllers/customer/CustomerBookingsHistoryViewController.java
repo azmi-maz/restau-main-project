@@ -105,7 +105,6 @@ public class CustomerBookingsHistoryViewController {
         customerColumn.setCellValueFactory(
                 new PropertyValueFactory<>("customer"));
 
-
         bookingDateColumn.setText("Booking Date");
         bookingDateColumn.setMinWidth(150);
         bookingDateColumn.setStyle("-fx-alignment: CENTER;");

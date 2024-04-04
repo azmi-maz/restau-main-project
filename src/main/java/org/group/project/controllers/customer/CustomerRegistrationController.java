@@ -113,7 +113,7 @@ public class CustomerRegistrationController {
             AlertPopUpWindow.displayInformationWindow(
                     "Registration Successful!",
                     "Thank you for joining Cafe94, " + firstName.getText() +
-                            "!" + "\n" + "Feeling hangry?",
+                            "!" + System.lineSeparator() + "Feeling hangry?",
                     "Yes, I am."
             );
 

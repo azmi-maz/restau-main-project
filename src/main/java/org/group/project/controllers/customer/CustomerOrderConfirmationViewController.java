@@ -135,27 +135,29 @@ public class CustomerOrderConfirmationViewController {
         String customerDeliveryAddress =
                 orderDetails.getCustomer().getDeliveryAddress();
 
+        // TODO might wanna put this in DeliveryOrder class
         String deliveryOrderTemplate =
                 "Order date: " +
                         orderDate.format(DateTimeFormatter.ofPattern("dd/MM" +
                                 "/yyyy")) + "  " +
                         orderTime.format(DateTimeFormatter.ofPattern("HH:mm " +
-                                "a")) + "\n" +
+                                "a")) + System.lineSeparator() +
                         "Customer id: " +
-                        customerId + "\n" +
+                        customerId + System.lineSeparator() +
                         "Customer name: " +
-                        customerName + "\n" +
+                        customerName + System.lineSeparator() +
                         "Delivery address: " +
                         customerDeliveryAddress;
 
+        // TODO might wanna put this in TakeawayOrder class
         String takeawayOrderTemplate =
                 "Order date: " +
                         orderDate.format(DateTimeFormatter.ofPattern("dd/MM" +
                                 "/yyyy")) + "  " +
                         orderTime.format(DateTimeFormatter.ofPattern("HH:mm " +
-                                "a")) + "\n" +
+                                "a")) + System.lineSeparator() +
                         "Customer id: " +
-                        customerId + "\n" +
+                        customerId + System.lineSeparator() +
                         "Customer name: " +
                         customerName;
 

@@ -61,7 +61,7 @@ public class ViewOneController extends IllegalArgumentException {
                 if (i == labels.size() - 1) {
                     result.append(label + ": " + newData.get(i));
                 } else {
-                    result.append(label + ": " + newData.get(i) + ", " + "\n");
+                    result.append(label + ": " + newData.get(i) + ", " + System.lineSeparator());
                 }
                 i++;
             }
