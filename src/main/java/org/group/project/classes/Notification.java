@@ -10,26 +10,54 @@ import java.time.format.DateTimeFormatter;
  * @author azmi_maz
  */
 public class Notification {
+
+    private int notificationId;
+    private int userId;
     private LocalDate notificationDate;
     private LocalTime notificationTime;
-    private String messageBody;
     private String notificationType;
+    private boolean readStatus;
+    private String messageBody;
 
     /**
      * The constructor that creates new notification for user.
      *
+     * @param notificationId   - the unique id of the notification.
+     * @param userId           - the user id of the notification.
      * @param notificationDate - the date of notification was created.
      * @param notificationTime - the time of notification was created.
-     * @param messageBody      - the body of the notification.
      * @param notificationType - the type of notification.
+     * @param messageBody      - the body of the notification.
      */
-    public Notification(LocalDate notificationDate,
+    public Notification(int notificationId,
+                        int userId,
+                        LocalDate notificationDate,
                         LocalTime notificationTime, String messageBody,
                         String notificationType) {
+        this.notificationId = notificationId;
+        this.userId = userId;
         this.notificationDate = notificationDate;
         this.notificationTime = notificationTime;
-        this.messageBody = messageBody;
         this.notificationType = notificationType;
+        readStatus = false;
+        this.messageBody = messageBody;
+    }
+
+    // TODO comment
+    public Notification(int notificationId,
+                        int userId,
+                        LocalDate notificationDate,
+                        LocalTime notificationTime,
+                        boolean readStatus,
+                        String messageBody,
+                        String notificationType) {
+        this.notificationId = notificationId;
+        this.userId = userId;
+        this.notificationDate = notificationDate;
+        this.notificationTime = notificationTime;
+        this.notificationType = notificationType;
+        this.readStatus = readStatus;
+        this.messageBody = messageBody;
     }
 
     /**
@@ -44,6 +72,21 @@ public class Notification {
     // TODO comment
     public String getNotificationDateInFormat() {
         return notificationDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+
+    // TODO comment
+    public int getUserId() {
+        return userId;
+    }
+
+    // TODO comment
+    public boolean getReadStatus() {
+        return readStatus;
+    }
+
+    // TODO comment
+    public int getNotificationId() {
+        return notificationId;
     }
 
     /**
