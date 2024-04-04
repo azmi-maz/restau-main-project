@@ -34,6 +34,12 @@ public class User {
         return firstName;
     }
 
+    // TODO comment
+    public String getFirstNameForDisplay() {
+        return firstName.substring(0,1).toUpperCase()
+                + firstName.substring(1);
+    }
+
     /**
      * Getter method to get the user last name.
      *
@@ -41,6 +47,12 @@ public class User {
      */
     public String getLastName() {
         return lastName;
+    }
+
+    // TODO comment
+    public String getLastNameForDisplay() {
+        return lastName.substring(0,1).toUpperCase()
+                + lastName.substring(1);
     }
 
     /**
