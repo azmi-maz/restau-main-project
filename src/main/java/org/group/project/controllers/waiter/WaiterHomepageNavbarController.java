@@ -2,7 +2,9 @@ package org.group.project.controllers.waiter;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import org.group.project.Main;
 import org.group.project.classes.ImageLoader;
+import org.group.project.scenes.MainScenes;
 import org.group.project.scenes.WaiterMapsMain;
 import org.group.project.scenes.WaiterScenesMap;
 
@@ -22,6 +24,9 @@ public class WaiterHomepageNavbarController {
     @FXML
     private Button userButton;
 
+    @FXML
+    private Button logOffButton;
+
     public void initialize() throws URISyntaxException {
 
         ImageLoader.setUpGraphicButton(dineInOrderButton, 25, 25,
@@ -34,6 +39,7 @@ public class WaiterHomepageNavbarController {
 
         ImageLoader.setUpGraphicButton(userButton, 25, 25, "user");
 
+        ImageLoader.setUpGraphicButton(logOffButton, 25, 25, "power");
 
         dineInOrderButton.setOnMousePressed(e -> {
             WaiterScenesMap.getWaiterStage().setScene(WaiterScenesMap.getScenes().get(WaiterMapsMain.DINEIN));
@@ -49,6 +55,11 @@ public class WaiterHomepageNavbarController {
 
         userButton.setOnMousePressed(e -> {
            // TODO user scene?
+        });
+
+        logOffButton.setOnMousePressed(e -> {
+            // TODO remove all active user info here
+            Main.getStage().setScene(Main.getScenes().get(MainScenes.LOGIN));
         });
 
     }
