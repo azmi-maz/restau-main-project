@@ -130,23 +130,11 @@ public class CustomerOrderHistoryViewController {
                 DeliveryOrder deliveryOrder = (DeliveryOrder) getOrder;
                 assignedDriver = deliveryOrder.getDriver();
 
-//                // TODO try catch
-//                try {
-//                    List<String> assignedDriverString =
-//                            HelperMethods.getUserDataByUsername(
-//                                    deliveryOrder.getDriver().getUsername());
-//                    assignedDriver += assignedDriverString.get(DataFileStructure.getIndexByColName("USERS", "firstName")) + " ";
-//                    assignedDriver += assignedDriverString.get(DataFileStructure.getIndexByColName("USERS", "lastName"));
-//                } catch (FileNotFoundException e) {
-//                    throw new RuntimeException(e);
-//                }
-
                 deliveryTime = deliveryOrder.getDeliveryTime();
             } else {
                 assignedDriver = null;
                 deliveryTime = null;
             }
-//            String finalAssignedDriver = assignedDriver;
 
             LocalTime estimatedPickupTime;
             if (orderType.equalsIgnoreCase("takeaway")) {
@@ -208,7 +196,8 @@ public class CustomerOrderHistoryViewController {
 
     }
 
-    public void refreshOrderHistoryList() throws FileNotFoundException {
+    // TODO comment
+    private void refreshOrderHistoryList() throws FileNotFoundException {
 
         // TODO comment
         orderHistoryTable.getItems().clear();
