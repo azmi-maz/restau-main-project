@@ -2,6 +2,7 @@ package org.group.project.classes;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,18 @@ public class Order {
         this.orderedFoodDrinkLists = new ArrayList<FoodDrink>();
     }
 
+    // TODO comment to get updated data
+    public Order(User user, LocalDate orderDate, LocalTime orderTime,
+                 String orderType, String orderStatus,
+                 List<FoodDrink> orderedList) {
+        this.user = user;
+        this.orderDate = orderDate;
+        this.orderTime = orderTime;
+        this.orderType = orderType;
+        this.orderStatus = orderStatus;
+        this.orderedFoodDrinkLists = orderedList;
+    }
+
     /**
      * Getter method to get the customer who made the order
      *
@@ -62,6 +75,11 @@ public class Order {
      */
     public LocalDate getOrderDate() {
         return orderDate;
+    }
+
+    // TODO comment
+    public String getOrderDateInFormat() {
+        return orderDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     /**
