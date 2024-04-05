@@ -17,13 +17,14 @@ public class DeliveryOrder extends Order {
     /**
      * The constructor to initiate a delivery order with empty basket.
      *
+     * @param orderId   - the unique id.
      * @param customer  - the customer who is making the order.
      * @param orderDate - the date of the order.
      * @param orderTime - the time of the order.
      */
-    public DeliveryOrder(Customer customer, LocalDate orderDate,
+    public DeliveryOrder(int orderId, Customer customer, LocalDate orderDate,
                          LocalTime orderTime) {
-        super(customer, orderDate, orderTime, "delivery", "pending-approval");
+        super(orderId, customer, orderDate, orderTime, "delivery", "pending-approval");
         customerAddress = customer.getDeliveryAddress();
         // Default 30 mins for now - restaurant policy to deliver within 30
         // mins.
@@ -31,11 +32,11 @@ public class DeliveryOrder extends Order {
     }
 
     // TODO comment to get updated data
-    public DeliveryOrder(Customer customer, LocalDate orderDate,
+    public DeliveryOrder(int orderId, Customer customer, LocalDate orderDate,
                          LocalTime orderTime, LocalTime deliveryTime,
                          String orderStatus, Driver assignedDriver,
                          List<FoodDrink> orderedList) {
-        super(customer, orderDate, orderTime, "delivery", orderStatus, orderedList);
+        super(orderId, customer, orderDate, orderTime, "delivery", orderStatus, orderedList);
         customerAddress = customer.getDeliveryAddress();
         this.deliveryTime = deliveryTime;
         this.assignedDriver = assignedDriver;
