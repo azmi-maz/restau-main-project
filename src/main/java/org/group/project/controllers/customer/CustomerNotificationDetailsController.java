@@ -44,7 +44,7 @@ public class CustomerNotificationDetailsController {
     ) {
         dateStampLabel.setText(
                 "Date: " + notificationDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-                        + " " + notificationTime.format(DateTimeFormatter.ofPattern("HH:mm a"))
+                        + " " + notificationTime.format(DateTimeFormatter.ofPattern("hh:mm a"))
         );
 
         subjectLabel.setText(

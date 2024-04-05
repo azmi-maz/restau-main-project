@@ -77,7 +77,7 @@ public class Notification {
 
     // TODO comment
     public String getNotificationTimeInFormat() {
-        return notificationTime.format(DateTimeFormatter.ofPattern("HH:mm a"));
+        return notificationTime.format(DateTimeFormatter.ofPattern("hh:mm a"));
     }
 
     // TODO comment

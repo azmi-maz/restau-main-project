@@ -137,7 +137,7 @@ public class CustomerOrderHistoryDetailsController {
                     "Order date: " +
                             orderDate.format(DateTimeFormatter.ofPattern("dd/MM" +
                                     "/yyyy")) + "  " +
-                            orderTime.format(DateTimeFormatter.ofPattern("HH:mm " +
+                            orderTime.format(DateTimeFormatter.ofPattern("hh:mm " +
                                     "a")) + System.lineSeparator() +
                             "Status: " +
                             orderStatus + System.lineSeparator() +
@@ -146,7 +146,7 @@ public class CustomerOrderHistoryDetailsController {
                             "Delivery time: ";
 
             if (deliveryTime != null) {
-                deliveryOrderTemplate += deliveryTime.format(DateTimeFormatter.ofPattern("HH:mm " +
+                deliveryOrderTemplate += deliveryTime.format(DateTimeFormatter.ofPattern("hh:mm " +
                         "a")) + System.lineSeparator();
             }
 
@@ -156,14 +156,14 @@ public class CustomerOrderHistoryDetailsController {
                     "Order date: " +
                             orderDate.format(DateTimeFormatter.ofPattern("dd/MM" +
                                     "/yyyy")) + "  " +
-                            orderTime.format(DateTimeFormatter.ofPattern("HH:mm " +
+                            orderTime.format(DateTimeFormatter.ofPattern("hh:mm " +
                                     "a")) + System.lineSeparator() +
                             "Status: " +
                             orderStatus + System.lineSeparator() +
                             "Pickup time: ";
 
             if (estimatedPickupTime != null) {
-                takeawayOrderTemplate += estimatedPickupTime.format(DateTimeFormatter.ofPattern("HH:mm " +
+                takeawayOrderTemplate += estimatedPickupTime.format(DateTimeFormatter.ofPattern("hh:mm " +
                         "a")) + System.lineSeparator();
             }
 
@@ -173,7 +173,7 @@ public class CustomerOrderHistoryDetailsController {
                     "Order date: " +
                             orderDate.format(DateTimeFormatter.ofPattern("dd/MM" +
                                     "/yyyy")) + "  " +
-                            orderTime.format(DateTimeFormatter.ofPattern("HH:mm " +
+                            orderTime.format(DateTimeFormatter.ofPattern("hh:mm " +
                                     "a")) + System.lineSeparator() +
                             "Status: " +
                             orderStatus + System.lineSeparator();

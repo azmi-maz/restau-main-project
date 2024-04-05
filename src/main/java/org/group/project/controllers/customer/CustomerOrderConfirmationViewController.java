@@ -140,7 +140,7 @@ public class CustomerOrderConfirmationViewController {
                 "Order date: " +
                         orderDate.format(DateTimeFormatter.ofPattern("dd/MM" +
                                 "/yyyy")) + "  " +
-                        orderTime.format(DateTimeFormatter.ofPattern("HH:mm " +
+                        orderTime.format(DateTimeFormatter.ofPattern("hh:mm " +
                                 "a")) + System.lineSeparator() +
                         "Customer id: " +
                         customerId + System.lineSeparator() +
@@ -154,7 +154,7 @@ public class CustomerOrderConfirmationViewController {
                 "Order date: " +
                         orderDate.format(DateTimeFormatter.ofPattern("dd/MM" +
                                 "/yyyy")) + "  " +
-                        orderTime.format(DateTimeFormatter.ofPattern("HH:mm " +
+                        orderTime.format(DateTimeFormatter.ofPattern("hh:mm " +
                                 "a")) + System.lineSeparator() +
                         "Customer id: " +
                         customerId + System.lineSeparator() +
