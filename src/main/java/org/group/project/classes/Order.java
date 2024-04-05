@@ -122,7 +122,9 @@ public class Order {
     public List<String> getListOfItemNamesInOrderList() {
         List<String> tempList = new ArrayList<>();
         for (FoodDrink item : orderedFoodDrinkLists) {
-            tempList.add(item.getItemName().trim());
+            for (int i = 0; i < item.getQuantity(); i++) {
+                tempList.add(item.getItemName().trim());
+            }
         }
         return tempList;
     }
@@ -136,5 +138,36 @@ public class Order {
     public boolean addItemToOrderList(FoodDrink newItem) {
         orderedFoodDrinkLists.add(newItem);
         return true;
+    }
+
+    // TODO comment, this method may be used elsewhere to compile orderList, look for isNewItem
+    public List<FoodDrink> compiledOrderList() {
+        List<FoodDrink> compiledList = new ArrayList<>();
+        for (FoodDrink item : orderedFoodDrinkLists) {
+            boolean isNewItem = true;
+            for (FoodDrink itemInList : compiledList) {
+                if (itemInList.getItemName().equalsIgnoreCase(item.getItemName())) {
+                    itemInList.incrementQuantity();
+                    isNewItem = false;
+                }
+            }
+            if (isNewItem) {
+                compiledList.add(item);
+            }
+        }
+        return compiledList;
+    }
+
+    // TODO comment
+    public String getListOfItemsForDisplay() {
+        String displayList = "";
+        List<FoodDrink> compiledList = compiledOrderList();
+        for (FoodDrink item : compiledList) {
+            displayList += item.getQuantity()
+                    + "x "
+                    + item.getItemNameForDisplay()
+                    + System.lineSeparator();
+        }
+        return displayList;
     }
 }
