@@ -23,7 +23,7 @@
         <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
             <top>
                 <Label fx:id="deliveryOrderLabel" styleClass="deliveryOrderLabel"
-                       text="Delivery Orders"/>
+                       text="Delivery Orders" BorderPane.alignment="CENTER"/>
             </top>
             <center>
                 <ImageView fx:id="bgImage" fitHeight="150.0" fitWidth="200.0"
