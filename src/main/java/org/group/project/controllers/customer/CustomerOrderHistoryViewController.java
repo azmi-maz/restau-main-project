@@ -208,6 +208,9 @@ public class CustomerOrderHistoryViewController {
 
         for (String order : orderHistoryList) {
             List<String> orderDetails = List.of(order.split(","));
+            // orderId
+            int orderId = Integer.parseInt(orderDetails.get(DataFileStructure.getIndexByColName("ORDERS", "orderId")));
+
             // user
             Customer customer;
 
@@ -281,6 +284,8 @@ public class CustomerOrderHistoryViewController {
 
                 if (driverString != null) {
                     assignedDriver = new Driver(
+                            Integer.parseInt(driverString.get(DataFileStructure.getIndexByColName(
+                                    "USERS", "userId"))),
                             driverString.get(DataFileStructure.getIndexByColName(
                                     "USERS", "firstName")),
                             driverString.get(DataFileStructure.getIndexByColName(
@@ -316,6 +321,7 @@ public class CustomerOrderHistoryViewController {
                 );
                 if (orderType.equalsIgnoreCase("delivery")) {
                     data.add(new DeliveryOrder(
+                            orderId,
                             customer,
                             orderDate,
                             orderTime,
@@ -327,6 +333,7 @@ public class CustomerOrderHistoryViewController {
 
                 } else if (orderType.equalsIgnoreCase("takeaway")) {
                     data.add(new TakeawayOrder(
+                            orderId,
                             customer,
                             orderDate,
                             orderTime,
@@ -337,6 +344,7 @@ public class CustomerOrderHistoryViewController {
 
                 } else {
                     data.add(new Order(
+                            orderId,
                             customer,
                             orderDate,
                             orderTime,

@@ -1,3 +1,3 @@
-1,1,2024-2-12,7-30,8,2,Table G,approved-complete
+1,1,2024-2-12,7-30,8,2,Table G,approved
 2,2,2024-2-13,5-30,2,1,Table B,failed
 3,1,2024-4-14,18-30,2,1,Table A,pending-approval

@@ -20,6 +20,7 @@ import org.group.project.scenes.customer.stackViews.MenuController;
 import org.group.project.scenes.customer.stackViews.OrderDetailsController;
 import org.group.project.test.generators.CustomerGenerator;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
@@ -208,7 +209,12 @@ public class CustomerOrderDetailsViewController {
 
         confirmButton.setOnMousePressed(e -> {
             newOrder.clear();
-            newOrder.add(createNewOrder());
+            // TODO try catch
+            try {
+                newOrder.add(createNewOrder());
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
             OrderDetailsController.presenter.goToOrderConfirmation();
         });
 
@@ -255,7 +261,11 @@ public class CustomerOrderDetailsViewController {
 //        });
     }
 
-    public Order createNewOrder() {
+    public Order createNewOrder() throws FileNotFoundException {
+
+        // TODO try catch upstream
+        int orderId = HelperMethods.getNewIdByFile("ORDERS");
+
         // TODO get user from main homepage, temp using dummy user
         Customer newCustomer = CustomerGenerator.createCustomer1();
 
@@ -275,6 +285,7 @@ public class CustomerOrderDetailsViewController {
         }
 
         Order orderDetails = new Order(
+                orderId,
                 newCustomer,
                 dateNow,
                 timeNow,
