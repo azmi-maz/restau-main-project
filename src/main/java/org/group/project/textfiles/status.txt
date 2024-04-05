@@ -1,6 +1,24 @@
 pending-approval
-approved-pending-driver
-approved-complete
+approved
+pending-kitchen
 pending-delivery
 failed
 completed
+
+<Bookings>
+customer books => pending-approval
+waiter approves => approved OR failed (notify)
+
+<Dinein Order>
+waiter orders => pending-kitchen
+chef marks => completed
+
+<Delivery Order>
+customer orders => pending-approval
+waiter approves => pending-kitchen OR failed
+chef marks => pending-delivery (notify)
+driver delivers => completed (notify)
+
+<Takeaway Order>
+customer order => pending-kitchen OR failed
+chef marks => completed (notify)
