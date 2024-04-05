@@ -38,7 +38,7 @@ public class CustomerBookingsHistoryViewController {
     private TableColumn<Booking, String> bookingDateColumn;
 
     @FXML
-    private TableColumn<Booking, LocalTime> bookingTimeColumn;
+    private TableColumn<Booking, String> bookingTimeColumn;
 
     @FXML
     private TableColumn<Booking, Integer> numOfGuestsColumn;
@@ -117,8 +117,10 @@ public class CustomerBookingsHistoryViewController {
         bookingTimeColumn.setText("Booking Time");
         bookingTimeColumn.setMinWidth(150);
         bookingTimeColumn.setStyle("-fx-alignment: CENTER;");
-        bookingTimeColumn.setCellValueFactory(
-                new PropertyValueFactory<>("bookingTime"));
+        bookingTimeColumn.setCellValueFactory(cellData -> {
+            String formattedTime = cellData.getValue().getBookingTimeInFormat();
+            return new SimpleObjectProperty<>(formattedTime);
+        });
 
         numOfGuestsColumn.setText("No. of Guests");
         numOfGuestsColumn.setMinWidth(90);

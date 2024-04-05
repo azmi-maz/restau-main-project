@@ -34,7 +34,7 @@ public class CustomerOrderHistoryViewController {
     private TableColumn<Order, String> orderDateColumn;
 
     @FXML
-    private TableColumn<Order, LocalTime> orderTimeColumn;
+    private TableColumn<Order, String> orderTimeColumn;
 
     @FXML
     private TableColumn<Order, String> orderTypeColumn;
@@ -92,8 +92,10 @@ public class CustomerOrderHistoryViewController {
         orderTimeColumn.setText("Time");
         orderTimeColumn.setMinWidth(150);
         orderTimeColumn.setStyle("-fx-alignment: CENTER;");
-        orderTimeColumn.setCellValueFactory(
-                new PropertyValueFactory<>("orderTime"));
+        orderTimeColumn.setCellValueFactory(cellData -> {
+            String formattedTime = cellData.getValue().getOrderTimeInFormat();
+            return new SimpleObjectProperty<>(formattedTime);
+        });
 
         orderTypeColumn.setText("Type");
         orderTypeColumn.setMinWidth(150);
