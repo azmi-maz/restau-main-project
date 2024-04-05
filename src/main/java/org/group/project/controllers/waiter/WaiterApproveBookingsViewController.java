@@ -179,6 +179,8 @@ public class WaiterApproveBookingsViewController {
             ImageLoader.setUpGraphicButton(deleteButton, 15, 15, "cancel");
             int bookingId = cellData.getValue().getBookingId();
 
+            // Dont delete the booking, change status to failed
+
             // TODO notify customer here after table cancellation
             return new SimpleObjectProperty<>(deleteButton);
         });

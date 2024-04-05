@@ -24,7 +24,7 @@
             <top>
                 <Label fx:id="tableReservationLabel"
                        styleClass="tableReservationLabel"
-                       text="Table Reservation" BorderPane.alignment="CENTER"/>
+                       text="Table Reservations" BorderPane.alignment="CENTER"/>
             </top>
             <center>
                 <ImageView fx:id="bgImage" fitHeight="150.0" fitWidth="200.0"

@@ -263,18 +263,14 @@ public class CustomerOrderDetailsViewController {
         LocalTime timeNow = LocalTime.now();
 
         // TODO choicebox must not be empty
-        String orderType = choiceBox.getValue();
-        if (orderType.equalsIgnoreCase("delivery order")) {
-            orderType = "delivery";
-        } else {
-            orderType = "takeaway";
-        }
-
         // TODO constant variables, where to final static
+        String orderType = choiceBox.getValue();
         String orderStatus = "";
         if (orderType.equalsIgnoreCase("delivery order")) {
+            orderType = "delivery";
             orderStatus = "pending-approval";
         } else {
+            orderType = "takeaway";
             orderStatus = "pending";
         }
 
