@@ -153,6 +153,7 @@ public class WaiterDineinOrderController {
 
         confirmButton.setOnAction(e -> {
 
+            // TODO not handling Table name at all - need to check
             String getNewOrderId = "";
             // TODO try catch
             try {
