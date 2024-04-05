@@ -21,17 +21,9 @@ public class WaiterDineinOrderNavbarController {
         ImageLoader.setUpGraphicButton(homeButton, 25, 25,
                 "undo");
 
-        ImageLoader.setUpGraphicButton(addItemButton, 25, 25,
-                "circle-plus");
-
         homeButton.setOnMousePressed(e -> {
             WaiterScenesMap.getWaiterStage().setScene(WaiterScenesMap.getScenes().get(WaiterMapsMain.HOME));
         });
-
-        addItemButton.setOnMousePressed(e -> {
-            // TODO link with add item
-        });
-
 
     }
 
