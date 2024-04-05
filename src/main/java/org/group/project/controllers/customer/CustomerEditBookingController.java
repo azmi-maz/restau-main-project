@@ -6,11 +6,13 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import org.group.project.classes.DataManager;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class CustomerEditBookingController {
 
@@ -21,7 +23,7 @@ public class CustomerEditBookingController {
     private DatePicker reservationDatePicker;
 
     @FXML
-    private ChoiceBox<LocalTime> reservationTimeChoiceBox;
+    private ChoiceBox<String> reservationTimeChoiceBox;
 
     @FXML
     private ChoiceBox<String> numOfGuestsChoiceBox;
@@ -43,36 +45,58 @@ public class CustomerEditBookingController {
     public void initialize() {
 
         // TODO enum this?
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(10, 00));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(10, 30));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(11, 00));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(11, 30));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(12, 00));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(12, 30));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(13, 00));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(13, 30));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(14, 00));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(14, 30));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(15, 00));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(15, 30));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(16, 00));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(16, 30));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(17, 00));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(17, 30));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(18, 00));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(18, 30));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(19, 00));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(19, 30));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(20, 00));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(20, 30));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(21, 00));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(10, 00)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(10, 30)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(11, 00)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(11, 30)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(12, 00)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(12, 30)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(13, 00)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(13, 30)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(14, 00)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(14, 30)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(15, 00)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(15, 30)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(16, 00)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(16, 30)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(17, 00)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(17, 30)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(18, 00)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(18, 30)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(19, 00)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(19, 30)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(20, 00)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(20, 30)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationTimeChoiceBox.getItems().add(LocalTime.of(21, 00)
+                .format(DateTimeFormatter.ofPattern("hh:mm a")));
 
         // TODO
         numOfGuestsChoiceBox.getItems().add("2");
         numOfGuestsChoiceBox.getItems().add("4");
         numOfGuestsChoiceBox.getItems().add("8");
         numOfGuestsChoiceBox.getItems().add("10");
-
 
         lenOfReservationTimeChoiceBox.getItems().add("1");
         lenOfReservationTimeChoiceBox.getItems().add("2");
@@ -93,21 +117,37 @@ public class CustomerEditBookingController {
         tablePreferenceChoiceBox.getItems().add("Table J");
         tablePreferenceChoiceBox.getItems().add("Table K");
 
+        // TODO cite https://stackoverflow.com/questions/26831978/javafx-datepicker-getvalue-in-a-specific-format
+        reservationDatePicker.setConverter(
+                new StringConverter<>() {
+                    final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+                    @Override
+                    public String toString(LocalDate date) {
+                        return (date != null) ? dateFormatter.format(date) : "";
+                    }
+
+                    @Override
+                    public LocalDate fromString(String string) {
+                        return (string != null && !string.isEmpty())
+                                ? LocalDate.parse(string, dateFormatter)
+                                : null;
+                    }
+                });
+
         saveChangesButton.setOnAction(e -> {
             // TODO set new value
-            String bookingDate = reservationDatePicker.getValue().getYear() + "-"
-                    + reservationDatePicker.getValue().getMonthValue() + "-"
-                    + reservationDatePicker.getValue().getDayOfMonth();
-            String[] timeArray =
-                    reservationTimeChoiceBox.getValue().toString().split(":");
-            String bookingTime = Integer.parseInt(timeArray[0]) + "-"
-                    + Integer.parseInt(timeArray[1]);
-
-            String numOfGuests = numOfGuestsChoiceBox.getValue().toString();
+            String bookingDate = String.valueOf(reservationDatePicker.getValue());
+            LocalTime getBookingTime = LocalTime
+                    .parse(reservationTimeChoiceBox
+                            .getValue(), DateTimeFormatter
+                            .ofPattern("hh:mm a"));
+            String bookingTime = getBookingTime.format(DateTimeFormatter.ofPattern("h-m"));
+            String numOfGuests = numOfGuestsChoiceBox.getValue();
             String tablePreference =
-                    tablePreferenceChoiceBox.getValue().toString();
+                    tablePreferenceChoiceBox.getValue();
             String bookingLength =
-                    lenOfReservationTimeChoiceBox.getValue().toString();
+                    lenOfReservationTimeChoiceBox.getValue();
 
             // TODO handle try catch
             try {
@@ -141,10 +181,12 @@ public class CustomerEditBookingController {
                                  int numOfGuests,
                                  String tablePreference,
                                  int bookingLength) {
+
         this.bookingId = bookingId;
-        // TODO cant seem to apply DateTimeFormatter.ofPattern("dd/MM/yyyy")
         reservationDatePicker.setValue(reservationDate);
-        reservationTimeChoiceBox.setValue(reservationTime);
+        reservationTimeChoiceBox.setValue(
+                reservationTime
+                        .format(DateTimeFormatter.ofPattern("hh:mm a")));
         numOfGuestsChoiceBox.setValue(String.valueOf(numOfGuests));
         lenOfReservationTimeChoiceBox.setValue(String.valueOf(bookingLength));
         tablePreferenceChoiceBox.setValue(tablePreference);
