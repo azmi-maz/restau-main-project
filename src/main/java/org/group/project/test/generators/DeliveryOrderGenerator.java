@@ -10,11 +10,13 @@ public class DeliveryOrderGenerator {
 
     public static DeliveryOrder createDeliverOrder1() {
 
+        int orderId = 1;
+
         Customer customer = CustomerGenerator.createCustomer1();
 
         LocalDate orderDate = LocalDate.of(2024, 2, 20);
         LocalTime orderTime = LocalTime.of(7, 30);
 
-        return new DeliveryOrder(customer, orderDate, orderTime);
+        return new DeliveryOrder(orderId, customer, orderDate, orderTime);
     }
 }

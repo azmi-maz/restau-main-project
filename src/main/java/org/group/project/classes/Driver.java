@@ -6,18 +6,23 @@ package org.group.project.classes;
  * @author azmi_maz
  */
 public class Driver extends Staff {
+
+    private int driverId;
     private boolean isAvailable;
     private int maxDeliveries;
 
     /**
      * The constructor to create new driver
      *
+     * @param driverId  - the unique id.
      * @param firstName - the first name of the staff.
      * @param lastName  - the last name of the staff.
      * @param username  - the username chosen by the staff.
      */
-    public Driver(String firstName, String lastName, String username) {
+    public Driver(int driverId, String firstName, String lastName,
+                  String username) {
         super(firstName, lastName, username, false);
+        this.driverId = driverId;
         this.isAvailable = true;
         this.maxDeliveries = 5;
     }
@@ -42,6 +47,7 @@ public class Driver extends Staff {
 
     /**
      * Getter method to get the maximum deliveries a driver can handle.
+     *
      * @return the number of max deliveries.
      */
     public int getMaxDeliveries() {
@@ -50,6 +56,7 @@ public class Driver extends Staff {
 
     /**
      * Setter method to set a new maximum number of deliveries.
+     *
      * @param maxDeliveries - the number of max deliveries.
      */
     public void setMaxDeliveries(int maxDeliveries) {
