@@ -8,52 +8,78 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label id="headerLabel" styleClass="headerLabel" text="Delivery Order Details" />
-      <Label id="customerIdLabel" styleClass="customerIdLabel" text="customer id" />
-      <TextField id="customerIdTextField" styleClass="customerIdTextField" />
-      <HBox prefHeight="58.0" prefWidth="600.0">
-         <children>
-            <VBox prefHeight="58.0" prefWidth="190.0">
-               <children>
-                  <Label id="firstNameLabel" styleClass="firstNameLabel" text="first name" />
-                  <TextField id="firstNameTextField" styleClass="firstNameTextField" />
-               </children>
-            </VBox>
-            <VBox prefHeight="58.0" prefWidth="194.0">
-               <children>
-                  <Label id="lastNameLabel" styleClass="lastNameLabel" text="last name" />
-                  <TextField id="lastNameTextField" prefHeight="26.0" prefWidth="154.0" styleClass="lastNameTextField" />
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-      <Label id="addressLabel" styleClass="addressLabel" text="customer address" />
-      <TextField id="addressTextField" styleClass="addressTextField" />
-      <HBox prefHeight="65.0" prefWidth="600.0">
-         <children>
-            <VBox prefHeight="65.0" prefWidth="235.0">
-               <children>
-                  <Label id="orderStatusLabel" styleClass="orderStatusLabel" text="order status" />
-                  <TextField id="orderStatusTextField" styleClass="orderStatusTextField" />
-               </children>
-            </VBox>
-            <VBox prefHeight="65.0" prefWidth="217.0">
-               <children>
-                  <Label id="deliveryTimeLabel" styleClass="deliveryTimeLabel" text="estimated delivery time" />
-                  <TextField id="deliveryTimeTextField" styleClass="deliveryTimeTextField" />
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-      <Label id="assignedDriverLabel" styleClass="assignedDriverLabel" text="assigned driver" />
-      <ChoiceBox id="assignedDriverChoiceBox" prefWidth="150.0" styleClass="assignedDriverChoiceBox" />
-      <HBox alignment="CENTER" prefHeight="68.0" prefWidth="600.0">
-         <children>
-            <Button id="saveButton" mnemonicParsing="false" styleClass="saveButton" text="Save Changes" />
-            <Button id="returnButton" mnemonicParsing="false" styleClass="returnButton" text="Return" />
-         </children>
-      </HBox>
-   </children>
+<?import javafx.scene.control.ComboBox?>
+<VBox alignment="TOP_CENTER"
+      maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:id="vbox"
+      fx:controller="org.group.project.controllers.waiter.WaiterEditDeliveryOrderController"
+>
+    <children>
+        <Label fx:id="headerLabel" styleClass="headerLabel"
+               text="Delivery Order Details"/>
+        <Label fx:id="customerIdLabel" styleClass="customerIdLabel"
+               text="customer id"/>
+        <TextField fx:id="customerIdTextField" styleClass="customerIdTextField"/>
+        <HBox prefHeight="58.0" prefWidth="600.0">
+            <children>
+                <VBox prefHeight="58.0" prefWidth="190.0">
+                    <children>
+                        <Label fx:id="firstNameLabel" styleClass="firstNameLabel"
+                               text="first name"/>
+                        <TextField fx:id="firstNameTextField"
+                                   styleClass="firstNameTextField"/>
+                    </children>
+                </VBox>
+                <VBox prefHeight="58.0" prefWidth="194.0">
+                    <children>
+                        <Label fx:id="lastNameLabel" styleClass="lastNameLabel"
+                               text="last name"/>
+                        <TextField fx:id="lastNameTextField" prefHeight="26.0"
+                                   prefWidth="154.0"
+                                   styleClass="lastNameTextField"/>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+        <Label fx:id="addressLabel" styleClass="addressLabel"
+               text="customer address"/>
+        <TextField fx:id="addressTextField" styleClass="addressTextField"/>
+        <HBox prefHeight="65.0" prefWidth="600.0">
+            <children>
+                <VBox prefHeight="65.0" prefWidth="235.0">
+                    <children>
+                        <Label fx:id="orderStatusLabel"
+                               styleClass="orderStatusLabel"
+                               text="order status"/>
+                        <TextField fx:id="orderStatusTextField"
+                                   styleClass="orderStatusTextField"/>
+                    </children>
+                </VBox>
+                <VBox prefHeight="65.0" prefWidth="217.0">
+                    <children>
+                        <Label fx:id="deliveryTimeLabel"
+                               styleClass="deliveryTimeLabel"
+                               text="estimated delivery time"/>
+                        <TextField fx:id="deliveryTimeTextField"
+                                   styleClass="deliveryTimeTextField"/>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+        <Label fx:id="assignedDriverLabel" styleClass="assignedDriverLabel"
+               text="assigned driver"/>
+        <ComboBox fx:id="assignedDriverComboBox" prefWidth="150.0"
+                   styleClass="assignedDriverComboBox"
+        />
+        <HBox alignment="CENTER" prefHeight="68.0" prefWidth="600.0">
+            <children>
+                <Button fx:id="saveButton" mnemonicParsing="false"
+                        styleClass="saveButton" text="Save Changes"/>
+                <Button fx:id="returnButton" mnemonicParsing="false"
+                        styleClass="returnButton" text="Return"/>
+            </children>
+        </HBox>
+    </children>
 </VBox>
