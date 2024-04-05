@@ -13,23 +13,24 @@ public class TakeawayOrder extends Order {
     /**
      * The constructor to initiate a takeaway order with empty basket.
      *
+     * @param orderId   - the unique id.
      * @param customer  - the customer who is making the order.
      * @param orderDate - the date of the order.
      * @param orderTime - the time of the order.
      */
-    public TakeawayOrder(Customer customer, LocalDate orderDate,
+    public TakeawayOrder(int orderId, Customer customer, LocalDate orderDate,
                          LocalTime orderTime) {
-        super(customer, orderDate, orderTime, "takeaway", "pending-kitchen");
+        super(orderId, customer, orderDate, orderTime, "takeaway", "pending-kitchen");
         // Default 30 mins for now - restaurant policy to prepare within 30
         // mins.
         estimatedPickupTime = orderTime.plusMinutes(30);
     }
 
     // TODO comment to get updated data
-    public TakeawayOrder(Customer customer, LocalDate orderDate,
+    public TakeawayOrder(int orderId, Customer customer, LocalDate orderDate,
                          LocalTime orderTime, LocalTime estimatedPickupTime,
                          String orderStatus, List<FoodDrink> orderedList) {
-        super(customer, orderDate, orderTime, "takeaway", orderStatus, orderedList);
+        super(orderId, customer, orderDate, orderTime, "takeaway", orderStatus, orderedList);
         this.estimatedPickupTime = estimatedPickupTime;
     }
 
