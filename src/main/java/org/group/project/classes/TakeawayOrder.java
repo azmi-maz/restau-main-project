@@ -21,9 +21,10 @@ public class TakeawayOrder extends Order {
     public TakeawayOrder(int orderId, Customer customer, LocalDate orderDate,
                          LocalTime orderTime) {
         super(orderId, customer, orderDate, orderTime, "takeaway", "pending-kitchen");
+        // TODO review this is needed or not
         // Default 30 mins for now - restaurant policy to prepare within 30
         // mins.
-        estimatedPickupTime = orderTime.plusMinutes(30);
+//        estimatedPickupTime = orderTime.plusMinutes(30);
     }
 
     // TODO comment to get updated data

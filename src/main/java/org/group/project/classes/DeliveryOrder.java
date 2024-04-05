@@ -26,9 +26,10 @@ public class DeliveryOrder extends Order {
                          LocalTime orderTime) {
         super(orderId, customer, orderDate, orderTime, "delivery", "pending-approval");
         customerAddress = customer.getDeliveryAddress();
+        // TODO review this is needed or not
         // Default 30 mins for now - restaurant policy to deliver within 30
         // mins.
-        deliveryTime = orderTime.plusMinutes(30);
+//        deliveryTime = orderTime.plusMinutes(30);
     }
 
     // TODO comment to get updated data
