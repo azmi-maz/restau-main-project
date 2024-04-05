@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class Order {
     private User user;
+    private int orderId;
     private LocalDate orderDate;
     private LocalTime orderTime;
     private String orderType;
@@ -22,14 +23,16 @@ public class Order {
     /**
      * The constructor to initiate an order with empty basket.
      *
+     * @param orderId     - the order unique id.
      * @param user        - the customer or waiter making an order.
      * @param orderDate   - the date of the order.
      * @param orderTime   - the time of the order.
      * @param orderType   - the type of order.
      * @param orderStatus - the initial status when an order is created.
      */
-    public Order(User user, LocalDate orderDate, LocalTime orderTime,
+    public Order(int orderId, User user, LocalDate orderDate, LocalTime orderTime,
                  String orderType, String orderStatus) {
+        this.orderId = orderId;
         this.user = user;
         this.orderDate = orderDate;
         this.orderTime = orderTime;
@@ -39,15 +42,21 @@ public class Order {
     }
 
     // TODO comment to get updated data
-    public Order(User user, LocalDate orderDate, LocalTime orderTime,
+    public Order(int orderId, User user, LocalDate orderDate, LocalTime orderTime,
                  String orderType, String orderStatus,
                  List<FoodDrink> orderedList) {
+        this.orderId = orderId;
         this.user = user;
         this.orderDate = orderDate;
         this.orderTime = orderTime;
         this.orderType = orderType;
         this.orderStatus = orderStatus;
         this.orderedFoodDrinkLists = orderedList;
+    }
+
+    // TODO comment
+    public int getOrderId() {
+        return orderId;
     }
 
     /**
@@ -89,6 +98,11 @@ public class Order {
      */
     public LocalTime getOrderTime() {
         return orderTime;
+    }
+
+    // TODO comment
+    public String getOrderTimeInFormat() {
+        return orderTime.format(DateTimeFormatter.ofPattern("hh:mm a"));
     }
 
     /**
