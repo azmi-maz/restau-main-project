@@ -4,23 +4,27 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.Tooltip;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.group.project.Main;
 import org.group.project.classes.*;
+import org.group.project.scenes.WindowSize;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class WaiterApproveDeliveryViewController {
 
@@ -49,12 +53,9 @@ public class WaiterApproveDeliveryViewController {
     private TableColumn<Order, Button> actionButtonColumn2;
 
     @FXML
-    private TableColumn<Order, Button> actionButtonColumn3;
-
-    @FXML
     private BorderPane borderPane;
 
-    // TODO Delete all of these
+    // TODO Delete all of these bgImage declared here as they're redundant
     @FXML
     private ImageView bgImage;
 
@@ -100,8 +101,10 @@ public class WaiterApproveDeliveryViewController {
         orderTimeColumn.setText("Time");
         orderTimeColumn.setMinWidth(150);
         orderTimeColumn.setStyle("-fx-alignment: CENTER;");
-        orderTimeColumn.setCellValueFactory(
-                new PropertyValueFactory<>("orderTime"));
+        orderTimeColumn.setCellValueFactory(cellData -> {
+            String formattedTime = cellData.getValue().getOrderTimeInFormat();
+            return new SimpleObjectProperty<>(formattedTime);
+        });
 
         orderListColumn.setText("Item Ordered");
         orderListColumn.setMinWidth(200);
@@ -126,9 +129,56 @@ public class WaiterApproveDeliveryViewController {
             // TODO use tool tips for other buttons, where necessary
             viewButton.setTooltip(new Tooltip("View details"));
             ImageLoader.setUpGraphicButton(viewButton, 15, 15, "view-details");
+            Customer customer = cellData.getValue().getCustomer();
+//            String customerId = String.valueOf(cellData.getValue().getCustomer().getCustomerId());
+//            String firstName = cellData.getValue().getCustomer().getFirstName();
+//            String lastName = cellData.getValue().getCustomer().getLastName();
+//            String customerAddress = cellData.getValue().getCustomer().getDeliveryAddress();
+            int orderId = cellData.getValue().getOrderId();
+            String orderStatus = cellData.getValue().getOrderStatus();
+            DeliveryOrder deliveryOrder = (DeliveryOrder) cellData.getValue();
+            LocalTime deliveryTime = deliveryOrder.getDeliveryTime();
 
+            viewButton.setOnAction(e -> {
 
+                try {
+                    FXMLLoader fxmlLoader =
+                            new FXMLLoader(Main.class.getResource(
+                                    "smallwindows/waiter-editdeliveryorder" +
+                                            ".fxml"));
 
+                    VBox vbox = fxmlLoader.load();
+
+                    WaiterEditDeliveryOrderController controller =
+                            fxmlLoader.getController();
+
+                    controller.populateOrderDetails(
+                            orderId,
+                            customer,
+                            orderStatus,
+                            deliveryTime
+                    );
+                    Scene editScene = new Scene(vbox,
+                            WindowSize.MEDIUM.WIDTH,
+                            WindowSize.MEDIUM.HEIGHT);
+
+                    Stage editStage = new Stage();
+                    editStage.setScene(editScene);
+                    // TODO Should final variable this
+                    editStage.setTitle("Edit Delivery Order");
+
+                    editStage.initModality(Modality.APPLICATION_MODAL);
+
+                    editStage.showAndWait();
+
+                    refreshPendingDeliveryList();
+
+                } catch (IOException ex) {
+                    // TODO catch error
+                    throw new RuntimeException(ex);
+                }
+
+            });
 
             return new SimpleObjectProperty<>(viewButton);
         });
@@ -138,11 +188,33 @@ public class WaiterApproveDeliveryViewController {
         actionButtonColumn2.setCellValueFactory(cellData -> {
             Button cancelButton = new Button();
             // TODO use tool tips for other buttons, where necessary
-            cancelButton.setTooltip(new Tooltip("View details"));
+            cancelButton.setTooltip(new Tooltip("Cancel"));
             ImageLoader.setUpGraphicButton(cancelButton, 15, 15, "cancel");
+            int orderId = cellData.getValue().getOrderId();
 
+            cancelButton.setOnAction(e -> {
+                Optional<ButtonType> userChoice = promptForUserAcknowledgement(
+                        "Delivery Order Cancellation",
+                        "Do you want to cancel this delivery order?"
+                );
 
+                if (userChoice.get()
+                        .getButtonData().toString()
+                        .equalsIgnoreCase("OK_DONE")) {
+                    // TODO try catch
+                    try {
+                        DataManager.editColumnDataByUniqueId("BOOKINGS",
+                                orderId, "bookingStatus",
+                                "failed");
+                        // TODO notify customer here after delivery order cancellation
 
+                        refreshPendingDeliveryList();
+
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            });
 
 
             return new SimpleObjectProperty<>(cancelButton);
@@ -152,7 +224,8 @@ public class WaiterApproveDeliveryViewController {
 
     }
 
-    private void refreshPendingDeliveryList() throws FileNotFoundException {
+    // TODO made public so this list can be refreshed once pending delivery approved
+    public void refreshPendingDeliveryList() throws FileNotFoundException {
 
         // TODO comment
         pendingDeliveryTable.getItems().clear();
@@ -163,6 +236,10 @@ public class WaiterApproveDeliveryViewController {
 
         for (String order : pendingDeliveryList) {
             List<String> orderDetails = List.of(order.split(","));
+
+            // orderId
+            int orderId = Integer.parseInt(orderDetails.get(DataFileStructure.getIndexByColName("ORDERS", "orderId")));
+
             // user
             Customer customer;
 
@@ -236,6 +313,8 @@ public class WaiterApproveDeliveryViewController {
 
                 if (driverString != null) {
                     assignedDriver = new Driver(
+                            Integer.parseInt(driverString.get(DataFileStructure.getIndexByColName(
+                                    "USERS", "userId"))),
                             driverString.get(DataFileStructure.getIndexByColName(
                                     "USERS", "firstName")),
                             driverString.get(DataFileStructure.getIndexByColName(
@@ -260,6 +339,7 @@ public class WaiterApproveDeliveryViewController {
                 if (orderType.equalsIgnoreCase("delivery")
                         && orderStatus.equalsIgnoreCase("pending-approval")) {
                     data.add(new DeliveryOrder(
+                            orderId,
                             customer,
                             orderDate,
                             orderTime,
@@ -272,5 +352,15 @@ public class WaiterApproveDeliveryViewController {
                 }
             }
         }
+    }
+
+    public Optional<ButtonType> promptForUserAcknowledgement(
+            String header,
+            String message
+    ) {
+        return AlertPopUpWindow.displayConfirmationWindow(
+                header,
+                message
+        );
     }
 }
