@@ -25,6 +25,7 @@ public class Booking {
      * Booking constructor where the customer did not specify booking length.
      * Default of booking length is one hour.
      *
+     * @param bookingId    - the unique id.
      * @param customer     - customer who is making a table reservation.
      * @param bookingDate  - the date for the table reservation.
      * @param bookingTime  - the time for the table reservation.
@@ -46,6 +47,7 @@ public class Booking {
     /**
      * Booking constructor where the customer did specify the booking length.
      *
+     * @param bookingId     - the unique id.
      * @param customer      - customer who is making a table reservation.
      * @param bookingDate   - the date for the table reservation.
      * @param bookingTime   - the time for the table reservation.
@@ -69,6 +71,7 @@ public class Booking {
      * Booking constructor where booking data is fully complete for viewing
      * purpose.
      *
+     * @param bookingId     - the unique id.
      * @param customer      - customer who is making a table reservation.
      * @param bookingDate   - the date for the table reservation.
      * @param bookingTime   - the time for the table reservation.
@@ -168,7 +171,7 @@ public class Booking {
      * @return the list of table preferences.
      */
     public String getTableNames() {
-        return getTablePreference().toString().replace("[","").replace("]","");
+        return getTablePreference().toString().replace("[", "").replace("]", "");
     }
 
     /**
@@ -216,8 +219,10 @@ public class Booking {
      *
      * @return the time a booking ends.
      */
-    public LocalTime getEndBookingTime() {
-        return bookingTime.plusHours(bookingLengthInHour);
+    public String getEndBookingTime() {
+        return bookingTime
+                .plusHours(bookingLengthInHour)
+                .format(DateTimeFormatter.ofPattern("hh:mm a"));
     }
 
     /**
@@ -226,7 +231,9 @@ public class Booking {
      * @return the time period of a booking.
      */
     public String getTimePeriodOfBooking() {
-        return bookingTime.toString() + " - " + getEndBookingTime().toString();
+        return bookingTime.format(DateTimeFormatter.ofPattern("hh:mm a"))
+                + " - "
+                + getEndBookingTime();
     }
 
 
