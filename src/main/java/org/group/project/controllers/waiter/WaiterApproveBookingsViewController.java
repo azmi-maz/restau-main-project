@@ -174,15 +174,38 @@ public class WaiterApproveBookingsViewController {
         actionButtonColumn2.setMinWidth(65);
         actionButtonColumn2.setStyle("-fx-alignment: CENTER;");
         actionButtonColumn2.setCellValueFactory(cellData -> {
-            Button deleteButton = new Button();
-            deleteButton.setTooltip(new Tooltip("Cancel"));
-            ImageLoader.setUpGraphicButton(deleteButton, 15, 15, "cancel");
+            Button cancelButton = new Button();
+            cancelButton.setTooltip(new Tooltip("Cancel"));
+            ImageLoader.setUpGraphicButton(cancelButton, 15, 15, "cancel");
             int bookingId = cellData.getValue().getBookingId();
 
-            // Dont delete the booking, change status to failed
+            // TODO Dont delete the booking, change status to failed
+            cancelButton.setOnAction(e -> {
 
-            // TODO notify customer here after table cancellation
-            return new SimpleObjectProperty<>(deleteButton);
+                Optional<ButtonType> userChoice = promptForUserAcknowledgement(
+                        "Table Reservation Approval",
+                        "Do you want to cancel this table reservation?"
+                );
+
+                if (userChoice.get()
+                        .getButtonData().toString()
+                        .equalsIgnoreCase("OK_DONE")) {
+                    // TODO try catch
+                    try {
+                        DataManager.editColumnDataByUniqueId("BOOKINGS",
+                                bookingId, "bookingStatus",
+                                "failed");
+                        // TODO notify customer here after table cancellation
+
+                        refreshReservationList();
+
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            });
+
+            return new SimpleObjectProperty<>(cancelButton);
         });
 
         pendingApprovalsTable.setItems(data);
