@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox alignment="CENTER"
+      maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:id="vbox"
+      fx:controller="org.group.project.controllers.waiter.WaiterDineinAddOrderController"
+>
+    <children>
+        <Label text="Add Order Item">
+            <font>
+                <Font size="23.0"/>
+            </font>
+        </Label>
+        <Label fx:id="itemNameLabel" styleClass="itemNameLabel" text="item name"/>
+        <ComboBox fx:id="comboItemName" prefWidth="150.0"
+                  styleClass="comboItemName"/>
+        <Label fx:id="quantityLabel" styleClass="quantityLabel" text="quantity"/>
+        <TextField fx:id="quantityTextField" promptText="enter quantity here"
+                   styleClass="quantityTextField" text="1"/>
+        <HBox alignment="CENTER" prefHeight="44.0" prefWidth="600.0">
+            <children>
+                <Button fx:id="addItemButton" mnemonicParsing="false"
+                        styleClass="addItemButton" text="Add Item"/>
+                <Button fx:id="cancelButton" mnemonicParsing="false"
+                        styleClass="cancelButton" text="Cancel"/>
+            </children>
+        </HBox>
+    </children>
+</VBox>
