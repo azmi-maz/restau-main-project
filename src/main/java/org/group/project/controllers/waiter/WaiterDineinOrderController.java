@@ -37,7 +37,7 @@ public class WaiterDineinOrderController {
     private ImageView bgImage;
 
     @FXML
-    private ChoiceBox tableChoiceBox;
+    private ChoiceBox<String> tableChoiceBox;
 
     @FXML
     private TableColumn<FoodDrink, String> noColumn;

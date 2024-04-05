@@ -26,7 +26,7 @@ public class ManagerReportViewController {
     private BorderPane borderPane;
 
     @FXML
-    private ChoiceBox reportTypeChoiceBox;
+    private ChoiceBox<String> reportTypeChoiceBox;
 
     @FXML
     private TextArea reportTextArea;

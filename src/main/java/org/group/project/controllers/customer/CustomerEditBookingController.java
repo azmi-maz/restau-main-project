@@ -21,16 +21,16 @@ public class CustomerEditBookingController {
     private DatePicker reservationDatePicker;
 
     @FXML
-    private ChoiceBox reservationTimeChoiceBox;
+    private ChoiceBox<LocalTime> reservationTimeChoiceBox;
 
     @FXML
-    private ChoiceBox numOfGuestsChoiceBox;
+    private ChoiceBox<String> numOfGuestsChoiceBox;
 
     @FXML
-    private ChoiceBox tablePreferenceChoiceBox;
+    private ChoiceBox<String> tablePreferenceChoiceBox;
 
     @FXML
-    private ChoiceBox lenOfReservationTimeChoiceBox;
+    private ChoiceBox<String> lenOfReservationTimeChoiceBox;
 
     @FXML
     private Button saveChangesButton;
@@ -146,7 +146,7 @@ public class CustomerEditBookingController {
         reservationDatePicker.setValue(reservationDate);
         reservationTimeChoiceBox.setValue(reservationTime);
         numOfGuestsChoiceBox.setValue(String.valueOf(numOfGuests));
-        lenOfReservationTimeChoiceBox.setValue(bookingLength);
+        lenOfReservationTimeChoiceBox.setValue(String.valueOf(bookingLength));
         tablePreferenceChoiceBox.setValue(tablePreference);
     }
 

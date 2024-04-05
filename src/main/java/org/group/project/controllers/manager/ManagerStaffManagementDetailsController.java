@@ -32,7 +32,7 @@ public class ManagerStaffManagementDetailsController {
     private TextField totalHoursWorkedTextField;
 
     @FXML
-    private ChoiceBox positionChoiceBox;
+    private ChoiceBox<String> positionChoiceBox;
 
     @FXML
     private Button saveButton;

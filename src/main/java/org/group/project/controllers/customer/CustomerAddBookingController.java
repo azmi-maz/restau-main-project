@@ -25,16 +25,16 @@ public class CustomerAddBookingController {
     private DatePicker reservationDatePicker;
 
     @FXML
-    private ChoiceBox reservationTimeChoiceBox;
+    private ChoiceBox<LocalTime> reservationTimeChoiceBox;
 
     @FXML
-    private ChoiceBox numOfGuestsChoiceBox;
+    private ChoiceBox<String> numOfGuestsChoiceBox;
 
     @FXML
-    private ChoiceBox lenOfReservationTimeChoiceBox;
+    private ChoiceBox<String> lenOfReservationTimeChoiceBox;
 
     @FXML
-    private ChoiceBox tablePreferenceChoiceBox;
+    private ChoiceBox<String> tablePreferenceChoiceBox;
 
     @FXML
     private Button confirmButton;
@@ -77,7 +77,6 @@ public class CustomerAddBookingController {
         numOfGuestsChoiceBox.getItems().add("4");
         numOfGuestsChoiceBox.getItems().add("8");
         numOfGuestsChoiceBox.getItems().add("10");
-
 
         lenOfReservationTimeChoiceBox.getItems().add("1");
         lenOfReservationTimeChoiceBox.getItems().add("2");
@@ -140,6 +139,7 @@ public class CustomerAddBookingController {
                 throw new RuntimeException(ex);
             }
 
+            // TODO comment why this needed
             CustomerBookingsHistoryViewController controller =
                     new CustomerBookingsHistoryViewController();
 
