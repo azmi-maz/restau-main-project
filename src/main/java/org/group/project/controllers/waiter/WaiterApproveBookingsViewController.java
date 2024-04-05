@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +31,7 @@ public class WaiterApproveBookingsViewController {
     private TableColumn<Booking, String> bookingDateColumn;
 
     @FXML
-    private TableColumn<Booking, LocalTime> bookingTimeColumn;
+    private TableColumn<Booking, String> bookingTimeColumn;
 
     @FXML
     private TableColumn<Booking, Integer> numOfGuestsColumn;
@@ -101,8 +102,12 @@ public class WaiterApproveBookingsViewController {
         bookingTimeColumn.setText("Booking Time");
         bookingTimeColumn.setMinWidth(150);
         bookingTimeColumn.setStyle("-fx-alignment: CENTER;");
-        bookingTimeColumn.setCellValueFactory(
-                new PropertyValueFactory<>("bookingTime"));
+        bookingTimeColumn.setCellValueFactory(cellData -> {
+            String formattedTime = cellData
+                    .getValue().getBookingTime()
+                    .format(DateTimeFormatter.ofPattern("hh:mm a"));
+            return new SimpleObjectProperty<>(formattedTime);
+        });
 
         numOfGuestsColumn.setText("No. of Guests");
         numOfGuestsColumn.setMinWidth(90);
@@ -157,7 +162,7 @@ public class WaiterApproveBookingsViewController {
                     try {
                         DataManager.editColumnDataByUniqueId("BOOKINGS",
                                 bookingId, "bookingStatus",
-                                "approved-complete");
+                                "approved");
                         // TODO notify customer here after approval
 
                         refreshReservationList();
@@ -278,6 +283,7 @@ public class WaiterApproveBookingsViewController {
 
     }
 
+    // TODO used these a lot, prolly send it up to AlertPopUpWindow
     public Optional<ButtonType> promptForUserAcknowledgement(
             String header,
             String message
