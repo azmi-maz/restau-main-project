@@ -14,14 +14,17 @@ import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.group.project.Main;
-import org.group.project.classes.AlertPopUpWindow;
-import org.group.project.classes.FoodDrink;
-import org.group.project.classes.ImageLoader;
+import org.group.project.classes.*;
 import org.group.project.scenes.WindowSize;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,6 +68,8 @@ public class WaiterDineinOrderController {
 
     @FXML
     private Button cancelOrderButton;
+
+    private int userId;
 
     private List<FoodDrink> orderList = new ArrayList<>();
 
@@ -148,6 +153,42 @@ public class WaiterDineinOrderController {
 
         confirmButton.setOnAction(e -> {
 
+            String getNewOrderId = "";
+            // TODO try catch
+            try {
+                getNewOrderId = String.valueOf(HelperMethods.getNewIdByFile("ORDERS"));
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+            String newOrderId = getNewOrderId;
+            // TODO these are useful and short
+            String orderDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-M-d"));
+            String orderTime = LocalTime.now().format(DateTimeFormatter.ofPattern("H-m"));
+            List<String> itemList = new ArrayList<>();
+            for (FoodDrink item : orderList) {
+                for (int i = 0; i < item.getQuantity(); i++) {
+                    itemList.add(item.getItemName());
+                }
+            }
+            String finalOrderList = DataManager.formatLongArrayToOneColumnString(itemList);
+            List<String> newOrderString = new ArrayList<>(Arrays.asList(
+                    newOrderId,
+                    String.valueOf(userId),
+                    orderDate,
+                    orderTime,
+                    "dinein",
+                    "pending", "", "", "",
+                    finalOrderList));
+            // TODO try catch
+            try {
+                DataManager.appendDataToFile("ORDERS", newOrderString);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
+            promptOrderSuccessful();
+            orderList.clear();
+            refreshOrderList();
 
         });
 
@@ -269,6 +310,8 @@ public class WaiterDineinOrderController {
     }
 
     private void refreshOrderList() {
+        // TODO get user id
+        userId = 3;
         orderDetailsTable.getItems().clear();
         data.clear();
         data.addAll(orderList);
@@ -282,6 +325,14 @@ public class WaiterDineinOrderController {
         return AlertPopUpWindow.displayConfirmationWindow(
                 header,
                 message
+        );
+    }
+
+    public void promptOrderSuccessful() {
+        AlertPopUpWindow.displayInformationWindow(
+                "Order Successful",
+                "Thank you! Your request is being processed now.",
+                "Ok"
         );
     }
 
