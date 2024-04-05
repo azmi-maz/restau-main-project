@@ -138,6 +138,11 @@ public class Booking {
         return bookingTime;
     }
 
+    // TODO comment
+    public String getBookingTimeInFormat() {
+        return bookingTime.format(DateTimeFormatter.ofPattern("hh:mm a"));
+    }
+
     /**
      * Getter method to get the number of guests.
      *
