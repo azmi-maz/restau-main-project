@@ -178,7 +178,7 @@ public class WaiterDineinOrderController {
                     orderDate,
                     orderTime,
                     "dinein",
-                    "pending", "", "", "",
+                    "pending-kitchen", "", "", "",
                     finalOrderList));
             // TODO try catch
             try {
