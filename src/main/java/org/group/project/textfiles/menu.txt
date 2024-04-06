@@ -1,25 +1,25 @@
-steak au poivre,food
-marseilles shrimp stew,food
-duck a lorange,food
-lyon chicken,food
-coq au vin,food
-stuffed pork tenderloin,food
-lobster thermidor,food
-strip steak frite,food
-classic duck confit,food
-pear tarte tatin,food
-chocolate souffle,food
-classic creme brulee,food
-croquembouche,food
-manhattan,drink
-margarita,drink
-cosmopolitan,drink
-bloody mary,drink
-white russian,drink
-mojito,drink
-negroni,drink
-daiquiri,drink
-martini,drink
-pina colada,drink
-irish coffee,drink
-long island iced tea,drink
+steak au poivre,food,false
+marseilles shrimp stew,food,false
+duck a lorange,food,false
+lyon chicken,food,true
+coq au vin,food,true
+stuffed pork tenderloin,food,false
+lobster thermidor,food,false
+strip steak frite,food,false
+classic duck confit,food,false
+pear tarte tatin,food,false
+chocolate souffle,food,true
+classic creme brulee,food,false
+croquembouche,food,true
+manhattan,drink,false
+margarita,drink,false
+cosmopolitan,drink,false
+bloody mary,drink,true
+white russian,drink,false
+mojito,drink,false
+negroni,drink,true
+daiquiri,drink,false
+martini,drink,false
+pina colada,drink,false
+irish coffee,drink,false
+long island iced tea,drink,false

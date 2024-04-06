@@ -8,18 +8,28 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label id="headerLabel" styleClass="headerLabel" text="Add New Menu Item" />
-      <Label id="itemNameLabel" styleClass="itemNameLabel" text="item name" />
-      <TextField id="itemNameTextField" styleClass="itemNameTextField" />
-      <Label id="itemTypeLabel" styleClass="itemTypeLabel" text="item type" />
-      <ChoiceBox id="itemTypeChoiceBox" prefWidth="150.0" styleClass="itemTypeChoiceBox" />
-      <HBox alignment="CENTER" prefHeight="58.0" prefWidth="600.0">
-         <children>
-            <Button id="addNewItemButton" mnemonicParsing="false" styleClass="addNewItemButton" text="Add New Item" />
-            <Button id="cancelButton" mnemonicParsing="false" styleClass="cancelButton" text="Cancel" />
-         </children>
-      </HBox>
-   </children>
+<VBox alignment="TOP_CENTER"
+      maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:id="vbox"
+      fx:controller="org.group.project.controllers.chef.ChefAddNewItemController"
+>
+    <children>
+        <Label fx:id="headerLabel" styleClass="headerLabel"
+               text="Add New Menu Item"/>
+        <Label fx:id="itemNameLabel" styleClass="itemNameLabel" text="item name"/>
+        <TextField fx:id="itemNameTextField" styleClass="itemNameTextField"/>
+        <Label fx:id="itemTypeLabel" styleClass="itemTypeLabel" text="item type"/>
+        <ChoiceBox fx:id="itemTypeChoiceBox" prefWidth="150.0"
+                   styleClass="itemTypeChoiceBox"/>
+        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="600.0">
+            <children>
+                <Button fx:id="addNewItemButton" mnemonicParsing="false"
+                        styleClass="addNewItemButton" text="Add New Item"/>
+                <Button fx:id="cancelButton" mnemonicParsing="false"
+                        styleClass="cancelButton" text="Cancel"/>
+            </children>
+        </HBox>
+    </children>
 </VBox>
