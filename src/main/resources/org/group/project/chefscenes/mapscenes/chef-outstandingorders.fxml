@@ -1,31 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-
-
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <HBox alignment="CENTER" prefHeight="62.0" prefWidth="600.0">
-         <children>
-            <Label id="headerLabel" styleClass="headerLabel" text="Outstanding Orders" />
-             <fx:include source="../../navbar/chef/chef-returnhome-navbar.fxml"
-                         fx:id="chefReturnHomeNavbar"/>
-         </children>
-      </HBox>
-      <BorderPane prefHeight="322.0" prefWidth="600.0">
-         <center>
-            <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-              <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
-              </columns>
-            </TableView>
-         </center>
-      </BorderPane>
-   </children>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<VBox alignment="TOP_CENTER"
+      maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.group.project.controllers.chef.ChefOutstandingOrdersViewController"
+>
+    <children>
+        <HBox alignment="CENTER" prefHeight="62.0" prefWidth="600.0">
+            <children>
+                <Label fx:id="headerLabel" styleClass="headerLabel"
+                       text="Outstanding Orders"/>
+                <fx:include
+                        source="../../navbar/chef/chef-returnhome-navbar.fxml"
+                        fx:id="chefReturnHomeNavbar"/>
+            </children>
+        </HBox>
+        <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
+            <center>
+                <ImageView fx:id="bgImage" fitHeight="150.0" fitWidth="200.0"
+                           pickOnBounds="true" preserveRatio="true"
+                           BorderPane.alignment="CENTER"/>
+                <TableView fx:id="outstandingOrdersTable" maxHeight="550.0"
+                           maxWidth="1175.0"
+                           BorderPane.alignment="CENTER">
+                    <columns>
+                        <TableColumn fx:id="customerColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="orderDateColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="orderTimeColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="orderTypeColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="itemsColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="orderStatusColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="actionButtonColumn"
+                                     prefWidth="75.0"/>
+                    </columns>
+                </TableView>
+            </center>
+        </BorderPane>
+    </children>
 </VBox>
