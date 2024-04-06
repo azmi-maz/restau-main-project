@@ -28,7 +28,7 @@
                            pickOnBounds="true" preserveRatio="true"
                            BorderPane.alignment="CENTER"/>
                 <TableView fx:id="outstandingOrdersTable" maxHeight="550.0"
-                           maxWidth="1175.0"
+                           maxWidth="1027.0"
                            BorderPane.alignment="CENTER">
                     <columns>
                         <TableColumn fx:id="customerColumn"

@@ -144,7 +144,7 @@ public class CustomerOrderDetailsViewController {
         actionButtonColumn1.setStyle("-fx-alignment: CENTER;");
         actionButtonColumn1.setCellValueFactory(cellData -> {
             Button editButton = new Button();
-
+            editButton.setTooltip(new Tooltip("Edit Order"));
             ImageLoader.setUpGraphicButton(editButton, 15, 15, "edit");
             String imageFile = cellData.getValue().getImageFileName();
             String labelName = cellData.getValue().getItemNameForDisplay();
@@ -195,7 +195,7 @@ public class CustomerOrderDetailsViewController {
         actionButtonColumn2.setStyle("-fx-alignment: CENTER;");
         actionButtonColumn2.setCellValueFactory(cellData -> {
             Button deleteButton = new Button();
-
+            deleteButton.setTooltip(new Tooltip("Delete Order"));
             ImageLoader.setUpGraphicButton(deleteButton, 15, 15, "delete");
             FoodDrink item = cellData.getValue();
 

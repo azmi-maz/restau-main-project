@@ -194,7 +194,6 @@ public class CustomerAddBookingController {
             }
 
             closeWindow();
-
         });
 
         cancelButton.setOnAction(e -> {
