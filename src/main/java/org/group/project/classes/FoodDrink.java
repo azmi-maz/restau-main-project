@@ -12,6 +12,9 @@ public class FoodDrink {
     private int quantity;
 
     // TODO image url
+    // TODO position
+    // TODO width height size
+    // TODO grid position
 
     private boolean isDailySpecial;
 
@@ -26,6 +29,7 @@ public class FoodDrink {
         this.itemName = itemName;
         this.itemType = itemType;
         this.quantity = 1;
+        this.isDailySpecial = false;
     }
 
     /**
@@ -39,6 +43,14 @@ public class FoodDrink {
         this.itemName = itemName;
         this.itemType = itemType;
         this.quantity = quantity;
+        this.isDailySpecial = false;
+    }
+
+    // TODO comment
+    public FoodDrink(String itemName, String itemType, boolean isDailySpecial) {
+        this.itemName = itemName;
+        this.itemType = itemType;
+        this.isDailySpecial = isDailySpecial;
     }
 
     /**

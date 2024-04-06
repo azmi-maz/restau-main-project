@@ -21,7 +21,7 @@ public enum DataFileStructure {
             "bookingDate", "bookingTime", "numOfGuests", "bookingLength",
             "tablePreference", "bookingStatus").toArray(new String[0])),
     MENU("itemName",
-            Arrays.asList("itemName", "itemType").toArray(new String[0])),
+            Arrays.asList("itemName", "itemType", "isDailySpecial").toArray(new String[0])),
     NOTIFICATION("notificationId",
             Arrays.asList("notificationId", "userId", "notificationDate",
                     "notificationTime", "notificationType", "readStatus",
