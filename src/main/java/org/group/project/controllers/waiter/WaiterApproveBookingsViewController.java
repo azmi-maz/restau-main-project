@@ -70,7 +70,7 @@ public class WaiterApproveBookingsViewController {
     public void initialize() throws FileNotFoundException, URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
-                "/background/main-bg" +
+                "/background/waiter-main" +
                 ".jpg").toURI().toString());
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,

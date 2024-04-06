@@ -42,7 +42,7 @@ public class ManagerReportViewController {
         reportTypeChoiceBox.setValue("Choose report type");
 
         Image bgImage = new Image(Main.class.getResource("images" +
-                "/background/staff-main" +
+                "/background/manager-main" +
                 ".jpg").toURI().toString());
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,

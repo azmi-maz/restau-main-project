@@ -73,7 +73,7 @@ public class ManagerStaffManagementViewController {
     public void initialize() throws URISyntaxException, FileNotFoundException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
-                "/background/staff-main" +
+                "/background/manager-main" +
                 ".jpg").toURI().toString());
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,

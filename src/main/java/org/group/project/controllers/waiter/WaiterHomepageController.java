@@ -25,7 +25,7 @@ public class WaiterHomepageController {
         mainTitle.setText("Welcome, Waiter!");
 
         Image bgImage = new Image(Main.class.getResource("images" +
-                "/background/staff-main" +
+                "/background/waiter-main" +
                 ".jpg").toURI().toString());
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,

@@ -25,7 +25,7 @@ public class ChefHomepageController {
         mainTitle.setText("Welcome, Chef!");
 
         Image bgImage = new Image(Main.class.getResource("images" +
-                "/background/staff-main" +
+                "/background/chef-main" +
                 ".jpg").toURI().toString());
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,
