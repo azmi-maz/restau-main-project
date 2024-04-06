@@ -4,10 +4,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -15,11 +12,13 @@ import org.group.project.Main;
 import org.group.project.classes.*;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ChefOutstandingOrdersViewController {
 
@@ -123,10 +122,41 @@ public class ChefOutstandingOrdersViewController {
         actionButtonColumn.setStyle("-fx-alignment: CENTER;");
         actionButtonColumn.setCellValueFactory(cellData -> {
             Button markAsCompleteButton = new Button();
-            // TODO use tool tips for other buttons, where necessary
             markAsCompleteButton.setTooltip(new Tooltip("Mark as complete"));
             ImageLoader.setUpGraphicButton(markAsCompleteButton, 15, 15, "confirm");
+            int orderId = cellData.getValue().getOrderId();
+            String updatedOrderStatus = "completed";
+            String orderType = cellData.getValue().getOrderType();
+            if (orderType.equalsIgnoreCase("delivery")) {
+                updatedOrderStatus = "pending-delivery";
+            }
+            String orderStatus = updatedOrderStatus;
 
+            markAsCompleteButton.setOnAction(e -> {
+
+                Optional<ButtonType> userChoice = promptForUserAcknowledgement(
+                        "Update Pending Order",
+                        "Do you want to mark this order as complete?"
+                );
+
+                if (userChoice.get()
+                        .getButtonData().toString()
+                        .equalsIgnoreCase("OK_DONE")) {
+                    // TODO try catch
+                    try {
+                        DataManager.editColumnDataByUniqueId("ORDERS",
+                                orderId, "orderStatus",
+                                orderStatus);
+                        // TODO notify customer here after delivery order cancellation
+
+                        refreshOutstandingOrdersList();
+
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+
+            });
 
             return new SimpleObjectProperty<>(markAsCompleteButton);
         });
@@ -295,5 +325,16 @@ public class ChefOutstandingOrdersViewController {
                 }
             }
         }
+    }
+
+    // TODO make this private or send it up to AlertType class
+    public Optional<ButtonType> promptForUserAcknowledgement(
+            String header,
+            String message
+    ) {
+        return AlertPopUpWindow.displayConfirmationWindow(
+                header,
+                message
+        );
     }
 }

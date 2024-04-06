@@ -216,7 +216,6 @@ public class WaiterApproveDeliveryViewController {
                 }
             });
 
-
             return new SimpleObjectProperty<>(cancelButton);
         });
 
