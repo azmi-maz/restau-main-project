@@ -1,0 +1,10 @@
+.exit {
+    -fx-border-width: 0;
+    -fx-border-color: none;
+    -fx-background-color: none;
+}
+
+.enter {
+    -fx-border-width: 1;
+}
+
