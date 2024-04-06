@@ -203,8 +203,8 @@ public class WaiterApproveDeliveryViewController {
                         .equalsIgnoreCase("OK_DONE")) {
                     // TODO try catch
                     try {
-                        DataManager.editColumnDataByUniqueId("BOOKINGS",
-                                orderId, "bookingStatus",
+                        DataManager.editColumnDataByUniqueId("ORDERS",
+                                orderId, "orderStatus",
                                 "failed");
                         // TODO notify customer here after delivery order cancellation
 
@@ -243,7 +243,6 @@ public class WaiterApproveDeliveryViewController {
             // user
             Customer customer;
 
-            // TODO filter by current userId
             List<String> customerString = HelperMethods.getDataById("USERS",
                     orderDetails.get(DataFileStructure.getIndexByColName(
                             "BOOKINGS", "userId")));
