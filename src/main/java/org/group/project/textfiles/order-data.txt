@@ -1,10 +1,11 @@
 1,1,2024-2-15,12-30,dinein,completed,,,,bloody mary;bloody mary;bloody mary;bloody mary;bloody mary;marseilles shrimp stew;coq au vin
-2,2,2024-2-20,14-30,delivery,pending-delivery,,,,bloody mary;bloody mary;marseilles;marseilles;duck a lorange
+2,2,2024-2-20,14-30,delivery,completed,,,,bloody mary;bloody mary;marseilles;marseilles;duck a lorange
 3,1,2024-2-19,19-0,takeaway,pending-kitchen,,,,marseilles;marseilles;shrimp stew;coq au vin;coq au vin;stuffed pork tenderloin
 4,1,2024-4-3,3-30,delivery,pending-approval,,,,chocolate souffle;classic duck confit;classic duck confit;classic duck confit
 5,1,2024-4-3,3-10,takeaway,pending-kitchen,,,,chocolate souffle;pear tarte tatin;classic creme brulee;croquembouche;cosmopolitan
-6,1,2024-4-3,3-11,delivery,pending-delivery,,4,1-13,coq au vin;lobster thermidor;bloody mary;martini;daiquiri;pina colada;long island iced tea
+6,1,2024-4-3,3-11,delivery,completed,,4,1-13,coq au vin;lobster thermidor;bloody mary;martini;daiquiri;pina colada;long island iced tea
 7,1,2024-4-5,13-30,delivery,pending-approval,,,,chocolate souffle;classic duck confit;classic duck confit;croquembouche;croquembouche;croquembouche;lobster thermidor;lobster thermidor;lobster thermidor;lobster thermidor;martini;martini;martini;martini;martini;white russian;white russian;white russian;white russian
 8,1,2024-4-5,13-31,delivery,pending-approval,,,,classic duck confit;classic duck confit;stuffed pork tenderloin;stuffed pork tenderloin;stuffed pork tenderloin;strip steak frite;strip steak frite;strip steak frite;strip steak frite;mojito;mojito;pina colada;marseilles shrimp stew;marseilles shrimp stew
 9,1,2024-4-5,14-52,takeaway,completed,,,,chocolate souffle;chocolate souffle;classic duck confit;bloody mary;bloody mary;croquembouche;croquembouche;croquembouche
 10,1,2024-4-5,14-52,delivery,failed,,,,chocolate souffle;lobster thermidor;lobster thermidor;long island iced tea;long island iced tea;long island iced tea
+11,1,2024-4-7,6-10,delivery,completed,,4,6-41,chocolate souffle;chocolate souffle;chocolate souffle;chocolate souffle;chocolate souffle;chocolate souffle;chocolate souffle;chocolate souffle;chocolate souffle;chocolate souffle

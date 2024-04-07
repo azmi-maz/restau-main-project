@@ -4,16 +4,22 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.group.project.Main;
 import org.group.project.classes.*;
+import org.group.project.scenes.WindowSize;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -112,7 +118,46 @@ public class DriverPendingDeliveryViewController {
             // TODO use tool tips for other buttons, where necessary
             viewButton.setTooltip(new Tooltip("View details"));
             ImageLoader.setUpGraphicButton(viewButton, 15, 15, "view-details");
+            Order currentOrder = cellData.getValue();
 
+            viewButton.setOnAction(e -> {
+
+                try {
+                    FXMLLoader fxmlLoader =
+                            new FXMLLoader(Main.class.getResource(
+                                    "smallwindows/driver-confirmdelivery" +
+                                            ".fxml"));
+
+                    VBox vbox = fxmlLoader.load();
+
+                    DriverPendingDeliveryDetailsController controller =
+                            fxmlLoader.getController();
+
+                    controller.setOrderDetails(
+                            currentOrder
+                    );
+
+                    Scene editScene = new Scene(vbox,
+                            WindowSize.SMALL.WIDTH,
+                            WindowSize.SMALL.HEIGHT);
+
+                    Stage editStage = new Stage();
+                    editStage.setScene(editScene);
+                    // TODO Should final variable this
+                    editStage.setTitle("View Order Details");
+
+                    editStage.initModality(Modality.APPLICATION_MODAL);
+
+                    editStage.showAndWait();
+
+                    refreshPendingDeliveryList();
+
+                } catch (IOException ex) {
+                    // TODO catch error
+                    throw new RuntimeException(ex);
+                }
+
+            });
 
             return new SimpleObjectProperty<>(viewButton);
         });
@@ -121,6 +166,7 @@ public class DriverPendingDeliveryViewController {
 
     }
 
+    // TODO comment
     private void refreshPendingDeliveryList() throws FileNotFoundException {
 
         // TODO comment
