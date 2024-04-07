@@ -7,19 +7,17 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import org.group.project.Main;
-import org.group.project.classes.*;
+import org.group.project.classes.AlertPopUpWindow;
+import org.group.project.classes.Booking;
+import org.group.project.classes.Customer;
+import org.group.project.classes.ImageLoader;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class WaiterApproveBookingsViewController {
@@ -54,8 +52,6 @@ public class WaiterApproveBookingsViewController {
     @FXML
     private TableColumn<Booking, Button> actionButtonColumn2;
 
-    private List<String> pendindTableReservations;
-
     @FXML
     private TableView<Booking> pendingApprovalsTable = new TableView<>();
     private ObservableList<Booking> data =
@@ -63,9 +59,6 @@ public class WaiterApproveBookingsViewController {
 
     @FXML
     private BorderPane borderPane;
-
-    @FXML
-    private ImageView bgImage;
 
     public void initialize() throws FileNotFoundException, URISyntaxException {
 
@@ -146,7 +139,8 @@ public class WaiterApproveBookingsViewController {
             Button confirmButton = new Button();
             confirmButton.setTooltip(new Tooltip("Approve"));
             ImageLoader.setUpGraphicButton(confirmButton, 15, 15, "confirm");
-            int bookingId = cellData.getValue().getBookingId();
+            Booking selectedBooking = cellData.getValue();
+            Customer selectedCustomer = cellData.getValue().getCustomer();
 
             confirmButton.setOnAction(e -> {
 
@@ -160,10 +154,9 @@ public class WaiterApproveBookingsViewController {
                         .equalsIgnoreCase("OK_DONE")) {
                     // TODO try catch
                     try {
-                        DataManager.editColumnDataByUniqueId("BOOKINGS",
-                                bookingId, "bookingStatus",
-                                "approved");
-                        // TODO notify customer here after approval
+                        selectedBooking.approveBooking();
+                        selectedBooking.notifyCustomer(selectedCustomer,
+                                true);
 
                         refreshReservationList();
 
@@ -182,7 +175,8 @@ public class WaiterApproveBookingsViewController {
             Button cancelButton = new Button();
             cancelButton.setTooltip(new Tooltip("Cancel"));
             ImageLoader.setUpGraphicButton(cancelButton, 15, 15, "cancel");
-            int bookingId = cellData.getValue().getBookingId();
+            Booking selectedBooking = cellData.getValue();
+            Customer selectedCustomer = cellData.getValue().getCustomer();
 
             // TODO Dont delete the booking, change status to failed
             cancelButton.setOnAction(e -> {
@@ -197,10 +191,9 @@ public class WaiterApproveBookingsViewController {
                         .equalsIgnoreCase("OK_DONE")) {
                     // TODO try catch
                     try {
-                        DataManager.editColumnDataByUniqueId("BOOKINGS",
-                                bookingId, "bookingStatus",
-                                "failed");
-                        // TODO notify customer here after table cancellation
+                        selectedBooking.cancelBooking();
+                        selectedBooking.notifyCustomer(selectedCustomer,
+                                false);
 
                         refreshReservationList();
 
@@ -223,63 +216,7 @@ public class WaiterApproveBookingsViewController {
         pendingApprovalsTable.getItems().clear();
         data.clear();
 
-        // TODO to filter based on userid
-        pendindTableReservations = DataManager.allDataFromFile("BOOKINGS");
-
-        for (String booking : pendindTableReservations) {
-            List<String> bookingDetails = List.of(booking.split(","));
-            int bookingId = Integer.parseInt(bookingDetails.get(0));
-            List<String> bookingDateDetails =
-                    List.of(bookingDetails.get(2).split("-"));
-            List<String> bookingTimeDetails =
-                    List.of(bookingDetails.get(3).split("-"));
-            Customer customer;
-            LocalDate bookingDate =
-                    LocalDate.of(Integer.parseInt(bookingDateDetails.get(0)),
-                            Integer.parseInt(bookingDateDetails.get(1)),
-                            Integer.parseInt(bookingDateDetails.get(2)));
-            LocalTime bookingTime =
-                    LocalTime.of(Integer.parseInt(bookingTimeDetails.get(0)),
-                            Integer.parseInt(bookingTimeDetails.get(1)));
-            int numOfGuests = Integer.parseInt(bookingDetails.get(4));
-            int bookingLength = Integer.parseInt(bookingDetails.get(5));
-            String[] bookingTables = bookingDetails.get(6).split(";");
-            String bookingStatus = bookingDetails.get(7);
-            List<Table> tablePreference = new ArrayList<>();
-
-            List<String> customerString = HelperMethods.getDataById("USERS",
-                    bookingDetails.get(DataFileStructure.getIndexByColName(
-                            "BOOKINGS", "userId")));
-            for (String rawTable : bookingTables) {
-                List<String> rawTableDetails = HelperMethods.getDataById(
-                        "TABLES", rawTable);
-                tablePreference.add(new Table(rawTableDetails.get(0),
-                        Integer.parseInt(rawTableDetails.get(1))));
-            }
-            if (customerString != null) {
-                customer = new Customer(
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "firstName")),
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "lastName")),
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "username")),
-                        Integer.parseInt(customerString.get(DataFileStructure.getIndexByColName("USERS", "userId"))),
-                        HelperMethods.formatAddressToRead(customerString.get(DataFileStructure.getIndexByColName("USERS", "address")))
-                );
-
-                // TODO make sure pending-approval status is standardized
-                if (bookingStatus.equalsIgnoreCase("pending-approval")) {
-                    data.add(new Booking(
-                            bookingId,
-                            customer,
-                            bookingDate,
-                            bookingTime,
-                            numOfGuests,
-                            tablePreference,
-                            bookingLength,
-                            bookingStatus
-                    ));
-                }
-            }
-        }
+        Booking.getUpdatedBookingData(data);
 
     }
 
@@ -292,15 +229,5 @@ public class WaiterApproveBookingsViewController {
                 header,
                 message
         );
-    }
-
-    public void deleteBooking(int bookingId) {
-        // TODO try catch
-        try {
-            DataManager.deleteUniqueIdFromFile("BOOKINGS",
-                    bookingId);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
     }
 }
