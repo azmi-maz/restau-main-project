@@ -9,3 +9,4 @@
 9,1,2024-4-5,14-52,takeaway,completed,,,,chocolate souffle;chocolate souffle;classic duck confit;bloody mary;bloody mary;croquembouche;croquembouche;croquembouche
 10,1,2024-4-5,14-52,delivery,failed,,,,chocolate souffle;lobster thermidor;lobster thermidor;long island iced tea;long island iced tea;long island iced tea
 11,1,2024-4-7,6-10,delivery,completed,,4,6-41,chocolate souffle;chocolate souffle;chocolate souffle;chocolate souffle;chocolate souffle;chocolate souffle;chocolate souffle;chocolate souffle;chocolate souffle;chocolate souffle
+12,1,2024-4-7,18-4,delivery,pending-approval,,,,chocolate souffle;chocolate souffle;classic duck confit;croquembouche;croquembouche;croquembouche

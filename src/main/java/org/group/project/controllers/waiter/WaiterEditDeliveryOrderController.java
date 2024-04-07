@@ -6,13 +6,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.group.project.classes.*;
+import org.group.project.classes.Customer;
+import org.group.project.classes.DeliveryOrder;
+import org.group.project.classes.Driver;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 public class WaiterEditDeliveryOrderController {
 
@@ -46,68 +45,41 @@ public class WaiterEditDeliveryOrderController {
     @FXML
     private VBox vbox;
 
-    private int orderId;
+    private DeliveryOrder currentOrder;
 
     public void initialize() {
 
         setTextFieldToDisabled();
 
-        // TODO add drivers from database, create drivers with updated data
-        List<String> driverList;
-        // TODO try catch
-        // TODO note; initialize or other 'main' function should not throw error
+        // TODO comment & try catch
         try {
-            driverList = HelperMethods.getDataById("USERS", "4");
+            Driver.getUpdatedDriverList(assignedDriverComboBox);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
 
-        if (driverList != null) {
-            // TODO foreach loop
-            // TODO make sure to display name properly - displayed ok
-            assignedDriverComboBox.getItems().add(new Driver(
-                    Integer.parseInt(driverList
-                            .get(DataFileStructure
-                                    .getIndexColOfUniqueId("USERS"))),
-                    driverList.get(DataFileStructure
-                            .getIndexByColName("USERS", "firstName")),
-                    driverList.get(DataFileStructure
-                            .getIndexByColName("USERS", "lastName")),
-                    driverList.get(DataFileStructure
-                            .getIndexByColName("USERS", "username"))
-            ));
-        }
-
         saveButton.setOnAction(e -> {
+
             // TODO try catch
-            int searchDriverId = -1;
+            // TODO if no driver chosen, throws error here and need to catch it
+            // TODO or just onChange and notify the user before save button
+            String driverName = assignedDriverComboBox
+                    .getValue().getUsername();
+            String searchDriverId;
             try {
-                // TODO if no driver chosen, throws error here and need to catch it
-                // TODO or just onChange and notify the user before save button
-                searchDriverId = HelperMethods
-                        .findUserIdByUsername(assignedDriverComboBox
-                                .getValue().getUsername());
+                searchDriverId = currentOrder.getAssignedDriverId(driverName);
             } catch (FileNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
-            String newOrderStatus = "pending-kitchen";
-            String driverId = String.valueOf(searchDriverId);
-            // TODO note h-m if it can be applied elsewhere
-            String estimatedDeliveryTime = estimatedDeliveryTime()
-                    .format(DateTimeFormatter.ofPattern("H-m"));
+            String driverId = searchDriverId;
 
             // TODO try catch
             try {
-                DataManager.editColumnDataByUniqueId("ORDERS",
-                        orderId, "orderStatus",
-                        newOrderStatus);
-                DataManager.editColumnDataByUniqueId("ORDERS",
-                        orderId, "assignedDriver",
-                        driverId);
-                DataManager.editColumnDataByUniqueId("ORDERS",
-                        orderId, "deliveryTime",
-                        estimatedDeliveryTime);
-                // TODO notify customer here after approval
+                currentOrder.approveDeliverOrder(driverId);
+                currentOrder.notifyCustomer(
+                        currentOrder.getCustomer(),
+                        true
+                );
 
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
@@ -123,12 +95,10 @@ public class WaiterEditDeliveryOrderController {
     }
 
     public void populateOrderDetails(
-            int orderId,
-            Customer customer,
-            String orderStatus,
-            LocalTime deliveryTime
+            DeliveryOrder deliveryOrder
     ) {
-        this.orderId = orderId;
+        currentOrder = deliveryOrder;
+        Customer customer = currentOrder.getCustomer();
         customerIdTextField.setText(
                 String.valueOf(customer.getCustomerId())
         );
@@ -141,23 +111,17 @@ public class WaiterEditDeliveryOrderController {
         addressTextField.setText(
                 customer.getDeliveryAddress()
         );
-        orderStatusTextField.setText(orderStatus);
+        orderStatusTextField.setText(currentOrder.getOrderStatus());
 
-        if (deliveryTime != null) {
-            deliveryTimeTextField.setText(deliveryTime.format(DateTimeFormatter.ofPattern("hh:mm a")));
+        if (currentOrder.getDeliveryTime() != null) {
+            deliveryTimeTextField.setText(currentOrder.getDeliveryTimeInFormat());
         } else {
-            deliveryTimeTextField.setText("pending-approval");
+            deliveryTimeTextField.setText("");
         }
 
         assignedDriverComboBox.setPromptText("Select driver");
     }
 
-    // TODO comment
-    public LocalTime estimatedDeliveryTime() {
-        // TODO final variable for added time 30 minutes
-        LocalTime timeOfApproval = LocalTime.now();
-        return timeOfApproval.plusMinutes(30);
-    }
 
     // TODO comment
     public void setTextFieldToDisabled() {

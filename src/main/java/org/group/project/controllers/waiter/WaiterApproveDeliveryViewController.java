@@ -14,43 +14,42 @@ import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.group.project.Main;
-import org.group.project.classes.*;
+import org.group.project.classes.AlertPopUpWindow;
+import org.group.project.classes.DeliveryOrder;
+import org.group.project.classes.ImageLoader;
 import org.group.project.scenes.WindowSize;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class WaiterApproveDeliveryViewController {
 
     @FXML
-    private TableColumn<Order, String> customerColumn;
+    private TableColumn<DeliveryOrder, String> customerColumn;
 
     @FXML
-    private TableColumn<Order, String> orderDateColumn;
+    private TableColumn<DeliveryOrder, String> orderDateColumn;
 
     @FXML
-    private TableColumn<Order, String> orderTimeColumn;
+    private TableColumn<DeliveryOrder, String> orderTimeColumn;
 
     @FXML
-    private TableColumn<Order, String> orderListColumn;
+    private TableColumn<DeliveryOrder, String> orderListColumn;
 
     @FXML
-    private TableColumn<Order, String> orderStatusColumn;
+    private TableColumn<DeliveryOrder, String> orderStatusColumn;
 
     @FXML
-    private TableColumn<Order, Button> actionButtonColumn;
+    private TableColumn<DeliveryOrder, Button> actionButtonColumn;
 
     @FXML
-    private TableColumn<Order, Button> actionButtonColumn1;
+    private TableColumn<DeliveryOrder, Button> actionButtonColumn1;
 
     @FXML
-    private TableColumn<Order, Button> actionButtonColumn2;
+    private TableColumn<DeliveryOrder, Button> actionButtonColumn2;
 
     @FXML
     private BorderPane borderPane;
@@ -62,8 +61,8 @@ public class WaiterApproveDeliveryViewController {
     private List<String> pendingDeliveryList;
 
     @FXML
-    private TableView<Order> pendingDeliveryTable = new TableView<>();
-    private ObservableList<Order> data =
+    private TableView<DeliveryOrder> pendingDeliveryTable = new TableView<>();
+    private ObservableList<DeliveryOrder> data =
             FXCollections.observableArrayList();
 
     public void initialize() throws URISyntaxException, FileNotFoundException {
@@ -129,15 +128,7 @@ public class WaiterApproveDeliveryViewController {
             // TODO use tool tips for other buttons, where necessary
             viewButton.setTooltip(new Tooltip("View details"));
             ImageLoader.setUpGraphicButton(viewButton, 15, 15, "view-details");
-            Customer customer = cellData.getValue().getCustomer();
-//            String customerId = String.valueOf(cellData.getValue().getCustomer().getCustomerId());
-//            String firstName = cellData.getValue().getCustomer().getFirstName();
-//            String lastName = cellData.getValue().getCustomer().getLastName();
-//            String customerAddress = cellData.getValue().getCustomer().getDeliveryAddress();
-            int orderId = cellData.getValue().getOrderId();
-            String orderStatus = cellData.getValue().getOrderStatus();
-            DeliveryOrder deliveryOrder = (DeliveryOrder) cellData.getValue();
-            LocalTime deliveryTime = deliveryOrder.getDeliveryTime();
+            DeliveryOrder selectedOrder = cellData.getValue();
 
             viewButton.setOnAction(e -> {
 
@@ -153,10 +144,7 @@ public class WaiterApproveDeliveryViewController {
                             fxmlLoader.getController();
 
                     controller.populateOrderDetails(
-                            orderId,
-                            customer,
-                            orderStatus,
-                            deliveryTime
+                            selectedOrder
                     );
                     Scene editScene = new Scene(vbox,
                             WindowSize.MEDIUM.WIDTH,
@@ -190,7 +178,7 @@ public class WaiterApproveDeliveryViewController {
             // TODO use tool tips for other buttons, where necessary
             cancelButton.setTooltip(new Tooltip("Cancel"));
             ImageLoader.setUpGraphicButton(cancelButton, 15, 15, "cancel");
-            int orderId = cellData.getValue().getOrderId();
+            DeliveryOrder selectedOrder = cellData.getValue();
 
             cancelButton.setOnAction(e -> {
                 Optional<ButtonType> userChoice = promptForUserAcknowledgement(
@@ -203,10 +191,11 @@ public class WaiterApproveDeliveryViewController {
                         .equalsIgnoreCase("OK_DONE")) {
                     // TODO try catch
                     try {
-                        DataManager.editColumnDataByUniqueId("ORDERS",
-                                orderId, "orderStatus",
-                                "failed");
-                        // TODO notify customer here after delivery order cancellation
+                        selectedOrder.cancelDeliveryOrder();
+                        selectedOrder.notifyCustomer(
+                                selectedOrder.getCustomer(),
+                                false
+                        );
 
                         refreshPendingDeliveryList();
 
@@ -230,126 +219,8 @@ public class WaiterApproveDeliveryViewController {
         pendingDeliveryTable.getItems().clear();
         data.clear();
 
-        // TODO to filter based on userid
-        pendingDeliveryList = DataManager.allDataFromFile("ORDERS");
+        DeliveryOrder.getUpdatedDeliveryOrderData(data);
 
-        for (String order : pendingDeliveryList) {
-            List<String> orderDetails = List.of(order.split(","));
-
-            // orderId
-            int orderId = Integer.parseInt(orderDetails.get(DataFileStructure.getIndexByColName("ORDERS", "orderId")));
-
-            // user
-            Customer customer;
-
-            List<String> customerString = HelperMethods.getDataById("USERS",
-                    orderDetails.get(DataFileStructure.getIndexByColName(
-                            "BOOKINGS", "userId")));
-
-            // orderDate
-            List<String> orderDateDetails = List.of(orderDetails.get(2).split("-"));
-
-            LocalDate orderDate =
-                    LocalDate.of(Integer.parseInt(orderDateDetails.get(0)),
-                            Integer.parseInt(orderDateDetails.get(1)),
-                            Integer.parseInt(orderDateDetails.get(2)));
-
-            // orderTime
-            List<String> orderTimeDetails = List.of(orderDetails.get(3).split("-"));
-
-            LocalTime orderTime =
-                    LocalTime.of(Integer.parseInt(orderTimeDetails.get(0)),
-                            Integer.parseInt(orderTimeDetails.get(1)));
-
-            // orderType
-            String orderType =
-                    orderDetails.get(DataFileStructure.getIndexByColName(
-                            "ORDERS", "orderType"));
-
-            // orderStatus
-            String orderStatus =
-                    orderDetails.get(DataFileStructure.getIndexByColName(
-                            "ORDERS", "orderStatus"));
-
-            // orderedFoodDrinkLists
-            String[] orderListArray =
-                    orderDetails.get(DataFileStructure.getIndexByColName(
-                            "ORDERS", "orderedLists")).split(";");
-            List<FoodDrink> orderFoodDrinkList = new ArrayList<>();
-            for (String item : orderListArray) {
-                // TODO find item type by item name
-                String itemType = "food";
-                FoodDrink newItem = new FoodDrink(item, itemType);
-                boolean isNewItem = true;
-                for (FoodDrink currentItem : orderFoodDrinkList) {
-                    if (currentItem.getItemName().equalsIgnoreCase(item)) {
-                        currentItem.incrementQuantity();
-                        isNewItem = false;
-                    }
-                }
-                if (isNewItem) {
-                    orderFoodDrinkList.add(newItem);
-                }
-            }
-
-            // assignedDriver and deliveryTime
-            LocalTime deliveryTime = null;
-            Driver assignedDriver = null;
-
-            if (orderType.equalsIgnoreCase("delivery")) {
-                List<String> deliveryTimeDetails =
-                        List.of(orderDetails.get(DataFileStructure.getIndexByColName(
-                                "ORDERS", "deliveryTime")).split(
-                                "-"));
-                if (deliveryTimeDetails.size() == 2) {
-                    deliveryTime = LocalTime.of(Integer.parseInt(deliveryTimeDetails.get(0)),
-                            Integer.parseInt(deliveryTimeDetails.get(1)));
-                }
-                List<String> driverString = HelperMethods.getDataById("USERS",
-                        orderDetails.get(DataFileStructure.getIndexByColName(
-                                "ORDERS", "assignedDriver")));
-
-                if (driverString != null) {
-                    assignedDriver = new Driver(
-                            Integer.parseInt(driverString.get(DataFileStructure.getIndexByColName(
-                                    "USERS", "userId"))),
-                            driverString.get(DataFileStructure.getIndexByColName(
-                                    "USERS", "firstName")),
-                            driverString.get(DataFileStructure.getIndexByColName(
-                                    "USERS", "lastName")),
-                            driverString.get(DataFileStructure.getIndexByColName(
-                                    "USERS", "username"))
-                    );
-                }
-            }
-
-            if (customerString != null) {
-                customer = new Customer(
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "firstName")),
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "lastName")),
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "username")),
-                        Integer.parseInt(customerString.get(DataFileStructure.getIndexByColName("USERS", "userId"))),
-                        HelperMethods.formatAddressToRead(customerString.get(DataFileStructure.getIndexByColName("USERS", "address")))
-                );
-
-                // TODO here's the filter for pending yet-to-be-approved deliveries
-                // TODO to filer in "pending-approval" only?
-                if (orderType.equalsIgnoreCase("delivery")
-                        && orderStatus.equalsIgnoreCase("pending-approval")) {
-                    data.add(new DeliveryOrder(
-                            orderId,
-                            customer,
-                            orderDate,
-                            orderTime,
-                            deliveryTime,
-                            orderStatus,
-                            assignedDriver,
-                            orderFoodDrinkList
-                    ));
-
-                }
-            }
-        }
     }
 
     public Optional<ButtonType> promptForUserAcknowledgement(
