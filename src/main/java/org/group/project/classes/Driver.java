@@ -1,5 +1,10 @@
 package org.group.project.classes;
 
+import javafx.scene.control.ComboBox;
+
+import java.io.FileNotFoundException;
+import java.util.List;
+
 /**
  * This class represents driver role in the restaurant.
  *
@@ -61,6 +66,31 @@ public class Driver extends Staff {
      */
     public void setMaxDeliveries(int maxDeliveries) {
         this.maxDeliveries = maxDeliveries;
+    }
+
+    // TODO comment
+    public static void getUpdatedDriverList(
+            ComboBox<Driver> driverComboBox) throws FileNotFoundException {
+        List<String> driverList = DataManager.allDataFromFile("USERS");
+        for (String driver : driverList) {
+            List<String> driverDetails = List.of(driver.split(","));
+            String userType = driverDetails
+                    .get(DataFileStructure
+                            .getIndexByColName("USERS", "userType"));
+            if (userType.equalsIgnoreCase("driver")) {
+                driverComboBox.getItems().add(new Driver(
+                        Integer.parseInt(driverDetails
+                                .get(DataFileStructure
+                                        .getIndexColOfUniqueId("USERS"))),
+                        driverDetails.get(DataFileStructure
+                                .getIndexByColName("USERS", "firstName")),
+                        driverDetails.get(DataFileStructure
+                                .getIndexByColName("USERS", "lastName")),
+                        driverDetails.get(DataFileStructure
+                                .getIndexByColName("USERS", "username"))
+                ));
+            }
+        }
     }
 
     // TODO comment
