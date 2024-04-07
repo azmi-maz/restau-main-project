@@ -32,7 +32,9 @@
                                    preserveRatio="true"
                                    BorderPane.alignment="CENTER"/>
                         <GridPane fx:id="gridPane" alignment="CENTER"
-                                  prefHeight="5000.0" prefWidth="1400.0">
+                                  prefHeight="5000.0" prefWidth="1400.0"
+                                  stylesheets="@../../css/customer-menu-gridpane.css"
+                        >
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES"
                                                    minWidth="10.0"
