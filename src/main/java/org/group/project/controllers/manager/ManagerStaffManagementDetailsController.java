@@ -78,12 +78,12 @@ public class ManagerStaffManagementDetailsController {
 
         saveButton.setOnAction(e -> {
 
-            String firstName = firstNameTextField.getText();
-            String lastName = lastNameTextField.getText();
+            String firstName = firstNameTextField.getText().toLowerCase();
+            String lastName = lastNameTextField.getText().toLowerCase();
             String username = usernameTextField.getText();
             String hoursLeft = hoursLeftTextField.getText();
             String totalHoursWorked = totalHoursWorkedTextField.getText();
-            String position = positionChoiceBox.getValue().toString().toLowerCase();
+            String position = positionChoiceBox.getValue().toLowerCase();
 
             // TODO handle try catch
             try {
