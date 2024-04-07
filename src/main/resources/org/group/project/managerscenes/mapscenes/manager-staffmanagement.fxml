@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-
 <VBox alignment="TOP_CENTER"
       maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
       minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
@@ -19,11 +16,18 @@
                 <Label id="headerLabel" styleClass="headerLabel"
                        text="Staff Management"/>
                 <fx:include
-                        source="../../navbar/manager/manager-management-navbar.fxml"
-                        fx:id="managerManagementNavbar"/>
+                        source="../../navbar/manager/manager-returnhome-navbar.fxml"
+                        fx:id="managerReturnHomeNavbar"/>
             </children>
         </HBox>
         <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
+            <top>
+                <HBox alignment="CENTER" prefHeight="38.0" prefWidth="461.0">
+                    <Button fx:id="addStaffButton" mnemonicParsing="false"
+                            styleClass="addStaffButton"
+                            text="Add new staff"/>
+                </HBox>
+            </top>
             <center>
                 <ImageView fx:id="bgImage" fitHeight="150.0" fitWidth="200.0"
                            pickOnBounds="true" preserveRatio="true"
