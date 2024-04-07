@@ -4,3 +4,5 @@
 4,stan,marsh,driver,driver,,44,0,false,true,5
 5,kyle,broflovski,chef,chef,,44,0,false,false,0
 6,kenny,mccormick,manager,manager,,44,0,true,false,0
+7,adam,jones,adam.jones,driver,,44,0,false,false,0
+8,patrick,smith,patrick.smith,driver,,44,0,false,false,0
