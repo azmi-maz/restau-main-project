@@ -156,7 +156,7 @@ public class CustomerAddBookingController {
                     .parse(reservationTimeChoiceBox
                             .getValue(), DateTimeFormatter
                             .ofPattern("hh:mm a"));
-            String bookingTime = getBookingTime.format(DateTimeFormatter.ofPattern("h-m"));
+            String bookingTime = getBookingTime.format(DateTimeFormatter.ofPattern("H-m"));
             String numOfGuests = numOfGuestsChoiceBox.getValue();
             String bookingLength =
                     lenOfReservationTimeChoiceBox.getValue();

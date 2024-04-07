@@ -94,7 +94,7 @@ public class WaiterEditDeliveryOrderController {
             String driverId = String.valueOf(searchDriverId);
             // TODO note h-m if it can be applied elsewhere
             String estimatedDeliveryTime = estimatedDeliveryTime()
-                    .format(DateTimeFormatter.ofPattern("h-m"));
+                    .format(DateTimeFormatter.ofPattern("H-m"));
 
             // TODO try catch
             try {
