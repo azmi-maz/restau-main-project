@@ -52,6 +52,7 @@ public class CustomerNotificationDetailsController {
         );
 
         notificationTextArea.setText(messageBody);
+        notificationTextArea.setWrapText(true);
     }
 
     public void closeWindow() {
