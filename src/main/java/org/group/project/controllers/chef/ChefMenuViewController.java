@@ -196,8 +196,8 @@ public class ChefMenuViewController {
         });
     }
 
-    // TODO need this public so can refresh after adding new item
-    public void refreshMenuItemList() throws FileNotFoundException {
+    // TODO comment
+    private void refreshMenuItemList() throws FileNotFoundException {
 
         // TODO comment
         menuItemTable.getItems().clear();

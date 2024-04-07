@@ -280,9 +280,8 @@ public class CustomerBookingsHistoryViewController {
 
     }
 
-    // TODO comment, public because CustomerAddBookingController needs to use
-    //  this
-    public void refreshReservationList() throws FileNotFoundException {
+    // TODO comment
+    private void refreshReservationList() throws FileNotFoundException {
 
         // TODO comment that this clears up the list everytime it refresh
         reservationTable.getItems().clear();

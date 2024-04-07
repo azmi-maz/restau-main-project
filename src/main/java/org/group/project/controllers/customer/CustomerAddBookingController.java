@@ -182,17 +182,6 @@ public class CustomerAddBookingController {
                 throw new RuntimeException(ex);
             }
 
-            // TODO comment why this needed
-            CustomerBookingsHistoryViewController controller =
-                    new CustomerBookingsHistoryViewController();
-
-            // TODO comment
-            try {
-                controller.refreshReservationList();
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
-
             closeWindow();
         });
 

@@ -8,7 +8,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.group.project.classes.DataManager;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,17 +53,6 @@ public class ChefAddNewItemController {
             try {
                 DataManager.appendDataToFile("MENU", newMenuItem);
             } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-
-            // TODO comment why this needed
-            ChefMenuViewController controller =
-                    new ChefMenuViewController();
-
-            // TODO comment
-            try {
-                controller.refreshMenuItemList();
-            } catch (FileNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
 

@@ -223,8 +223,8 @@ public class WaiterApproveDeliveryViewController {
 
     }
 
-    // TODO made public so this list can be refreshed once pending delivery approved
-    public void refreshPendingDeliveryList() throws FileNotFoundException {
+    // TODO comment
+    private void refreshPendingDeliveryList() throws FileNotFoundException {
 
         // TODO comment
         pendingDeliveryTable.getItems().clear();

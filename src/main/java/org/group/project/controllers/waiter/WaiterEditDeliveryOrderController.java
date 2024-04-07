@@ -109,17 +109,6 @@ public class WaiterEditDeliveryOrderController {
                         estimatedDeliveryTime);
                 // TODO notify customer here after approval
 
-                WaiterApproveDeliveryViewController controller =
-                        new WaiterApproveDeliveryViewController();
-
-                // TODO comment to refresh pending list after update
-                // TODO try catch
-                try {
-                    controller.refreshPendingDeliveryList();
-                } catch (FileNotFoundException ex) {
-                    throw new RuntimeException(ex);
-                }
-
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
