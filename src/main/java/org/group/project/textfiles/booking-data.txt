@@ -1,5 +1,4 @@
 1,1,2024-2-12,7-30,8,2,Table G,approved
 2,2,2024-2-13,5-30,2,1,Table B,failed
 3,1,2024-4-14,18-30,2,1,Table A,pending-approval
-4,1,2024-04-17,2-30,4,1,Table B,pending-approval
-5,1,2024-04-20,3-0,4,2,Table B,pending-approval
+4,1,2024-04-20,14-0,2,3,Table A,approved
