@@ -19,6 +19,7 @@ public class Notification {
     private boolean readStatus;
     private String messageBody;
 
+
     /**
      * The constructor that creates new notification for user.
      *
@@ -76,8 +77,18 @@ public class Notification {
     }
 
     // TODO comment
+    public static String getNotificationDateForDatabase() {
+        return LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-M-d"));
+    }
+
+    // TODO comment
     public String getNotificationTimeInFormat() {
         return notificationTime.format(DateTimeFormatter.ofPattern("hh:mm a"));
+    }
+
+    // TODO comment
+    public static String getNotificationTimeForDatabase() {
+        return LocalTime.now().format(DateTimeFormatter.ofPattern("H-m"));
     }
 
     // TODO comment
@@ -121,4 +132,5 @@ public class Notification {
     public String getNotificationType() {
         return notificationType;
     }
+
 }
