@@ -26,6 +26,9 @@ public class ManagerStaffManagementDetailsController {
     private TextField lastNameTextField;
 
     @FXML
+    private TextField usernameTextField;
+
+    @FXML
     private TextField hoursLeftTextField;
 
     @FXML
@@ -77,6 +80,7 @@ public class ManagerStaffManagementDetailsController {
 
             String firstName = firstNameTextField.getText();
             String lastName = lastNameTextField.getText();
+            String username = usernameTextField.getText();
             String hoursLeft = hoursLeftTextField.getText();
             String totalHoursWorked = totalHoursWorkedTextField.getText();
             String position = positionChoiceBox.getValue().toString().toLowerCase();
@@ -87,6 +91,8 @@ public class ManagerStaffManagementDetailsController {
                         "firstName", firstName);
                 DataManager.editColumnDataByUniqueId("USERS", userId,
                         "lastName", lastName);
+                DataManager.editColumnDataByUniqueId("USERS", userId,
+                        "username", username);
                 DataManager.editColumnDataByUniqueId("USERS", userId,
                         "numOfHoursToWork", hoursLeft);
                 DataManager.editColumnDataByUniqueId("USERS", userId,
@@ -111,6 +117,7 @@ public class ManagerStaffManagementDetailsController {
             String userId,
             String firstName,
             String lastName,
+            String username,
             int hoursLeft,
             int totalHoursWorked,
             String position
@@ -118,6 +125,7 @@ public class ManagerStaffManagementDetailsController {
         this.userId = userId;
         firstNameTextField.setText(firstName);
         lastNameTextField.setText(lastName);
+        usernameTextField.setText(username);
         hoursLeftTextField.setText(String.valueOf(hoursLeft));
         totalHoursWorkedTextField.setText(String.valueOf(totalHoursWorked));
         positionChoiceBox.setValue(position.substring(0, 1).toUpperCase()

@@ -12,7 +12,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -68,7 +67,7 @@ public class ManagerStaffManagementViewController {
     private VBox vbox;
 
     @FXML
-    private ImageView bgImage;
+    private Button addStaffButton;
 
     public void initialize() throws URISyntaxException, FileNotFoundException {
 
@@ -146,6 +145,7 @@ public class ManagerStaffManagementViewController {
             ImageLoader.setUpGraphicButton(editButton, 15, 15, "edit");
             String firstName = cellData.getValue().getFirstNameForDisplay();
             String lastName = cellData.getValue().getLastNameForDisplay();
+            String username = cellData.getValue().getUsername();
             int hoursLeft = cellData.getValue().getNumOfHoursToWork();
             int totalHoursWorked = cellData.getValue().getNumOfTotalHoursWorked();
             String position;
@@ -183,6 +183,7 @@ public class ManagerStaffManagementViewController {
                             userId,
                             firstName,
                             lastName,
+                            username,
                             hoursLeft,
                             totalHoursWorked,
                             position
@@ -257,6 +258,38 @@ public class ManagerStaffManagementViewController {
         });
 
         staffListTable.setItems(data);
+
+        addStaffButton.setOnAction(e -> {
+
+            try {
+                FXMLLoader fxmlLoader =
+                        new FXMLLoader(Main.class.getResource(
+                                "smallwindows/manager-add-user" +
+                                        ".fxml"));
+
+                VBox vbox = fxmlLoader.load();
+
+                Scene editScene = new Scene(vbox,
+                        WindowSize.SMALL.WIDTH,
+                        WindowSize.SMALL.HEIGHT);
+
+                Stage editStage = new Stage();
+                editStage.setScene(editScene);
+                // TODO Should final variable this
+                editStage.setTitle("Add Staff");
+
+                editStage.initModality(Modality.APPLICATION_MODAL);
+
+                editStage.showAndWait();
+
+                refreshStaffList();
+
+            } catch (IOException ex) {
+                // TODO catch error
+                throw new RuntimeException(ex);
+            }
+
+        });
     }
 
     private void refreshStaffList() throws FileNotFoundException {
