@@ -65,6 +65,7 @@ public class CustomerMenuOrderViewController {
 
         for (String imageData : imageDataList) {
             List<String> imageDataDetails = List.of(imageData.split(","));
+            boolean isDailySpecial = Boolean.parseBoolean(imageDataDetails.get(DataFileStructure.getIndexByColName("MENU", "isDailySpecial")));
             String url = imageDataDetails.get(DataFileStructure.getIndexByColName("MENU", "imageurl"));
             double heightSub = Double.parseDouble(imageDataDetails.get(DataFileStructure.getIndexByColName("MENU", "height-sub")));
             double heightDiv = Double.parseDouble(imageDataDetails.get(DataFileStructure.getIndexByColName("MENU", "height-div")));
@@ -95,7 +96,10 @@ public class CustomerMenuOrderViewController {
             dailySpecialImg.setFitHeight(DAILY_SPECIAL_TAG_HEIGHT);
             dailySpecialImg.setFitWidth(DAILY_SPECIAL_TAG_WIDTH);
             dailySpecialImg.setPreserveRatio(true);
-            imageViewSecondStack.getChildren().add(dailySpecialImg);
+
+            if (isDailySpecial) {
+                imageViewSecondStack.getChildren().add(dailySpecialImg);
+            }
             imageViewFirstStack.getChildren().add(imageViewSecondStack);
 
             gridPane.add(imageViewFirstStack, colIdx, rowIdx, colSpan, rowSpan);
