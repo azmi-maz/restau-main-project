@@ -16,3 +16,12 @@
 16,1,2024-4-8,0-5,delivery,pending-delivery,,4,0-37,chocolate souffle;chocolate souffle;classic duck confit;classic duck confit;classic duck confit
 17,1,2024-4-8,0-6,takeaway,completed,,,,chocolate souffle;chocolate souffle;croquembouche;croquembouche;croquembouche;coq au vin
 18,3,2024-4-8,0-7,dinein,pending-kitchen,,,,duck a lorange;duck a lorange;coq au vin
+19,1,2024-4-8,19-32,delivery,completed,,4,21-1,croquembouche;croquembouche;croquembouche
+20,1,2024-4-8,19-32,delivery,completed,,7,21-1,classic duck confit;classic duck confit
+21,2,2024-4-8,20-30,delivery,completed,,8,21-1,chocolate souffle;chocolate souffle;classic duck confit
+22,1,2024-4-8,20-46,delivery,pending-kitchen,,4,21-16,chocolate souffle;chocolate souffle;croquembouche
+23,1,2024-4-8,20-51,delivery,completed,,4,21-21,chocolate souffle;chocolate souffle;coq au vin
+24,1,2024-4-8,20-54,takeaway,completed,,,,chocolate souffle;chocolate souffle
+25,1,2024-4-8,21-8,takeaway,pending-kitchen,,,,chocolate souffle;chocolate souffle;croquembouche;croquembouche;croquembouche
+26,1,2024-4-8,21-15,takeaway,completed,,,,bloody mary;bloody mary
+27,1,2024-4-8,21-16,takeaway,completed,,,,chocolate souffle;chocolate souffle

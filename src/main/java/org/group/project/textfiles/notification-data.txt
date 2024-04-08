@@ -1,12 +1,10 @@
-1,1,2024-2-12,19-00,booking,true,Lorem ipsum dolor sit amet
-2,2,2024-2-16,21-30,order,false,Lorem ipsum dolor sit amet
-2,1,2024-2-21,13-30,takeaway,false,This is your takeaway update
-3,1,2024-4-7,8-50,booking,false,Good news! Your table reservation for 20/04/2024 at 02:00 PM is now confirmed.
-4,3,2024-4-7,23-34,takeaway,false,Your order no.3 is ready for pickup.
-5,1,2024-4-8,0-7,delivery,false,Your order no.4 is on the way. Estimated time of deliveryis 12:37 AM.
-6,1,2024-4-8,0-7,delivery,false,Your order no.16 is on the way. Estimated time of deliveryis 12:37 AM.
-7,1,2024-4-8,0-7,delivery,false,Your order no.12 is on the way. Estimated time of deliveryis 12:37 AM.
-8,17,2024-4-8,0-9,takeaway,false,Your order no.17 is ready for pickup at 12:39 AM.
-9,1,2024-4-8,0-15,delivery,false,Your order no.6 is on the way. Estimated time of delivery is 12:45 AM.
-10,1,2024-4-8,0-16,delivery,false,Your order no.7 is on the way. Estimated time of delivery is 12:46 AM.
-11,5,2024-4-8,0-16,takeaway,false,Your order no.5 is ready for pickup at 12:46 AM.
+1,1,2024-4-8,20-51,delivery,false,Your order no.23 is on the way. Estimated time of delivery is 09:21 PM.
+2,1,2024-4-8,20-53,delivery,false,Your order no.23 was delivered successfully. Enjoy your meal!
+3,1,2024-4-8,21-17,takeaway,false,Your order no.27 is ready for pickup at 09:47 PM.
+4,1,2024-4-8,21-57,booking,false,Good news! Your table reservation for 20/04/2024 at 07:00 PM is now confirmed.
+5,1,2024-4-8,21-57,booking,false,Good news! Your table reservation for 21/04/2024 at 02:00 PM is now confirmed.
+6,2,2024-4-8,21-58,booking,false,Good news! Your table reservation for 19/04/2024 at 02:30 PM is now confirmed.
+7,1,2024-4-8,22-0,booking,false,We're terribly sorry! Unfortunately; your table reservation for 14/04/2024 at 06:30 PM is not successful.
+8,1,2024-4-8,22-0,booking,false,We're terribly sorry! Unfortunately; your table reservation for 30/04/2024 at 03:00 PM is not successful.
+9,1,2024-4-8,22-12,booking,false,Good news! Your table reservation for 29/04/2024 at 03:00 PM is now confirmed.
+10,1,2024-4-8,22-13,booking,false,We're terribly sorry! Unfortunately; your table reservation for 28/04/2024 at 02:30 PM is not successful.
