@@ -124,13 +124,7 @@ public class ChefOutstandingOrdersViewController {
             Button markAsCompleteButton = new Button();
             markAsCompleteButton.setTooltip(new Tooltip("Mark as complete"));
             ImageLoader.setUpGraphicButton(markAsCompleteButton, 15, 15, "confirm");
-            int orderId = cellData.getValue().getOrderId();
-            String updatedOrderStatus = "completed";
-            String orderType = cellData.getValue().getOrderType();
-            if (orderType.equalsIgnoreCase("delivery")) {
-                updatedOrderStatus = "pending-delivery";
-            }
-            String orderStatus = updatedOrderStatus;
+            Order selectedOrder = cellData.getValue();
 
             markAsCompleteButton.setOnAction(e -> {
 
@@ -144,10 +138,15 @@ public class ChefOutstandingOrdersViewController {
                         .equalsIgnoreCase("OK_DONE")) {
                     // TODO try catch
                     try {
-                        DataManager.editColumnDataByUniqueId("ORDERS",
-                                orderId, "orderStatus",
-                                orderStatus);
-                        // TODO notify customer here after delivery order cancellation
+                        selectedOrder.markOffOrderAsComplete();
+                        if (selectedOrder.getOrderType().equalsIgnoreCase("takeaway")) {
+                            TakeawayOrder takeawayOrder = (TakeawayOrder) selectedOrder;
+                            takeawayOrder.setEstimatedPickupTime();
+                            takeawayOrder.notifyCustomer(
+                                    takeawayOrder.getCustomer(),
+                                    true
+                            );
+                        }
 
                         refreshOutstandingOrdersList();
 
