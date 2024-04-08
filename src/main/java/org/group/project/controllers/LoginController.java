@@ -10,11 +10,16 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.group.project.Main;
 import org.group.project.MainAppMultiWindows;
+import org.group.project.classes.DataFileStructure;
+import org.group.project.classes.DataManager;
 import org.group.project.classes.HelperMethods;
 import org.group.project.scenes.MainScenes;
 import org.group.project.scenes.WindowSize;
+import org.group.project.scenes.main.CustomerView;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -54,7 +59,6 @@ public class LoginController {
             // This adds success css
             resultLabel.getStyleClass().add("success");
 
-//            System.out.println(resultLabel.getStyleClass());
             // The success message
             // TODO have to clean this off after sign in, else logged off still have this displayed
             resultLabel.setText("Login successful!");
@@ -63,8 +67,26 @@ public class LoginController {
             List<String> registeredUserDetails =
                     HelperMethods.getUserDataByUsername(loginUsername.getText());
 
+            List<String> currentUser = new ArrayList<>(Arrays.asList(
+                    registeredUserDetails
+                            .get(DataFileStructure.getIndexColOfUniqueId("USERS")),
+                    registeredUserDetails.get(DataFileStructure
+                            .getIndexByColName("USERS", "firstName")),
+                    registeredUserDetails.get(DataFileStructure
+                            .getIndexByColName("USERS", "lastName")),
+                    registeredUserDetails.get(DataFileStructure
+                            .getIndexByColName("USERS", "username")),
+                    registeredUserDetails.get(DataFileStructure
+                            .getIndexByColName("USERS", "userType"))
+            ));
+
+            DataManager.appendDataToFile("ACTIVE_USER", currentUser);
+
             String userType =
-                    HelperMethods.getUserTypeFromDataString(registeredUserDetails).toLowerCase();
+                    registeredUserDetails.get(DataFileStructure
+                            .getIndexByColName("USERS", "userType"));
+
+            Main.setCurrentUser(HelperMethods.getActiveUser());
 
             switch (userType) {
                 case "manager":
@@ -80,19 +102,21 @@ public class LoginController {
                     Main.getStage().setScene(Main.getScenes().get(MainScenes.DRIVER));
                     break;
                 default:
+                    CustomerView.controller.welcomeCustomer();
                     Main.getStage().setScene(Main.getScenes().get(MainScenes.CUSTOMER));
                     break;
             }
 
             // TODO reset the loginUsername textfield and resultLabel
+            resultLabel.setText("");
+            resultLabel.getStyleClass().removeAll("success");
+            loginUsername.setText("");
 
 
         } else {
 
             // The error message
             resultLabel.setText("Login unsuccessful. Please try again.");
-
-//            System.out.println(resultLabel.getStyleClass());
 
             // These remove hidden-label, success and error. Without removing
             // all, the style name piles up
@@ -102,7 +126,6 @@ public class LoginController {
 
             // The adds the error css
             resultLabel.getStyleClass().add("error");
-//            System.out.println(resultLabel.getStyleClass());
         }
     }
 
