@@ -141,7 +141,10 @@ public class ChefOutstandingOrdersViewController {
                         selectedOrder.markOffOrderAsComplete();
                         if (selectedOrder.getOrderType().equalsIgnoreCase("takeaway")) {
                             TakeawayOrder takeawayOrder = (TakeawayOrder) selectedOrder;
+                            System.out.println("reached here");
+//                            System.out.println(takeawayOrder.getPickupTimeInFormat());
                             takeawayOrder.setEstimatedPickupTime();
+                            System.out.println(takeawayOrder.getPickupTimeInFormat());
                             takeawayOrder.notifyCustomer(
                                     takeawayOrder.getCustomer(),
                                     true
@@ -164,7 +167,7 @@ public class ChefOutstandingOrdersViewController {
     }
 
     // TODO comment
-    private void refreshOutstandingOrdersList() throws FileNotFoundException {
+    public void refreshOutstandingOrdersList() throws FileNotFoundException {
 
         // TODO comment
         outstandingOrdersTable.getItems().clear();

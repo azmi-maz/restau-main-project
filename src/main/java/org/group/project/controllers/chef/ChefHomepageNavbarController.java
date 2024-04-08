@@ -8,7 +8,9 @@ import org.group.project.classes.ImageLoader;
 import org.group.project.scenes.ChefMapsMain;
 import org.group.project.scenes.ChefScenesMap;
 import org.group.project.scenes.MainScenes;
+import org.group.project.scenes.chef.mainViews.OutstandingView;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -43,6 +45,12 @@ public class ChefHomepageNavbarController {
         ImageLoader.setUpGraphicButton(logOffButton, 25, 25, "power");
 
         outstandingOrderButton.setOnMousePressed(e -> {
+            // TODO try catch
+            try {
+                OutstandingView.controller.refreshOutstandingOrdersList();
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
             ChefScenesMap.getChefStage().setScene(ChefScenesMap.getScenes().get(ChefMapsMain.OUTSTANDING));
         });
 
