@@ -28,7 +28,7 @@ public class MenuController implements ControllerView {
                 new FXMLLoader(Main.class.getResource(
                         "customerscenes/mapscenes/customer-menuorder" +
                                 ".fxml"));
-//            fxmlLoader.setController(this);
+
             CustomerMenuOrderViewController customerMenuOrderViewController =
                     new CustomerMenuOrderViewController(orderList);
             fxmlLoader.setController(customerMenuOrderViewController);

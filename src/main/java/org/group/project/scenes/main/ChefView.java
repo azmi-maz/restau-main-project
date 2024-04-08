@@ -1,11 +1,11 @@
 package org.group.project.scenes.main;
 
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.group.project.Main;
+import org.group.project.controllers.chef.ChefHomepageController;
 import org.group.project.mapscenes.view.ViewMaker;
 import org.group.project.scenes.WindowSize;
 
@@ -15,8 +15,7 @@ public class ChefView implements ViewMaker {
 
     private Stage stage;
 
-    @FXML
-    private BorderPane borderPane;
+    public static ChefHomepageController controller;
 
     public ChefView(Stage stage) throws IOException {
 
@@ -30,7 +29,11 @@ public class ChefView implements ViewMaker {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
                 "homepages/chef-homepage.fxml"));
 
-        return new Scene(fxmlLoader.load(), WindowSize.MAIN.WIDTH,
+        BorderPane borderPane = fxmlLoader.load();
+
+        controller = fxmlLoader.getController();
+
+        return new Scene(borderPane, WindowSize.MAIN.WIDTH,
                 WindowSize.MAIN.HEIGHT);
     }
 

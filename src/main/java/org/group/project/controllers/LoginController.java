@@ -15,7 +15,7 @@ import org.group.project.classes.DataManager;
 import org.group.project.classes.HelperMethods;
 import org.group.project.scenes.MainScenes;
 import org.group.project.scenes.WindowSize;
-import org.group.project.scenes.main.CustomerView;
+import org.group.project.scenes.main.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -90,15 +90,19 @@ public class LoginController {
 
             switch (userType) {
                 case "manager":
+                    ManagerView.controller.welcomeManager();
                     Main.getStage().setScene(Main.getScenes().get(MainScenes.MANAGER));
                     break;
                 case "waiter":
+                    WaiterView.controller.welcomeWaiter();
                     Main.getStage().setScene(Main.getScenes().get(MainScenes.WAITER));
                     break;
                 case "chef":
+                    ChefView.controller.welcomeChef();
                     Main.getStage().setScene(Main.getScenes().get(MainScenes.CHEF));
                     break;
                 case "driver":
+                    DriverView.controller.welcomeDriver();
                     Main.getStage().setScene(Main.getScenes().get(MainScenes.DRIVER));
                     break;
                 default:

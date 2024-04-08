@@ -1,6 +1,5 @@
 package org.group.project.scenes.main;
 
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -15,9 +14,6 @@ import java.io.IOException;
 public class CustomerView implements ViewMaker {
 
     private Stage stage;
-
-    @FXML
-    private BorderPane borderPane;
 
     public static CustomerHomepageController controller;
 

@@ -2,8 +2,10 @@ package org.group.project.scenes.driver.mainViews;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.group.project.Main;
+import org.group.project.controllers.driver.DriverPendingDeliveryViewController;
 import org.group.project.mapscenes.view.ViewMaker;
 import org.group.project.scenes.WindowSize;
 
@@ -12,6 +14,8 @@ import java.io.IOException;
 public class DeliveryView implements ViewMaker {
 
     private Stage stage;
+
+    public static DriverPendingDeliveryViewController controller;
 
     public DeliveryView(Stage stage) {
 
@@ -23,7 +27,12 @@ public class DeliveryView implements ViewMaker {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
                 "driverscenes/mapscenes/driver-pendingdeliveries.fxml"));
-        return new Scene(fxmlLoader.load(), WindowSize.MAIN.WIDTH,
+
+        VBox vbox = fxmlLoader.load();
+
+        controller = fxmlLoader.getController();
+
+        return new Scene(vbox, WindowSize.MAIN.WIDTH,
                 WindowSize.MAIN.HEIGHT);
     }
 }

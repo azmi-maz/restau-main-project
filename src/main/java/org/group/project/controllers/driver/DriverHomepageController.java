@@ -3,7 +3,6 @@ package org.group.project.controllers.driver;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import org.group.project.Main;
 
@@ -16,9 +15,6 @@ public class DriverHomepageController {
 
     @FXML
     private Label mainTitle;
-
-    @FXML
-    private ImageView bgImage;
 
     public void initialize() throws URISyntaxException {
 
@@ -37,5 +33,13 @@ public class DriverHomepageController {
                 BackgroundPosition.CENTER,
                 bSize)));
 
+    }
+
+    public void welcomeDriver() {
+        mainTitle.setText(
+                "Welcome, "
+                        + Main.getCurrentUser().getFirstNameForDisplay()
+                        + "!"
+        );
     }
 }
