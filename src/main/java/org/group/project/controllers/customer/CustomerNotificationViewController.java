@@ -12,15 +12,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.group.project.Main;
-import org.group.project.classes.DataFileStructure;
-import org.group.project.classes.DataManager;
-import org.group.project.classes.ImageLoader;
-import org.group.project.classes.Notification;
+import org.group.project.classes.*;
 import org.group.project.scenes.WindowSize;
 
 import java.io.FileNotFoundException;
@@ -49,9 +45,6 @@ public class CustomerNotificationViewController {
 
     @FXML
     private BorderPane borderPane;
-
-    @FXML
-    private ImageView bgImage;
 
     private String userId;
 
@@ -174,7 +167,10 @@ public class CustomerNotificationViewController {
 
     }
 
-    private void refreshNotificationList() throws FileNotFoundException {
+    // TODO comment
+    public void refreshNotificationList() throws FileNotFoundException {
+
+        updateUserId();
 
         // TODO comment
         notificationTable.getItems().clear();
@@ -185,44 +181,71 @@ public class CustomerNotificationViewController {
         for (String notification : notificationList) {
             List<String> notificationDetails = List.of(notification.split(","));
 
-            // notification id
-            int notifcationid = Integer.parseInt(notificationDetails.get(DataFileStructure.getIndexColOfUniqueId("NOTIFICATION")));
-
             // userId
-            int userId = Integer.parseInt(notificationDetails.get(DataFileStructure.getIndexByColName("NOTIFICATION", "userId")));
+            int currentUserId = Integer.parseInt(notificationDetails.get(DataFileStructure.getIndexByColName("NOTIFICATION", "userId")));
 
-            // notificationDate
-            List<String> notificationDateDetails = List.of(notificationDetails.get(DataFileStructure.getIndexByColName("NOTIFICATION", "notificationDate")).split("-"));
-            LocalDate notificationDate =
-                    LocalDate.of(Integer.parseInt(notificationDateDetails.get(0)),
-                            Integer.parseInt(notificationDateDetails.get(1)),
-                            Integer.parseInt(notificationDateDetails.get(2)));
+            // TODO filter user id here
+            if (String.valueOf(currentUserId).equalsIgnoreCase(userId)) {
 
-            // notificationTime
-            List<String> notificationTimeDetails = List.of(notificationDetails.get(DataFileStructure.getIndexByColName("NOTIFICATION", "notificationTime")).split("-"));
+                // notification id
+                int notifcationid = Integer.parseInt(notificationDetails.get(DataFileStructure.getIndexColOfUniqueId("NOTIFICATION")));
 
-            LocalTime notificationTime =
-                    LocalTime.of(Integer.parseInt(notificationTimeDetails.get(0)),
-                            Integer.parseInt(notificationTimeDetails.get(1)));
 
-            // notificationType
-            String notificationType = notificationDetails.get(DataFileStructure.getIndexByColName("NOTIFICATION", "notificationType"));
+                // notificationDate
+                List<String> notificationDateDetails = List.of(notificationDetails.get(DataFileStructure.getIndexByColName("NOTIFICATION", "notificationDate")).split("-"));
+                LocalDate notificationDate =
+                        LocalDate.of(Integer.parseInt(notificationDateDetails.get(0)),
+                                Integer.parseInt(notificationDateDetails.get(1)),
+                                Integer.parseInt(notificationDateDetails.get(2)));
 
-            // readStatus
-            boolean readStatus = Boolean.parseBoolean(notificationDetails.get(DataFileStructure.getIndexByColName("NOTIFICATION", "readStatus")));
+                // notificationTime
+                List<String> notificationTimeDetails = List.of(notificationDetails.get(DataFileStructure.getIndexByColName("NOTIFICATION", "notificationTime")).split("-"));
 
-            // messageBody
-            String messageBody = notificationDetails.get(DataFileStructure.getIndexByColName("NOTIFICATION", "messageBody"));
+                LocalTime notificationTime =
+                        LocalTime.of(Integer.parseInt(notificationTimeDetails.get(0)),
+                                Integer.parseInt(notificationTimeDetails.get(1)));
 
-            data.add(new Notification(
-                    notifcationid,
-                    userId,
-                    notificationDate,
-                    notificationTime,
-                    notificationType,
-                    messageBody,
-                    readStatus
-            ));
+                // notificationType
+                String notificationType = notificationDetails.get(DataFileStructure.getIndexByColName("NOTIFICATION", "notificationType"));
+
+                // readStatus
+                boolean readStatus = Boolean.parseBoolean(notificationDetails.get(DataFileStructure.getIndexByColName("NOTIFICATION", "readStatus")));
+
+                // messageBody
+                String messageBody = notificationDetails.get(DataFileStructure.getIndexByColName("NOTIFICATION", "messageBody"));
+
+                if (notificationType.equalsIgnoreCase("booking")) {
+                    // TODO this is needed to replace the ; to ,
+                    messageBody = HelperMethods.formatAddressToRead(messageBody);
+                }
+
+                data.add(new Notification(
+                        notifcationid,
+                        currentUserId,
+                        notificationDate,
+                        notificationTime,
+                        notificationType,
+                        messageBody,
+                        readStatus
+                ));
+            }
+        }
+    }
+
+    private void updateUserId() {
+
+        if (Main.getCurrentUser() == null) {
+            return;
+        }
+
+        // TODO try catch
+        try {
+            userId = String.valueOf(
+                    HelperMethods
+                            .findUserIdByUsername(
+                                    Main.getCurrentUser().getUsername()));
+        } catch (FileNotFoundException ex) {
+            throw new RuntimeException(ex);
         }
     }
 }

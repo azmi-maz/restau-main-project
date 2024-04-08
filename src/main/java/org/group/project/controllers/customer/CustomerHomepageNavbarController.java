@@ -9,6 +9,8 @@ import org.group.project.scenes.CustomerMapsMain;
 import org.group.project.scenes.CustomerScenesMap;
 import org.group.project.scenes.MainScenes;
 import org.group.project.scenes.customer.mainViews.BookingsView;
+import org.group.project.scenes.customer.mainViews.NotificationView;
+import org.group.project.scenes.customer.mainViews.OrdersView;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -74,10 +76,24 @@ public class CustomerHomepageNavbarController {
         });
 
         historyButton.setOnMousePressed(e -> {
+
+            // TODO comment
+            try {
+                OrdersView.controller.refreshOrderHistoryList();
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
             CustomerScenesMap.getCustomerStage().setScene(CustomerScenesMap.getScenes().get(CustomerMapsMain.ORDER));
         });
 
         notificationButton.setOnMousePressed(e -> {
+
+            // TODO comment
+            try {
+                NotificationView.controller.refreshNotificationList();
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
             CustomerScenesMap.getCustomerStage().setScene(CustomerScenesMap.getScenes().get(CustomerMapsMain.NOTIFICATION));
         });
 
