@@ -5,7 +5,9 @@ import javafx.scene.control.Button;
 import org.group.project.classes.ImageLoader;
 import org.group.project.scenes.WaiterMapsMain;
 import org.group.project.scenes.WaiterScenesMap;
+import org.group.project.scenes.waiter.mainViews.BookingView;
 
+import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 
 public class WaiterPendingTableNavbarController {
@@ -29,11 +31,14 @@ public class WaiterPendingTableNavbarController {
         });
 
         pendingTablesButton.setOnMousePressed(e -> {
+            // TODO try catch
+            try {
+                BookingView.controller.refreshReservationList();
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
             WaiterScenesMap.getWaiterStage().setScene(WaiterScenesMap.getScenes().get(WaiterMapsMain.BOOKING));
         });
 
-
     }
-
-
 }

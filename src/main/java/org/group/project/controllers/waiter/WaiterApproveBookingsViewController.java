@@ -210,7 +210,7 @@ public class WaiterApproveBookingsViewController {
 
     }
 
-    private void refreshReservationList() throws FileNotFoundException {
+    public void refreshReservationList() throws FileNotFoundException {
 
         // TODO comment that this clears up the list everytime it refresh
         pendingApprovalsTable.getItems().clear();
