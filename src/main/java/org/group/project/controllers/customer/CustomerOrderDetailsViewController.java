@@ -281,7 +281,7 @@ public class CustomerOrderDetailsViewController {
             orderStatus = "pending-approval";
         } else {
             orderType = "takeaway";
-            orderStatus = "pending";
+            orderStatus = "pending-kitchen";
         }
 
         Order orderDetails = new Order(
