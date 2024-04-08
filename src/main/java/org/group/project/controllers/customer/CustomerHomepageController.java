@@ -3,7 +3,6 @@ package org.group.project.controllers.customer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import org.group.project.Main;
 
@@ -17,12 +16,7 @@ public class CustomerHomepageController {
     @FXML
     private Label mainTitle;
 
-    @FXML
-    private ImageView bgImage;
-
     public void initialize() throws URISyntaxException {
-
-        mainTitle.setText("Welcome, John!");
 
         Image bgImage = new Image(Main.class.getResource("images" +
                 "/background/main-bg" +
@@ -37,6 +31,14 @@ public class CustomerHomepageController {
                 BackgroundPosition.CENTER,
                 bSize)));
 
+    }
+
+    public void welcomeCustomer() {
+        mainTitle.setText(
+                "Welcome, "
+                + Main.getCurrentUser().getFirstNameForDisplay()
+                + "!"
+        );
     }
 
 

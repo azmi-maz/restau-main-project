@@ -3,11 +3,15 @@ package org.group.project.controllers.customer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import org.group.project.Main;
+import org.group.project.classes.HelperMethods;
 import org.group.project.classes.ImageLoader;
 import org.group.project.scenes.CustomerMapsMain;
 import org.group.project.scenes.CustomerScenesMap;
 import org.group.project.scenes.MainScenes;
+import org.group.project.scenes.customer.mainViews.BookingsView;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class CustomerHomepageNavbarController {
@@ -59,6 +63,13 @@ public class CustomerHomepageNavbarController {
         });
 
         reservationButton.setOnMousePressed(e -> {
+
+            // TODO comment
+            try {
+                BookingsView.controller.refreshReservationList();
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
             CustomerScenesMap.getCustomerStage().setScene(CustomerScenesMap.getScenes().get(CustomerMapsMain.BOOKING));
         });
 
@@ -84,6 +95,12 @@ public class CustomerHomepageNavbarController {
 
         logOffButton.setOnMousePressed(e -> {
             // TODO remove all active user info here
+            // TODO try catch
+            try {
+                HelperMethods.clearActiveUser();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
             Main.getStage().setScene(Main.getScenes().get(MainScenes.LOGIN));
         });
 
