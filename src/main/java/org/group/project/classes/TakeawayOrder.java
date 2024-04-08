@@ -1,13 +1,17 @@
 package org.group.project.classes;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * This class handles takeaway orders.
  */
-public class TakeawayOrder extends Order {
+public class TakeawayOrder extends Order implements NotifyAction {
     private LocalTime estimatedPickupTime;
 
     /**
@@ -86,9 +90,13 @@ public class TakeawayOrder extends Order {
      * @param addTimeInMinutes - the time in minutes.
      * @return the new pickup time for UI.
      */
-    public LocalTime addPickupTime(int addTimeInMinutes) {
-        estimatedPickupTime = estimatedPickupTime.plusMinutes(addTimeInMinutes);
-        return estimatedPickupTime;
+    public LocalTime newEstimatedPickupTime(int addTimeInMinutes) {
+        return LocalTime.now().plusMinutes(addTimeInMinutes);
+    }
+
+    // TODO comment
+    public void setEstimatedPickupTime() {
+        estimatedPickupTime = newEstimatedPickupTime(30);
     }
 
     /**
@@ -98,5 +106,49 @@ public class TakeawayOrder extends Order {
      */
     public LocalTime getPickupTime() {
         return estimatedPickupTime;
+    }
+
+    // TODO comment
+    public String getPickupTimeInFormat() {
+        return estimatedPickupTime.format(DateTimeFormatter.ofPattern("hh:mm a"));
+    }
+
+    // TODO comment
+    public List<String> prepareNotificationData() throws FileNotFoundException {
+        List<String> data = new ArrayList<>();
+        data.add(String.valueOf(HelperMethods.getNewIdByFile("NOTIFICATION")));
+        data.add(String.valueOf(super.getOrderId()));
+        data.add(Notification.getNotificationDateForDatabase());
+        data.add(Notification.getNotificationTimeForDatabase());
+        data.add("takeaway");
+        data.add("false");
+        return data;
+    }
+
+    // TODO comment
+    public String completeTakeawayOrderMessage() {
+        return String.format(
+                "Your order no.%d is ready for pickup at %s.",
+                super.getOrderId(),
+                getPickupTimeInFormat()
+        );
+    }
+
+    @Override
+    public void notifyCustomer(Customer customer,
+                               boolean isSuccessfulRequest) throws FileNotFoundException {
+        List<String> newNotificationMessage = prepareNotificationData();
+
+        if (isSuccessfulRequest) {
+            newNotificationMessage.add(completeTakeawayOrderMessage());
+        }
+
+        // TODO try catch
+        try {
+            DataManager.appendDataToFile("NOTIFICATION", newNotificationMessage);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }
