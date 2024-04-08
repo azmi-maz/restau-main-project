@@ -275,6 +275,7 @@ public class CustomerBookingsHistoryViewController {
 
     // TODO comment
     public void refreshReservationList() throws FileNotFoundException {
+
         updateUserId();
 
         // TODO comment that this clears up the list everytime it refresh
@@ -288,7 +289,7 @@ public class CustomerBookingsHistoryViewController {
             List<String> bookingDetails = List.of(booking.split(","));
             String currentUserId = bookingDetails
                     .get(DataFileStructure
-                            .getIndexColOfUniqueId("USERS"));
+                            .getIndexByColName("BOOKINGS", "userId"));
 
             if (currentUserId.equalsIgnoreCase(userId)) {
 
@@ -352,7 +353,7 @@ public class CustomerBookingsHistoryViewController {
     }
 
     private void updateUserId() {
-        
+
         if (Main.getCurrentUser() == null) {
             return;
         }
