@@ -203,6 +203,14 @@ public class DeliveryOrder extends Order implements NotifyAction {
     }
 
     // TODO comment
+    public void confirmDeliverOrder() throws IOException {
+        int orderId = super.getOrderId();
+        DataManager.editColumnDataByUniqueId("ORDERS",
+                orderId, "orderStatus",
+                "completed");
+    }
+
+    // TODO comment
     public String approveDeliveryMessage() {
         return String.format(
                 "Your order no.%d is on the way. Estimated time of delivery" +
@@ -218,6 +226,15 @@ public class DeliveryOrder extends Order implements NotifyAction {
                 "We're sorry. Your delivery order no.%d was cancelled " +
                         "due to heavy demand in delivery orders. " +
                         "Please try again later.",
+                super.getOrderId()
+        );
+    }
+
+    // TODO comment
+    public String confirmDeliveryMessage() {
+        return String.format(
+                "Your order no.%d was delivered successfully. " +
+                        "Enjoy your meal!",
                 super.getOrderId()
         );
     }
@@ -347,7 +364,6 @@ public class DeliveryOrder extends Order implements NotifyAction {
                 }
             }
         }
-
     }
 
     @Override
@@ -356,7 +372,11 @@ public class DeliveryOrder extends Order implements NotifyAction {
         List<String> newNotificationMessage = prepareNotificationData();
 
         if (isSuccessfulRequest) {
-            newNotificationMessage.add(approveDeliveryMessage());
+            if (super.getOrderStatus().equalsIgnoreCase("pending-approval")) {
+                newNotificationMessage.add(approveDeliveryMessage());
+            } else {
+                newNotificationMessage.add(confirmDeliveryMessage());
+            }
         } else {
             newNotificationMessage.add(cancelDeliveryMessage());
         }
