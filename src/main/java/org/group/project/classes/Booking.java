@@ -259,8 +259,8 @@ public class Booking implements NotifyAction {
     // TODO comment
     public String failedBookingMessage() {
         return String.format(
-                "We're terribly sorry! Unfortunately, your table reservation " +
-                        "for %s at %s is not successful.",
+                "We're terribly sorry! Unfortunately; your table reservation "
+                        + "for %s at %s is not successful.",
                 getBookingDateInFormat(),
                 getBookingTimeInFormat()
         );
@@ -293,8 +293,8 @@ public class Booking implements NotifyAction {
     }
 
     public void deleteBooking() throws IOException {
-            DataManager.deleteUniqueIdFromFile("BOOKINGS",
-                    bookingId);
+        DataManager.deleteUniqueIdFromFile("BOOKINGS",
+                bookingId);
     }
 
     // TODO comment
