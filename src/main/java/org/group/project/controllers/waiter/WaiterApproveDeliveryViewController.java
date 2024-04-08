@@ -213,7 +213,7 @@ public class WaiterApproveDeliveryViewController {
     }
 
     // TODO comment
-    private void refreshPendingDeliveryList() throws FileNotFoundException {
+    public void refreshPendingDeliveryList() throws FileNotFoundException {
 
         // TODO comment
         pendingDeliveryTable.getItems().clear();
