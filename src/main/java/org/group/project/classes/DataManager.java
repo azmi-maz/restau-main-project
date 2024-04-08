@@ -253,6 +253,16 @@ public abstract class DataManager {
         tempFile.renameTo(inputFile);
     }
 
+    // TODO comment
+    public static void clearFileData(String fileType) throws IOException {
+        File inputFile = new File(FileNames.DATA.getDataFile(fileType));
+        File tempFile = new File("myTempFile.txt");
+        FileWriter fileWriter = new FileWriter(tempFile, true);
+        fileWriter.write("");
+        fileWriter.close();
+        tempFile.renameTo(inputFile);
+    }
+
     // Temporarily - to be reviewed
     public static void createFile() throws IOException {
 

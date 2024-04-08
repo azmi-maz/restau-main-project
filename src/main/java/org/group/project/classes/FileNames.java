@@ -8,6 +8,7 @@ package org.group.project.classes;
 public enum FileNames {
     DATA("src/main/java/org/group/project/textfiles/"),
     USERS("user-data.txt"),
+    ACTIVE_USER("active-user.txt"),
     TABLES("tables.txt"),
     BOOKINGS("booking-data.txt"),
     MENU("menu.txt"),

@@ -15,6 +15,8 @@ public enum DataFileStructure {
             "username", "userType", "address", "numOfHoursToWork",
             "numOfTotalHoursWorked", "hasAdminRight", "isAvailable",
             "maxDeliveries").toArray(new String[0])),
+    ACTIVE_USER("userId", Arrays.asList("userId", "firstName", "lastName",
+            "username", "userType").toArray(new String[0])),
     TABLES("tableName",
             Arrays.asList("tableName", "numOfSeats").toArray(new String[0])),
     BOOKINGS("bookingId", Arrays.asList("bookingId", "userId",

@@ -2,6 +2,7 @@ package org.group.project.classes;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -159,11 +160,31 @@ public class HelperMethods {
         }
     }
 
+    // TODO comment
     public static String getUserTypeFromDataString(List<String> userData) {
         int userTypeIndex = DataFileStructure.getIndexByColName("USERS",
                 "userType");
 
         return userData.get(userTypeIndex);
+    }
+
+    // TODO comment
+    public static User getActiveUser() throws FileNotFoundException {
+        List<String> data = DataManager.allDataFromFile("ACTIVE_USER");
+        if (!data.isEmpty()) {
+            List<String> activeUserDetails = List.of(data.get(0).split(","));
+            return new User(
+                    activeUserDetails.get(DataFileStructure.getIndexByColName("ACTIVE_USER", "firstName")),
+                    activeUserDetails.get(DataFileStructure.getIndexByColName("ACTIVE_USER", "lastName")),
+                    activeUserDetails.get(DataFileStructure.getIndexByColName("ACTIVE_USER", "username"))
+            );
+        }
+        return null;
+    }
+
+    // TODO comment
+    public static void clearActiveUser() throws IOException {
+        DataManager.clearFileData("ACTIVE_USER");
     }
 
 }
