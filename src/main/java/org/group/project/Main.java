@@ -3,7 +3,9 @@ package org.group.project;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import org.group.project.classes.AlertPopUpWindow;
 import org.group.project.classes.HelperMethods;
 import org.group.project.classes.User;
 import org.group.project.scenes.*;
@@ -12,6 +14,7 @@ import org.group.project.scenes.main.LoginView;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class Main extends Application {
 
@@ -48,14 +51,25 @@ public class Main extends Application {
         stage.show();
 
         stage.setOnCloseRequest(e -> {
-            // TODO try catch
-            try {
-                HelperMethods.clearActiveUser();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+
+            Optional<ButtonType> userChoice = promptForUserAcknowledgement();
+
+            if (userChoice.get()
+                    .getButtonData().toString()
+                    .equalsIgnoreCase("OK_DONE")) {
+
+                // TODO try catch
+                try {
+                    HelperMethods.clearActiveUser();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                Platform.exit();
+                System.exit(0);
             }
-            Platform.exit();
-            System.exit(0);
+            // TODO this cancels the exit
+            e.consume();
+
         });
 
 //        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
@@ -114,11 +128,16 @@ public class Main extends Application {
         currentUser = user;
     }
 
+    public Optional<ButtonType> promptForUserAcknowledgement() {
+        return AlertPopUpWindow.displayConfirmationWindow(
+                "Exit",
+                "Do you want to exit the program?"
+        );
+    }
+
     public static void main(String[] args) {
         launch();
     }
-
-
 
 
 }
