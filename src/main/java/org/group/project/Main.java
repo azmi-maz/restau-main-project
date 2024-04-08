@@ -1,8 +1,11 @@
 package org.group.project;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.group.project.classes.HelperMethods;
+import org.group.project.classes.User;
 import org.group.project.scenes.*;
 import org.group.project.scenes.main.LoginView;
 
@@ -18,6 +21,8 @@ public class Main extends Application {
     private static Map<MainScenes, Scene> scenes = new HashMap<>();
 
     private static Stage stage;
+
+    private static User currentUser;
 
     // TODO the static application name here Cafe94 Restaurant and use it in
     //  all classes.
@@ -41,6 +46,17 @@ public class Main extends Application {
         // TODO final variable constant this
         stage.setTitle("Cafe94 Restaurant");
         stage.show();
+
+        stage.setOnCloseRequest(e -> {
+            // TODO try catch
+            try {
+                HelperMethods.clearActiveUser();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            Platform.exit();
+            System.exit(0);
+        });
 
 //        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
 //                "customerscenes/mapscenes/customer-menuorder.fxml"));
@@ -90,7 +106,19 @@ public class Main extends Application {
         return stage;
     }
 
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+
+    public static void setCurrentUser(User user) {
+        currentUser = user;
+    }
+
     public static void main(String[] args) {
         launch();
     }
+
+
+
+
 }
