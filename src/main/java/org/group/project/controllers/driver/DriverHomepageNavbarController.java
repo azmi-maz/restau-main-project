@@ -8,7 +8,9 @@ import org.group.project.classes.ImageLoader;
 import org.group.project.scenes.DriverMapsMain;
 import org.group.project.scenes.DriverScenesMap;
 import org.group.project.scenes.MainScenes;
+import org.group.project.scenes.driver.mainViews.DeliveryView;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -38,6 +40,13 @@ public class DriverHomepageNavbarController {
         ImageLoader.setUpGraphicButton(logOffButton, 25, 25, "power");
 
         pendingDeliveriesButton.setOnMousePressed(e -> {
+
+            // TODO comment
+            try {
+                DeliveryView.controller.refreshPendingDeliveryList();
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
             DriverScenesMap.getDriverStage().setScene(DriverScenesMap.getScenes().get(DriverMapsMain.DELIVERY));
         });
 
@@ -46,7 +55,7 @@ public class DriverHomepageNavbarController {
         });
 
         userButton.setOnMousePressed(e -> {
-           // TODO user scene?
+            // TODO user scene?
         });
 
         logOffButton.setOnMousePressed(e -> {
