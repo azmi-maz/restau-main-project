@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -18,7 +17,6 @@ import org.group.project.classes.*;
 import org.group.project.scenes.WindowSize;
 import org.group.project.scenes.customer.stackViews.MenuController;
 import org.group.project.scenes.customer.stackViews.OrderDetailsController;
-import org.group.project.test.generators.CustomerGenerator;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -41,9 +39,6 @@ public class CustomerOrderDetailsViewController {
 
     @FXML
     private BorderPane borderPane;
-
-    @FXML
-    private ImageView bgImage;
 
     private List<FoodDrink> orderList;
 
@@ -266,8 +261,15 @@ public class CustomerOrderDetailsViewController {
         // TODO try catch upstream
         int orderId = HelperMethods.getNewIdByFile("ORDERS");
 
-        // TODO get user from main homepage, temp using dummy user
-        Customer newCustomer = CustomerGenerator.createCustomer1();
+        // TODO comment
+        List<String> customerDetails = HelperMethods.getUserDataByUsername(Main.getCurrentUser().getUsername());
+        Customer newCustomer = new Customer(
+                customerDetails.get(DataFileStructure.getIndexByColName("USERS", "firstName")),
+                customerDetails.get(DataFileStructure.getIndexByColName("USERS", "lastName")),
+                customerDetails.get(DataFileStructure.getIndexByColName("USERS", "username")),
+                Integer.parseInt(customerDetails.get(DataFileStructure.getIndexByColName("USERS", "userId"))),
+                customerDetails.get(DataFileStructure.getIndexByColName("USERS", "address"))
+        );
 
         LocalDate dateNow = LocalDate.now();
         LocalTime timeNow = LocalTime.now();
