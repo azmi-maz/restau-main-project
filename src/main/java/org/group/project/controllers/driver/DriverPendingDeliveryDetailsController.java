@@ -5,10 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.group.project.classes.AlertPopUpWindow;
-import org.group.project.classes.Customer;
-import org.group.project.classes.DataManager;
-import org.group.project.classes.Order;
+import org.group.project.classes.*;
 
 import java.io.IOException;
 
@@ -35,21 +32,22 @@ public class DriverPendingDeliveryDetailsController {
     @FXML
     private Button returnButton;
 
-    private int orderId;
+    private DeliveryOrder currentOrder;
 
     public void initialize() {
 
         deliveryCompletedButton.setOnAction(e -> {
-            String newOrderStatus = "completed";
 
             // TODO handle try catch
             try {
-                DataManager.editColumnDataByUniqueId("ORDERS", orderId,
-                        "orderStatus", newOrderStatus);
+                currentOrder.confirmDeliverOrder();
+                currentOrder.notifyCustomer(
+                        currentOrder.getCustomer(),
+                        true
+                );
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
-            // TODO notify customer of delivery update
 
             promptDeliverySuccessful();
 
@@ -70,7 +68,7 @@ public class DriverPendingDeliveryDetailsController {
         firstNameTextField.setText(customer.getFirstNameForDisplay());
         lastNameTextField.setText(customer.getLastNameForDisplay());
         addressTextField.setText(customer.getDeliveryAddress());
-        this.orderId = currentOrder.getOrderId();
+        this.currentOrder = (DeliveryOrder) currentOrder;
     }
 
     public void promptDeliverySuccessful() {
