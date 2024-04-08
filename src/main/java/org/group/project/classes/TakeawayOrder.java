@@ -117,7 +117,7 @@ public class TakeawayOrder extends Order implements NotifyAction {
     public List<String> prepareNotificationData() throws FileNotFoundException {
         List<String> data = new ArrayList<>();
         data.add(String.valueOf(HelperMethods.getNewIdByFile("NOTIFICATION")));
-        data.add(String.valueOf(super.getOrderId()));
+        data.add(String.valueOf(super.getCustomer().getCustomerId()));
         data.add(Notification.getNotificationDateForDatabase());
         data.add(Notification.getNotificationTimeForDatabase());
         data.add("takeaway");
