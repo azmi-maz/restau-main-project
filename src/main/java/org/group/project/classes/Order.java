@@ -1,5 +1,6 @@
 package org.group.project.classes;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -11,7 +12,7 @@ import java.util.List;
  *
  * @author azmi_maz
  */
-public class Order {
+public class Order implements NotifyAction {
     private User user;
     private int orderId;
     private LocalDate orderDate;
@@ -30,7 +31,8 @@ public class Order {
      * @param orderType   - the type of order.
      * @param orderStatus - the initial status when an order is created.
      */
-    public Order(int orderId, User user, LocalDate orderDate, LocalTime orderTime,
+    public Order(int orderId, User user, LocalDate orderDate,
+                 LocalTime orderTime,
                  String orderType, String orderStatus) {
         this.orderId = orderId;
         this.user = user;
@@ -42,7 +44,8 @@ public class Order {
     }
 
     // TODO comment to get updated data
-    public Order(int orderId, User user, LocalDate orderDate, LocalTime orderTime,
+    public Order(int orderId, User user, LocalDate orderDate,
+                 LocalTime orderTime,
                  String orderType, String orderStatus,
                  List<FoodDrink> orderedList) {
         this.orderId = orderId;
@@ -184,4 +187,19 @@ public class Order {
         }
         return displayList;
     }
+
+    // TODO comment
+    public void markOffOrderAsComplete() throws IOException {
+        if (orderType.equalsIgnoreCase("takeaway")
+                || orderType.equalsIgnoreCase("dinein")) {
+            DataManager.editColumnDataByUniqueId("ORDERS",
+                    orderId, "orderStatus",
+                    "completed");
+        } else if (orderType.equalsIgnoreCase("delivery")) {
+            DataManager.editColumnDataByUniqueId("ORDERS",
+                    orderId, "orderStatus",
+                    "pending-delivery");
+        }
+    }
+
 }
