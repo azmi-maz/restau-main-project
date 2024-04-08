@@ -12,7 +12,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -64,8 +63,6 @@ public class CustomerBookingsHistoryViewController {
     @FXML
     private Button newReservationButton;
 
-    private String userId;
-
     private List<String> tableReservations;
 
     @FXML
@@ -76,8 +73,7 @@ public class CustomerBookingsHistoryViewController {
     @FXML
     private BorderPane borderPane;
 
-    @FXML
-    private ImageView bgImage;
+    private String userId;
 
     public void initialize() throws FileNotFoundException, URISyntaxException {
 
@@ -93,9 +89,6 @@ public class CustomerBookingsHistoryViewController {
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.CENTER,
                 bSize)));
-
-        // TODO get userId from the main.
-        userId = "1";
 
         refreshReservationList();
 
@@ -281,7 +274,8 @@ public class CustomerBookingsHistoryViewController {
     }
 
     // TODO comment
-    private void refreshReservationList() throws FileNotFoundException {
+    public void refreshReservationList() throws FileNotFoundException {
+        updateUserId();
 
         // TODO comment that this clears up the list everytime it refresh
         reservationTable.getItems().clear();
@@ -292,56 +286,62 @@ public class CustomerBookingsHistoryViewController {
 
         for (String booking : tableReservations) {
             List<String> bookingDetails = List.of(booking.split(","));
-            int bookingId = Integer.parseInt(bookingDetails.get(0));
-            List<String> bookingDateDetails =
-                    List.of(bookingDetails.get(2).split("-"));
-            List<String> bookingTimeDetails =
-                    List.of(bookingDetails.get(3).split("-"));
-            Customer customer;
-            LocalDate bookingDate =
-                    LocalDate.of(Integer.parseInt(bookingDateDetails.get(0)),
-                            Integer.parseInt(bookingDateDetails.get(1)),
-                            Integer.parseInt(bookingDateDetails.get(2)));
-            LocalTime bookingTime =
-                    LocalTime.of(Integer.parseInt(bookingTimeDetails.get(0)),
-                            Integer.parseInt(bookingTimeDetails.get(1)));
-            int numOfGuests = Integer.parseInt(bookingDetails.get(4));
-            int bookingLength = Integer.parseInt(bookingDetails.get(5));
-            String[] bookingTables = bookingDetails.get(6).split(";");
-            String bookingStatus = bookingDetails.get(7);
-            List<Table> tablePreference = new ArrayList<>();
+            String currentUserId = bookingDetails
+                    .get(DataFileStructure
+                            .getIndexColOfUniqueId("USERS"));
 
-            // TODO filter by current userId
-            List<String> customerString = HelperMethods.getDataById("USERS",
-                    bookingDetails.get(DataFileStructure.getIndexByColName(
-                            "BOOKINGS", "userId")));
-            for (String rawTable : bookingTables) {
-                List<String> rawTableDetails = HelperMethods.getDataById(
-                        "TABLES", rawTable);
-                tablePreference.add(new Table(rawTableDetails.get(0),
-                        Integer.parseInt(rawTableDetails.get(1))));
-            }
-            if (customerString != null) {
-                customer = new Customer(
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "firstName")),
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "lastName")),
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "username")),
-                        Integer.parseInt(customerString.get(DataFileStructure.getIndexByColName("USERS", "userId"))),
-                        HelperMethods.formatAddressToRead(customerString.get(DataFileStructure.getIndexByColName("USERS", "address")))
-                );
-                data.add(new Booking(
-                        bookingId,
-                        customer,
-                        bookingDate,
-                        bookingTime,
-                        numOfGuests,
-                        tablePreference,
-                        bookingLength,
-                        bookingStatus
-                ));
+            if (currentUserId.equalsIgnoreCase(userId)) {
+
+                int bookingId = Integer.parseInt(bookingDetails.get(0));
+                List<String> bookingDateDetails =
+                        List.of(bookingDetails.get(2).split("-"));
+                List<String> bookingTimeDetails =
+                        List.of(bookingDetails.get(3).split("-"));
+                Customer customer;
+                LocalDate bookingDate =
+                        LocalDate.of(Integer.parseInt(bookingDateDetails.get(0)),
+                                Integer.parseInt(bookingDateDetails.get(1)),
+                                Integer.parseInt(bookingDateDetails.get(2)));
+                LocalTime bookingTime =
+                        LocalTime.of(Integer.parseInt(bookingTimeDetails.get(0)),
+                                Integer.parseInt(bookingTimeDetails.get(1)));
+                int numOfGuests = Integer.parseInt(bookingDetails.get(4));
+                int bookingLength = Integer.parseInt(bookingDetails.get(5));
+                String[] bookingTables = bookingDetails.get(6).split(";");
+                String bookingStatus = bookingDetails.get(7);
+                List<Table> tablePreference = new ArrayList<>();
+
+                // TODO filter by current userId
+                List<String> customerString = HelperMethods.getDataById("USERS",
+                        bookingDetails.get(DataFileStructure.getIndexByColName(
+                                "BOOKINGS", "userId")));
+                for (String rawTable : bookingTables) {
+                    List<String> rawTableDetails = HelperMethods.getDataById(
+                            "TABLES", rawTable);
+                    tablePreference.add(new Table(rawTableDetails.get(0),
+                            Integer.parseInt(rawTableDetails.get(1))));
+                }
+                if (customerString != null) {
+                    customer = new Customer(
+                            customerString.get(DataFileStructure.getIndexByColName("USERS", "firstName")),
+                            customerString.get(DataFileStructure.getIndexByColName("USERS", "lastName")),
+                            customerString.get(DataFileStructure.getIndexByColName("USERS", "username")),
+                            Integer.parseInt(customerString.get(DataFileStructure.getIndexByColName("USERS", "userId"))),
+                            HelperMethods.formatAddressToRead(customerString.get(DataFileStructure.getIndexByColName("USERS", "address")))
+                    );
+                    data.add(new Booking(
+                            bookingId,
+                            customer,
+                            bookingDate,
+                            bookingTime,
+                            numOfGuests,
+                            tablePreference,
+                            bookingLength,
+                            bookingStatus
+                    ));
+                }
             }
         }
-
     }
 
     public Optional<ButtonType> promptForUserAcknowledgement() {
@@ -349,6 +349,23 @@ public class CustomerBookingsHistoryViewController {
                 "Cancel Table Reservation Request",
                 "Do you want to cancel this reservation?"
         );
+    }
+
+    private void updateUserId() {
+        
+        if (Main.getCurrentUser() == null) {
+            return;
+        }
+
+        // TODO try catch
+        try {
+            userId = String.valueOf(
+                    HelperMethods
+                            .findUserIdByUsername(
+                                    Main.getCurrentUser().getUsername()));
+        } catch (FileNotFoundException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     public void deleteBooking(int bookingId) {
