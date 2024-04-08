@@ -206,7 +206,7 @@ public class DeliveryOrder extends Order implements NotifyAction {
     public String approveDeliveryMessage() {
         return String.format(
                 "Your order no.%d is on the way. Estimated time of delivery" +
-                        "is %s.",
+                        " is %s.",
                 super.getOrderId(),
                 getDeliveryTimeInFormat()
         );
