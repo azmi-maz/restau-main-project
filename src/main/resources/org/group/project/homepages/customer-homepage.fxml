@@ -11,15 +11,18 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.group.project.controllers.customer.CustomerHomepageController">
     <top>
-        <HBox alignment="CENTER" prefHeight="68.0" prefWidth="600.0"
-              BorderPane.alignment="CENTER"
+        <HBox prefHeight="68.0" prefWidth="600.0"
               styleClass="navbar"
               stylesheets="@../css/navbar.css"
         >
             <children>
-                <Label fx:id="mainTitle" text="Main Title"/>
-                <fx:include source="../navbar/customer/customer-main-navbar.fxml"
-                            fx:id="customerHomeNavbar"/>
+                <HBox styleClass="labelBox">
+                    <Label fx:id="mainTitle" text="Main Title"
+                           styleClass="mainTitle"/>
+                </HBox>
+                <fx:include
+                        source="../navbar/customer/customer-main-navbar.fxml"
+                        fx:id="customerHomeNavbar"/>
             </children>
         </HBox>
     </top>

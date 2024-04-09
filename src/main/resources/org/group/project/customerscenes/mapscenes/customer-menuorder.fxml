@@ -18,8 +18,13 @@
       stylesheets="@../../css/image.css" xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <HBox alignment="CENTER" prefHeight="68.0" prefWidth="461.0">
-            <Label prefHeight="17.0" prefWidth="178.0" text="Menu"/>
+        <HBox alignment="CENTER" prefHeight="68.0" prefWidth="461.0"
+              styleClass="navbar"
+              stylesheets="@../../css/navbar.css">
+            <HBox styleClass="labelBox">
+                <Label prefHeight="17.0" prefWidth="178.0" text="Menu"
+                       styleClass="mainTitle"/>
+            </HBox>
             <fx:include fx:id="customerMenuOrderNavbar"
                         source="../../navbar/customer/customer-menuorder-navbar.fxml"/>
         </HBox>

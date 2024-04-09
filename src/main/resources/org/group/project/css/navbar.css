@@ -1,3 +1,18 @@
 .navbar {
-    -fx-background-color: white;
+    -fx-border-color: #5c6c7c;
+    -fx-border-width: 2;
+    -fx-background-color: #f4f4f4;
+}
+
+.labelBox {
+    -fx-pref-width: 400;
+    -fx-alignment: center;
+    /*-fx-border-width: 3;*/
+    /*-fx-border-color: blue;*/
+}
+
+.mainTitle {
+    -fx-font-size: 23;
+    -fx-alignment: center;
+    /*-fx-border-color: red;*/
 }

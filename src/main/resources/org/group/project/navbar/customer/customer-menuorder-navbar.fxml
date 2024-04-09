@@ -10,9 +10,11 @@
       minWidth="-Infinity" prefHeight="68.0" prefWidth="592.0"
       xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.group.project.controllers.customer.CustomerMenuOrderNavbarController"
+      stylesheets="@../../css/navbar-buttons.css"
+      styleClass="navbar-buttons"
       >
     <children>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="buttonBox">
             <children>
                 <Button fx:id="homeButton" mnemonicParsing="false"
                         styleClass="homeButton"/>
@@ -20,7 +22,7 @@
                        text="Return to Home"/>
             </children>
         </VBox>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="buttonBox">
             <children>
                 <Button fx:id="cartButton" mnemonicParsing="false"
                         styleClass="cartButton"/>
