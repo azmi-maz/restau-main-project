@@ -21,5 +21,7 @@ public class ImageLoader {
         imgView.setFitWidth(width);
         imgView.setFitHeight(height);
         button.setGraphic(imgView);
+//        URL imageUrl = Main.class.getResource("images/icons/resized.png");
+//        button.setStyle("-fx-graphic: url('" + imageUrl + "');");
     }
 }

@@ -25,3 +25,6 @@
 25,1,2024-4-8,21-8,takeaway,pending-kitchen,,,,chocolate souffle;chocolate souffle;croquembouche;croquembouche;croquembouche
 26,1,2024-4-8,21-15,takeaway,completed,,,,bloody mary;bloody mary
 27,1,2024-4-8,21-16,takeaway,completed,,,,chocolate souffle;chocolate souffle
+28,1,2024-4-15,14-59,takeaway,pending-kitchen,,,,lobster thermidor
+29,1,2024-4-15,18-2,delivery,pending-approval,,,,coq au vin
+30,1,2024-4-15,21-55,delivery,pending-approval,,,,chocolate souffle
