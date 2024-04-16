@@ -28,6 +28,12 @@ public enum DataFileStructure {
                     "colIdx", "rowIdx", "colSpan", "rowSpan", "imgAlign",
                     "tagAlign", "stackAlign", "maxHeight", "maxWidth"
             ).toArray(new String[0])),
+    PRESET_ITEMS("itemName",
+            Arrays.asList("itemName", "itemType", "isDailySpecial", "imageurl",
+                    "height-sub", "height-div", "width-sub", "width-div",
+                    "colIdx", "rowIdx", "colSpan", "rowSpan", "imgAlign",
+                    "tagAlign", "stackAlign", "maxHeight", "maxWidth"
+            ).toArray(new String[0])),
     NOTIFICATION("notificationId",
             Arrays.asList("notificationId", "userId", "notificationDate",
                     "notificationTime", "notificationType", "readStatus",

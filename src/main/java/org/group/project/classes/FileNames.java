@@ -12,6 +12,7 @@ public enum FileNames {
     TABLES("tables.txt"),
     BOOKINGS("booking-data.txt"),
     MENU("menu.txt"),
+    PRESET_ITEMS("new-menu-item.txt"),
     NOTIFICATION("notification-data.txt"),
     ORDERS("order-data.txt"),
     REPORTS("report-data.txt");

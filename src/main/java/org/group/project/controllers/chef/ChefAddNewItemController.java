@@ -7,10 +7,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.group.project.classes.DataManager;
+import org.group.project.classes.HelperMethods;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ChefAddNewItemController {
@@ -43,11 +44,12 @@ public class ChefAddNewItemController {
             String itemName = itemNameTextField.getText().toLowerCase();
             String itemType = itemTypeChoiceBox.getValue().toLowerCase();
 
-            List<String> newMenuItem = new ArrayList<>(Arrays.asList(
-                    itemName,
-                    itemType,
-                    "false"
-            ));
+            List<String> newMenuItem = null;
+            try {
+                newMenuItem = getPresetItem(itemName);
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
 
             // TODO handle try catch
             try {
@@ -66,6 +68,23 @@ public class ChefAddNewItemController {
 
     public void setItemList(List<String> menuItemList) {
         this.menuItemList = menuItemList;
+    }
+
+    public List<String> getPresetItem(String itemName) throws FileNotFoundException {
+        List<String> presetItem = new ArrayList<>();
+        switch (itemName) {
+            case "pizza", "pepsi", "coke", "spaghetti", "soup":
+                presetItem =
+                        HelperMethods
+                                .getDataById("PRESET_ITEMS", itemName);
+                break;
+            default:
+                presetItem =
+                        HelperMethods
+                                .getDataById("PRESET_ITEMS", "pizza");
+                break;
+        }
+        return presetItem;
     }
 
     private void closeWindow() {

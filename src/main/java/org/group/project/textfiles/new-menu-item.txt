@@ -1,0 +1,5 @@
+pizza,food,false,images/menu/pizza.png,10,3.2,10,3.2,0,12,2,1,TOP_CENTER,BOTTOM_LEFT,TOP_RIGHT,55,75
+coke,drink,false,images/menu/coke.png,10,3.3,10,3.3,2,12,2,1,CENTER,BOTTOM_LEFT,TOP_RIGHT,95,95
+soup,food,false,images/menu/soup.png,10,3.2,10,3.2,4,11,2,2,TOP_CENTER,BOTTOM_LEFT,TOP_RIGHT,65,85
+pepsi,drink,false,images/menu/pepsi.png,10,3.2,10,3.2,0,13,2,2,CENTER,BOTTOM_LEFT,TOP_RIGHT,190,85
+spaghetti,food,false,images/menu/spaghetti.png,10,3.2,10,3.2,2,13,2,1,CENTER,BOTTOM_LEFT,TOP_RIGHT,55,85
