@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
@@ -75,15 +76,11 @@ public class DriverPendingDeliveryViewController {
 
         refreshPendingDeliveryList();
 
-        noColumn.setText("No.");
+        noColumn.setText("Order no.");
         noColumn.setMinWidth(45);
         noColumn.setStyle("-fx-alignment: CENTER;");
-        noColumn.setCellValueFactory(cellData -> {
-            int index =
-                    cellData.getTableView().getItems().indexOf(cellData.getValue());
-            index++;
-            return new SimpleObjectProperty<>(index).asString();
-        });
+        noColumn.setCellValueFactory(
+                new PropertyValueFactory<>("orderId"));
 
         customerColumn.setText("Customer");
         customerColumn.setMinWidth(130);
