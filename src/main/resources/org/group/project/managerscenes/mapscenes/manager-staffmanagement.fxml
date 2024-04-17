@@ -11,14 +11,16 @@
       fx:controller="org.group.project.controllers.manager.ManagerStaffManagementViewController"
 >
     <children>
-        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="600.0">
-            <children>
-                <Label id="headerLabel" styleClass="headerLabel"
+        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="600.0"
+              styleClass="navbar"
+              stylesheets="@../../css/navbar.css">
+            <HBox styleClass="labelBox">
+                <Label id="headerLabel" styleClass="mainTitle"
                        text="Staff Management"/>
-                <fx:include
-                        source="../../navbar/manager/manager-returnhome-navbar.fxml"
-                        fx:id="managerReturnHomeNavbar"/>
-            </children>
+            </HBox>
+            <fx:include
+                    source="../../navbar/manager/manager-returnhome-navbar.fxml"
+                    fx:id="managerReturnHomeNavbar"/>
         </HBox>
         <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
             <top>

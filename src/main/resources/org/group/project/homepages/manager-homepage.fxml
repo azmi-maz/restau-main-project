@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane
-      maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-      minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
-      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:id="borderPane"
-      fx:controller="org.group.project.controllers.manager.ManagerHomepageController"
+        maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+        minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+        xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+        fx:id="borderPane"
+        fx:controller="org.group.project.controllers.manager.ManagerHomepageController"
 >
     <top>
         <HBox alignment="CENTER" prefHeight="68.0" prefWidth="600.0"
@@ -19,11 +19,12 @@
               styleClass="navbar"
               stylesheets="@../css/navbar.css"
         >
-            <children>
-                <Label fx:id="mainTitle" text="Main Title"/>
-                <fx:include source="../navbar/manager/manager-main-navbar.fxml"
-                            fx:id="managerHomeNavbar"/>
-            </children>
+            <HBox styleClass="labelBox">
+                <Label fx:id="mainTitle" text="Main Title"
+                       styleClass="mainTitle"/>
+            </HBox>
+            <fx:include source="../navbar/manager/manager-main-navbar.fxml"
+                        fx:id="managerHomeNavbar"/>
         </HBox>
     </top>
     <center>
