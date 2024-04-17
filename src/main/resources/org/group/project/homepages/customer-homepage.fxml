@@ -15,15 +15,13 @@
               styleClass="navbar"
               stylesheets="@../css/navbar.css"
         >
-            <children>
-                <HBox styleClass="labelBox">
-                    <Label fx:id="mainTitle" text="Main Title"
-                           styleClass="mainTitle"/>
-                </HBox>
-                <fx:include
-                        source="../navbar/customer/customer-main-navbar.fxml"
-                        fx:id="customerHomeNavbar"/>
-            </children>
+            <HBox styleClass="labelBox">
+                <Label fx:id="mainTitle" text="Main Title"
+                       styleClass="mainTitle"/>
+            </HBox>
+            <fx:include
+                    source="../navbar/customer/customer-main-navbar.fxml"
+                    fx:id="customerHomeNavbar"/>
         </HBox>
     </top>
     <center>

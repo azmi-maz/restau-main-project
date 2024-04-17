@@ -9,14 +9,16 @@
       prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <HBox alignment="CENTER" prefHeight="64.0" prefWidth="600.0">
-            <children>
-                <Label fx:id="headerLabel" styleClass="headerLabel"
+        <HBox alignment="CENTER" prefHeight="64.0" prefWidth="600.0"
+              styleClass="navbar"
+              stylesheets="@../../css/navbar.css">
+            <HBox styleClass="labelBox">
+                <Label fx:id="headerLabel" styleClass="mainTitle"
                        text="Order Details"/>
-                <fx:include
-                        source="../../navbar/customer/customer-orderdetails-navbar.fxml"
-                        fx:id="customerOrderDetailsNavbar"/>
-            </children>
+            </HBox>
+            <fx:include
+                    source="../../navbar/customer/customer-orderdetails-navbar.fxml"
+                    fx:id="customerOrderDetailsNavbar"/>
         </HBox>
         <BorderPane fx:id="borderPane" prefHeight="1400.0" prefWidth="700.0">
             <top>

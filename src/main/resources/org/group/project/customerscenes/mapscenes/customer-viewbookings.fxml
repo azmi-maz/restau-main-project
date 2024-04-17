@@ -10,9 +10,14 @@
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.group.project.controllers.customer.CustomerBookingsHistoryViewController">
     <children>
-        <HBox alignment="CENTER" prefHeight="68.0" prefWidth="461.0">
-            <Label prefHeight="17.0" prefWidth="178.0"
-                   text="Reservation History"/>
+        <HBox alignment="CENTER" prefHeight="68.0" prefWidth="461.0"
+              styleClass="navbar"
+              stylesheets="@../../css/navbar.css">
+            <HBox styleClass="labelBox">
+                <Label prefHeight="17.0" prefWidth="178.0"
+                       text="Reservation History"
+                       styleClass="mainTitle"/>
+            </HBox>
             <fx:include
                     source="../../navbar/customer/customer-returnhome-navbar.fxml"
                     fx:id="customerReturnHomeNavbar"/>

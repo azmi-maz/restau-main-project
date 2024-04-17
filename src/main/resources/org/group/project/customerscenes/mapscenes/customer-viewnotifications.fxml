@@ -14,14 +14,16 @@
       fx:controller="org.group.project.controllers.customer.CustomerNotificationViewController"
 >
     <children>
-        <HBox alignment="CENTER" prefHeight="71.0" prefWidth="600.0">
-            <children>
-                <Label fx:id="headerLabel" styleClass="headerLabel"
+        <HBox alignment="CENTER" prefHeight="71.0" prefWidth="600.0"
+              styleClass="navbar"
+              stylesheets="@../../css/navbar.css">
+            <HBox styleClass="labelBox">
+                <Label fx:id="headerLabel" styleClass="mainTitle"
                        text="Notification"/>
+            </HBox>
                 <fx:include
                         source="../../navbar/customer/customer-returnhome-navbar.fxml"
                         fx:id="customerReturnHomeNavbar"/>
-            </children>
         </HBox>
         <BorderPane fx:id="borderPane" prefHeight="1400.0" prefWidth="700.0">
             <center>
