@@ -19,11 +19,12 @@
               styleClass="navbar"
               stylesheets="@../css/navbar.css"
         >
-            <children>
-                <Label fx:id="mainTitle" text="Main Title"/>
-                <fx:include source="../navbar/chef/chef-main-navbar.fxml"
-                            fx:id="chefHomeNavbar"/>
-            </children>
+            <HBox styleClass="labelBox">
+                <Label fx:id="mainTitle" text="Main Title"
+                       styleClass="mainTitle"/>
+            </HBox>
+            <fx:include source="../navbar/chef/chef-main-navbar.fxml"
+                        fx:id="chefHomeNavbar"/>
         </HBox>
     </top>
     <center>

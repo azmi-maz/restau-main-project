@@ -11,14 +11,16 @@
       fx:controller="org.group.project.controllers.chef.ChefMenuViewController"
 >
     <children>
-        <HBox alignment="CENTER" prefHeight="74.0" prefWidth="600.0">
-            <children>
-                <Label fx:id="headerLabel" styleClass="headerLabel"
+        <HBox alignment="CENTER" prefHeight="74.0" prefWidth="600.0"
+              styleClass="navbar"
+              stylesheets="@../../css/navbar.css">
+            <HBox styleClass="labelBox">
+                <Label fx:id="headerLabel" styleClass="mainTitle"
                        text="Menu"/>
-                <fx:include
-                        source="../../navbar/chef/chef-returnhome-navbar.fxml"
-                        fx:id="chefReturnHomeNavbar"/>
-            </children>
+            </HBox>
+            <fx:include
+                    source="../../navbar/chef/chef-returnhome-navbar.fxml"
+                    fx:id="chefReturnHomeNavbar"/>
         </HBox>
         <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
             <top>
