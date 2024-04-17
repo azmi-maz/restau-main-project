@@ -11,14 +11,16 @@
       fx:controller="org.group.project.controllers.waiter.WaiterApproveBookingsViewController"
 >
     <children>
-        <HBox alignment="CENTER" prefHeight="77.0" prefWidth="600.0">
-            <children>
-                <Label fx:id="headerLabel" styleClass="headerLabel"
+        <HBox alignment="CENTER" prefHeight="77.0" prefWidth="600.0"
+              styleClass="navbar"
+              stylesheets="@../../css/navbar.css">
+            <HBox styleClass="labelBox">
+                <Label fx:id="headerLabel" styleClass="mainTitle"
                        text="Pending Bookings"/>
-                <fx:include
-                        source="../../navbar/waiter/waiter-pendingdeliveries-navbar.fxml"
-                        fx:id="waiterPendingDeliveryNavbar"/>
-            </children>
+            </HBox>
+            <fx:include
+                    source="../../navbar/waiter/waiter-pendingdeliveries-navbar.fxml"
+                    fx:id="waiterPendingDeliveryNavbar"/>
         </HBox>
         <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
             <top>

@@ -11,14 +11,16 @@
       fx:controller="org.group.project.controllers.waiter.WaiterDineinOrderController"
 >
     <children>
-        <HBox alignment="CENTER" prefHeight="63.0" prefWidth="600.0">
-            <children>
-                <Label fx:id="headerLabel" styleClass="headerLabel"
+        <HBox alignment="CENTER" prefHeight="63.0" prefWidth="600.0"
+              styleClass="navbar"
+              stylesheets="@../../css/navbar.css">
+            <HBox styleClass="labelBox">
+                <Label fx:id="headerLabel" styleClass="mainTitle"
                        text="Dine-in Order"/>
-                <fx:include
-                        source="../../navbar/waiter/waiter-dineinorder-navbar.fxml"
-                        fx:id="waiterDineinOrderNavbar"/>
-            </children>
+            </HBox>
+            <fx:include
+                    source="../../navbar/waiter/waiter-dineinorder-navbar.fxml"
+                    fx:id="waiterDineinOrderNavbar"/>
         </HBox>
         <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
             <top>
@@ -70,7 +72,8 @@
                         <Button fx:id="confirmButton" mnemonicParsing="false"
                                 styleClass="confirmButton"
                                 text="Confirm Order"/>
-                        <Button fx:id="cancelOrderButton" mnemonicParsing="false"
+                        <Button fx:id="cancelOrderButton"
+                                mnemonicParsing="false"
                                 styleClass="cancelOrderButton"
                                 text="Cancel Order"/>
                     </children>

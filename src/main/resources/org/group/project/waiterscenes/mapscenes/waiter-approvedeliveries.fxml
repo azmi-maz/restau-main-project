@@ -11,18 +11,21 @@
       fx:controller="org.group.project.controllers.waiter.WaiterApproveDeliveryViewController"
 >
     <children>
-        <HBox alignment="CENTER" prefHeight="68.0" prefWidth="600.0">
-            <children>
-                <Label fx:id="headerLabel" styleClass="headerLabel"
+        <HBox alignment="CENTER" prefHeight="68.0" prefWidth="600.0"
+              styleClass="navbar"
+              stylesheets="@../../css/navbar.css">
+            <HBox styleClass="labelBox">
+                <Label fx:id="headerLabel" styleClass="mainTitle"
                        text="Pending Delivery Orders"/>
-                <fx:include
-                        source="../../navbar/waiter/waiter-pendingtables-navbar.fxml"
-                        fx:id="waiterPendingTablesNavbar"/>
-            </children>
+            </HBox>
+            <fx:include
+                    source="../../navbar/waiter/waiter-pendingtables-navbar.fxml"
+                    fx:id="waiterPendingTablesNavbar"/>
         </HBox>
         <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
             <top>
-                <Label fx:id="deliveryOrderLabel" styleClass="deliveryOrderLabel"
+                <Label fx:id="deliveryOrderLabel"
+                       styleClass="deliveryOrderLabel"
                        text="Delivery Orders" BorderPane.alignment="CENTER"/>
             </top>
             <center>

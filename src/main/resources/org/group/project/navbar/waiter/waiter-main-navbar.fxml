@@ -8,33 +8,35 @@
       minWidth="-Infinity" prefHeight="68.0" prefWidth="592.0"
       xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.group.project.controllers.waiter.WaiterHomepageNavbarController"
+      stylesheets="@../../css/navbar-buttons.css"
+      styleClass="navbar-buttons"
 >
     <children>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="buttonBox">
             <children>
                 <Button fx:id="dineInOrderButton" mnemonicParsing="false"/>
                 <Label fx:id="dineInOrderLabel" text="Dine-in Order"/>
             </children>
         </VBox>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="buttonBox">
             <children>
                 <Button fx:id="pendingApprovalButton" mnemonicParsing="false"/>
                 <Label fx:id="pendingApprovalLabel" text="Pending Approval"/>
             </children>
         </VBox>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="buttonBox">
             <children>
                 <Button fx:id="orderHistoryButton" mnemonicParsing="false"/>
                 <Label fx:id="orderHistoryLabel" text="Order History"/>
             </children>
         </VBox>
-        <VBox alignment="CENTER" prefHeight="264.0" prefWidth="86.0">
+        <VBox alignment="CENTER" prefHeight="264.0" prefWidth="86.0" styleClass="buttonBox">
             <children>
                 <Button fx:id="userButton" mnemonicParsing="false"/>
                 <Label fx:id="userLabel" text="User"/>
             </children>
         </VBox>
-        <VBox alignment="CENTER" prefHeight="61.0" prefWidth="87.0">
+        <VBox alignment="CENTER" prefHeight="61.0" prefWidth="87.0" styleClass="buttonBox">
             <children>
                 <Button fx:id="logOffButton" mnemonicParsing="false"/>
                 <Label fx:id="logOffLabel" text="Log Out"/>
