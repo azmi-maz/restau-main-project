@@ -15,5 +15,5 @@
     -fx-font-size: 23;
     -fx-pref-width: 400;
     -fx-alignment: center;
-    -fx-border-color: red;
+    /*-fx-border-color: red;*/
 }
