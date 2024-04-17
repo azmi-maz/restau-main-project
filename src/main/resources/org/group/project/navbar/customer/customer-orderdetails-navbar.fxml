@@ -14,7 +14,7 @@
       styleClass="navbar-buttons"
 >
     <children>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="buttonBox">
             <children>
                 <Button fx:id="returnToMenuButton" mnemonicParsing="false"
                         styleClass="returnToMenuButton"/>
