@@ -19,11 +19,13 @@
               styleClass="navbar"
               stylesheets="@../css/navbar.css"
         >
-            <children>
-                <Label fx:id="mainTitle" text="Main Title"/>
-                <fx:include source="../navbar/driver/driver-main-navbar.fxml"
-                            fx:id="driverHomeNavbar"/>
-            </children>
+            <HBox styleClass="labelBox">
+                <Label fx:id="mainTitle" text="Main Title"
+                       styleClass="mainTitle"/>
+            </HBox>
+            <fx:include source="../navbar/driver/driver-main-navbar.fxml"
+                        fx:id="driverHomeNavbar"/>
+
         </HBox>
     </top>
     <center>
