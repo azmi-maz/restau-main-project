@@ -24,18 +24,23 @@
         </HBox>
         <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
             <top>
-                <HBox alignment="CENTER" prefHeight="64.0" prefWidth="600.0"
-                      BorderPane.alignment="CENTER">
-                    <children>
+                <VBox alignment="CENTER">
+                    <HBox alignment="CENTER">
                         <Label fx:id="tableLabel" styleClass="tableLabel"
                                text="Serving Table"/>
                         <ChoiceBox fx:id="tableChoiceBox" prefWidth="150.0"
                                    styleClass="tableChoiceBox"/>
-                        <Button fx:id="newItemButton" mnemonicParsing="false"
-                                styleClass="newItemButton"
-                                text="Add Item"/>
-                    </children>
-                </HBox>
+                    </HBox>
+                    <HBox alignment="CENTER">
+                        <Label fx:id="customerLabel" styleClass="customerLabel"
+                               text="Customer"/>
+                        <ChoiceBox fx:id="customerChoiceBox" prefWidth="150.0"
+                                   styleClass="customerChoiceBox"/>
+                    </HBox>
+                    <Button fx:id="newItemButton" mnemonicParsing="false"
+                            styleClass="newItemButton"
+                            text="Add Item"/>
+                </VBox>
             </top>
             <center>
                 <ImageView fx:id="bgImage" fitHeight="150.0" fitWidth="200.0"

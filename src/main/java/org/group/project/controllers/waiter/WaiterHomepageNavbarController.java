@@ -9,6 +9,7 @@ import org.group.project.scenes.MainScenes;
 import org.group.project.scenes.WaiterMapsMain;
 import org.group.project.scenes.WaiterScenesMap;
 import org.group.project.scenes.waiter.mainViews.BookingView;
+import org.group.project.scenes.waiter.mainViews.DineInView;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -46,6 +47,12 @@ public class WaiterHomepageNavbarController {
         ImageLoader.setUpGraphicButton(logOffButton, 25, 25, "power");
 
         dineInOrderButton.setOnMousePressed(e -> {
+            // TODO try catch
+            try {
+                DineInView.controller.refreshCustomerList();
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
             WaiterScenesMap.getWaiterStage().setScene(WaiterScenesMap.getScenes().get(WaiterMapsMain.DINEIN));
         });
 

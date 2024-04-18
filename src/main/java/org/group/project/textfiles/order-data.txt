@@ -31,3 +31,5 @@
 31,1,2024-4-16,10-25,delivery,pending-delivery,,4,11-3,chocolate souffle;classic duck confit
 32,1,2024-4-16,10-26,takeaway,completed,,,,bloody mary;croquembouche
 33,3,2024-4-16,10-34,dinein,completed,,,,martini;marseilles shrimp stew
+34,1,2024-4-18,15-46,dinein,pending-kitchen,,,,duck a lorange;duck a lorange;duck a lorange;stuffed pork tenderloin;stuffed pork tenderloin;stuffed pork tenderloin
+35,1,2024-4-18,15-50,dinein,pending-kitchen,,,,duck a lorange;stuffed pork tenderloin

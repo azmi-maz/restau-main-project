@@ -40,6 +40,9 @@ public class WaiterDineinOrderController {
     private ChoiceBox<String> tableChoiceBox;
 
     @FXML
+    private ChoiceBox<Customer> customerChoiceBox;
+
+    @FXML
     private TableColumn<FoodDrink, String> noColumn;
 
     @FXML
@@ -70,6 +73,8 @@ public class WaiterDineinOrderController {
     private Button cancelOrderButton;
 
     private int userId;
+
+    private List<Customer> customerList = new ArrayList<>();
 
     private List<FoodDrink> orderList = new ArrayList<>();
 
@@ -109,6 +114,15 @@ public class WaiterDineinOrderController {
         tableChoiceBox.getItems().add("Table K");
 
         tableChoiceBox.setValue("Choose Table");
+
+        // TODO comment try catch - update customer list
+        try {
+            refreshCustomerList();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        updateCustomerChoiceBox();
 
         ImageLoader.setUpGraphicButton(newItemButton, 15, 15, "circle-plus");
 
@@ -162,6 +176,8 @@ public class WaiterDineinOrderController {
                 throw new RuntimeException(ex);
             }
             String newOrderId = getNewOrderId;
+            String customerId = String.valueOf(customerChoiceBox
+                    .getValue().getCustomerId());
             // TODO these are useful and short
             String orderDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-M-d"));
             String orderTime = LocalTime.now().format(DateTimeFormatter.ofPattern("H-m"));
@@ -174,7 +190,7 @@ public class WaiterDineinOrderController {
             String finalOrderList = DataManager.formatLongArrayToOneColumnString(itemList);
             List<String> newOrderString = new ArrayList<>(Arrays.asList(
                     newOrderId,
-                    String.valueOf(userId),
+                    customerId,
                     orderDate,
                     orderTime,
                     "dinein",
@@ -190,6 +206,8 @@ public class WaiterDineinOrderController {
             promptOrderSuccessful();
             orderList.clear();
             refreshOrderList();
+            customerChoiceBox.setValue(null);
+            tableChoiceBox.setValue("Choose Table");
 
         });
 
@@ -317,6 +335,28 @@ public class WaiterDineinOrderController {
         data.clear();
         data.addAll(orderList);
         orderDetailsTable.setItems(data);
+    }
+
+    // TODO comment and try catch
+    public void refreshCustomerList() throws FileNotFoundException {
+        if (customerList != null && !customerList.isEmpty()) {
+            customerList.clear();
+            customerList = HelperMethods.getCustomers();
+            updateCustomerChoiceBox();
+        } else {
+            customerList.addAll(HelperMethods.getCustomers());
+            updateCustomerChoiceBox();
+        }
+    }
+
+    // TODO comment
+    private void updateCustomerChoiceBox() {
+        if (customerList != null && !customerList.isEmpty()) {
+            customerChoiceBox.getItems().clear();
+            for (Customer customer : customerList) {
+                customerChoiceBox.getItems().add(customer);
+            }
+        }
     }
 
     public Optional<ButtonType> promptForUserAcknowledgement(

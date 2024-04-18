@@ -187,4 +187,36 @@ public class HelperMethods {
         DataManager.clearFileData("ACTIVE_USER");
     }
 
+    // TODO to transfer to Customer class
+    public static List<Customer> getCustomers() throws FileNotFoundException {
+        List<Customer> updatedCustomerList = new ArrayList<>();
+        List<String> userFile = DataManager.allDataFromFile("USERS");
+        for (String userDetails : userFile) {
+            List<String> user = List.of(userDetails.split(","));
+            boolean isCustomer = user
+                    .get(DataFileStructure
+                            .getIndexByColName("USERS",
+                                    "userType"))
+                    .equalsIgnoreCase("customer");
+            if (isCustomer) {
+                updatedCustomerList.add(new Customer(
+                        user.get(DataFileStructure
+                                .getIndexByColName("USERS",
+                                        "firstName")),
+                        user.get(DataFileStructure
+                                .getIndexByColName("USERS",
+                                        "lastName")),
+                        user.get(DataFileStructure
+                                .getIndexByColName("USERS",
+                                        "username")),
+                        Integer.parseInt(user.get(DataFileStructure
+                                .getIndexColOfUniqueId("USERS"))),
+                        user.get(DataFileStructure
+                                .getIndexByColName("USERS",
+                                        "address"))
+                ));
+            }
+        }
+        return updatedCustomerList;
+    }
 }
