@@ -7,6 +7,5 @@
 
 .fieldBox {
     -fx-max-width: 250;
-    -fx-border-color: red;
     -fx-padding: 10 5;
 }

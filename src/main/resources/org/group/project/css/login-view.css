@@ -55,6 +55,7 @@
 
 .button.button-primary:hover {
     -fx-text-fill: #ffffff;
+    -fx-background-color: #cf75f8;
 }
 
 .hyperlink {
