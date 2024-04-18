@@ -2,9 +2,7 @@
     -fx-font-size: 45;
     -fx-text-fill: rgb(0, 105, 255);
     -fx-font-weight: bold;
-    /*-fx-alignment: right;*/
     -fx-max-width:400;
-    /*-fx-border-color: green;*/
 }
 
 .label.welcome-subheader-label {
@@ -13,19 +11,16 @@
     -fx-font-weight: normal;
     -fx-alignment: center-right;
     -fx-max-width: 500;
-    /*-fx-border-color: green;*/
 }
 
 .label-textfield {
     -fx-padding: 20 0 10 0;
-    /*-fx-border-color: red;*/
 }
 
 .textfield-label{
     -fx-max-width: 295;
     -fx-text-alignment: left;
     -fx-padding: 0 0 3 5;
-    /*-fx-border-color: green;*/
 }
 
 .hidden-label {
@@ -37,12 +32,10 @@
 }
 
 .error {
-    /*visibility: hidden;*/
     -fx-text-fill: red;
 }
 
 .hidden-label:hover {
-    /*visibility: true;*/
     -fx-text-fill: blue;
 }
 
@@ -51,22 +44,20 @@
     -fx-font-size:18;
     -fx-background-color: #DF99FF;
     -fx-text-fill: #0F020F;
+    -fx-border-color: #0F020F;
+    -fx-border-width: 1;
     -fx-text-weight: bold;
     -fx-border-insets: 5;
     -fx-background-insets: 5;
-    -fx-border-radius: 15 15 15 15;
+    -fx-border-radius: 15 14 15 14;
     -fx-background-radius: 15 15 15 15;
-    /*-fx-graphic: url("../images/icons/add-user.svg");*/
-    /*-fx-border-color: red;*/
 }
 
 .button.button-primary:hover {
     -fx-text-fill: #ffffff;
 }
 
-
 .hyperlink {
     -fx-max-width: 295;
     -fx-text-alignment: left;
-    /*-fx-border-color: red;*/
 }

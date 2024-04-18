@@ -13,6 +13,7 @@ import org.group.project.classes.DataManager;
 import org.group.project.classes.HelperMethods;
 import org.group.project.exceptions.InvalidUserException;
 import org.group.project.scenes.MainScenes;
+import org.group.project.scenes.main.CustomerView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -107,19 +108,55 @@ public class CustomerRegistrationController {
             newUserDetails.addAll(Arrays.asList("0", "0", "false", "false",
                     "0"));
 
-            // Add the new user to file
-            DataManager.appendDataToFile("USERS", newUserDetails);
+            if (
+                    !firstName.getText().isBlank()
+                            && !lastName.getText().isBlank()
+                            && !username.getText().isBlank()
+                            && !address.getText().isBlank()
+            ) {
+                // Add the new user to file
+                DataManager.appendDataToFile("USERS", newUserDetails);
 
-            AlertPopUpWindow.displayInformationWindow(
-                    "Registration Successful!",
-                    "Thank you for joining Cafe94, " + firstName.getText() +
-                            "!" + System.lineSeparator() + "Feeling hangry?",
-                    "Yes, I am."
-            );
+                // Set the new user as the active user
+                List<String> currentUser = new ArrayList<>(Arrays.asList(
+                        newUserDetails
+                                .get(DataFileStructure.getIndexColOfUniqueId("USERS")),
+                        newUserDetails.get(DataFileStructure
+                                .getIndexByColName("USERS", "firstName")),
+                        newUserDetails.get(DataFileStructure
+                                .getIndexByColName("USERS", "lastName")),
+                        newUserDetails.get(DataFileStructure
+                                .getIndexByColName("USERS", "username")),
+                        newUserDetails.get(DataFileStructure
+                                .getIndexByColName("USERS", "userType"))
+                ));
 
-            closeWindow();
+                DataManager.appendDataToFile("ACTIVE_USER", currentUser);
 
-            Main.getStage().setScene(Main.getScenes().get(MainScenes.CUSTOMER));
+                Main.setCurrentUser(HelperMethods.getActiveUser());
+
+                AlertPopUpWindow.displayInformationWindow(
+                        "Registration Successful!",
+                        "Thank you for joining Cafe94, " + firstName.getText() +
+                                "!" + System.lineSeparator() + "Feeling hangry?",
+                        "Yes, I am."
+                );
+
+                CustomerView.controller.welcomeCustomer();
+
+                Main.getStage().setScene(Main.getScenes().get(MainScenes.CUSTOMER));
+
+
+                closeWindow();
+
+            } else {
+
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        "Please complete the form."
+                );
+
+            }
 
         } catch (Exception error) {
             errorUsernameLabel.setText(error.getMessage());
