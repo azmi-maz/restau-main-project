@@ -13,37 +13,48 @@
       xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.group.project.controllers.customer.CustomerRegistrationController"
       fx:id="newCustomerWindow"
+      stylesheets="@../css/small-windows.css"
 >
     <children>
-        <Label text="New registration"/>
-        <Label text="first name"/>
-        <TextField fx:id="firstName" promptText="enter first name"
-                   text="first"
-                   styleClass="firstName"/>
-        <Label text="last name"/>
-        <TextField fx:id="lastName" promptText="enter last name"
-                   text="last"
-                   styleClass="lastName"/>
-        <Label text="username"/>
-        <TextField fx:id="username" promptText="enter username"
-                   text="first.last"
-                   styleClass="username"/>
-        <Label fx:id="errorUsernameLabel"
-               styleClass="errorUsernameLabel"
-        />
-        <Label text="address"/>
-        <TextField fx:id="address" promptText="enter address"
-                   text="41 swan street, Swansea, SA2 8DE"
-                   styleClass="address"/>
-        <HBox alignment="CENTER" prefHeight="51.0" prefWidth="600.0">
-            <children>
-                <Button fx:id="confirmButton" mnemonicParsing="false"
-                        styleClass="confirmButton"
-                        text="Confirm"/>
-                <Button fx:id="cancelButton" mnemonicParsing="false"
-                        styleClass="cancelButton"
-                        text="Cancel"/>
-            </children>
-        </HBox>
+        <VBox styleClass="mainTitle">
+            <Label text="Please enter your details below."/>
+        </VBox>
+        <VBox styleClass="fieldBox">
+            <Label text="first name"/>
+            <TextField fx:id="firstName" promptText="enter first name"
+                       styleClass="firstName"/>
+        </VBox>
+        <VBox styleClass="fieldBox">
+            <Label text="last name"/>
+            <TextField fx:id="lastName" promptText="enter last name"
+                       styleClass="lastName"/>
+        </VBox>
+        <VBox styleClass="fieldBox">
+            <Label text="username"/>
+            <TextField fx:id="username" promptText="enter username"
+                       styleClass="username"/>
+            <Label fx:id="errorUsernameLabel"
+                   styleClass="errorUsernameLabel"
+            />
+        </VBox>
+        <VBox styleClass="fieldBox">
+            <Label text="address"/>
+            <TextField fx:id="address" promptText="enter address"
+                       styleClass="address"/>
+        </VBox>
+        <VBox stylesheets="@../css/two-button-box.css">
+            <HBox alignment="CENTER" prefHeight="51.0" prefWidth="600.0">
+                <VBox styleClass="buttonBox">
+                    <Button fx:id="confirmButton" mnemonicParsing="false"
+                            styleClass="confirmButton"
+                            text="Confirm"/>
+                </VBox>
+                <VBox styleClass="buttonBox">
+                    <Button fx:id="cancelButton" mnemonicParsing="false"
+                            styleClass="cancelButton"
+                            text="Cancel"/>
+                </VBox>
+            </HBox>
+        </VBox>
     </children>
 </VBox>
