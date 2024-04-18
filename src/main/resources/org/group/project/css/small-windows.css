@@ -1,0 +1,12 @@
+.mainTitle {
+    -fx-max-width: 250;
+    -fx-padding: 4;
+    -fx-font-size: 13;
+    -fx-font-weight: bold;
+}
+
+.fieldBox {
+    -fx-max-width: 250;
+    -fx-border-color: red;
+    -fx-padding: 10 5;
+}

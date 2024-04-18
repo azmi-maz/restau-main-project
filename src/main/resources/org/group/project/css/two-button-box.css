@@ -1,0 +1,28 @@
+.buttonBox {
+    -fx-padding: 10;
+    -fx-max-width: 250;
+}
+
+.confirmButton {
+    -fx-padding: 10 15 10 15;
+    -fx-background-color: rgb(0, 105, 255);
+    -fx-border-color: #5c6c7c;
+    -fx-text-fill: #ffffff;
+    -fx-border-insets: 5;
+    -fx-background-insets: 5;
+    -fx-border-radius: 15 15 15 15;
+    -fx-background-radius: 15 15 15 15;
+}
+
+.confirmButton:hover {
+    -fx-background-color: rgb(23, 115, 248);
+}
+
+.cancelButton {
+    -fx-padding: 10 15 10 15;
+    -fx-border-color: red;
+    -fx-border-insets: 5;
+    -fx-background-insets: 5;
+    -fx-border-radius: 15 15 15 15;
+    -fx-background-radius: 15 15 15 15;
+}
