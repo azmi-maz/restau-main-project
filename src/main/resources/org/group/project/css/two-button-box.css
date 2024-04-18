@@ -3,7 +3,7 @@
     -fx-max-width: 250;
 }
 
-.confirmButton {
+.actionButton {
     -fx-padding: 10 15 10 15;
     -fx-background-color: rgb(0, 105, 255);
     -fx-border-color: #5c6c7c;
@@ -14,7 +14,7 @@
     -fx-background-radius: 15 15 15 15;
 }
 
-.confirmButton:hover {
+.actionButton:hover {
     -fx-background-color: rgb(23, 115, 248);
 }
 

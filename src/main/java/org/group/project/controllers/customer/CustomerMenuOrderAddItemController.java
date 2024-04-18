@@ -56,6 +56,10 @@ public class CustomerMenuOrderAddItemController {
     public void setItemToEdit(String imageUrl, String itemName,
                               List<FoodDrink> mainList) throws URISyntaxException {
         menuImage.setImage(new Image(Main.class.getResource(imageUrl).toURI().toString()));
+        // TODO fix the magic numbers
+        menuImage.fitHeightProperty().bind(borderPane.heightProperty().subtract(10).divide(1.5));
+        menuImage.fitWidthProperty().bind(borderPane.widthProperty().subtract(10).divide(1.5));
+        menuImage.setPreserveRatio(true);
         itemNameLabel.setText(itemName);
         this.mainList = mainList;
     }

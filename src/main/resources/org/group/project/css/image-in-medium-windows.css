@@ -1,0 +1,11 @@
+.imageBox {
+    -fx-max-width: 400;
+    -fx-max-height: 300;
+    -fx-alignment: CENTER;
+}
+
+.menuImage {
+    -fx-pref-height: 400;
+    -fx-pref-width: 300;
+    -fx-alignment: CENTER;
+}

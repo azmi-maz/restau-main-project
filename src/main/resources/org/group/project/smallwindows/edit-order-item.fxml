@@ -18,16 +18,20 @@
             fx:controller="org.group.project.controllers.customer.CustomerMenuOrderEditItemController"
 >
     <center>
-        <ImageView fx:id="menuImage" fitHeight="450.0" fitWidth="400.0"
-                   pickOnBounds="true" preserveRatio="true"
-                   styleClass="menuImage" BorderPane.alignment="CENTER"/>
+        <VBox stylesheets="@../css/image-in-medium-windows.css"
+              styleClass="imageBox">
+            <ImageView fx:id="menuImage" fitHeight="450.0" fitWidth="400.0"
+                       pickOnBounds="true" preserveRatio="true"
+                       styleClass="menuImage"/>
+        </VBox>
     </center>
     <right>
-        <VBox alignment="CENTER_LEFT" prefHeight="408.0" prefWidth="100.0"
-              BorderPane.alignment="CENTER">
-            <children>
-                <Label fx:id="itemNameLabel" styleClass="itemNameLabel"
-                       text="Item Name"/>
+        <VBox prefHeight="408.0" prefWidth="100.0"
+              stylesheets="@../css/borderpane-right-medium-windows.css"
+              styleClass="mainBox">
+            <Label fx:id="itemNameLabel" styleClass="itemNameLabel"
+                   text="Item Name"/>
+            <VBox styleClass="fieldBox">
                 <Label fx:id="quantityLabel" styleClass="quantityLabel"
                        text="quantity"/>
                 <TextField fx:id="quantityTextField"
@@ -35,18 +39,22 @@
                            text="1"
                            onKeyReleased="#onChange"
                 />
-            </children>
+            </VBox>
         </VBox>
     </right>
     <bottom>
-        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0"
-              BorderPane.alignment="CENTER">
-            <children>
-                <Button fx:id="saveChangesButton" mnemonicParsing="false"
-                        styleClass="saveChangesButton" text="Save Changes"/>
-                <Button fx:id="cancelButton" mnemonicParsing="false"
-                        styleClass="cancelButton" text="Cancel"/>
-            </children>
-        </HBox>
+        <VBox stylesheets="@../css/two-button-box.css">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0"
+                  BorderPane.alignment="CENTER">
+                <VBox styleClass="buttonBox">
+                    <Button fx:id="saveChangesButton" mnemonicParsing="false"
+                            styleClass="actionButton" text="Save Changes"/>
+                </VBox>
+                <VBox styleClass="buttonBox">
+                    <Button fx:id="cancelButton" mnemonicParsing="false"
+                            styleClass="cancelButton" text="Cancel"/>
+                </VBox>
+            </HBox>
+        </VBox>
     </bottom>
 </BorderPane>

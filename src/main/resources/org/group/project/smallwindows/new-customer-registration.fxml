@@ -46,7 +46,7 @@
             <HBox alignment="CENTER" prefHeight="51.0" prefWidth="600.0">
                 <VBox styleClass="buttonBox">
                     <Button fx:id="confirmButton" mnemonicParsing="false"
-                            styleClass="confirmButton"
+                            styleClass="actionButton"
                             text="Confirm"/>
                 </VBox>
                 <VBox styleClass="buttonBox">

@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.group.project.Main;
 import org.group.project.classes.FoodDrink;
@@ -18,6 +19,9 @@ public class CustomerMenuOrderEditItemController {
 
     @FXML
     private ImageView menuImage;
+
+    @FXML
+    private VBox imageBox;
 
     @FXML
     private Label itemNameLabel;
@@ -56,8 +60,13 @@ public class CustomerMenuOrderEditItemController {
     public void setItemToEdit(String imageUrl, String itemName,
                               List<FoodDrink> mainList) throws URISyntaxException {
         menuImage.setImage(new Image(Main.class.getResource(imageUrl).toURI().toString()));
+        // TODO fix the magic numbers
+        menuImage.fitHeightProperty().bind(borderPane.heightProperty().subtract(10).divide(1.5));
+        menuImage.fitWidthProperty().bind(borderPane.widthProperty().subtract(10).divide(1.5));
+        menuImage.setPreserveRatio(true);
         itemNameLabel.setText(itemName);
         this.mainList = mainList;
+        getCurrentQty(itemName);
     }
 
     public void editItem(String itemName) {
@@ -97,6 +106,18 @@ public class CustomerMenuOrderEditItemController {
         // TODO do the error check here for wrong numberformaterror add Alert
         //  here
 //        System.out.println("Quantity Field changed to " + quantityTextField.getText());
+    }
+
+    // TODO this updates the quantity field to the current value
+    private void getCurrentQty(String itemName) {
+
+        for (FoodDrink foodItem : mainList) {
+            if (foodItem.getItemName().equalsIgnoreCase(itemName)) {
+                quantityTextField.setText(String
+                        .valueOf(foodItem
+                                .getQuantity()));
+            }
+        }
     }
 
 

@@ -5,7 +5,7 @@
 }
 
 .buttonBox {
-    -fx-border-color: orange;
+    /*-fx-border-color: orange;*/
     -fx-pref-width: 125;
 }
 
