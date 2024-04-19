@@ -22,9 +22,11 @@
         <BorderPane fx:id="borderPane" prefHeight="1400.0"
                     prefWidth="700.0">
             <top>
-                <VBox alignment="CENTER">
+                <VBox alignment="CENTER"
+                      stylesheets="@../../css/borderPane-top-label.css"
+                      styleClass="labelBox">
                     <Label fx:id="orderTypeLabel"
-                           styleClass="orderTypeLabel" text="Order Type"
+                           styleClass="topLabelLong" text="Order Type"
                     />
                 </VBox>
             </top>
@@ -58,16 +60,22 @@
             </center>
             <bottom>
                 <HBox alignment="CENTER" prefHeight="67.0" prefWidth="600.0"
-                      BorderPane.alignment="CENTER">
-                    <children>
+                      BorderPane.alignment="CENTER"
+                      stylesheets="@../../css/two-button-box.css">
+                    <VBox styleClass="buttonBox">
                         <Button fx:id="cardButton" mnemonicParsing="false"
-                                styleClass="cardButton"
+                                styleClass="actionButton"
                                 text="Debit/ Credit Card"/>
+                    </VBox>
+                    <VBox styleClass="buttonBox">
                         <Button fx:id="cashButton" mnemonicParsing="false"
-                                styleClass="cashButton" text="Pay with Cash"/>
+                                styleClass="actionButton" text="Pay with Cash"/>
+                    </VBox>
+                    <VBox styleClass="buttonBox">
                         <Button fx:id="cancelButton" mnemonicParsing="false"
                                 styleClass="cancelButton" text="Cancel Order"/>
-                    </children>
+                    </VBox>
+
                 </HBox>
             </bottom>
         </BorderPane>

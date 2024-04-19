@@ -7,6 +7,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import org.group.project.classes.AlertPopUpWindow;
 import org.group.project.classes.DataManager;
 import org.group.project.classes.HelperMethods;
 
@@ -49,6 +50,16 @@ public class CustomerAddBookingController {
     private String userId;
 
     public void initialize() {
+
+        reservationDatePicker.setOnAction(e -> {
+            if (reservationDatePicker.getValue().compareTo(LocalDate.now()) < 0) {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        "Reservation date cannot be less than current date."
+                );
+                reservationDatePicker.setValue(LocalDate.now());
+            }
+        });
 
         // TODO enum this?
         reservationTimeChoiceBox.getItems().add(LocalTime.of(10, 00)
@@ -144,45 +155,64 @@ public class CustomerAddBookingController {
         confirmButton.setOnAction(e -> {
             // TODO set new value
 
-            // TODO try catch
-            String newBookingId = "";
-            try {
-                newBookingId = String.valueOf(HelperMethods.getNewIdByFile("BOOKINGS"));
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
+            if (
+                    reservationDatePicker.getValue() != null
+                            && reservationTimeChoiceBox.getValue() != null
+                            && numOfGuestsChoiceBox.getValue() != null
+                            && tablePreferenceChoiceBox.getValue() != null
+                            && lenOfReservationTimeChoiceBox.getValue() != null
+            ) {
+
+                // TODO try catch
+                String newBookingId = "";
+                try {
+                    newBookingId = String.valueOf(HelperMethods.getNewIdByFile("BOOKINGS"));
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                String bookingDate = String.valueOf(reservationDatePicker.getValue());
+                LocalTime getBookingTime = LocalTime
+                        .parse(reservationTimeChoiceBox
+                                .getValue(), DateTimeFormatter
+                                .ofPattern("hh:mm a"));
+                String bookingTime = getBookingTime.format(DateTimeFormatter.ofPattern("H-m"));
+                String numOfGuests = numOfGuestsChoiceBox.getValue();
+                String bookingLength =
+                        lenOfReservationTimeChoiceBox.getValue();
+                String tablePreference =
+                        tablePreferenceChoiceBox.getValue();
+                String bookingStatus = "pending-approval";
+
+                List<String> newBooking = new ArrayList<>(Arrays.asList(
+                        newBookingId,
+                        userId,
+                        bookingDate,
+                        bookingTime,
+                        numOfGuests,
+                        bookingLength,
+                        tablePreference,
+                        bookingStatus
+                ));
+
+
+                // TODO handle try catch
+                try {
+                    DataManager.appendDataToFile("BOOKINGS", newBooking);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                closeWindow();
+
+            } else {
+
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        "Please complete the form."
+                );
             }
-            String bookingDate = String.valueOf(reservationDatePicker.getValue());
-            LocalTime getBookingTime = LocalTime
-                    .parse(reservationTimeChoiceBox
-                            .getValue(), DateTimeFormatter
-                            .ofPattern("hh:mm a"));
-            String bookingTime = getBookingTime.format(DateTimeFormatter.ofPattern("H-m"));
-            String numOfGuests = numOfGuestsChoiceBox.getValue();
-            String bookingLength =
-                    lenOfReservationTimeChoiceBox.getValue();
-            String tablePreference =
-                    tablePreferenceChoiceBox.getValue();
-            String bookingStatus = "pending-approval";
 
-            List<String> newBooking = new ArrayList<>(Arrays.asList(
-                    newBookingId,
-                    userId,
-                    bookingDate,
-                    bookingTime,
-                    numOfGuests,
-                    bookingLength,
-                    tablePreference,
-                    bookingStatus
-            ));
-
-            // TODO handle try catch
-            try {
-                DataManager.appendDataToFile("BOOKINGS", newBooking);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-
-            closeWindow();
         });
 
         cancelButton.setOnAction(e -> {

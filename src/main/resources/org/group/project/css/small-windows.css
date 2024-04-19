@@ -9,3 +9,7 @@
     -fx-max-width: 250;
     -fx-padding: 10 5;
 }
+
+.fieldLengthen {
+    -fx-pref-width: 250;
+}
