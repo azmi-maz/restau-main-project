@@ -150,7 +150,7 @@ public class CustomerBookingsHistoryViewController {
         actionButtonColumn1.setStyle("-fx-alignment: CENTER;");
         actionButtonColumn1.setCellValueFactory(cellData -> {
             Button editButton = new Button();
-            ImageLoader.setUpGraphicButton(editButton, 15, 15, "view-details");
+            ImageLoader.setUpGraphicButton(editButton, 15, 15, "edit");
             int bookingId =
                     cellData.getValue().getBookingId();
             LocalDate reservationDate = cellData.getValue().getBookingDate();
@@ -161,6 +161,19 @@ public class CustomerBookingsHistoryViewController {
             int bookingLength = cellData.getValue().getBookingLengthInHour();
 
             editButton.setOnMousePressed(e -> {
+
+                if (!cellData
+                        .getValue()
+                        .getBookingStatus()
+                        .equalsIgnoreCase("pending-approval")) {
+
+                    AlertPopUpWindow.displayInformationWindow(
+                            "Info",
+                            "You cannot edit this reservation.",
+                            "Ok"
+                    );
+                    return;
+                }
 
                 try {
                     FXMLLoader fxmlLoader =
@@ -184,7 +197,7 @@ public class CustomerBookingsHistoryViewController {
                     Stage editStage = new Stage();
                     editStage.setScene(editScene);
                     // TODO Should final variable this
-                    editStage.setTitle("View Table Reservation");
+                    editStage.setTitle("Edit Table Reservation");
 
                     editStage.initModality(Modality.APPLICATION_MODAL);
 
@@ -197,6 +210,7 @@ public class CustomerBookingsHistoryViewController {
                     throw new RuntimeException(ex);
                 }
             });
+
             return new SimpleObjectProperty<>(editButton);
         });
 

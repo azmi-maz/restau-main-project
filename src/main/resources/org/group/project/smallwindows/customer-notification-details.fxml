@@ -13,21 +13,21 @@
       xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:id="vbox"
       fx:controller="org.group.project.controllers.customer.CustomerNotificationDetailsController"
+      stylesheets="@../css/small-windows.css"
 >
-    <children>
-        <Label fx:id="headerLabel" styleClass="headerLabel"
-               text="Notification Details"/>
+    <VBox styleClass="labelBox">
         <Label fx:id="dateStampLabel" styleClass="dateStampLabel"
                text="Date Stamp Here"/>
-        <Label fx:id="subjectLabel" styleClass="subjectLabel"
+        <Label fx:id="subjectLabel" styleClass="highlightLabel"
                text="Subject Stamp"/>
-        <TextArea fx:id="notificationTextArea" prefHeight="200.0" prefWidth="200.0"
-                  styleClass="notificationTextArea"/>
-        <HBox alignment="CENTER" prefHeight="49.0" prefWidth="600.0">
-            <children>
-                <Button fx:id="returnButton" mnemonicParsing="false"
-                        styleClass="returnButton" text="Return"/>
-            </children>
-        </HBox>
-    </children>
+    </VBox>
+    <VBox styleClass="body-textareaBox">
+        <TextArea fx:id="notificationTextArea"
+                  styleClass="body-textarea"/>
+    </VBox>
+    <HBox alignment="CENTER" prefHeight="49.0" prefWidth="600.0"
+          stylesheets="@../css/two-button-box.css" styleClass="buttonBox">
+        <Button fx:id="returnButton" mnemonicParsing="false"
+                styleClass="cancelButton" text="Return"/>
+    </HBox>
 </VBox>

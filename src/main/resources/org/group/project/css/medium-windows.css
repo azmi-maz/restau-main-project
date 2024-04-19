@@ -1,0 +1,14 @@
+.mainBox {
+    -fx-max-height: 400;
+}
+
+.borderPaneBox {
+    -fx-pref-width: 700;
+    -fx-pref-height: 1400;
+}
+
+.body-textarea {
+    -fx-max-height: 100;
+    -fx-max-width: 445;
+}
+

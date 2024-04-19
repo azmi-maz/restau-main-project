@@ -268,7 +268,10 @@ public class CustomerOrderDetailsViewController {
                 customerDetails.get(DataFileStructure.getIndexByColName("USERS", "lastName")),
                 customerDetails.get(DataFileStructure.getIndexByColName("USERS", "username")),
                 Integer.parseInt(customerDetails.get(DataFileStructure.getIndexByColName("USERS", "userId"))),
-                customerDetails.get(DataFileStructure.getIndexByColName("USERS", "address"))
+                HelperMethods
+                        .formatAddressToRead(customerDetails
+                                .get(DataFileStructure
+                                        .getIndexByColName("USERS", "address")))
         );
 
         LocalDate dateNow = LocalDate.now();

@@ -5,7 +5,37 @@
     -fx-font-weight: bold;
 }
 
+.highlightLabel {
+    -fx-font-size: 18;
+}
+
 .fieldBox {
     -fx-max-width: 250;
     -fx-padding: 10 5;
+}
+
+.labelBox {
+    -fx-max-width: 200;
+    -fx-padding: 10 5;
+    -fx-alignment: CENTER-LEFT;
+}
+
+.fieldLengthen {
+    -fx-pref-width: 250;
+}
+
+.body-textarea {
+}
+
+.body-textareaBox {
+    -fx-padding: 10 0 0 0;
+    -fx-max-height: 350;
+    -fx-max-width: 350;
+}
+
+.infoBox {
+    -fx-pref-width: 250;
+    -fx-padding: 10;
+    -fx-alignment: CENTER-LEFT;
+    -fx-border-color: red;
 }

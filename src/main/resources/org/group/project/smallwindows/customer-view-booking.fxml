@@ -15,39 +15,49 @@
       xmlns:fx="http://javafx.com/fxml/1"
       fx:id="vbox"
       fx:controller="org.group.project.controllers.customer.CustomerEditBookingController"
+      stylesheets="@../css/small-windows.css"
 >
-    <children>
-        <Label fx:id="headerLabel" styleClass="headerLabel"
-               text="Table Reservation"/>
+    <VBox styleClass="fieldBox">
         <Label fx:id="reservationDateLabel" styleClass="reservationDateLabel"
                text="Reservation Date"/>
         <DatePicker fx:id="reservationDatePicker"
-                    styleClass="reservationDatePicker"/>
+                    styleClass="fieldLengthen"/>
+    </VBox>
+    <VBox styleClass="fieldBox">
         <Label fx:id="reservationTimeLabel" styleClass="reservationTimeLabel"
                text="Reservation Time"/>
         <ChoiceBox fx:id="reservationTimeChoiceBox" prefWidth="150.0"
-                   styleClass="reservationTimeChoiceBox"/>
+                   styleClass="fieldLengthen"/>
+    </VBox>
+    <VBox styleClass="fieldBox">
         <Label fx:id="numOfGuestsLabel" styleClass="numOfGuestsLabel"
                text="Max no. of guests"/>
         <ChoiceBox fx:id="numOfGuestsChoiceBox" prefWidth="150.0"
-                   styleClass="numOfGuestsChoiceBox"/>
+                   styleClass="fieldLengthen"/>
+    </VBox>
+    <VBox styleClass="fieldBox">
         <Label fx:id="tablePreferenceLabel"
                styleClass="tablePreferenceLabel"
                text="Table Preference"/>
         <ChoiceBox fx:id="tablePreferenceChoiceBox" prefWidth="150.0"
-                   styleClass="tablePreferenceChoiceBox"/>
+                   styleClass="fieldLengthen"/>
+    </VBox>
+    <VBox styleClass="fieldBox">
         <Label fx:id="lenOfReservationTimeLabel"
                styleClass="lenOfReservationTimeLabel"
                text="Length of Reservation Time"/>
         <ChoiceBox fx:id="lenOfReservationTimeChoiceBox" prefWidth="150.0"
-                   styleClass="lenOfReservationTimeChoiceBox"/>
-        <HBox alignment="CENTER" prefHeight="65.0" prefWidth="600.0">
-            <children>
-                <Button fx:id="saveChangesButton" mnemonicParsing="false"
-                        styleClass="saveChangesButton" text="Save Changes"/>
-                <Button fx:id="closeButton" mnemonicParsing="false"
-                        styleClass="closeButton" text="Close"/>
-            </children>
-        </HBox>
-    </children>
+                   styleClass="fieldLengthen"/>
+    </VBox>
+    <HBox alignment="CENTER" prefHeight="65.0" prefWidth="600.0"
+          stylesheets="@../css/two-button-box.css">
+        <VBox styleClass="buttonBox">
+            <Button fx:id="saveChangesButton" mnemonicParsing="false"
+                    styleClass="actionButton" text="Save Changes"/>
+        </VBox>
+        <VBox styleClass="buttonBox">
+            <Button fx:id="closeButton" mnemonicParsing="false"
+                    styleClass="cancelButton" text="Close"/>
+        </VBox>
+    </HBox>
 </VBox>

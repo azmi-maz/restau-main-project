@@ -58,7 +58,7 @@
     -fx-background-color: #cf75f8;
 }
 
-.hyperlink {
+.hyperlinkBox {
     -fx-max-width: 295;
     -fx-text-alignment: left;
 }

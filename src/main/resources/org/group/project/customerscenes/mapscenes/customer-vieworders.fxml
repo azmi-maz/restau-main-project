@@ -29,7 +29,7 @@
                            pickOnBounds="true" preserveRatio="true"
                            BorderPane.alignment="CENTER"/>
                 <TableView fx:id="orderHistoryTable" maxHeight="550.0"
-                           maxWidth="663.0"
+                           maxWidth="680.0"
                            BorderPane.alignment="CENTER"
                 >
                     <columns>

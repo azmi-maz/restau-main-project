@@ -4,45 +4,48 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
 <VBox alignment="TOP_CENTER"
       maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
       minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
       xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:id="vbox"
       fx:controller="org.group.project.controllers.customer.CustomerOrderHistoryDetailsController"
+      stylesheets="@../css/medium-windows.css"
 >
-    <children>
-        <Label id="headerLabel" styleClass="headerLabel" text="Order Details"/>
-        <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
-            <center>
-                <VBox alignment="CENTER" maxHeight="350.0">
-                    <TableView fx:id="orderHistoryTable" maxHeight="250.0"
-                               maxWidth="445.0"
-                               BorderPane.alignment="CENTER"
-                    >
-                        <columns>
-                            <TableColumn fx:id="noColumn"
-                                         prefWidth="75.0"/>
-                            <TableColumn fx:id="itemNameColumn"
-                                         prefWidth="75.0"/>
-                            <TableColumn fx:id="itemTypeColumn"
-                                         prefWidth="75.0"/>
-                            <TableColumn fx:id="quantityColumn"
-                                         prefWidth="75.0"/>
-                        </columns>
-                    </TableView>
-                    <TextArea fx:id="orderDetailsTextArea"
-                              maxHeight="100.0"
-                              maxWidth="445.0"
-                              wrapText="true"
-                    />
+    <BorderPane fx:id="borderPane" styleClass="borderPaneBox">
+        <center>
+            <VBox alignment="CENTER" styleClass="mainBox">
+                <TableView fx:id="orderHistoryTable" maxHeight="250.0"
+                           maxWidth="445.0"
+                           BorderPane.alignment="CENTER"
+                >
+                    <columns>
+                        <TableColumn fx:id="noColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="itemNameColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="itemTypeColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="quantityColumn"
+                                     prefWidth="75.0"/>
+                    </columns>
+                </TableView>
+                <TextArea fx:id="orderDetailsTextArea"
+                          styleClass="body-textarea"
+                          wrapText="true"
+                />
+            </VBox>
+        </center>
+        <bottom>
+            <HBox alignment="CENTER">
+                <VBox stylesheets="@../css/two-button-box.css"
+                      styleClass="buttonBox">
+                    <Button fx:id="returnButton"
+                            mnemonicParsing="false" styleClass="cancelButton"
+                            text="Return"/>
                 </VBox>
-            </center>
-            <bottom>
-                <Button fx:id="returnButton" alignment="CENTER"
-                        mnemonicParsing="false" styleClass="returnButton"
-                        text="Return" BorderPane.alignment="CENTER"/>
-            </bottom>
-        </BorderPane>
-    </children>
+            </HBox>
+        </bottom>
+    </BorderPane>
 </VBox>
