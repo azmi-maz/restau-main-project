@@ -33,3 +33,4 @@
 33,3,2024-4-16,10-34,dinein,completed,,,,martini;marseilles shrimp stew
 34,1,2024-4-18,15-46,dinein,pending-kitchen,,,,duck a lorange;duck a lorange;duck a lorange;stuffed pork tenderloin;stuffed pork tenderloin;stuffed pork tenderloin
 35,1,2024-4-18,15-50,dinein,pending-kitchen,,,,duck a lorange;stuffed pork tenderloin
+36,10,2024-4-18,16-48,takeaway,pending-kitchen,,,,chocolate souffle;chocolate souffle;chocolate souffle;bloody mary
