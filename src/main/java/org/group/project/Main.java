@@ -19,7 +19,7 @@ import java.util.Optional;
 public class Main extends Application {
 
     /**
-     * Holds the various scenes to switch between
+     * Holds the various scenes manager to switch between
      */
     private static Map<MainScenes, Scene> scenes = new HashMap<>();
 

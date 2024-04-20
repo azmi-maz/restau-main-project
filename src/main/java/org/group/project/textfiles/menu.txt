@@ -1,18 +1,18 @@
 bloody mary,drink,true,images/menu/bloody-mary.png,10,4,10,3.6,0,0,2,1,BOTTOM_RIGHT,BOTTOM_LEFT,TOP_RIGHT,65,65
-chocolate souffle,food,true,images/menu/chocolate-souffle.png,10,3.4,10,3.4,2,0,2,1,BOTTOM_CENTER,BOTTOM_LEFT,TOP_RIGHT,75,95
+chocolate souffle,food,false,images/menu/chocolate-souffle.png,10,3.4,10,3.4,2,0,2,1,BOTTOM_CENTER,BOTTOM_LEFT,TOP_RIGHT,75,95
 croquembouche,food,true,images/menu/croquembouche.png,10,3.0,10,3.0,4,0,2,2,CENTER,BOTTOM_LEFT,TOP_RIGHT,135,95
-coq au vin,food,true,images/menu/coq-au-vin.png,10,3.7,10,3.7,0,1,2,2,CENTER,BOTTOM_LEFT,TOP_RIGHT,85,125
-classic duck confit,food,true,images/menu/classic-duck-confit.png,10,3.4,10,3.4,2,1,2,1,CENTER,BOTTOM_LEFT,TOP_RIGHT,75,95
-cosmopolitan,drink,true,images/menu/cosmopolitan.png,10,3.3,10,3.3,4,2,2,1,BOTTOM_LEFT,BOTTOM_LEFT,TOP_RIGHT,65,115
+coq au vin,food,false,images/menu/coq-au-vin.png,10,3.7,10,3.7,0,1,2,2,CENTER,BOTTOM_LEFT,TOP_RIGHT,85,125
+classic duck confit,food,false,images/menu/classic-duck-confit.png,10,3.4,10,3.4,2,1,2,1,CENTER,BOTTOM_LEFT,TOP_RIGHT,75,95
+cosmopolitan,drink,false,images/menu/cosmopolitan.png,10,3.3,10,3.3,4,2,2,1,BOTTOM_LEFT,BOTTOM_LEFT,TOP_RIGHT,65,115
 classic creme brulee,food,true,images/menu/classic-creme-brulee.png,10,3.7,10,3.7,0,3,2,1,BOTTOM_RIGHT,BOTTOM_LEFT,TOP_RIGHT,65,65
-stuffed pork tenderloin,food,true,images/menu/stuffed-pork-tenderloin.png,10,3.2,10,3.2,2,2,2,3,TOP_CENTER,BOTTOM_LEFT,TOP_RIGHT,65,95
-duck a lorange,food,true,images/menu/duck-a-lorange.png,10,3.1,10,3.1,4,3,2,2,CENTER,BOTTOM_LEFT,TOP_RIGHT,135,75
-irish coffee,drink,true,images/menu/irish-coffee.png,10,3.4,10,3.4,0,4,2,1,CENTER,BOTTOM_LEFT,TOP_RIGHT,75,95
+stuffed pork tenderloin,food,false,images/menu/stuffed-pork-tenderloin.png,10,3.2,10,3.2,2,2,2,3,TOP_CENTER,BOTTOM_LEFT,TOP_RIGHT,65,95
+duck a lorange,food,false,images/menu/duck-a-lorange.png,10,3.1,10,3.1,4,3,2,2,CENTER,BOTTOM_LEFT,TOP_RIGHT,135,75
+irish coffee,drink,false,images/menu/irish-coffee.png,10,3.4,10,3.4,0,4,2,1,CENTER,BOTTOM_LEFT,TOP_RIGHT,75,95
 lobster thermidor,food,true,images/menu/lobster-thermidor.png,10,3,10,3,2,4,2,2,CENTER,BOTTOM_LEFT,TOP_RIGHT,165,55
 long island iced tea,drink,false,images/menu/long-island-iced-tea.png,10,3.2,10,3.2,0,5,2,1,CENTER,BOTTOM_LEFT,TOP_RIGHT,85,75
 lyon chicken,food,false,images/menu/lyon-chicken.png,10,3.2,10,3.2,4,5,2,1,TOP_CENTER,BOTTOM_LEFT,TOP_RIGHT,65,85
 manhattan,drink,true,images/menu/manhattan.png,10,3.4,10,3.4,2,6,2,2,TOP_CENTER,BOTTOM_LEFT,TOP_RIGHT,55,95
-margarita,drink,true,images/menu/margarita.png,10,3.5,10,3.5,4,6,2,1,CENTER_LEFT,BOTTOM_LEFT,TOP_RIGHT,105,145
+margarita,drink,false,images/menu/margarita.png,10,3.5,10,3.5,4,6,2,1,CENTER_LEFT,BOTTOM_LEFT,TOP_RIGHT,105,145
 strip steak frite,food,false,images/menu/strip-steak-frite.png,10,3,10,3,0,6,2,2,TOP_RIGHT,BOTTOM_LEFT,TOP_RIGHT,65,75
 martini,drink,false,images/menu/martini.png,10,2.6,10,2.6,2,7,4,1,CENTER,BOTTOM_LEFT,TOP_RIGHT,65,265
 mojito,drink,true,images/menu/mojito.png,10,2.7,10,2.7,0,8,3,1,BOTTOM_CENTER,BOTTOM_LEFT,TOP_RIGHT,65,165

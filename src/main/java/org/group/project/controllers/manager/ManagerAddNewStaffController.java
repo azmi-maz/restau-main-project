@@ -6,6 +6,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.group.project.classes.AlertPopUpWindow;
 import org.group.project.classes.DataManager;
 import org.group.project.classes.HelperMethods;
 
@@ -47,38 +48,53 @@ public class ManagerAddNewStaffController {
 
         addStaffButton.setOnAction(e -> {
 
-            int getNewUserId = -1;
-            try {
-                getNewUserId = HelperMethods.getNewUserId();
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
+            if (
+                    !firstNameTextField.getText().isBlank() &&
+                            !lastNameTextField.getText().isBlank() &&
+                            !usernameTextField.getText().isBlank() &&
+                            positionChoiceBox.getValue() != null
+            ) {
+
+                int getNewUserId = -1;
+                try {
+                    getNewUserId = HelperMethods.getNewUserId();
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+                String newUserId = String.valueOf(getNewUserId);
+                String firstName = firstNameTextField.getText().toLowerCase();
+                String lastName = lastNameTextField.getText().toLowerCase();
+                String username = usernameTextField.getText();
+                String userType = positionChoiceBox.getValue().toLowerCase();
+
+                // TODO review this
+                List<String> newUser = new ArrayList<>(Arrays.asList(
+                        newUserId,
+                        firstName,
+                        lastName,
+                        username,
+                        userType,
+                        "", "44", "0", "false", "false", "0"
+                ));
+
+                // TODO try catch
+                try {
+                    DataManager.appendDataToFile(
+                            "USERS",
+                            newUser);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                closeWindow();
+
+            } else {
+
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        "Please complete the form."
+                );
             }
-            String newUserId = String.valueOf(getNewUserId);
-            String firstName = firstNameTextField.getText().toLowerCase();
-            String lastName = lastNameTextField.getText().toLowerCase();
-            String username = usernameTextField.getText();
-            String userType = positionChoiceBox.getValue().toLowerCase();
-
-            // TODO review this
-            List<String> newUser = new ArrayList<>(Arrays.asList(
-                    newUserId,
-                    firstName,
-                    lastName,
-                    username,
-                    userType,
-                    "", "44", "0", "false", "false", "0"
-            ));
-
-            // TODO try catch
-            try {
-                DataManager.appendDataToFile(
-                        "USERS",
-                        newUser);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-
-            closeWindow();
 
         });
 
