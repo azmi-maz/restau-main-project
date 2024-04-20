@@ -15,19 +15,21 @@
       fx:controller="org.group.project.controllers.customer.CustomerNotificationDetailsController"
       stylesheets="@../css/small-windows.css"
 >
-    <VBox styleClass="labelBox">
-        <Label fx:id="dateStampLabel" styleClass="dateStampLabel"
-               text="Date Stamp Here"/>
-        <Label fx:id="subjectLabel" styleClass="highlightLabel"
-               text="Subject Stamp"/>
+    <VBox styleClass="mainBox">
+        <VBox styleClass="labelBox">
+            <Label fx:id="dateStampLabel" styleClass="dateStampLabel"
+                   text="Date Stamp Here"/>
+            <Label fx:id="subjectLabel" styleClass="highlightLabel"
+                   text="Subject Stamp"/>
+        </VBox>
+        <VBox styleClass="body-textareaBox">
+            <TextArea fx:id="notificationTextArea"
+                      styleClass="body-textarea"/>
+        </VBox>
+        <HBox alignment="CENTER" prefHeight="49.0" prefWidth="600.0"
+              stylesheets="@../css/two-button-box.css" styleClass="buttonBox">
+            <Button fx:id="returnButton" mnemonicParsing="false"
+                    styleClass="cancelButton" text="Return"/>
+        </HBox>
     </VBox>
-    <VBox styleClass="body-textareaBox">
-        <TextArea fx:id="notificationTextArea"
-                  styleClass="body-textarea"/>
-    </VBox>
-    <HBox alignment="CENTER" prefHeight="49.0" prefWidth="600.0"
-          stylesheets="@../css/two-button-box.css" styleClass="buttonBox">
-        <Button fx:id="returnButton" mnemonicParsing="false"
-                styleClass="cancelButton" text="Return"/>
-    </HBox>
 </VBox>
