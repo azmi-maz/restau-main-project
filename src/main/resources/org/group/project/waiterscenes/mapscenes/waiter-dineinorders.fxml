@@ -10,80 +10,94 @@
       xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.group.project.controllers.waiter.WaiterDineinOrderController"
 >
-    <children>
-        <HBox alignment="CENTER" prefHeight="63.0" prefWidth="600.0"
-              styleClass="navbar"
-              stylesheets="@../../css/navbar.css">
-            <HBox styleClass="labelBox">
-                <Label fx:id="headerLabel" styleClass="mainTitle"
-                       text="Dine-in Order"/>
-            </HBox>
-            <fx:include
-                    source="../../navbar/waiter/waiter-dineinorder-navbar.fxml"
-                    fx:id="waiterDineinOrderNavbar"/>
+    <HBox alignment="CENTER" prefHeight="63.0" prefWidth="600.0"
+          styleClass="navbar"
+          stylesheets="@../../css/navbar.css">
+        <HBox styleClass="labelBox">
+            <Label fx:id="headerLabel" styleClass="mainTitle"
+                   text="Dine-in Order"/>
         </HBox>
-        <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
-            <top>
-                <VBox alignment="CENTER">
-                    <HBox alignment="CENTER">
-                        <Label fx:id="tableLabel" styleClass="tableLabel"
-                               text="Serving Table"/>
-                        <ChoiceBox fx:id="tableChoiceBox" prefWidth="150.0"
-                                   styleClass="tableChoiceBox"/>
+        <fx:include
+                source="../../navbar/waiter/waiter-dineinorder-navbar.fxml"
+                fx:id="waiterDineinOrderNavbar"/>
+    </HBox>
+    <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
+        <top>
+            <VBox alignment="CENTER"
+                  stylesheets="@../../css/borderPane-top-label.css"
+                  styleClass="labelBox">
+                <HBox alignment="CENTER">
+                    <HBox styleClass="topLabelBox">
+                        <HBox styleClass="darkBackContrast">
+                            <Label fx:id="tableLabel"
+                                   styleClass="topLabelShortWhite"
+                                   text="Serving Table"/>
+                            <ChoiceBox fx:id="tableChoiceBox" prefWidth="150.0"
+                                       styleClass="uiElem"/>
+                        </HBox>
                     </HBox>
-                    <HBox alignment="CENTER">
-                        <Label fx:id="customerLabel" styleClass="customerLabel"
-                               text="Customer"/>
-                        <ChoiceBox fx:id="customerChoiceBox" prefWidth="150.0"
-                                   styleClass="customerChoiceBox"/>
+                    <HBox styleClass="topLabelBox">
+                        <HBox styleClass="darkBackContrast">
+                            <Label fx:id="customerLabel"
+                                   styleClass="topLabelShortWhite"
+                                   text="Customer"/>
+                            <ChoiceBox fx:id="customerChoiceBox"
+                                       prefWidth="150.0"
+                                       styleClass="uiElemLong"/>
+                        </HBox>
                     </HBox>
-                    <Button fx:id="newItemButton" mnemonicParsing="false"
-                            styleClass="newItemButton"
-                            text="Add Item"/>
-                </VBox>
-            </top>
-            <center>
-                <ImageView fx:id="bgImage" fitHeight="150.0" fitWidth="200.0"
-                           pickOnBounds="true" preserveRatio="true"
-                           BorderPane.alignment="CENTER"/>
-                <TableView fx:id="orderDetailsTable" maxHeight="400.0"
-                           maxWidth="445.0"
-                           BorderPane.alignment="CENTER">
-                    <columns>
-                        <TableColumn fx:id="noColumn"
-                                     prefWidth="75.0"/>
-                        <TableColumn fx:id="itemNameColumn"
-                                     prefWidth="75.0"/>
-                        <TableColumn fx:id="itemTypeColumn"
-                                     prefWidth="75.0"/>
-                        <TableColumn fx:id="quantityColumn"
-                                     prefWidth="75.0"/>
-                        <TableColumn fx:id="actionButtonColumn">
-                            <columns>
-                                <TableColumn fx:id="actionButtonColumn1"
-                                             prefWidth="35.0"
-                                />
-                                <TableColumn fx:id="actionButtonColumn2"
-                                             prefWidth="35.0"/>
-                            </columns>
-                        </TableColumn>
-                    </columns>
-                </TableView>
-            </center>
-            <bottom>
-                <HBox alignment="CENTER" prefHeight="53.0" prefWidth="600.0"
-                      BorderPane.alignment="CENTER">
-                    <children>
-                        <Button fx:id="confirmButton" mnemonicParsing="false"
-                                styleClass="confirmButton"
-                                text="Confirm Order"/>
-                        <Button fx:id="cancelOrderButton"
-                                mnemonicParsing="false"
-                                styleClass="cancelOrderButton"
-                                text="Cancel Order"/>
-                    </children>
                 </HBox>
-            </bottom>
-        </BorderPane>
-    </children>
+                <HBox styleClass="topLabelBox">
+                    <Button fx:id="newItemButton" mnemonicParsing="false"
+                            styleClass="uiElem"
+                            text="Add Item"/>
+                </HBox>
+            </VBox>
+        </top>
+        <center>
+            <ImageView fx:id="bgImage" fitHeight="150.0" fitWidth="200.0"
+                       pickOnBounds="true" preserveRatio="true"
+                       BorderPane.alignment="CENTER"/>
+            <TableView fx:id="orderDetailsTable" maxHeight="400.0"
+                       maxWidth="445.0"
+                       BorderPane.alignment="CENTER">
+                <columns>
+                    <TableColumn fx:id="noColumn"
+                                 prefWidth="75.0"/>
+                    <TableColumn fx:id="itemNameColumn"
+                                 prefWidth="75.0"/>
+                    <TableColumn fx:id="itemTypeColumn"
+                                 prefWidth="75.0"/>
+                    <TableColumn fx:id="quantityColumn"
+                                 prefWidth="75.0"/>
+                    <TableColumn fx:id="actionButtonColumn">
+                        <columns>
+                            <TableColumn fx:id="actionButtonColumn1"
+                                         prefWidth="35.0"
+                            />
+                            <TableColumn fx:id="actionButtonColumn2"
+                                         prefWidth="35.0"/>
+                        </columns>
+                    </TableColumn>
+                </columns>
+            </TableView>
+        </center>
+        <bottom>
+            <HBox alignment="CENTER" prefHeight="53.0" prefWidth="600.0"
+                  BorderPane.alignment="CENTER"
+                  stylesheets="@../../css/two-button-box.css">
+                <VBox styleClass="buttonBox">
+                    <Button fx:id="confirmButton" mnemonicParsing="false"
+                            styleClass="actionButton"
+                            text="Confirm Order"/>
+                </VBox>
+                <VBox styleClass="buttonBox">
+                    <Button fx:id="cancelOrderButton"
+                            mnemonicParsing="false"
+                            styleClass="cancelButton"
+                            text="Cancel Order"/>
+                </VBox>
+            </HBox>
+        </bottom>
+    </BorderPane>
 </VBox>
