@@ -12,44 +12,44 @@
       xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.group.project.controllers.chef.ChefOutstandingOrdersViewController"
 >
-    <children>
-        <HBox alignment="CENTER" prefHeight="62.0" prefWidth="600.0"
-              styleClass="navbar"
-              stylesheets="@../../css/navbar.css">
-            <HBox styleClass="labelBox">
-                <Label fx:id="headerLabel" styleClass="mainTitle"
-                       text="Outstanding Orders"/>
-            </HBox>
-            <fx:include
-                    source="../../navbar/chef/chef-returnhome-navbar.fxml"
-                    fx:id="chefReturnHomeNavbar"/>
+    <HBox alignment="CENTER" prefHeight="62.0" prefWidth="600.0"
+          styleClass="navbar"
+          stylesheets="@../../css/navbar.css">
+        <HBox styleClass="labelBox">
+            <Label fx:id="headerLabel" styleClass="mainTitle"
+                   text="Outstanding Orders"/>
         </HBox>
-        <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
-            <center>
-                <ImageView fx:id="bgImage" fitHeight="150.0" fitWidth="200.0"
-                           pickOnBounds="true" preserveRatio="true"
-                           BorderPane.alignment="CENTER"/>
-                <TableView fx:id="outstandingOrdersTable" maxHeight="550.0"
-                           maxWidth="1027.0"
-                           BorderPane.alignment="CENTER">
-                    <columns>
-                        <TableColumn fx:id="customerColumn"
-                                     prefWidth="75.0"/>
-                        <TableColumn fx:id="orderDateColumn"
-                                     prefWidth="75.0"/>
-                        <TableColumn fx:id="orderTimeColumn"
-                                     prefWidth="75.0"/>
-                        <TableColumn fx:id="orderTypeColumn"
-                                     prefWidth="75.0"/>
-                        <TableColumn fx:id="itemsColumn"
-                                     prefWidth="75.0"/>
-                        <TableColumn fx:id="orderStatusColumn"
-                                     prefWidth="75.0"/>
-                        <TableColumn fx:id="actionButtonColumn"
-                                     prefWidth="75.0"/>
-                    </columns>
-                </TableView>
-            </center>
-        </BorderPane>
-    </children>
+        <fx:include
+                source="../../navbar/chef/chef-returnhome-navbar.fxml"
+                fx:id="chefReturnHomeNavbar"/>
+    </HBox>
+    <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
+        <center>
+            <ImageView fx:id="bgImage" fitHeight="150.0" fitWidth="200.0"
+                       pickOnBounds="true" preserveRatio="true"
+                       BorderPane.alignment="CENTER"/>
+            <TableView fx:id="outstandingOrdersTable" maxHeight="550.0"
+                       maxWidth="1120.0"
+                       BorderPane.alignment="CENTER">
+                <columns>
+                    <TableColumn fx:id="orderNoColumn"
+                                 prefWidth="75.0"/>
+                    <TableColumn fx:id="customerColumn"
+                                 prefWidth="75.0"/>
+                    <TableColumn fx:id="orderDateColumn"
+                                 prefWidth="75.0"/>
+                    <TableColumn fx:id="orderTimeColumn"
+                                 prefWidth="75.0"/>
+                    <TableColumn fx:id="orderTypeColumn"
+                                 prefWidth="75.0"/>
+                    <TableColumn fx:id="itemsColumn"
+                                 prefWidth="75.0"/>
+                    <TableColumn fx:id="orderStatusColumn"
+                                 prefWidth="75.0"/>
+                    <TableColumn fx:id="actionButtonColumn"
+                                 prefWidth="75.0"/>
+                </columns>
+            </TableView>
+        </center>
+    </BorderPane>
 </VBox>

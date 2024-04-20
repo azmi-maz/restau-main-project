@@ -14,22 +14,31 @@
       xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:id="vbox"
       fx:controller="org.group.project.controllers.chef.ChefAddNewItemController"
+      stylesheets="@../css/small-windows.css"
 >
-    <children>
-        <Label fx:id="headerLabel" styleClass="headerLabel"
-               text="Add New Menu Item"/>
-        <Label fx:id="itemNameLabel" styleClass="itemNameLabel" text="item name"/>
-        <TextField fx:id="itemNameTextField" styleClass="itemNameTextField"/>
-        <Label fx:id="itemTypeLabel" styleClass="itemTypeLabel" text="item type"/>
-        <ChoiceBox fx:id="itemTypeChoiceBox" prefWidth="150.0"
-                   styleClass="itemTypeChoiceBox"/>
-        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="600.0">
-            <children>
+    <VBox styleClass="mainBox">
+        <VBox styleClass="fieldBox">
+            <Label fx:id="itemNameLabel" styleClass="itemNameLabel"
+                   text="item name"/>
+            <TextField fx:id="itemNameTextField"
+                       styleClass="fieldLengthen"/>
+        </VBox>
+        <VBox styleClass="fieldBox">
+            <Label fx:id="itemTypeLabel" styleClass="itemTypeLabel"
+                   text="item type"/>
+            <ChoiceBox fx:id="itemTypeChoiceBox" prefWidth="150.0"
+                       styleClass="fieldLengthen"/>
+        </VBox>
+        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="600.0"
+              stylesheets="@../css/two-button-box.css">
+            <VBox styleClass="buttonBox">
                 <Button fx:id="addNewItemButton" mnemonicParsing="false"
-                        styleClass="addNewItemButton" text="Add New Item"/>
+                        styleClass="actionButton" text="Add New Item"/>
+            </VBox>
+            <VBox styleClass="buttonBox">
                 <Button fx:id="cancelButton" mnemonicParsing="false"
                         styleClass="cancelButton" text="Cancel"/>
-            </children>
+            </VBox>
         </HBox>
-    </children>
+    </VBox>
 </VBox>
