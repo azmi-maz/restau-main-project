@@ -14,34 +14,35 @@
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.group.project.controllers.manager.ManagerReportViewController"
 >
-    <children>
-        <HBox alignment="CENTER" prefHeight="59.0" prefWidth="600.0"
-              styleClass="navbar"
-              stylesheets="@../../css/navbar.css">
-            <HBox styleClass="labelBox">
-                <Label fx:id="headerLabel" styleClass="mainTitle"
-                       text="View Report"/>
-            </HBox>
-            <fx:include
-                    source="../../navbar/manager/manager-returnhome-navbar.fxml"
-                    fx:id="managerReturnHomeNavbar"/>
+    <HBox alignment="CENTER" prefHeight="59.0" prefWidth="600.0"
+          styleClass="navbar"
+          stylesheets="@../../css/navbar.css">
+        <HBox styleClass="labelBox">
+            <Label fx:id="headerLabel" styleClass="mainTitle"
+                   text="View Report"/>
         </HBox>
-        <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
-            <top>
+        <fx:include
+                source="../../navbar/manager/manager-returnhome-navbar.fxml"
+                fx:id="managerReturnHomeNavbar"/>
+    </HBox>
+    <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
+        <top>
+            <VBox stylesheets="@../../css/borderPane-top-label.css"
+                  alignment="CENTER"
+                  styleClass="labelBox">
                 <ChoiceBox fx:id="reportTypeChoiceBox" prefWidth="150.0"
-                           styleClass="reportTypeChoiceBox"
-                           BorderPane.alignment="CENTER"
+                           styleClass="uiElemLong"
                 />
-            </top>
-            <center>
-                <ImageView fx:id="bgImage" fitHeight="150.0" fitWidth="200.0"
-                           pickOnBounds="true" preserveRatio="true"/>
-                <TextArea fx:id="reportTextArea" maxHeight="400.0"
-                          maxWidth="600.0"
-                          styleClass="reportTextArea"
-                          BorderPane.alignment="CENTER"
-                />
-            </center>
-        </BorderPane>
-    </children>
+            </VBox>
+        </top>
+        <center>
+            <ImageView fx:id="bgImage" fitHeight="150.0" fitWidth="200.0"
+                       pickOnBounds="true" preserveRatio="true"/>
+            <TextArea fx:id="reportTextArea" maxHeight="400.0"
+                      maxWidth="600.0"
+                      styleClass="reportTextArea"
+                      BorderPane.alignment="CENTER"
+            />
+        </center>
+    </BorderPane>
 </VBox>

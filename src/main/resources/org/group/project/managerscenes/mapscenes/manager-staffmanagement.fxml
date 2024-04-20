@@ -10,54 +10,55 @@
       xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.group.project.controllers.manager.ManagerStaffManagementViewController"
 >
-    <children>
-        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="600.0"
-              styleClass="navbar"
-              stylesheets="@../../css/navbar.css">
-            <HBox styleClass="labelBox">
-                <Label id="headerLabel" styleClass="mainTitle"
-                       text="Staff Management"/>
-            </HBox>
-            <fx:include
-                    source="../../navbar/manager/manager-returnhome-navbar.fxml"
-                    fx:id="managerReturnHomeNavbar"/>
+    <HBox alignment="CENTER" prefHeight="58.0" prefWidth="600.0"
+          styleClass="navbar"
+          stylesheets="@../../css/navbar.css">
+        <HBox styleClass="labelBox">
+            <Label id="headerLabel" styleClass="mainTitle"
+                   text="Staff Management"/>
         </HBox>
-        <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
-            <top>
-                <HBox alignment="CENTER" prefHeight="38.0" prefWidth="461.0">
+        <fx:include
+                source="../../navbar/manager/manager-returnhome-navbar.fxml"
+                fx:id="managerReturnHomeNavbar"/>
+    </HBox>
+    <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
+        <top>
+            <HBox alignment="CENTER" prefHeight="38.0" prefWidth="461.0"
+                  stylesheets="@../../css/borderPane-top-label.css">
+                <VBox styleClass="labelBox">
                     <Button fx:id="addStaffButton" mnemonicParsing="false"
-                            styleClass="addStaffButton"
+                            styleClass="uiElem"
                             text="Add new staff"/>
-                </HBox>
-            </top>
-            <center>
-                <ImageView fx:id="bgImage" fitHeight="150.0" fitWidth="200.0"
-                           pickOnBounds="true" preserveRatio="true"
-                           BorderPane.alignment="CENTER"/>
-                <TableView fx:id="staffListTable" maxHeight="550.0"
-                           maxWidth="823.0"
-                           BorderPane.alignment="CENTER">
-                    <columns>
-                        <TableColumn fx:id="firstNameColumn" prefWidth="75.0"/>
-                        <TableColumn fx:id="lastNameColumn"
-                                     prefWidth="75.0"/>
-                        <TableColumn fx:id="hoursLeftColumn"
-                                     prefWidth="75.0"/>
-                        <TableColumn fx:id="totalHoursColumn"
-                                     prefWidth="75.0"/>
-                        <TableColumn fx:id="positionColumn"
-                                     prefWidth="75.0"/>
-                        <TableColumn fx:id="actionButtonColumn">
-                            <columns>
-                                <TableColumn fx:id="actionButtonColumn1"
-                                             prefWidth="35.0"/>
-                                <TableColumn fx:id="actionButtonColumn2"
-                                             prefWidth="35.0"/>
-                            </columns>
-                        </TableColumn>
-                    </columns>
-                </TableView>
-            </center>
-        </BorderPane>
-    </children>
+                </VBox>
+            </HBox>
+        </top>
+        <center>
+            <ImageView fx:id="bgImage" fitHeight="150.0" fitWidth="200.0"
+                       pickOnBounds="true" preserveRatio="true"
+                       BorderPane.alignment="CENTER"/>
+            <TableView fx:id="staffListTable" maxHeight="510.0"
+                       maxWidth="823.0"
+                       BorderPane.alignment="CENTER">
+                <columns>
+                    <TableColumn fx:id="firstNameColumn" prefWidth="75.0"/>
+                    <TableColumn fx:id="lastNameColumn"
+                                 prefWidth="75.0"/>
+                    <TableColumn fx:id="hoursLeftColumn"
+                                 prefWidth="75.0"/>
+                    <TableColumn fx:id="totalHoursColumn"
+                                 prefWidth="75.0"/>
+                    <TableColumn fx:id="positionColumn"
+                                 prefWidth="75.0"/>
+                    <TableColumn fx:id="actionButtonColumn">
+                        <columns>
+                            <TableColumn fx:id="actionButtonColumn1"
+                                         prefWidth="35.0"/>
+                            <TableColumn fx:id="actionButtonColumn2"
+                                         prefWidth="35.0"/>
+                        </columns>
+                    </TableColumn>
+                </columns>
+            </TableView>
+        </center>
+    </BorderPane>
 </VBox>

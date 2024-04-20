@@ -12,56 +12,66 @@
       minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
       prefWidth="600.0" xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.group.project.controllers.manager.ManagerStaffManagementDetailsController">
-    <children>
-        <Label fx:id="headerLabel" styleClass="headerLabel"
-               text="Edit Staff Details"/>
-        <Label fx:id="firstNameLabel" styleClass="firstNameLabel"
-               text="first name"/>
-        <TextField fx:id="firstNameTextField" styleClass="firstNameTextField"/>
-        <Label fx:id="lastNameLabel" styleClass="lastNameLabel"
-               text="last name"/>
-        <TextField fx:id="lastNameTextField" styleClass="lastNameTextField"/>
-        <Label fx:id="usernameLabel" styleClass="usernameLabel"
-               text="username"/>
-        <TextField fx:id="usernameTextField" styleClass="usernameTextField"/>
-        <HBox prefHeight="65.0" prefWidth="600.0">
-            <children>
-                <VBox alignment="CENTER_LEFT" prefHeight="100.0"
-                      prefWidth="300.0">
-                    <children>
-                        <Label fx:id="hoursLeftLabel"
-                               styleClass="hoursLeftLabel" text="hours left"/>
-                        <TextField fx:id="hoursLeftTextField"
-                                   styleClass="hoursLeftTextField"/>
-                    </children>
-                </VBox>
-                <VBox fx:id="hoursLeftVbox" alignment="CENTER_LEFT"
-                      prefHeight="60.0" prefWidth="100.0">
-                    <children>
-                        <Button fx:id="incrementHoursLeftButton"
-                                mnemonicParsing="false"/>
-                        <Button fx:id="decrementHoursLeftButton"
-                                mnemonicParsing="false"/>
-                    </children>
-                </VBox>
-            </children>
+      fx:controller="org.group.project.controllers.manager.ManagerStaffManagementDetailsController"
+      stylesheets="@../css/small-windows.css"
+>
+    <VBox styleClass="mainBox">
+        <VBox styleClass="fieldBoxSmall">
+            <Label fx:id="firstNameLabel" styleClass="firstNameLabel"
+                   text="first name"/>
+            <TextField fx:id="firstNameTextField"
+                       styleClass="firstNameTextField"/>
+        </VBox>
+        <VBox styleClass="fieldBoxSmall">
+            <Label fx:id="lastNameLabel" styleClass="lastNameLabel"
+                   text="last name"/>
+            <TextField fx:id="lastNameTextField"
+                       styleClass="lastNameTextField"/>
+        </VBox>
+        <VBox styleClass="fieldBoxSmall">
+            <Label fx:id="usernameLabel" styleClass="usernameLabel"
+                   text="username"/>
+            <TextField fx:id="usernameTextField"
+                       styleClass="usernameTextField"/>
+        </VBox>
+        <HBox prefHeight="65.0" prefWidth="600.0"
+              alignment="CENTER">
+            <VBox styleClass="fieldBoxSmallInHBox">
+                <Label fx:id="hoursLeftLabel"
+                       styleClass="hoursLeftLabel" text="hours left"/>
+                <TextField fx:id="hoursLeftTextField"
+                           styleClass="hoursLeftTextField"/>
+            </VBox>
+            <VBox fx:id="hoursLeftVbox">
+                <Button fx:id="incrementHoursLeftButton"
+                        mnemonicParsing="false"/>
+                <Button fx:id="decrementHoursLeftButton"
+                        mnemonicParsing="false"/>
+            </VBox>
         </HBox>
-        <Label fx:id="totalHoursWorkedLabel" styleClass="totalHoursWorkedLabel"
-               text="total hours worked"/>
-        <TextField fx:id="totalHoursWorkedTextField"
-                   styleClass="totalHoursWorkedTextField"/>
-        <Label fx:id="positionLabel" styleClass="positionLabel"
-               text="position"/>
-        <ChoiceBox fx:id="positionChoiceBox" prefWidth="150.0"
-                   styleClass="positionChoiceBox"/>
-        <HBox alignment="CENTER" prefHeight="76.0" prefWidth="600.0">
-            <children>
+        <VBox styleClass="fieldBoxSmall">
+            <Label fx:id="totalHoursWorkedLabel"
+                   styleClass="totalHoursWorkedLabel"
+                   text="total hours worked"/>
+            <TextField fx:id="totalHoursWorkedTextField"
+                       styleClass="totalHoursWorkedTextField"/>
+        </VBox>
+        <VBox styleClass="fieldBoxSmall">
+            <Label fx:id="positionLabel" styleClass="positionLabel"
+                   text="position"/>
+            <ChoiceBox fx:id="positionChoiceBox" prefWidth="150.0"
+                       styleClass="fieldLengthen"/>
+        </VBox>
+        <HBox alignment="CENTER" prefHeight="76.0" prefWidth="600.0"
+              stylesheets="@../css/two-button-box.css">
+            <VBox styleClass="buttonBox">
                 <Button fx:id="saveButton" mnemonicParsing="false"
-                        styleClass="saveButton" text="Save Changes"/>
+                        styleClass="actionButton" text="Save Changes"/>
+            </VBox>
+            <VBox styleClass="buttonBox">
                 <Button fx:id="returnButton" mnemonicParsing="false"
-                        styleClass="returnButton" text="Return"/>
-            </children>
+                        styleClass="cancelButton" text="Return"/>
+            </VBox>
         </HBox>
-    </children>
+    </VBox>
 </VBox>
