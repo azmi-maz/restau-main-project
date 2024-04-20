@@ -28,6 +28,9 @@ import java.util.Optional;
 public class WaiterApproveDeliveryViewController {
 
     @FXML
+    private TableColumn<DeliveryOrder, String> orderNoColumn;
+
+    @FXML
     private TableColumn<DeliveryOrder, String> customerColumn;
 
     @FXML
@@ -81,6 +84,12 @@ public class WaiterApproveDeliveryViewController {
                 bSize)));
 
         refreshPendingDeliveryList();
+
+        orderNoColumn.setText("Order No.");
+        orderNoColumn.setMinWidth(65);
+        orderNoColumn.setStyle("-fx-alignment: CENTER;");
+        orderNoColumn.setCellValueFactory(
+                new PropertyValueFactory<>("orderId"));
 
         customerColumn.setText("Customer");
         customerColumn.setMinWidth(150);
