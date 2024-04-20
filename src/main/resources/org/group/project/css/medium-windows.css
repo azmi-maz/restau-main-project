@@ -2,6 +2,11 @@
     -fx-max-height: 400;
 }
 
+.mainBoxMedium {
+    -fx-padding: 30 0 0 0;
+    -fx-alignment: CENTER;
+}
+
 .borderPaneBox {
     -fx-pref-width: 700;
     -fx-pref-height: 1400;
@@ -12,3 +17,21 @@
     -fx-max-width: 445;
 }
 
+.fieldBox {
+    -fx-max-width: 460;
+    -fx-max-height: 60;
+    -fx-padding: 10 0;
+}
+
+.fieldBoxPair {
+    -fx-pref-width: 230;
+    -fx-padding: 10 10 0 0;
+}
+
+.fieldLengthen {
+    -fx-max-width: 450;
+}
+
+.fieldShorten {
+    -fx-max-width: 120;
+}

@@ -5,6 +5,11 @@
     -fx-font-weight: bold;
 }
 
+.mainBox {
+    -fx-padding: 30 0 0 0;
+    -fx-alignment: CENTER;
+}
+
 .highlightLabel {
     -fx-font-size: 18;
 }
@@ -12,6 +17,26 @@
 .fieldBox {
     -fx-max-width: 250;
     -fx-padding: 10 5;
+}
+
+.fieldBoxLonger {
+    -fx-max-width: 343;
+    -fx-padding: 10 5;
+}
+
+.fieldBoxSmall {
+    -fx-max-width: 250;
+    -fx-padding: 3 2;
+}
+
+.fieldBoxSmallInHBox {
+    -fx-pref-width: 214;
+    -fx-padding: 3 0;
+}
+
+.fieldBoxSmallInHBoxSmaller {
+    -fx-pref-width: 170;
+    -fx-padding: 3 3;
 }
 
 .labelBox {
@@ -22,6 +47,10 @@
 
 .fieldLengthen {
     -fx-pref-width: 250;
+}
+
+.fieldShorten {
+    -fx-max-width: 80;
 }
 
 .body-textarea {
