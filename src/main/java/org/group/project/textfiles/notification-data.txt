@@ -15,3 +15,7 @@
 15,1,2024-4-16,10-45,delivery,false,Your order no.31 was delivered successfully. Enjoy your meal!
 16,1,2024-4-16,10-45,delivery,false,Your order no.16 was delivered successfully. Enjoy your meal!
 17,10,2024-4-18,16-51,booking,false,Good news! Your table reservation for 19/04/2024 at 04:00 PM is now confirmed.
+18,10,2024-4-21,0-56,booking,false,Good news! Your table reservation for 19/04/2024 at 02:00 PM is now confirmed.
+19,1,2024-4-21,0-56,delivery,false,Your order no.29 is on the way. Estimated time of delivery is 01:26 AM.
+20,1,2024-4-21,0-56,takeaway,false,Your order no.3 is ready for pickup at 01:26 AM.
+21,1,2024-4-21,0-57,delivery,false,Your order no.19 was delivered successfully. Enjoy your meal!

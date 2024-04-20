@@ -1,5 +1,5 @@
 bloody mary,drink,true,images/menu/bloody-mary.png,10,4,10,3.6,0,0,2,1,BOTTOM_RIGHT,BOTTOM_LEFT,TOP_RIGHT,65,65
-chocolate souffle,food,false,images/menu/chocolate-souffle.png,10,3.4,10,3.4,2,0,2,1,BOTTOM_CENTER,BOTTOM_LEFT,TOP_RIGHT,75,95
+chocolate souffle,food,true,images/menu/chocolate-souffle.png,10,3.4,10,3.4,2,0,2,1,BOTTOM_CENTER,BOTTOM_LEFT,TOP_RIGHT,75,95
 croquembouche,food,true,images/menu/croquembouche.png,10,3.0,10,3.0,4,0,2,2,CENTER,BOTTOM_LEFT,TOP_RIGHT,135,95
 coq au vin,food,false,images/menu/coq-au-vin.png,10,3.7,10,3.7,0,1,2,2,CENTER,BOTTOM_LEFT,TOP_RIGHT,85,125
 classic duck confit,food,false,images/menu/classic-duck-confit.png,10,3.4,10,3.4,2,1,2,1,CENTER,BOTTOM_LEFT,TOP_RIGHT,75,95

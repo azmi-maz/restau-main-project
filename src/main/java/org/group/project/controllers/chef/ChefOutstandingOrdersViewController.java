@@ -151,10 +151,7 @@ public class ChefOutstandingOrdersViewController {
                         selectedOrder.markOffOrderAsComplete();
                         if (selectedOrder.getOrderType().equalsIgnoreCase("takeaway")) {
                             TakeawayOrder takeawayOrder = (TakeawayOrder) selectedOrder;
-                            System.out.println("reached here");
-//                            System.out.println(takeawayOrder.getPickupTimeInFormat());
                             takeawayOrder.setEstimatedPickupTime();
-                            System.out.println(takeawayOrder.getPickupTimeInFormat());
                             takeawayOrder.notifyCustomer(
                                     takeawayOrder.getCustomer(),
                                     true

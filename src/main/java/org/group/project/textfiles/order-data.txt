@@ -1,6 +1,6 @@
 1,1,2024-2-15,12-30,dinein,completed,,,,bloody mary;bloody mary;bloody mary;bloody mary;bloody mary;marseilles shrimp stew;coq au vin
 2,2,2024-2-20,14-30,delivery,pending-delivery,,,,bloody mary;bloody mary;marseilles;marseilles;duck a lorange
-3,1,2024-2-19,19-0,takeaway,pending-kitchen,,,,marseilles;marseilles;shrimp stew;coq au vin;coq au vin;stuffed pork tenderloin
+3,1,2024-2-19,19-0,takeaway,completed,,,,marseilles;marseilles;shrimp stew;coq au vin;coq au vin;stuffed pork tenderloin
 4,1,2024-4-3,3-30,delivery,pending-delivery,,7,0-37,chocolate souffle;classic duck confit;classic duck confit;classic duck confit
 5,1,2024-4-3,3-10,takeaway,completed,,,,chocolate souffle;pear tarte tatin;classic creme brulee;croquembouche;cosmopolitan
 6,1,2024-4-3,3-11,delivery,pending-delivery,,8,0-45,coq au vin;lobster thermidor;bloody mary;martini;daiquiri;pina colada;long island iced tea
@@ -16,7 +16,7 @@
 16,1,2024-4-8,0-5,delivery,completed,,4,0-37,chocolate souffle;chocolate souffle;classic duck confit;classic duck confit;classic duck confit
 17,1,2024-4-8,0-6,takeaway,completed,,,,chocolate souffle;chocolate souffle;croquembouche;croquembouche;croquembouche;coq au vin
 18,3,2024-4-8,0-7,dinein,pending-kitchen,,,,duck a lorange;duck a lorange;coq au vin
-19,1,2024-4-8,19-32,delivery,pending-delivery,,4,21-1,croquembouche;croquembouche;croquembouche
+19,1,2024-4-8,19-32,delivery,completed,,4,21-1,croquembouche;croquembouche;croquembouche
 20,1,2024-4-8,19-32,delivery,completed,,7,21-1,classic duck confit;classic duck confit
 21,2,2024-4-8,20-30,delivery,completed,,8,21-1,chocolate souffle;chocolate souffle;classic duck confit
 22,1,2024-4-8,20-46,delivery,pending-kitchen,,4,21-16,chocolate souffle;chocolate souffle;croquembouche
@@ -26,7 +26,7 @@
 26,1,2024-4-8,21-15,takeaway,completed,,,,bloody mary;bloody mary
 27,1,2024-4-8,21-16,takeaway,completed,,,,chocolate souffle;chocolate souffle
 28,1,2024-4-15,14-59,takeaway,pending-kitchen,,,,lobster thermidor
-29,1,2024-4-15,18-2,delivery,pending-approval,,,,coq au vin
+29,1,2024-4-15,18-2,delivery,pending-kitchen,,4,1-26,coq au vin
 30,1,2024-4-15,21-55,delivery,pending-approval,,,,chocolate souffle
 31,1,2024-4-16,10-25,delivery,pending-delivery,,4,11-3,chocolate souffle;classic duck confit
 32,1,2024-4-16,10-26,takeaway,completed,,,,bloody mary;croquembouche
@@ -34,3 +34,5 @@
 34,1,2024-4-18,15-46,dinein,pending-kitchen,,,,duck a lorange;duck a lorange;duck a lorange;stuffed pork tenderloin;stuffed pork tenderloin;stuffed pork tenderloin
 35,1,2024-4-18,15-50,dinein,pending-kitchen,,,,duck a lorange;stuffed pork tenderloin
 36,10,2024-4-18,16-48,takeaway,pending-kitchen,,,,chocolate souffle;chocolate souffle;chocolate souffle;bloody mary
+37,1,2024-4-21,0-53,takeaway,pending-kitchen,,,,chocolate souffle
+38,1,2024-4-21,0-56,dinein,pending-kitchen,,,,marseilles shrimp stew
