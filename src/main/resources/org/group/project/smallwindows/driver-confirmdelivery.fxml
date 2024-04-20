@@ -13,44 +13,45 @@
       xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:id="vbox"
       fx:controller="org.group.project.controllers.driver.DriverPendingDeliveryDetailsController"
+      stylesheets="@../css/small-windows.css"
 >
-    <children>
-        <Label fx:id="headerLabel" styleClass="headerLabel"
-               text="Delivery Order Details"/>
-        <Label fx:id="customerIdLabel" styleClass="customerIdLabel"
-               text="customer id"/>
-        <TextField fx:id="customerIdTextField" styleClass="customerIdTextField"/>
-        <HBox prefHeight="68.0" prefWidth="600.0">
-            <children>
-                <VBox prefHeight="68.0" prefWidth="203.0">
-                    <children>
-                        <Label fx:id="firstNameLabel" styleClass="firstNameLabel"
-                               text="first name"/>
-                        <TextField fx:id="firstNameTextField"
-                                   styleClass="firstNameTextField"/>
-                    </children>
-                </VBox>
-                <VBox prefHeight="68.0" prefWidth="216.0">
-                    <children>
-                        <Label fx:id="lastNameLabel" styleClass="lastNameLabel"
-                               text="last name"/>
-                        <TextField fx:id="lastNameTextField"
-                                   styleClass="lastNameTextField"/>
-                    </children>
-                </VBox>
-            </children>
+    <VBox styleClass="mainBox">
+        <VBox styleClass="fieldBoxLonger">
+            <Label fx:id="customerIdLabel" styleClass="customerIdLabel"
+                   text="customer id"/>
+            <TextField fx:id="customerIdTextField"
+                       styleClass="fieldShorten"/>
+        </VBox>
+        <HBox alignment="CENTER">
+            <VBox styleClass="fieldBoxSmallInHBoxSmaller">
+                <Label fx:id="firstNameLabel"
+                       styleClass="firstNameLabel"
+                       text="first name"/>
+                <TextField fx:id="firstNameTextField"
+                           styleClass="firstNameTextField"/>
+            </VBox>
+            <VBox styleClass="fieldBoxSmallInHBoxSmaller">
+                <Label fx:id="lastNameLabel" styleClass="lastNameLabel"
+                       text="last name"/>
+                <TextField fx:id="lastNameTextField"
+                           styleClass="lastNameTextField"/>
+            </VBox>
         </HBox>
-        <Label fx:id="addressLabel" styleClass="addressLabel"
-               text="customer address"/>
-        <TextField fx:id="addressTextField" styleClass="addressTextField"/>
-        <HBox alignment="CENTER" prefHeight="64.0" prefWidth="600.0">
-            <children>
+        <VBox styleClass="fieldBoxLonger">
+            <Label fx:id="addressLabel" styleClass="addressLabel"
+                   text="customer address"/>
+            <TextField fx:id="addressTextField" styleClass="addressTextField"/>
+        </VBox>
+        <HBox alignment="CENTER" stylesheets="@../css/two-button-box.css">
+            <VBox styleClass="buttonBox">
                 <Button fx:id="deliveryCompletedButton" mnemonicParsing="false"
-                        styleClass="deliveryCompletedButton"
+                        styleClass="actionButton"
                         text="Confirm Delivery"/>
+            </VBox>
+            <VBox styleClass="buttonBox">
                 <Button fx:id="returnButton" mnemonicParsing="false"
-                        styleClass="returnButton" text="Return"/>
-            </children>
+                        styleClass="cancelButton" text="Return"/>
+            </VBox>
         </HBox>
-    </children>
+    </VBox>
 </VBox>
