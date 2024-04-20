@@ -5,11 +5,16 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
-import org.group.project.classes.AlertPopUpWindow;
-import org.group.project.classes.HelperMethods;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.classes.auxiliary.HelperMethods;
 import org.group.project.classes.User;
 import org.group.project.scenes.*;
+import org.group.project.scenes.chef.ChefScenesMap;
+import org.group.project.scenes.customer.CustomerScenesMap;
+import org.group.project.scenes.driver.DriverScenesMap;
 import org.group.project.scenes.main.LoginView;
+import org.group.project.scenes.manager.ManagerScenesMap;
+import org.group.project.scenes.waiter.WaiterScenesMap;
 
 import java.io.IOException;
 import java.util.HashMap;

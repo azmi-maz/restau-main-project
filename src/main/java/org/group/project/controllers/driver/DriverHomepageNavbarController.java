@@ -3,10 +3,10 @@ package org.group.project.controllers.driver;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import org.group.project.Main;
-import org.group.project.classes.HelperMethods;
-import org.group.project.classes.ImageLoader;
-import org.group.project.scenes.DriverMapsMain;
-import org.group.project.scenes.DriverScenesMap;
+import org.group.project.classes.auxiliary.HelperMethods;
+import org.group.project.classes.auxiliary.ImageLoader;
+import org.group.project.scenes.driver.DriverMapsMain;
+import org.group.project.scenes.driver.DriverScenesMap;
 import org.group.project.scenes.MainScenes;
 import org.group.project.scenes.driver.mainViews.DeliveryView;
 

@@ -1,5 +1,7 @@
 package org.group.project.classes;
 
+import org.group.project.classes.auxiliary.DataFileStructure;
+
 import java.util.List;
 
 /**

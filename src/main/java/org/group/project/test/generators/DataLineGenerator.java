@@ -1,6 +1,6 @@
 package org.group.project.test.generators;
 
-import org.group.project.classes.HelperMethods;
+import org.group.project.classes.auxiliary.HelperMethods;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

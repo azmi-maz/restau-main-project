@@ -7,9 +7,9 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import org.group.project.classes.AlertPopUpWindow;
-import org.group.project.classes.DataManager;
-import org.group.project.classes.HelperMethods;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.classes.auxiliary.DataManager;
+import org.group.project.classes.auxiliary.HelperMethods;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

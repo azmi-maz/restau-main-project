@@ -1,14 +1,8 @@
 .navbar-buttons {
-    /*-fx-background-color: red;*/
     -fx-alignment: center-left;
     -fx-pref-width: 1000;
 }
 
 .buttonBox {
-    /*-fx-border-color: orange;*/
     -fx-pref-width: 125;
-}
-
-.buttonBox .label {
-    /*-fx-border-color: green;*/
 }

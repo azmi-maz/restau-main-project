@@ -6,6 +6,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.group.project.classes.*;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 
 import java.io.IOException;
 

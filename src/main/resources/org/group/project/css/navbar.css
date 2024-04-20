@@ -7,13 +7,10 @@
 .labelBox {
     -fx-pref-width: 400;
     -fx-alignment: center;
-    /*-fx-border-width: 3;*/
-    /*-fx-border-color: blue;*/
 }
 
 .mainTitle {
     -fx-font-size: 23;
     -fx-pref-width: 400;
     -fx-alignment: center;
-    /*-fx-border-color: red;*/
 }

@@ -4,7 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.group.project.Main;
-import org.group.project.mapscenes.view.ViewMaker;
+import org.group.project.scenes.ViewMaker;
 import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;

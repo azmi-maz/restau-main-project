@@ -9,10 +9,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import org.group.project.Main;
-import org.group.project.classes.AlertPopUpWindow;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.Booking;
 import org.group.project.classes.Customer;
-import org.group.project.classes.ImageLoader;
+import org.group.project.classes.auxiliary.ImageLoader;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

@@ -7,7 +7,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import org.group.project.classes.DataManager;
+import org.group.project.classes.auxiliary.DataManager;
 
 import java.io.IOException;
 import java.time.LocalDate;

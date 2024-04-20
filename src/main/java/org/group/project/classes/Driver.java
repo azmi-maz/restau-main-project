@@ -1,6 +1,8 @@
 package org.group.project.classes;
 
 import javafx.scene.control.ComboBox;
+import org.group.project.classes.auxiliary.DataFileStructure;
+import org.group.project.classes.auxiliary.DataManager;
 
 import java.io.FileNotFoundException;
 import java.util.List;

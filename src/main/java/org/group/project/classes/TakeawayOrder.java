@@ -1,5 +1,8 @@
 package org.group.project.classes;
 
+import org.group.project.classes.auxiliary.DataManager;
+import org.group.project.classes.auxiliary.HelperMethods;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;

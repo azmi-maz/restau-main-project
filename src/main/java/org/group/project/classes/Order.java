@@ -1,5 +1,7 @@
 package org.group.project.classes;
 
+import org.group.project.classes.auxiliary.DataManager;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;

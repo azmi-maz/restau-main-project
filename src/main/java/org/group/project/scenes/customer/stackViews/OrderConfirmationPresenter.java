@@ -1,8 +1,9 @@
 package org.group.project.scenes.customer.stackViews;
 
-import org.group.project.stackscenes.presenter.Presenter;
-import org.group.project.stackscenes.presenter.StackManager;
-import org.group.project.stackscenes.view.ControllerView;
+
+import org.group.project.scenes.presenter.Presenter;
+import org.group.project.scenes.presenter.StackManager;
+import org.group.project.scenes.ControllerView;
 
 public class OrderConfirmationPresenter extends Presenter {
 

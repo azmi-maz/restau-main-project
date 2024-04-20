@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import org.group.project.Main;
 import org.group.project.classes.*;
+import org.group.project.classes.auxiliary.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

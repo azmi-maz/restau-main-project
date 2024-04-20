@@ -2,9 +2,9 @@ package org.group.project.controllers.waiter;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import org.group.project.classes.ImageLoader;
-import org.group.project.scenes.WaiterMapsMain;
-import org.group.project.scenes.WaiterScenesMap;
+import org.group.project.classes.auxiliary.ImageLoader;
+import org.group.project.scenes.waiter.WaiterMapsMain;
+import org.group.project.scenes.waiter.WaiterScenesMap;
 import org.group.project.scenes.waiter.mainViews.BookingView;
 
 import java.io.FileNotFoundException;

@@ -14,9 +14,9 @@ import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.group.project.Main;
-import org.group.project.classes.AlertPopUpWindow;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.DeliveryOrder;
-import org.group.project.classes.ImageLoader;
+import org.group.project.classes.auxiliary.ImageLoader;
 import org.group.project.scenes.WindowSize;
 
 import java.io.FileNotFoundException;

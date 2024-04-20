@@ -6,7 +6,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.group.project.Main;
 import org.group.project.controllers.waiter.WaiterDineinOrderController;
-import org.group.project.mapscenes.view.ViewMaker;
+import org.group.project.scenes.ViewMaker;
 import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;

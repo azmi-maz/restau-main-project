@@ -5,8 +5,8 @@ import javafx.scene.Scene;
 import org.group.project.Main;
 import org.group.project.classes.Order;
 import org.group.project.controllers.customer.CustomerOrderConfirmationViewController;
+import org.group.project.scenes.ControllerView;
 import org.group.project.scenes.WindowSize;
-import org.group.project.stackscenes.view.ControllerView;
 
 import java.io.IOException;
 import java.util.List;

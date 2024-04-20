@@ -17,6 +17,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.group.project.Main;
 import org.group.project.classes.*;
+import org.group.project.classes.auxiliary.*;
 import org.group.project.scenes.WindowSize;
 
 import java.io.FileNotFoundException;

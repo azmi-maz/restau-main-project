@@ -1,10 +1,8 @@
 .labelBox {
-    /*-fx-border-color: red;*/
     -fx-padding: 20 0 0 0;
 }
 
 .topLabelLong {
-    /*-fx-border-color: green;*/
     -fx-font-size: 23;
     -fx-text-fill: white;
     -fx-font-weight: bold;
@@ -16,7 +14,6 @@
 }
 
 .topLabelShort {
-    /*-fx-border-color: green;*/
     -fx-font-size: 23;
     -fx-text-fill: white;
     -fx-font-weight: bold;
@@ -25,7 +22,6 @@
 
 .topLabelShortWhite {
     -fx-padding: 0 0 0 5;
-    /*-fx-border-color: red;*/
     -fx-font-size: 21;
     -fx-text-fill: white;
     -fx-font-weight: bold;
@@ -33,7 +29,6 @@
 }
 
 .uiElem {
-    /*-fx-border-color: blue;*/
     -fx-pref-width: 135;
     -fx-pref-height: 40;
     -fx-font-size: 15;
@@ -41,7 +36,6 @@
 }
 
 .uiElemLong {
-    /*-fx-border-color: blue;*/
     -fx-pref-width: 175;
     -fx-pref-height: 40;
     -fx-font-size: 15;
@@ -64,7 +58,6 @@
 }
 
 .topLabelBox {
-    /*-fx-border-color: red;*/
     -fx-pref-width: 300;
     -fx-alignment: CENTER;
     -fx-padding: 5;

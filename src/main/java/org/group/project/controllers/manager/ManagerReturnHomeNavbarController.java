@@ -2,9 +2,9 @@ package org.group.project.controllers.manager;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import org.group.project.classes.ImageLoader;
-import org.group.project.scenes.ManagerMapsMain;
-import org.group.project.scenes.ManagerScenesMap;
+import org.group.project.classes.auxiliary.ImageLoader;
+import org.group.project.scenes.manager.ManagerMapsMain;
+import org.group.project.scenes.manager.ManagerScenesMap;
 
 import java.net.URISyntaxException;
 

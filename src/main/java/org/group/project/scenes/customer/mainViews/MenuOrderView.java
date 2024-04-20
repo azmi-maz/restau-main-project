@@ -2,9 +2,9 @@ package org.group.project.scenes.customer.mainViews;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.group.project.mapscenes.view.ViewMaker;
+import org.group.project.scenes.ViewMaker;
+import org.group.project.scenes.presenter.StackManager;
 import org.group.project.scenes.customer.stackViews.MenuPresenter;
-import org.group.project.stackscenes.presenter.StackManager;
 
 import java.io.IOException;
 

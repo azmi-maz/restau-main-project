@@ -1,6 +1,9 @@
 package org.group.project.classes;
 
 import javafx.collections.ObservableList;
+import org.group.project.classes.auxiliary.DataFileStructure;
+import org.group.project.classes.auxiliary.DataManager;
+import org.group.project.classes.auxiliary.HelperMethods;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

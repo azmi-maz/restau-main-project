@@ -10,8 +10,8 @@ import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.group.project.Main;
-import org.group.project.classes.DataFileStructure;
-import org.group.project.classes.DataManager;
+import org.group.project.classes.auxiliary.DataFileStructure;
+import org.group.project.classes.auxiliary.DataManager;
 import org.group.project.classes.FoodDrink;
 import org.group.project.scenes.WindowSize;
 

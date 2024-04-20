@@ -19,5 +19,13 @@ module org.group.project {
     opens org.group.project.controllers.driver to javafx.fxml;
     opens org.group.project.controllers.manager to javafx.fxml;
     opens org.group.project.controllers.waiter to javafx.fxml;
+    exports org.group.project.classes.auxiliary;
+    opens org.group.project.classes.auxiliary to javafx.fxml;
+    opens org.group.project.controllers.main to javafx.fxml;
+    opens org.group.project.scenes.chef to javafx.fxml;
+    opens org.group.project.scenes.customer to javafx.fxml;
+    opens org.group.project.scenes.driver to javafx.fxml;
+    opens org.group.project.scenes.manager to javafx.fxml;
+    opens org.group.project.scenes.waiter to javafx.fxml;
 
 }

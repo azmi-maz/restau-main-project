@@ -6,8 +6,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.group.project.classes.DataManager;
-import org.group.project.classes.ImageLoader;
+import org.group.project.classes.auxiliary.DataManager;
+import org.group.project.classes.auxiliary.ImageLoader;
 
 import java.io.IOException;
 

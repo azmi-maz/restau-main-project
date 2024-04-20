@@ -6,7 +6,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.group.project.Main;
 import org.group.project.controllers.manager.ManagerHomepageController;
-import org.group.project.mapscenes.view.ViewMaker;
+import org.group.project.scenes.ViewMaker;
 import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
