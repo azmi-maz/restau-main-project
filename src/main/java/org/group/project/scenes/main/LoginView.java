@@ -22,7 +22,7 @@ public class LoginView implements ViewMaker {
     public Scene getScene() throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
-                "login-view.fxml"));
+                "homepages/login-view.fxml"));
         return new Scene(fxmlLoader.load(), WindowSize.MAIN.WIDTH,
                 WindowSize.MAIN.HEIGHT);
     }
