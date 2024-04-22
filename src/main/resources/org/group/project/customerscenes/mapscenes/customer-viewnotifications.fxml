@@ -31,7 +31,7 @@
                            pickOnBounds="true" preserveRatio="true"
                            BorderPane.alignment="CENTER"/>
                 <TableView fx:id="notificationTable" maxHeight="550.0"
-                           maxWidth="900.0"
+                           maxWidth="920.0"
                            BorderPane.alignment="CENTER">
                     <columns>
                         <TableColumn fx:id="dateColumn"

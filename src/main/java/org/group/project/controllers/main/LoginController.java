@@ -106,6 +106,7 @@ public class LoginController {
                     break;
                 default:
                     CustomerView.controller.welcomeCustomer();
+                    CustomerView.customerNotificationNavbarController.refreshNotificationCounter();
                     Main.getStage().setScene(Main.getScenes().get(MainScenes.CUSTOMER));
                     break;
             }

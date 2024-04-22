@@ -1,0 +1,15 @@
+.counterBox {
+    -fx-padding: 2;
+    -fx-border-color: #ff8092;
+    -fx-background-color: pink;
+    -fx-translate-x: 475;
+    -fx-translate-y: 3;
+    -fx-border-radius: 15 15 15 15;
+    -fx-background-radius: 15 15 15 15;
+}
+
+.counterLabel {
+    -fx-font-weight: bold;
+    -fx-font-size: 10;
+    -fx-pref-width: 15;
+}

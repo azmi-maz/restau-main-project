@@ -81,7 +81,6 @@ public class CustomerMenuOrderViewController {
             double maxHeight = Double.parseDouble(imageDataDetails.get(DataFileStructure.getIndexByColName("MENU", "maxHeight")));
             double maxWidth = Double.parseDouble(imageDataDetails.get(DataFileStructure.getIndexByColName("MENU", "maxWidth")));
 
-
             Image image = new Image(Main.class.getResource(url).toURI().toString());
 
             ImageView imageView = new ImageView(image);

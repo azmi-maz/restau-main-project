@@ -12,6 +12,14 @@
       styleClass="navbar-buttons"
 >
     <children>
+        <VBox alignment="CENTER"
+              prefHeight="200.0" prefWidth="100.0"
+              styleClass="buttonBox">
+            <children>
+                <Button fx:id="notificationButton" mnemonicParsing="false"/>
+                <Label fx:id="notificationLabel" text="Notification"/>
+            </children>
+        </VBox>
         <VBox alignment="CENTER" prefHeight="200.0"
               prefWidth="100.0" styleClass="buttonBox">
             <children>
@@ -31,13 +39,6 @@
             <children>
                 <Button fx:id="historyButton" mnemonicParsing="false"/>
                 <Label fx:id="historyLabel" text="History"/>
-            </children>
-        </VBox>
-        <VBox alignment="CENTER" prefHeight="264.0" prefWidth="86.0"
-              styleClass="buttonBox">
-            <children>
-                <Button fx:id="notificationButton" mnemonicParsing="false"/>
-                <Label fx:id="notificationLabel" text="Notification"/>
             </children>
         </VBox>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0"

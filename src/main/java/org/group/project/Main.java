@@ -47,8 +47,6 @@ public class Main extends Application {
         scenes.put(MainScenes.CHEF, new ChefScenesMap(stage).getScene());
         scenes.put(MainScenes.DRIVER, new DriverScenesMap(stage).getScene());
 
-        // TODO Logoff scene? to login
-
         // Start with user log in
         stage.setScene(scenes.get(MainScenes.LOGIN));
         // TODO final variable constant this

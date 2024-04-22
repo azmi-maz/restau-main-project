@@ -6,3 +6,7 @@
 .buttonBox {
     -fx-pref-width: 125;
 }
+
+.stackedButton {
+    -fx-pref-height: 200;
+}

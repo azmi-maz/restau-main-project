@@ -5,9 +5,9 @@ import javafx.scene.control.Button;
 import org.group.project.Main;
 import org.group.project.classes.auxiliary.HelperMethods;
 import org.group.project.classes.auxiliary.ImageLoader;
+import org.group.project.scenes.MainScenes;
 import org.group.project.scenes.customer.CustomerMapsMain;
 import org.group.project.scenes.customer.CustomerScenesMap;
-import org.group.project.scenes.MainScenes;
 import org.group.project.scenes.customer.mainViews.BookingsView;
 import org.group.project.scenes.customer.mainViews.NotificationView;
 import org.group.project.scenes.customer.mainViews.OrdersView;
@@ -41,6 +41,7 @@ public class CustomerHomepageNavbarController {
 
     @FXML
     private Button logOffButton;
+
 
     public void initialize() throws URISyntaxException {
 
@@ -121,6 +122,4 @@ public class CustomerHomepageNavbarController {
         });
 
     }
-
-
 }

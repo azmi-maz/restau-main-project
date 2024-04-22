@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.group.project.controllers.customer.CustomerNotificationNavbarCounter"
+      stylesheets="@../../css/navbar-counter.css">
+    <HBox fx:id="counterBox" styleClass="">
+        <Label fx:id="notificationCounter1" styleClass="counterLabel"/>
+        <Label fx:id="notificationCounter2" styleClass="counterLabel"/>
+    </HBox>
+</VBox>
