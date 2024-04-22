@@ -123,35 +123,36 @@ public class CustomerOrderHistoryViewController {
             // TODO use tool tips for other buttons, where necessary
             viewButton.setTooltip(new Tooltip("View details"));
             ImageLoader.setUpGraphicButton(viewButton, 15, 15, "view-details");
-            LocalDate orderDate = cellData.getValue().getOrderDate();
-            LocalTime orderTime =
-                    cellData.getValue().getOrderTime();
-            String orderType = cellData.getValue().getOrderType();
-            String orderStatus = cellData.getValue().getOrderStatus();
-            List<FoodDrink> orderList =
-                    cellData.getValue().getOrderedFoodDrinkLists();
-
-            Driver assignedDriver;
-            LocalTime deliveryTime;
-            if (orderType.equalsIgnoreCase("delivery")) {
-                Order getOrder = cellData.getValue();
-                DeliveryOrder deliveryOrder = (DeliveryOrder) getOrder;
-                assignedDriver = deliveryOrder.getDriver();
-
-                deliveryTime = deliveryOrder.getDeliveryTime();
-            } else {
-                assignedDriver = null;
-                deliveryTime = null;
-            }
-
-            LocalTime estimatedPickupTime;
-            if (orderType.equalsIgnoreCase("takeaway")) {
-                Order getOrder = cellData.getValue();
-                TakeawayOrder takeawayOrder = (TakeawayOrder) getOrder;
-                estimatedPickupTime = takeawayOrder.getPickupTime();
-            } else {
-                estimatedPickupTime = null;
-            }
+            Order getOrder = cellData.getValue();
+//            LocalDate orderDate = cellData.getValue().getOrderDate();
+//            LocalTime orderTime =
+//                    cellData.getValue().getOrderTime();
+//            String orderType = cellData.getValue().getOrderType();
+//            String orderStatus = cellData.getValue().getOrderStatus();
+//            List<FoodDrink> orderList =
+//                    cellData.getValue().getOrderedFoodDrinkLists();
+//
+//            Driver assignedDriver;
+//            LocalTime deliveryTime;
+//            if (orderType.equalsIgnoreCase("delivery")) {
+//                Order getOrder = cellData.getValue();
+//                DeliveryOrder deliveryOrder = (DeliveryOrder) getOrder;
+//                assignedDriver = deliveryOrder.getDriver();
+//
+//                deliveryTime = deliveryOrder.getDeliveryTime();
+//            } else {
+//                assignedDriver = null;
+//                deliveryTime = null;
+//            }
+//
+//            LocalTime estimatedPickupTime;
+//            if (orderType.equalsIgnoreCase("takeaway")) {
+//                Order getOrder = cellData.getValue();
+//                TakeawayOrder takeawayOrder = (TakeawayOrder) getOrder;
+//                estimatedPickupTime = takeawayOrder.getPickupTime();
+//            } else {
+//                estimatedPickupTime = null;
+//            }
 
             viewButton.setOnAction(e -> {
 
@@ -167,14 +168,7 @@ public class CustomerOrderHistoryViewController {
                             fxmlLoader.getController();
 
                     controller.populateOrderDetails(
-                            orderDate,
-                            orderTime,
-                            orderType,
-                            orderStatus,
-                            orderList,
-                            assignedDriver,
-                            deliveryTime,
-                            estimatedPickupTime
+                            getOrder
                     );
 
                     Scene editScene = new Scene(vbox,

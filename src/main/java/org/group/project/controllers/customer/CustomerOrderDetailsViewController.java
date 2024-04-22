@@ -231,9 +231,6 @@ public class CustomerOrderDetailsViewController {
 
         refreshOrderList();
 
-        // TODO to delete this if not in use
-//        addTableViewStyle();
-
     }
 
     // TODO comment
@@ -242,22 +239,6 @@ public class CustomerOrderDetailsViewController {
         data.clear();
         data.addAll(orderList);
         orderDetailsTable.setItems(data);
-    }
-
-    // TODO this works but has warning errors
-    private void addTableViewStyle() {
-//        orderDetailsTable.skinProperty().addListener((a, b, newSkin) ->
-//        {
-//            TableView table = (TableView) orderDetailsTable.lookup(
-//                    "TableView");
-//
-//            System.out.println(table);
-//            System.out.println(table.getStylesheets().add(String.valueOf(Main.class.getResource("css/table-view" +
-//                ".css"))));
-//
-//
-//
-//        });
     }
 
     public Order createNewOrder() throws FileNotFoundException {

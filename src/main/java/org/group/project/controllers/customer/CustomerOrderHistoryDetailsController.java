@@ -11,8 +11,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.group.project.classes.Driver;
-import org.group.project.classes.FoodDrink;
+import org.group.project.classes.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -49,6 +48,8 @@ public class CustomerOrderHistoryDetailsController {
             FXCollections.observableArrayList();
 
     private List<FoodDrink> orderList = new ArrayList<>();
+
+    private int orderId;
     private LocalDate orderDate;
     private LocalTime orderTime;
     private String orderType;
@@ -100,23 +101,22 @@ public class CustomerOrderHistoryDetailsController {
 
     // TODO comment
     public void populateOrderDetails(
-            LocalDate orderDate,
-            LocalTime orderTime,
-            String orderType,
-            String orderStatus,
-            List<FoodDrink> orderList,
-            Driver assignedDriver,
-            LocalTime deliveryTime,
-            LocalTime estimatedPickupTime
+            Order selectedOrder
     ) {
-        this.orderList.addAll(orderList);
-        this.orderDate = orderDate;
-        this.orderTime = orderTime;
-        this.orderType = orderType;
-        this.orderStatus = orderStatus;
-        this.assignedDriver = assignedDriver;
-        this.deliveryTime = deliveryTime;
-        this.estimatedPickupTime = estimatedPickupTime;
+        orderList.addAll(selectedOrder.getOrderedFoodDrinkLists());
+        orderId = selectedOrder.getOrderId();
+        orderDate = selectedOrder.getOrderDate();
+        orderTime = selectedOrder.getOrderTime();
+        orderType = selectedOrder.getOrderType();
+        orderStatus = selectedOrder.getOrderStatus();
+        if (orderType.equalsIgnoreCase("delivery")) {
+            DeliveryOrder deliveryOrder = (DeliveryOrder) selectedOrder;
+            assignedDriver = deliveryOrder.getDriver();
+            deliveryTime = deliveryOrder.getDeliveryTime();
+        } else if (orderType.equalsIgnoreCase("takeaway")) {
+            TakeawayOrder takeawayOrder = (TakeawayOrder) selectedOrder;
+            estimatedPickupTime = takeawayOrder.getPickupTime();
+        }
 
         refreshList();
     }
@@ -134,7 +134,9 @@ public class CustomerOrderHistoryDetailsController {
             // TODO might wanna put this in DeliveryOrder class, different is no
             //  customer details here
             String deliveryOrderTemplate =
-                    "Order date: " +
+                    "Order no. " +
+                            orderId + System.lineSeparator() +
+                            "Order date: " +
                             orderDate.format(DateTimeFormatter.ofPattern("dd/MM" +
                                     "/yyyy")) + "  " +
                             orderTime.format(DateTimeFormatter.ofPattern("hh:mm " +
@@ -153,7 +155,9 @@ public class CustomerOrderHistoryDetailsController {
             // TODO might wanna put this in TakeawayOrder class, different is no
             // customer details here
             String takeawayOrderTemplate =
-                    "Order date: " +
+                    "Order no. " +
+                            orderId + System.lineSeparator() +
+                            "Order date: " +
                             orderDate.format(DateTimeFormatter.ofPattern("dd/MM" +
                                     "/yyyy")) + "  " +
                             orderTime.format(DateTimeFormatter.ofPattern("hh:mm " +
