@@ -4,64 +4,69 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<VBox alignment="TOP_CENTER"
-      maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-      minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
-      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.group.project.controllers.waiter.WaiterApproveDeliveryViewController"
+<BorderPane
+        maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+        minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+        xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="org.group.project.controllers.waiter.WaiterApproveDeliveryViewController"
 >
-    <HBox alignment="CENTER" prefHeight="68.0" prefWidth="600.0"
-          styleClass="navbar"
-          stylesheets="@../../css/navbar.css">
-        <HBox styleClass="labelBox">
-            <Label fx:id="headerLabel" styleClass="mainTitle"
-                   text="Pending Delivery Orders"/>
+    <top>
+        <HBox alignment="CENTER" prefHeight="68.0" prefWidth="600.0"
+              styleClass="navbar"
+              stylesheets="@../../css/navbar.css">
+            <HBox styleClass="labelBox">
+                <Label fx:id="headerLabel" styleClass="mainTitle"
+                       text="Pending Delivery Orders"/>
+            </HBox>
+            <fx:include
+                    source="../../navbar/waiter/waiter-pendingtables-navbar.fxml"
+                    fx:id="waiterPendingTablesNavbar"/>
         </HBox>
-        <fx:include
-                source="../../navbar/waiter/waiter-pendingtables-navbar.fxml"
-                fx:id="waiterPendingTablesNavbar"/>
-    </HBox>
-    <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
-        <top>
-            <VBox stylesheets="@../../css/borderPane-top-label.css"
-                  styleClass="labelBox"
-                  alignment="CENTER">
-                <VBox styleClass="darkBackContrast,shortenBg">
-                    <Label fx:id="deliveryOrderLabel"
-                           styleClass="topLabelLong"
-                           text="Delivery Orders"
-                           alignment="CENTER"/>
+    </top>
+    <center>
+
+        <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
+            <top>
+                <VBox stylesheets="@../../css/borderPane-top-label.css"
+                      styleClass="labelBox"
+                      alignment="CENTER">
+                    <VBox styleClass="darkBackContrast,shortenBg">
+                        <Label fx:id="deliveryOrderLabel"
+                               styleClass="topLabelLong"
+                               text="Delivery Orders"
+                               alignment="CENTER"/>
+                    </VBox>
                 </VBox>
-            </VBox>
-        </top>
-        <center>
-            <ImageView fx:id="bgImage" fitHeight="150.0" fitWidth="200.0"
-                       pickOnBounds="true" preserveRatio="true"
-                       BorderPane.alignment="CENTER"/>
-            <TableView fx:id="pendingDeliveryTable" maxHeight="480.0"
-                       maxWidth="950.0"
-                       BorderPane.alignment="CENTER">
-                <columns>
-                    <TableColumn fx:id="orderNoColumn" prefWidth="75.0"/>
-                    <TableColumn fx:id="customerColumn" prefWidth="75.0"/>
-                    <TableColumn fx:id="orderDateColumn"
-                                 prefWidth="75.0"/>
-                    <TableColumn fx:id="orderTimeColumn"
-                                 prefWidth="75.0"/>
-                    <TableColumn fx:id="orderListColumn"
-                                 prefWidth="75.0"/>
-                    <TableColumn fx:id="orderStatusColumn"
-                                 prefWidth="75.0"/>
-                    <TableColumn fx:id="actionButtonColumn">
-                        <columns>
-                            <TableColumn fx:id="actionButtonColumn1"
-                                         prefWidth="35.0"/>
-                            <TableColumn fx:id="actionButtonColumn2"
-                                         prefWidth="35.0"/>
-                        </columns>
-                    </TableColumn>
-                </columns>
-            </TableView>
-        </center>
-    </BorderPane>
-</VBox>
+            </top>
+            <center>
+                <ImageView fx:id="bgImage" fitHeight="150.0" fitWidth="200.0"
+                           pickOnBounds="true" preserveRatio="true"
+                           BorderPane.alignment="CENTER"/>
+                <TableView fx:id="pendingDeliveryTable" maxHeight="480.0"
+                           maxWidth="950.0"
+                           BorderPane.alignment="CENTER">
+                    <columns>
+                        <TableColumn fx:id="orderNoColumn" prefWidth="75.0"/>
+                        <TableColumn fx:id="customerColumn" prefWidth="75.0"/>
+                        <TableColumn fx:id="orderDateColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="orderTimeColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="orderListColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="orderStatusColumn"
+                                     prefWidth="75.0"/>
+                        <TableColumn fx:id="actionButtonColumn">
+                            <columns>
+                                <TableColumn fx:id="actionButtonColumn1"
+                                             prefWidth="35.0"/>
+                                <TableColumn fx:id="actionButtonColumn2"
+                                             prefWidth="35.0"/>
+                            </columns>
+                        </TableColumn>
+                    </columns>
+                </TableView>
+            </center>
+        </BorderPane>
+    </center>
+</BorderPane>

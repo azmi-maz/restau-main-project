@@ -3,6 +3,7 @@ package org.group.project.controllers.waiter;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import org.group.project.classes.auxiliary.ImageLoader;
+import org.group.project.scenes.main.WaiterView;
 import org.group.project.scenes.waiter.WaiterMapsMain;
 import org.group.project.scenes.waiter.WaiterScenesMap;
 import org.group.project.scenes.waiter.mainViews.BookingView;
@@ -27,6 +28,12 @@ public class WaiterPendingTableNavbarController {
                 "reservation");
 
         homeButton.setOnMousePressed(e -> {
+            // TODO try catch
+            try {
+                WaiterView.waiterMainCounterController.refreshMainCounter();
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
             WaiterScenesMap.getWaiterStage().setScene(WaiterScenesMap.getScenes().get(WaiterMapsMain.HOME));
         });
 
@@ -34,6 +41,7 @@ public class WaiterPendingTableNavbarController {
             // TODO try catch
             try {
                 BookingView.controller.refreshReservationList();
+                BookingView.waiterDeliveryCounterController.refreshDeliveryCounter();
             } catch (FileNotFoundException ex) {
                 throw new RuntimeException(ex);
             }

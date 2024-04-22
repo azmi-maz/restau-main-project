@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.group.project.controllers.waiter.WaiterDeliveryNavbarCounter"
+      stylesheets="@../../css/navbar-counter.css">
+    <HBox fx:id="counterBox" styleClass="">
+        <Label fx:id="deliveryCounter1" styleClass="counterLabel"/>
+        <Label fx:id="deliveryCounter2" styleClass="counterLabel"/>
+    </HBox>
+</VBox>

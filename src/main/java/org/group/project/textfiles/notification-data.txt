@@ -19,3 +19,4 @@
 19,1,2024-4-21,0-56,delivery,false,Your order no.29 is on the way. Estimated time of delivery is 01:26 AM.
 20,1,2024-4-21,0-56,takeaway,false,Your order no.3 is ready for pickup at 01:26 AM.
 21,1,2024-4-21,0-57,delivery,false,Your order no.19 was delivered successfully. Enjoy your meal!
+22,1,2024-4-22,21-57,booking,false,Good news! Your table reservation for 12/02/2024 at 07:30 AM is now confirmed.

@@ -1,6 +1,5 @@
 package org.group.project.scenes.main;
 
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -20,7 +19,6 @@ public class CustomerView implements ViewMaker {
 
     public static CustomerHomepageController controller;
 
-    @FXML
     public static CustomerNotificationNavbarCounter customerNotificationNavbarController;
 
     public CustomerView(Stage stage) throws IOException {

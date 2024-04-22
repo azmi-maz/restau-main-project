@@ -94,6 +94,7 @@ public class LoginController {
                     break;
                 case "waiter":
                     WaiterView.controller.welcomeWaiter();
+                    WaiterView.waiterMainCounterController.refreshMainCounter();
                     Main.getStage().setScene(Main.getScenes().get(MainScenes.WAITER));
                     break;
                 case "chef":

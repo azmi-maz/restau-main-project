@@ -60,6 +60,7 @@ public class WaiterHomepageNavbarController {
             // TODO try catch
             try {
                 BookingView.controller.refreshReservationList();
+                BookingView.waiterDeliveryCounterController.refreshDeliveryCounter();
             } catch (FileNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
