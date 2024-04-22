@@ -21,3 +21,6 @@
 21,1,2024-4-21,0-57,delivery,false,Your order no.19 was delivered successfully. Enjoy your meal!
 22,1,2024-4-22,21-57,booking,false,Good news! Your table reservation for 12/02/2024 at 07:30 AM is now confirmed.
 23,1,2024-4-22,22-10,takeaway,false,Your order no.9 is ready for pickup at 10:40 PM.
+24,2,2024-4-22,22-31,delivery,false,Your order no.2 was delivered successfully. Enjoy your meal!
+25,1,2024-4-22,22-31,delivery,false,Your order no.4 was delivered successfully. Enjoy your meal!
+26,1,2024-4-22,22-32,delivery,false,Your order no.8 was delivered successfully. Enjoy your meal!

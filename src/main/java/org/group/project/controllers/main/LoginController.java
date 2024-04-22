@@ -104,6 +104,7 @@ public class LoginController {
                     break;
                 case "driver":
                     DriverView.controller.welcomeDriver();
+                    DriverView.driverPendingDeliveryNavbarCounterController.refreshPendingDeliveryCounter();
                     Main.getStage().setScene(Main.getScenes().get(MainScenes.DRIVER));
                     break;
                 default:
