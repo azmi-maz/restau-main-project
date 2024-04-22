@@ -30,7 +30,8 @@
                        BorderPane.alignment="CENTER"/>
             <TableView fx:id="outstandingOrdersTable" maxHeight="550.0"
                        maxWidth="1120.0"
-                       BorderPane.alignment="CENTER">
+                       BorderPane.alignment="CENTER"
+                       stylesheets="@../../css/table-view.css">
                 <columns>
                     <TableColumn fx:id="orderNoColumn"
                                  prefWidth="75.0"/>

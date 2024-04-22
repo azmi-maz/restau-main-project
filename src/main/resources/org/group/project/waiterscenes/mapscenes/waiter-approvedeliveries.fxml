@@ -43,8 +43,9 @@
                            pickOnBounds="true" preserveRatio="true"
                            BorderPane.alignment="CENTER"/>
                 <TableView fx:id="pendingDeliveryTable" maxHeight="480.0"
-                           maxWidth="950.0"
-                           BorderPane.alignment="CENTER">
+                           maxWidth="970.0"
+                           BorderPane.alignment="CENTER"
+                           stylesheets="@../../css/table-view.css">
                     <columns>
                         <TableColumn fx:id="orderNoColumn" prefWidth="75.0"/>
                         <TableColumn fx:id="customerColumn" prefWidth="75.0"/>

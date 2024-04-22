@@ -32,6 +32,7 @@
                 <TableView fx:id="pendingDeliveryTable" maxHeight="550.0"
                            maxWidth="663.0"
                            BorderPane.alignment="CENTER"
+                           stylesheets="@../../css/table-view.css"
                 >
                     <columns>
                         <TableColumn fx:id="noColumn"

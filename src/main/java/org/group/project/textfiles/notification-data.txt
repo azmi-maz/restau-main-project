@@ -1,4 +1,4 @@
-1,1,2024-4-8,20-51,delivery,false,Your order no.23 is on the way. Estimated time of delivery is 09:21 PM.
+1,1,2024-4-8,20-51,delivery,true,Your order no.23 is on the way. Estimated time of delivery is 09:21 PM.
 2,1,2024-4-8,20-53,delivery,false,Your order no.23 was delivered successfully. Enjoy your meal!
 3,1,2024-4-8,21-17,takeaway,false,Your order no.27 is ready for pickup at 09:47 PM.
 4,1,2024-4-8,21-57,booking,false,Good news! Your table reservation for 20/04/2024 at 07:00 PM is now confirmed.

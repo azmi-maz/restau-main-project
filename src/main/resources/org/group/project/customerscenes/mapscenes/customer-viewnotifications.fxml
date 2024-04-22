@@ -32,7 +32,8 @@
                            BorderPane.alignment="CENTER"/>
                 <TableView fx:id="notificationTable" maxHeight="550.0"
                            maxWidth="920.0"
-                           BorderPane.alignment="CENTER">
+                           BorderPane.alignment="CENTER"
+                           stylesheets="@../../css/table-view.css">
                     <columns>
                         <TableColumn fx:id="dateColumn"
                                      prefWidth="75.0"/>

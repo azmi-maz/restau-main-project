@@ -34,6 +34,9 @@ import java.util.List;
 public class CustomerOrderHistoryViewController {
 
     @FXML
+    private TableColumn<Order, String> orderNoColumn;
+
+    @FXML
     private TableColumn<Order, String> orderDateColumn;
 
     @FXML
@@ -76,6 +79,12 @@ public class CustomerOrderHistoryViewController {
                 bSize)));
 
         refreshOrderHistoryList();
+
+        orderNoColumn.setText("Order No.");
+        orderNoColumn.setMinWidth(65);
+        orderNoColumn.setStyle("-fx-alignment: CENTER;");
+        orderNoColumn.setCellValueFactory(
+                new PropertyValueFactory<>("orderId"));
 
         orderDateColumn.setText("Date");
         orderDateColumn.setMinWidth(150);

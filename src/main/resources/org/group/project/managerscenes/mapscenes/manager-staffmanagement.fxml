@@ -37,8 +37,9 @@
                        pickOnBounds="true" preserveRatio="true"
                        BorderPane.alignment="CENTER"/>
             <TableView fx:id="staffListTable" maxHeight="510.0"
-                       maxWidth="823.0"
-                       BorderPane.alignment="CENTER">
+                       maxWidth="835.0"
+                       BorderPane.alignment="CENTER"
+                       stylesheets="@../../css/table-view.css">
                 <columns>
                     <TableColumn fx:id="firstNameColumn" prefWidth="75.0"/>
                     <TableColumn fx:id="lastNameColumn"

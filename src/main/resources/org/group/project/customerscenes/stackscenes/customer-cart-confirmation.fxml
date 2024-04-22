@@ -39,6 +39,7 @@
                     <TableView fx:id="orderDetailsTable" maxHeight="300.0"
                                maxWidth="445.0"
                                BorderPane.alignment="CENTER"
+                               stylesheets="@../../css/table-view.css"
                     >
                         <columns>
                             <TableColumn fx:id="noColumn"

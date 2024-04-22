@@ -59,8 +59,9 @@
                        pickOnBounds="true" preserveRatio="true"
                        BorderPane.alignment="CENTER"/>
             <TableView fx:id="orderDetailsTable" maxHeight="400.0"
-                       maxWidth="445.0"
-                       BorderPane.alignment="CENTER">
+                       maxWidth="455.0"
+                       BorderPane.alignment="CENTER"
+                       stylesheets="@../../css/table-view.css">
                 <columns>
                     <TableColumn fx:id="noColumn"
                                  prefWidth="75.0"/>

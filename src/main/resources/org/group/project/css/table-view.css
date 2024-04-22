@@ -1,7 +1,12 @@
-.table-row-cell:empty {
-    -fx-background-color: default;
-}
+/*.table-row-cell:empty {*/
+/*    -fx-background-color: default;*/
+/*}*/
 
-.table-row-cell:empty .table-cell {
-    -fx-border-width: 0;
+/*.table-row-cell:empty .table-cell {*/
+/*    -fx-border-width: 0;*/
+/*}*/
+
+.table-view {
+    -fx-border-color: rgb(0, 26, 87);
+    -fx-border-width: 3;
 }

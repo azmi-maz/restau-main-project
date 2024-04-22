@@ -38,9 +38,11 @@
                            BorderPane.alignment="CENTER"/>
                 <TableView fx:id="reservationTable" maxHeight="510.0"
                            maxWidth="1175.0"
-                           BorderPane.alignment="CENTER">
+                           BorderPane.alignment="CENTER"
+                           stylesheets="@../../css/table-view.css">
                     <columns>
-                        <TableColumn fx:id="customerColumn" prefWidth="75.0"/>
+                        <TableColumn fx:id="customerColumn"
+                                     prefWidth="75.0"/>
                         <TableColumn fx:id="bookingDateColumn"
                                      prefWidth="75.0"/>
                         <TableColumn fx:id="bookingTimeColumn"
