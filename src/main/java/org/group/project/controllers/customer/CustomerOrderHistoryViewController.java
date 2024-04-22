@@ -75,9 +75,6 @@ public class CustomerOrderHistoryViewController {
                 BackgroundPosition.CENTER,
                 bSize)));
 
-        // TODO get userId from the main.
-        userId = "1";
-
         refreshOrderHistoryList();
 
         orderDateColumn.setText("Date");

@@ -75,9 +75,6 @@ public class DriverPendingDeliveryViewController {
                 BackgroundPosition.CENTER,
                 bSize)));
 
-        // TODO get userId from the main.
-        userId = "1";
-
         refreshPendingDeliveryList();
 
         noColumn.setText("Order no.");

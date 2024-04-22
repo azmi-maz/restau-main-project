@@ -74,9 +74,6 @@ public class CustomerNotificationViewController {
                 BackgroundPosition.CENTER,
                 bSize)));
 
-        // TODO get userId from the main.
-        userId = "1";
-
         refreshNotificationList();
 
         dateColumn.setText("Date");
