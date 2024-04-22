@@ -14,14 +14,14 @@
     <children>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="buttonBox">
             <children>
-                <Button fx:id="dineInOrderButton" mnemonicParsing="false"/>
-                <Label fx:id="dineInOrderLabel" text="Dine-in Order"/>
+                <Button fx:id="pendingApprovalButton" mnemonicParsing="false"/>
+                <Label fx:id="pendingApprovalLabel" text="Pending Approval"/>
             </children>
         </VBox>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="buttonBox">
             <children>
-                <Button fx:id="pendingApprovalButton" mnemonicParsing="false"/>
-                <Label fx:id="pendingApprovalLabel" text="Pending Approval"/>
+                <Button fx:id="dineInOrderButton" mnemonicParsing="false"/>
+                <Label fx:id="dineInOrderLabel" text="Dine-in Order"/>
             </children>
         </VBox>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="buttonBox">
