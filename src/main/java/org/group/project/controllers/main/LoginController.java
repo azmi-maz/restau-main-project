@@ -99,6 +99,7 @@ public class LoginController {
                     break;
                 case "chef":
                     ChefView.controller.welcomeChef();
+                    ChefView.chefOutstandingOrdersNavbarCounterController.refreshOutstandingCounter();
                     Main.getStage().setScene(Main.getScenes().get(MainScenes.CHEF));
                     break;
                 case "driver":

@@ -6,7 +6,7 @@
 6,1,2024-4-3,3-11,delivery,pending-delivery,,8,0-45,coq au vin;lobster thermidor;bloody mary;martini;daiquiri;pina colada;long island iced tea
 7,1,2024-4-5,13-30,delivery,completed,,4,0-46,chocolate souffle;classic duck confit;classic duck confit;croquembouche;croquembouche;croquembouche;lobster thermidor;lobster thermidor;lobster thermidor;lobster thermidor;martini;martini;martini;martini;martini;white russian;white russian;white russian;white russian
 8,1,2024-4-5,13-31,delivery,pending-delivery,,,,classic duck confit;classic duck confit;stuffed pork tenderloin;stuffed pork tenderloin;stuffed pork tenderloin;strip steak frite;strip steak frite;strip steak frite;strip steak frite;mojito;mojito;pina colada;marseilles shrimp stew;marseilles shrimp stew
-9,1,2024-4-5,14-52,takeaway,pending-kitchen,,,,chocolate souffle;chocolate souffle;classic duck confit;bloody mary;bloody mary;croquembouche;croquembouche;croquembouche
+9,1,2024-4-5,14-52,takeaway,completed,,,,chocolate souffle;chocolate souffle;classic duck confit;bloody mary;bloody mary;croquembouche;croquembouche;croquembouche
 10,1,2024-4-5,14-52,delivery,pending-approval,,,,chocolate souffle;lobster thermidor;lobster thermidor;long island iced tea;long island iced tea;long island iced tea
 11,1,2024-4-7,6-10,delivery,pending-approval,,4,6-41,chocolate souffle;chocolate souffle;chocolate souffle;chocolate souffle;chocolate souffle;chocolate souffle;chocolate souffle;chocolate souffle;chocolate souffle;chocolate souffle
 12,1,2024-4-7,18-4,delivery,pending-approval,,8,0-37,chocolate souffle;chocolate souffle;classic duck confit;croquembouche;croquembouche;croquembouche

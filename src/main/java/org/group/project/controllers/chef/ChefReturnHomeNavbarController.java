@@ -5,7 +5,9 @@ import javafx.scene.control.Button;
 import org.group.project.classes.auxiliary.ImageLoader;
 import org.group.project.scenes.chef.ChefMapsMain;
 import org.group.project.scenes.chef.ChefScenesMap;
+import org.group.project.scenes.main.ChefView;
 
+import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 
 public class ChefReturnHomeNavbarController {
@@ -18,6 +20,12 @@ public class ChefReturnHomeNavbarController {
         ImageLoader.setUpGraphicButton(homeButton, 25, 25, "undo");
 
         homeButton.setOnMousePressed(e -> {
+            // TODO try catch
+            try {
+                ChefView.chefOutstandingOrdersNavbarCounterController.refreshOutstandingCounter();
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
             ChefScenesMap.getChefStage().setScene(ChefScenesMap.getScenes().get(ChefMapsMain.HOME));
         });
 
