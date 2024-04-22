@@ -116,7 +116,13 @@ public class CustomerNotificationViewController {
             Button viewButton = new Button();
             // TODO use tool tips for other buttons, where necessary
             viewButton.setTooltip(new Tooltip("View details"));
-            ImageLoader.setUpGraphicButton(viewButton, 15, 15, "view-details");
+            boolean readStatus = cellData.getValue().getReadStatus();
+            if (readStatus) {
+                ImageLoader.setUpGraphicButton(viewButton, 15, 15, "read");
+            } else {
+                ImageLoader.setUpGraphicButton(viewButton, 15, 11, "unread");
+            }
+            int notificationId = cellData.getValue().getNotificationId();
             LocalDate notificationDate = cellData.getValue().getNotificationDate();
             LocalTime notificationTime = cellData.getValue().getNotificationTime();
             String notificationType = cellData.getValue().getNotificationType();
@@ -153,6 +159,14 @@ public class CustomerNotificationViewController {
                     editStage.initModality(Modality.APPLICATION_MODAL);
 
                     editStage.showAndWait();
+
+                    if (!readStatus) {
+                        DataManager.editColumnDataByUniqueId(
+                                "NOTIFICATION",
+                                notificationId,
+                                "readStatus",
+                                "true");
+                    }
 
                     refreshNotificationList();
 
