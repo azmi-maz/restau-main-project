@@ -9,15 +9,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import org.group.project.Main;
-import org.group.project.classes.*;
-import org.group.project.classes.auxiliary.*;
+import org.group.project.classes.Kitchen;
+import org.group.project.classes.Order;
+import org.group.project.classes.TakeawayOrder;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.classes.auxiliary.ImageLoader;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -180,160 +180,8 @@ public class ChefOutstandingOrdersViewController {
         outstandingOrdersTable.getItems().clear();
         data.clear();
 
-        outstandingOrdersList = DataManager.allDataFromFile("ORDERS");
-
-        for (String order : outstandingOrdersList) {
-            List<String> orderDetails = List.of(order.split(","));
-            // orderId
-            int orderId = Integer.parseInt(orderDetails.get(DataFileStructure.getIndexByColName("ORDERS", "orderId")));
-
-            // user
-            Customer customer;
-
-            // TODO filter by current userId
-            List<String> customerString = HelperMethods.getDataById("USERS",
-                    orderDetails.get(DataFileStructure.getIndexByColName(
-                            "BOOKINGS", "userId")));
-
-            // orderDate
-            List<String> orderDateDetails = List.of(orderDetails.get(2).split("-"));
-
-            LocalDate orderDate =
-                    LocalDate.of(Integer.parseInt(orderDateDetails.get(0)),
-                            Integer.parseInt(orderDateDetails.get(1)),
-                            Integer.parseInt(orderDateDetails.get(2)));
-
-            // orderTime
-            List<String> orderTimeDetails = List.of(orderDetails.get(3).split("-"));
-
-            LocalTime orderTime =
-                    LocalTime.of(Integer.parseInt(orderTimeDetails.get(0)),
-                            Integer.parseInt(orderTimeDetails.get(1)));
-
-            // orderType
-            String orderType =
-                    orderDetails.get(DataFileStructure.getIndexByColName(
-                            "ORDERS", "orderType"));
-
-            // orderStatus
-            String orderStatus =
-                    orderDetails.get(DataFileStructure.getIndexByColName(
-                            "ORDERS", "orderStatus"));
-
-            // orderedFoodDrinkLists
-            String[] orderListArray =
-                    orderDetails.get(DataFileStructure.getIndexByColName(
-                            "ORDERS", "orderedLists")).split(";");
-            List<FoodDrink> orderFoodDrinkList = new ArrayList<>();
-            for (String item : orderListArray) {
-                // TODO find item type by item name
-                String itemType = "food";
-                FoodDrink newItem = new FoodDrink(item, itemType);
-                boolean isNewItem = true;
-                for (FoodDrink currentItem : orderFoodDrinkList) {
-                    if (currentItem.getItemName().equalsIgnoreCase(item)) {
-                        currentItem.incrementQuantity();
-                        isNewItem = false;
-                    }
-                }
-                if (isNewItem) {
-                    orderFoodDrinkList.add(newItem);
-                }
-            }
-
-            // assignedDriver and deliveryTime
-            LocalTime deliveryTime = null;
-            Driver assignedDriver = null;
-
-            if (orderType.equalsIgnoreCase("delivery")) {
-                List<String> deliveryTimeDetails =
-                        List.of(orderDetails.get(DataFileStructure.getIndexByColName(
-                                "ORDERS", "deliveryTime")).split(
-                                "-"));
-                if (deliveryTimeDetails.size() == 2) {
-                    deliveryTime = LocalTime.of(Integer.parseInt(deliveryTimeDetails.get(0)),
-                            Integer.parseInt(deliveryTimeDetails.get(1)));
-                }
-                List<String> driverString = HelperMethods.getDataById("USERS",
-                        orderDetails.get(DataFileStructure.getIndexByColName(
-                                "ORDERS", "assignedDriver")));
-
-                if (driverString != null) {
-                    assignedDriver = new Driver(
-                            Integer.parseInt(driverString.get(DataFileStructure.getIndexByColName(
-                                    "USERS", "userId"))),
-                            driverString.get(DataFileStructure.getIndexByColName(
-                                    "USERS", "firstName")),
-                            driverString.get(DataFileStructure.getIndexByColName(
-                                    "USERS", "lastName")),
-                            driverString.get(DataFileStructure.getIndexByColName(
-                                    "USERS", "username"))
-                    );
-                }
-            }
-
-            // estimatedPickupTime
-            LocalTime pickupTime = null;
-
-            if (orderType.equalsIgnoreCase("takeaway")) {
-                List<String> pickupTimeDetails =
-                        List.of(orderDetails.get(DataFileStructure.getIndexByColName(
-                                "ORDERS", "estimatedPickupTime")).split(
-                                "-"));
-                if (pickupTimeDetails.size() == 2) {
-                    pickupTime =
-                            LocalTime.of(Integer.parseInt(pickupTimeDetails.get(0)),
-                                    Integer.parseInt(pickupTimeDetails.get(1)));
-                }
-            }
-
-            // TODO comment here the filter applies to pending-kitchen
-            if (customerString != null
-                    && orderStatus.equalsIgnoreCase("pending-kitchen")) {
-                customer = new Customer(
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "firstName")),
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "lastName")),
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "username")),
-                        Integer.parseInt(customerString.get(DataFileStructure.getIndexByColName("USERS", "userId"))),
-                        HelperMethods.formatAddressToRead(customerString.get(DataFileStructure.getIndexByColName("USERS", "address")))
-                );
-                if (orderType.equalsIgnoreCase("delivery")) {
-                    data.add(new DeliveryOrder(
-                            orderId,
-                            customer,
-                            orderDate,
-                            orderTime,
-                            deliveryTime,
-                            orderStatus,
-                            assignedDriver,
-                            orderFoodDrinkList
-                    ));
-
-                } else if (orderType.equalsIgnoreCase("takeaway")) {
-                    data.add(new TakeawayOrder(
-                            orderId,
-                            customer,
-                            orderDate,
-                            orderTime,
-                            pickupTime,
-                            orderStatus,
-                            orderFoodDrinkList
-                    ));
-
-                } else {
-                    data.add(new Order(
-                            orderId,
-                            customer,
-                            orderDate,
-                            orderTime,
-                            orderType,
-                            orderStatus,
-                            orderFoodDrinkList
-                    ));
-
-                }
-            }
-        }
+        Kitchen kitchen = new Kitchen();
+        kitchen.getPendingOrderData(data);
     }
 
     // TODO make this private or send it up to AlertType class

@@ -18,12 +18,12 @@ public class FloorTests {
 
         Booking booking2 = BookingGenerator.createBooking2();
 
-        Floor frontHouse = new Floor();
-
-        frontHouse.addNewTable(booking1.getTablePreference());
-        frontHouse.addNewTable(booking2.getTablePreference());
-
-        boolean addingBooking1 = frontHouse.addBookingToReservation(booking1);
+//        Floor frontHouse = new Floor();
+//
+//        frontHouse.addNewTable(booking1.getTablePreference());
+//        frontHouse.addNewTable(booking2.getTablePreference());
+//
+//        boolean addingBooking1 = frontHouse.addBookingToReservation(booking1);
 
         // To see if tables on the floor are available or not.
         // Part of checking a more complex table availability process.

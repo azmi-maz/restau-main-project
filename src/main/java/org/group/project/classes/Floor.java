@@ -1,5 +1,11 @@
 package org.group.project.classes;
 
+import javafx.collections.ObservableList;
+import org.group.project.classes.auxiliary.DataFileStructure;
+import org.group.project.classes.auxiliary.DataManager;
+import org.group.project.classes.auxiliary.HelperMethods;
+
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
@@ -16,7 +22,30 @@ public class Floor {
      * This constructor set up the restaurant floor.
      */
     public Floor() {
+
         tableBookings = new HashMap<>();
+        List<Booking> bookingList;
+
+        // TODO
+        try {
+            bookingList = getBookingDataFromDatabase();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (Booking booking : bookingList) {
+            Table currentBookingTable = booking.getTablePreference().getFirst();
+            if (tableBookings.containsKey(currentBookingTable)) {
+                List<Booking> currentBookingByTable = tableBookings.get(currentBookingTable);
+                currentBookingByTable.add(booking);
+            } else {
+                tableBookings.put(currentBookingTable,
+                        new ArrayList<>(Arrays.asList(
+                                booking
+                        )));
+            }
+        }
+
     }
 
     /**
@@ -180,8 +209,8 @@ public class Floor {
      * between two time range.
      *
      * @param searchDate - the specific date when bookings are made.
-     * @param startTime - the start time of the filter.
-     * @param endTime - the end time of the filter.
+     * @param startTime  - the start time of the filter.
+     * @param endTime    - the end time of the filter.
      * @return the list of bookings that matched all filter criteria.
      */
     public List<Booking> getBookingsByDateAndTimeRange(LocalDate searchDate,
@@ -220,6 +249,85 @@ public class Floor {
             }
         }
         return filteredBookings;
+    }
+
+    // TODO
+    public List<Booking> getBookingDataFromDatabase() throws FileNotFoundException {
+
+        List<Booking> bookingList = new ArrayList<>();
+        List<String> pendingTableReservations = DataManager.allDataFromFile("BOOKINGS");
+
+        for (String booking : pendingTableReservations) {
+            List<String> bookingDetails = List.of(booking.split(","));
+            int bookingId = Integer.parseInt(bookingDetails.get(0));
+            List<String> bookingDateDetails =
+                    List.of(bookingDetails.get(2).split("-"));
+            List<String> bookingTimeDetails =
+                    List.of(bookingDetails.get(3).split("-"));
+            Customer customer;
+            LocalDate bookingDate =
+                    LocalDate.of(Integer.parseInt(bookingDateDetails.get(0)),
+                            Integer.parseInt(bookingDateDetails.get(1)),
+                            Integer.parseInt(bookingDateDetails.get(2)));
+            LocalTime bookingTime =
+                    LocalTime.of(Integer.parseInt(bookingTimeDetails.get(0)),
+                            Integer.parseInt(bookingTimeDetails.get(1)));
+            int numOfGuests = Integer.parseInt(bookingDetails.get(4));
+            int bookingLength = Integer.parseInt(bookingDetails.get(5));
+            String[] bookingTables = bookingDetails.get(6).split(";");
+            String bookingStatus = bookingDetails.get(7);
+            List<Table> tablePreference = new ArrayList<>();
+
+            List<String> customerString = HelperMethods.getDataById("USERS",
+                    bookingDetails.get(DataFileStructure.getIndexByColName(
+                            "BOOKINGS", "userId")));
+            for (String rawTable : bookingTables) {
+                List<String> rawTableDetails = HelperMethods.getDataById(
+                        "TABLES", rawTable);
+                tablePreference.add(new Table(rawTableDetails.get(0),
+                        Integer.parseInt(rawTableDetails.get(1))));
+            }
+            if (customerString != null) {
+                customer = new Customer(
+                        customerString.get(DataFileStructure.getIndexByColName("USERS", "firstName")),
+                        customerString.get(DataFileStructure.getIndexByColName("USERS", "lastName")),
+                        customerString.get(DataFileStructure.getIndexByColName("USERS", "username")),
+                        Integer.parseInt(customerString.get(DataFileStructure.getIndexByColName("USERS", "userId"))),
+                        HelperMethods.formatAddressToRead(customerString.get(DataFileStructure.getIndexByColName("USERS", "address")))
+                );
+
+                bookingList.add(new Booking(
+                        bookingId,
+                        customer,
+                        bookingDate,
+                        bookingTime,
+                        numOfGuests,
+                        tablePreference,
+                        bookingLength,
+                        bookingStatus
+                ));
+            }
+        }
+
+        return bookingList;
+    }
+
+    // TODO comment
+    public void getUpdatedBookingData(
+            ObservableList<Booking> data
+    ) throws FileNotFoundException {
+
+        // TODO to filter
+        List<Booking> bookingData = getBookingDataFromDatabase();
+        for (Booking booking : bookingData) {
+
+            // TODO make sure pending-approval status is standardized
+            if (booking
+                    .getBookingStatus()
+                    .equalsIgnoreCase("pending-approval")) {
+                data.add(booking);
+            }
+        }
     }
 
     /**

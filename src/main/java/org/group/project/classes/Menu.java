@@ -1,5 +1,9 @@
 package org.group.project.classes;
 
+import org.group.project.classes.auxiliary.DataFileStructure;
+import org.group.project.classes.auxiliary.DataManager;
+
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +19,14 @@ public class Menu {
      * The constructor that sets up an empty menu list.
      */
     public Menu() {
+
         menuOfItems = new ArrayList<FoodDrink>();
+
+        try {
+            menuOfItems = getFoodDrinkFromDatabase();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -67,6 +78,44 @@ public class Menu {
             }
         }
         return true;
+    }
+
+    // TODO
+    public List<FoodDrink> getFoodDrinkFromDatabase() throws FileNotFoundException {
+
+        List<FoodDrink> foodDrinkList = new ArrayList<>();
+        List<String> allMenuItemsFromDatabase = DataManager.allDataFromFile("MENU");
+
+        for (String item : allMenuItemsFromDatabase) {
+            List<String> itemDetails = List.of(item.split(","));
+            String itemName = itemDetails.get(
+                    DataFileStructure.getIndexByColName(
+                            "MENU",
+                            "itemName"
+                    ));
+            String itemType = itemDetails.get(
+                    DataFileStructure.getIndexByColName(
+                            "MENU",
+                            "itemType"
+                    ));
+            foodDrinkList.add(
+                    new FoodDrink(
+                            itemName,
+                            itemType
+                    )
+            );
+        }
+        return foodDrinkList;
+    }
+
+    // TODO
+    public String findTypeByItemName(String name) {
+        for (FoodDrink item : menuOfItems) {
+            if (item.getItemName().equalsIgnoreCase(name)) {
+                return item.getItemType();
+            }
+        }
+        return null;
     }
 
 

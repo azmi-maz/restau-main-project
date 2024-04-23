@@ -1,0 +1,24 @@
+.textAreaBox {
+    -fx-padding: 10 0 10 20;
+    /*-fx-border-color: blue;*/
+}
+
+.reportText {
+    -fx-font-size: 23;
+    -fx-max-width: 730;
+    -fx-pref-height: 900;
+    -fx-wrap-text: true;
+    /*-fx-border-color: red;*/
+}
+
+.sideReportList {
+    -fx-pref-width: 300;
+    -fx-pref-height: 900;
+    /*-fx-border-color: green;*/
+}
+
+.listBox {
+    -fx-padding: 10 10 10 10;
+    -fx-alignment: TOP-CENTER;
+    /*-fx-border-color: red;*/
+}

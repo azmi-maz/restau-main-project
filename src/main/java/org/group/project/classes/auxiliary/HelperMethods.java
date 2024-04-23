@@ -2,13 +2,14 @@ package org.group.project.classes.auxiliary;
 
 import org.group.project.classes.Customer;
 import org.group.project.classes.User;
-import org.group.project.classes.auxiliary.DataFileStructure;
-import org.group.project.classes.auxiliary.DataManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * This class contains helper functions to assist in data handling.
@@ -171,6 +172,30 @@ public class HelperMethods {
                 "userType");
 
         return userData.get(userTypeIndex);
+    }
+
+    // TODO
+    public static User getUserByUsername(
+            String username
+    ) throws FileNotFoundException {
+        List<String> userDetails = getUserDataByUsername(username);
+        String firstName = userDetails.get(
+                DataFileStructure.getIndexByColName(
+                        "USERS",
+                        "firstName"
+                )
+        );
+        String lastName = userDetails.get(
+                DataFileStructure.getIndexByColName(
+                        "USERS",
+                        "lastName"
+                )
+        );
+        return new User(
+                firstName,
+                lastName,
+                username
+        );
     }
 
     // TODO comment

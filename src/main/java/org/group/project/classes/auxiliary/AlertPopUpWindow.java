@@ -37,6 +37,19 @@ public class AlertPopUpWindow {
         return alert.showAndWait();
     }
 
+    public static Optional<ButtonType> displayChoiceWindow(String title,
+                                                                 String content) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.getButtonTypes().set(0,
+                new ButtonType("Display", ButtonBar.ButtonData.OK_DONE));
+        alert.getButtonTypes().set(1,
+                new ButtonType("Delete", ButtonBar.ButtonData.NO));
+        return alert.showAndWait();
+    }
+
     public static void displayErrorWindow(String title,
                                           String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -9,9 +9,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import org.group.project.Main;
-import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.Booking;
 import org.group.project.classes.Customer;
+import org.group.project.classes.Floor;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.ImageLoader;
 
 import java.io.FileNotFoundException;
@@ -216,7 +217,8 @@ public class WaiterApproveBookingsViewController {
         pendingApprovalsTable.getItems().clear();
         data.clear();
 
-        Booking.getUpdatedBookingData(data);
+        Floor floor = new Floor();
+        floor.getUpdatedBookingData(data);
 
     }
 
