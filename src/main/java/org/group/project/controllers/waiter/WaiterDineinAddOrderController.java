@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.group.project.classes.FoodDrink;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class WaiterDineinAddOrderController {
     private VBox vbox;
 
     @FXML
-    private ComboBox comboItemName;
+    private ComboBox<String> comboItemName;
 
     @FXML
     private TextField quantityTextField;
@@ -30,6 +31,17 @@ public class WaiterDineinAddOrderController {
     private List<FoodDrink> orderList;
 
     public void initialize() {
+
+        quantityTextField.setOnAction(e -> {
+            int quantityValue = Integer.parseInt(quantityTextField.getText());
+            if (quantityValue < 0) {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        "Quantity cannot be less than 0"
+                );
+                quantityTextField.setText("1");
+            }
+        });
 
         comboItemName.setValue("Choose Item");
 
@@ -64,18 +76,32 @@ public class WaiterDineinAddOrderController {
 
         addItemButton.setOnAction(e -> {
 
-            String selectedItemName = comboItemName.getValue().toString();
-            // TODo get food type from database
-            String selectedItemType = "food";
-            int enteredQuantity = Integer.parseInt(quantityTextField.getText());
+            if (
+                    !comboItemName.getValue().equals("Choose Item")
+                            && Integer.parseInt(quantityTextField.getText()) > 0
+            ) {
 
-            orderList.add(new FoodDrink(
-                    selectedItemName,
-                    selectedItemType,
-                    enteredQuantity
-            ));
+                String selectedItemName = comboItemName.getValue().toString();
+                // TODo get food type from database
+                String selectedItemType = "food";
+                int enteredQuantity = Integer.parseInt(quantityTextField.getText());
 
-            closeWindow();
+                orderList.add(new FoodDrink(
+                        selectedItemName,
+                        selectedItemType,
+                        enteredQuantity
+                ));
+
+                closeWindow();
+
+            } else {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        "Please enter valid inputs."
+                );
+                quantityTextField.setText("1");
+            }
+
         });
 
         cancelButton.setOnAction(e -> {

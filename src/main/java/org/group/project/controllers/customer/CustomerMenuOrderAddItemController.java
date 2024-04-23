@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.group.project.Main;
 import org.group.project.classes.FoodDrink;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 
 import java.net.URISyntaxException;
 import java.util.List;
@@ -43,8 +44,28 @@ public class CustomerMenuOrderAddItemController {
 
     public void initialize() {
 
+        quantityTextField.setOnAction(e -> {
+            int quantityValue = Integer.parseInt(quantityTextField.getText());
+            if (quantityValue < 0) {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        "Quantity cannot be less than 0"
+                );
+                quantityTextField.setText("1");
+            }
+        });
+
         addItemButton.setOnMousePressed(e -> {
-            addNewItem(itemNameLabel.getText());
+            int quantityValue = Integer.parseInt(quantityTextField.getText());
+            if (quantityValue < 0) {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        "Quantity cannot be less than 0"
+                );
+                quantityTextField.setText("1");
+            } else {
+                addNewItem(itemNameLabel.getText());
+            }
         });
 
         cancelButton.setOnMousePressed(e -> {

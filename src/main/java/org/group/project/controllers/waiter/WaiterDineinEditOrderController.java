@@ -2,10 +2,12 @@ package org.group.project.controllers.waiter;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.group.project.classes.FoodDrink;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 
 import java.util.List;
 
@@ -15,7 +17,7 @@ public class WaiterDineinEditOrderController {
     private VBox vbox;
 
     @FXML
-    private TextField itemNameTextField;
+    private ComboBox<String> comboItemName;
 
     @FXML
     private TextField quantityTextField;
@@ -31,20 +33,44 @@ public class WaiterDineinEditOrderController {
     // TODO comment
     public void initialize() {
 
+        quantityTextField.setOnAction(e -> {
+            int quantityValue = Integer.parseInt(quantityTextField.getText());
+            if (quantityValue < 0) {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        "Quantity cannot be less than 0"
+                );
+                quantityTextField.setText("1");
+            }
+        });
+
         setTextFieldToDisabled();
 
         saveChangesButton.setOnAction(e -> {
-            String currentItemName = itemNameTextField.getText();
-            // TODO handle invalid quantity
-            int updatedQty = Integer.parseInt(quantityTextField.getText());
 
-            for (FoodDrink item : orderList) {
-                if (currentItemName.equalsIgnoreCase(item.getItemName())) {
-                    item.setQuantity(updatedQty);
+            if (
+                    Integer.parseInt(quantityTextField.getText()) > 0
+            ) {
+
+                String currentItemName = comboItemName.getValue();
+                // TODO handle invalid quantity
+                int updatedQty = Integer.parseInt(quantityTextField.getText());
+
+                for (FoodDrink item : orderList) {
+                    if (currentItemName.equalsIgnoreCase(item.getItemName())) {
+                        item.setQuantity(updatedQty);
+                    }
                 }
-            }
 
-            closeWindow();
+                closeWindow();
+
+            } else {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        "Please enter valid number."
+                );
+                quantityTextField.setText("1");
+            }
         });
 
         cancelButton.setOnAction(e -> {
@@ -59,19 +85,19 @@ public class WaiterDineinEditOrderController {
             String itemQuantity,
             List<FoodDrink> orderList
     ) {
-        itemNameTextField.setText(itemName);
+        comboItemName.setValue(itemName);
         quantityTextField.setText(itemQuantity);
         this.orderList = orderList;
     }
 
     // TODO comment
     public void setTextFieldToDisabled() {
-        itemNameTextField.setOnMousePressed(e -> {
-            itemNameTextField.setDisable(true);
+        comboItemName.setOnMousePressed(e -> {
+            comboItemName.setDisable(true);
         });
 
-        itemNameTextField.setOnMouseReleased(e -> {
-            itemNameTextField.setDisable(false);
+        comboItemName.setOnMouseReleased(e -> {
+            comboItemName.setDisable(false);
         });
 
     }

@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.group.project.Main;
 import org.group.project.classes.FoodDrink;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 
 import java.net.URISyntaxException;
 import java.util.List;
@@ -47,8 +48,28 @@ public class CustomerMenuOrderEditItemController {
 
     public void initialize() {
 
+        quantityTextField.setOnAction(e -> {
+            int quantityValue = Integer.parseInt(quantityTextField.getText());
+            if (quantityValue < 0) {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        "Quantity cannot be less than 0"
+                );
+                quantityTextField.setText("1");
+            }
+        });
+
         saveChangesButton.setOnMousePressed(e -> {
-            editItem(itemNameLabel.getText());
+            int quantityValue = Integer.parseInt(quantityTextField.getText());
+            if (quantityValue < 0) {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        "Quantity cannot be less than 0"
+                );
+                quantityTextField.setText("1");
+            } else {
+                editItem(itemNameLabel.getText());
+            }
         });
 
         cancelButton.setOnMousePressed(e -> {

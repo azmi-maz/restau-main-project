@@ -6,6 +6,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.DataManager;
 import org.group.project.classes.auxiliary.HelperMethods;
 
@@ -41,55 +42,69 @@ public class ChefAddNewItemController {
 
         addNewItemButton.setOnAction(e -> {
 
-            String itemName = itemNameTextField.getText().toLowerCase();
-            String itemType = itemTypeChoiceBox.getValue().toLowerCase();
+            if (
+                    !itemNameTextField.getText().isBlank()
+                            && !itemTypeChoiceBox.getValue().equals("Choose type")
+            ) {
 
-            List<String> newMenuItem = null;
-            try {
-                newMenuItem = getPresetItem(itemName);
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
+                String itemName = itemNameTextField.getText().toLowerCase();
+                String itemType = itemTypeChoiceBox.getValue().toLowerCase();
+
+                List<String> newMenuItem = null;
+                try {
+                    newMenuItem = getPresetItem(itemName);
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                // TODO handle try catch
+                try {
+                    DataManager.appendDataToFile("MENU", newMenuItem);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                closeWindow();
+
+            } else {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        "Please complete the form."
+                );
             }
 
-            // TODO handle try catch
-            try {
-                DataManager.appendDataToFile("MENU", newMenuItem);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            });
 
-            closeWindow();
-        });
-
-        cancelButton.setOnAction(e -> {
-            closeWindow();
-        });
-    }
-
-    public void setItemList(List<String> menuItemList) {
-        this.menuItemList = menuItemList;
-    }
-
-    public List<String> getPresetItem(String itemName) throws FileNotFoundException {
-        List<String> presetItem = new ArrayList<>();
-        switch (itemName) {
-            case "pizza", "pepsi", "coke", "spaghetti", "soup":
-                presetItem =
-                        HelperMethods
-                                .getDataById("PRESET_ITEMS", itemName);
-                break;
-            default:
-                presetItem =
-                        HelperMethods
-                                .getDataById("PRESET_ITEMS", "pizza");
-                break;
+            cancelButton.setOnAction(e -> {
+                closeWindow();
+            });
         }
-        return presetItem;
-    }
 
-    private void closeWindow() {
-        Stage stage = (Stage) vbox.getScene().getWindow();
-        stage.close();
-    }
+        public void setItemList (List < String > menuItemList) {
+            this.menuItemList = menuItemList;
+        }
 
-}
+        public List<String> getPresetItem (String itemName) throws
+        FileNotFoundException {
+            List<String> presetItem = new ArrayList<>();
+            switch (itemName) {
+                case "pizza", "pepsi", "coke", "spaghetti", "soup":
+                    presetItem =
+                            HelperMethods
+                                    .getDataById("PRESET_ITEMS", itemName);
+                    break;
+                default:
+                    presetItem =
+                            HelperMethods
+                                    .getDataById("PRESET_ITEMS", "pizza");
+                    break;
+            }
+            return presetItem;
+        }
+
+        private void closeWindow () {
+            Stage stage = (Stage) vbox.getScene().getWindow();
+            stage.close();
+        }
+
+    }

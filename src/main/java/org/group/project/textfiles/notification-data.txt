@@ -24,3 +24,10 @@
 24,2,2024-4-22,22-31,delivery,false,Your order no.2 was delivered successfully. Enjoy your meal!
 25,1,2024-4-22,22-31,delivery,false,Your order no.4 was delivered successfully. Enjoy your meal!
 26,1,2024-4-22,22-32,delivery,false,Your order no.8 was delivered successfully. Enjoy your meal!
+27,1,2024-4-23,1-9,takeaway,false,Your order no.13 is ready for pickup at 01:39 AM.
+28,1,2024-4-23,1-9,takeaway,false,Your order no.14 is ready for pickup at 01:39 AM.
+29,1,2024-4-23,1-9,takeaway,false,Your order no.15 is ready for pickup at 01:39 AM.
+30,1,2024-4-23,1-9,takeaway,false,Your order no.25 is ready for pickup at 01:39 AM.
+31,1,2024-4-23,1-9,takeaway,false,Your order no.28 is ready for pickup at 01:39 AM.
+32,10,2024-4-23,1-9,takeaway,false,Your order no.36 is ready for pickup at 01:39 AM.
+33,1,2024-4-23,1-9,takeaway,false,Your order no.37 is ready for pickup at 01:39 AM.
