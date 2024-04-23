@@ -42,6 +42,13 @@
     -fx-text-alignment: CENTER;
 }
 
+.uiElemExtraLong {
+    -fx-pref-width: 205;
+    -fx-pref-height: 40;
+    -fx-font-size: 15;
+    -fx-text-alignment: CENTER;
+}
+
 .darkBackContrast {
     -fx-padding: 5;
     -fx-border-insets: 10;
@@ -59,6 +66,12 @@
 
 .topLabelBox {
     -fx-pref-width: 300;
+    -fx-alignment: CENTER;
+    -fx-padding: 5;
+}
+
+.topLabelBoxLong {
+    -fx-pref-width: 450;
     -fx-alignment: CENTER;
     -fx-padding: 5;
 }
