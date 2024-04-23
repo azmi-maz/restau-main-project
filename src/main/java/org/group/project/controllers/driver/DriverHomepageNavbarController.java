@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import org.group.project.Main;
 import org.group.project.classes.auxiliary.HelperMethods;
 import org.group.project.classes.auxiliary.ImageLoader;
+import org.group.project.controllers.main.UserProfileView;
 import org.group.project.scenes.driver.DriverMapsMain;
 import org.group.project.scenes.driver.DriverScenesMap;
 import org.group.project.scenes.MainScenes;
@@ -55,7 +56,9 @@ public class DriverHomepageNavbarController {
         });
 
         userButton.setOnMousePressed(e -> {
-            // TODO user scene?
+            // TODO
+            UserProfileView userProfileView = new UserProfileView();
+            userProfileView.showWindow();
         });
 
         logOffButton.setOnMousePressed(e -> {

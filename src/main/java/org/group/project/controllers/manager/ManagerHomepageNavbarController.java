@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import org.group.project.Main;
 import org.group.project.classes.auxiliary.HelperMethods;
 import org.group.project.classes.auxiliary.ImageLoader;
+import org.group.project.controllers.main.UserProfileView;
 import org.group.project.scenes.MainScenes;
 import org.group.project.scenes.manager.ManagerMapsMain;
 import org.group.project.scenes.manager.ManagerScenesMap;
@@ -55,7 +56,9 @@ public class ManagerHomepageNavbarController {
         });
 
         userButton.setOnMousePressed(e -> {
-            // TODO settinf scene?
+            // TODO
+            UserProfileView userProfileView = new UserProfileView();
+            userProfileView.showWindow();
         });
 
         logOffButton.setOnMousePressed(e -> {

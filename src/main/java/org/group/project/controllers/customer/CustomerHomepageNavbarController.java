@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import org.group.project.Main;
 import org.group.project.classes.auxiliary.HelperMethods;
 import org.group.project.classes.auxiliary.ImageLoader;
+import org.group.project.controllers.main.UserProfileView;
 import org.group.project.scenes.MainScenes;
 import org.group.project.scenes.customer.CustomerMapsMain;
 import org.group.project.scenes.customer.CustomerScenesMap;
@@ -107,7 +108,9 @@ public class CustomerHomepageNavbarController {
         });
 
         userButton.setOnMousePressed(e -> {
-            // TODO user window
+            // TODO
+            UserProfileView userProfileView = new UserProfileView();
+            userProfileView.showWindow();
         });
 
         logOffButton.setOnMousePressed(e -> {
