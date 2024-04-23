@@ -65,17 +65,17 @@ public class DriverPendingDeliveryNavbarCounter {
         if (newCounter == 0) {
             pendingDeliveryCounter1.setText("");
             pendingDeliveryCounter2.setText("");
-            counterBox.getStyleClass().remove("counterBox");
+            counterBox.getStyleClass().clear();
         } else if (newCounter > 0 && newCounter <= 9) {
             pendingDeliveryCounter1.setText(String.valueOf(newCounter));
             pendingDeliveryCounter2.setText("");
-            counterBox.getStyleClass().remove("counterBox");
+            counterBox.getStyleClass().clear();
             counterBox.getStyleClass().add("counterBox");
         } else if (newCounter > 9 && newCounter <= 99) {
             String count = String.valueOf(newCounter);
             pendingDeliveryCounter1.setText(String.valueOf(count.charAt(0)));
             pendingDeliveryCounter2.setText(String.valueOf(count.charAt(1)));
-            counterBox.getStyleClass().remove("counterBox");
+            counterBox.getStyleClass().clear();
             counterBox.getStyleClass().add("counterBox");
         }
     }

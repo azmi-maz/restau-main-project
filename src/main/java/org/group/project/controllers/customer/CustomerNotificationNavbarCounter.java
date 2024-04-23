@@ -55,17 +55,17 @@ public class CustomerNotificationNavbarCounter {
         if (newCounter == 0) {
             notificationCounter1.setText("");
             notificationCounter2.setText("");
-            counterBox.getStyleClass().remove("counterBox");
+            counterBox.getStyleClass().clear();
         } else if (newCounter > 0 && newCounter <= 9) {
             notificationCounter1.setText(String.valueOf(newCounter));
             notificationCounter2.setText("");
-            counterBox.getStyleClass().remove("counterBox");
+            counterBox.getStyleClass().clear();
             counterBox.getStyleClass().add("counterBox");
         } else if (newCounter > 9 && newCounter <= 99) {
             String count = String.valueOf(newCounter);
             notificationCounter1.setText(String.valueOf(count.charAt(0)));
             notificationCounter2.setText(String.valueOf(count.charAt(1)));
-            counterBox.getStyleClass().remove("counterBox");
+            counterBox.getStyleClass().clear();
             counterBox.getStyleClass().add("counterBox");
         }
     }
