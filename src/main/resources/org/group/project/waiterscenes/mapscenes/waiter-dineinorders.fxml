@@ -27,23 +27,23 @@
                   stylesheets="@../../css/borderPane-top-label.css"
                   styleClass="labelBox">
                 <HBox alignment="CENTER">
-                    <HBox styleClass="topLabelBox">
+                    <HBox styleClass="topLabelBoxLong">
                         <HBox styleClass="darkBackContrast">
                             <Label fx:id="tableLabel"
                                    styleClass="topLabelShortWhite"
                                    text="Serving Table"/>
                             <ChoiceBox fx:id="tableChoiceBox" prefWidth="150.0"
-                                       styleClass="uiElem"/>
+                                       styleClass="uiElemExtraLong"/>
                         </HBox>
                     </HBox>
-                    <HBox styleClass="topLabelBox">
+                    <HBox styleClass="topLabelBoxLong">
                         <HBox styleClass="darkBackContrast">
                             <Label fx:id="customerLabel"
                                    styleClass="topLabelShortWhite"
                                    text="Customer"/>
                             <ChoiceBox fx:id="customerChoiceBox"
                                        prefWidth="150.0"
-                                       styleClass="uiElemLong"/>
+                                       styleClass="uiElemExtraLong"/>
                         </HBox>
                     </HBox>
                 </HBox>

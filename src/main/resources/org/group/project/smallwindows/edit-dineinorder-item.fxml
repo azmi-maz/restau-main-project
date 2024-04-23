@@ -15,26 +15,31 @@
       xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:id="vbox"
       fx:controller="org.group.project.controllers.waiter.WaiterDineinEditOrderController"
+      stylesheets="@../css/small-windows.css"
 >
-    <children>
-        <Label text="Edit Order Item">
-            <font>
-                <Font size="23.0"/>
-            </font>
-        </Label>
-        <Label fx:id="itemNameLabel" styleClass="itemNameLabel" text="item name"/>
-        <TextField fx:id="itemNameTextField" prefWidth="150.0"
-                  styleClass="itemNameTextField"/>
-        <Label fx:id="quantityLabel" styleClass="quantityLabel" text="quantity"/>
+    <VBox styleClass="fieldBox">
+        <Label fx:id="itemNameLabel" styleClass="itemNameLabel"
+               text="item name"/>
+        <ComboBox fx:id="comboItemName" prefWidth="150.0"
+                  styleClass="fieldLengthen"/>
+    </VBox>
+    <VBox styleClass="fieldBox">
+        <Label fx:id="quantityLabel" styleClass="quantityLabel"
+               text="quantity"/>
         <TextField fx:id="quantityTextField" promptText="enter quantity here"
-                   styleClass="quantityTextField"/>
-        <HBox alignment="CENTER" prefHeight="44.0" prefWidth="600.0">
-            <children>
-                <Button fx:id="saveChangesButton" mnemonicParsing="false"
-                        styleClass="saveChangesButton" text="Save Changes"/>
-                <Button fx:id="cancelButton" mnemonicParsing="false"
-                        styleClass="cancelButton" text="Cancel"/>
-            </children>
-        </HBox>
-    </children>
+                   styleClass="fieldLengthen"/>
+    </VBox>
+    <HBox alignment="CENTER"
+          prefHeight="44.0"
+          prefWidth="600.0"
+          stylesheets="@../css/two-button-box.css">
+        <VBox styleClass="buttonBox">
+            <Button fx:id="saveChangesButton" mnemonicParsing="false"
+                    styleClass="actionButton" text="Save Changes"/>
+        </VBox>
+        <VBox styleClass="buttonBox">
+            <Button fx:id="cancelButton" mnemonicParsing="false"
+                    styleClass="cancelButton" text="Cancel"/>
+        </VBox>
+    </HBox>
 </VBox>

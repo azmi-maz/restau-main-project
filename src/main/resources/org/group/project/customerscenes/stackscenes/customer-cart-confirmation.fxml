@@ -22,13 +22,14 @@
         <BorderPane fx:id="borderPane" prefHeight="1400.0"
                     prefWidth="700.0">
             <top>
-                <VBox alignment="CENTER"
+                <HBox alignment="CENTER"
                       stylesheets="@../../css/borderPane-top-label.css"
                       styleClass="labelBox">
-                    <Label fx:id="orderTypeLabel"
-                           styleClass="topLabelLong" text="Order Type"
-                    />
-                </VBox>
+                    <HBox styleClass="darkBackContrast">
+                        <Label fx:id="orderTypeLabel"
+                               styleClass="topLabelShort" text="Order Type"/>
+                    </HBox>
+                </HBox>
             </top>
             <center>
                 <ImageView fx:id="bgImage" fitHeight="150.0"

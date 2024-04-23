@@ -25,11 +25,13 @@
                 <HBox alignment="CENTER" prefHeight="38.0" prefWidth="600.0"
                 stylesheets="@../../css/borderPane-top-label.css"
                 styleClass="labelBox">
+                    <HBox styleClass="darkBackContrast">
                         <Label fx:id="orderTypeLabel"
                                styleClass="topLabelShort"
                                text="Order Type"/>
                         <ChoiceBox fx:id="choiceBox" prefWidth="150.0"
                                    styleClass="uiElem"/>
+                    </HBox>
                 </HBox>
             </top>
             <center>
