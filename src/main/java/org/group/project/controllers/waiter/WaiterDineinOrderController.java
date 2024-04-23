@@ -104,18 +104,18 @@ public class WaiterDineinOrderController {
                 BackgroundPosition.CENTER,
                 bSize)));
 
-        // TODO enum or get from database
-        tableChoiceBox.getItems().add("Table A");
-        tableChoiceBox.getItems().add("Table B");
-        tableChoiceBox.getItems().add("Table C");
-        tableChoiceBox.getItems().add("Table D");
-        tableChoiceBox.getItems().add("Table E");
-        tableChoiceBox.getItems().add("Table F");
-        tableChoiceBox.getItems().add("Table G");
-        tableChoiceBox.getItems().add("Table H");
-        tableChoiceBox.getItems().add("Table I");
-        tableChoiceBox.getItems().add("Table J");
-        tableChoiceBox.getItems().add("Table K");
+        // TODO get from database
+        tableChoiceBox.getItems().add("Petite Plateau (2)");
+        tableChoiceBox.getItems().add("Amoureux Alcôve (2)");
+        tableChoiceBox.getItems().add("Belle Banquette (2)");
+        tableChoiceBox.getItems().add("Charme Coin (2)");
+        tableChoiceBox.getItems().add("Quatre Quartiers (4)");
+        tableChoiceBox.getItems().add("Salle Familiale (4)");
+        tableChoiceBox.getItems().add("Convives Carré (4)");
+        tableChoiceBox.getItems().add("Groupe Grandeur (4)");
+        tableChoiceBox.getItems().add("Huit Héritage (8)");
+        tableChoiceBox.getItems().add("Table du Chef (8)");
+        tableChoiceBox.getItems().add("Festin Fantastique (10)");
 
         tableChoiceBox.setValue("Choose Table");
 
@@ -132,86 +132,111 @@ public class WaiterDineinOrderController {
 
         newItemButton.setOnAction(e -> {
 
-            try {
-                FXMLLoader fxmlLoader =
-                        new FXMLLoader(Main.class.getResource(
-                                "smallwindows/add-dineinorder-item" +
-                                        ".fxml"));
+            if (
+                    tableChoiceBox.getValue() != null
+                            && customerChoiceBox.getValue() != null
+            ) {
 
-                VBox vbox = fxmlLoader.load();
+                try {
+                    FXMLLoader fxmlLoader =
+                            new FXMLLoader(Main.class.getResource(
+                                    "smallwindows/add-dineinorder-item" +
+                                            ".fxml"));
 
-                WaiterDineinAddOrderController controller =
-                        fxmlLoader.getController();
+                    VBox vbox = fxmlLoader.load();
 
-                controller.getCurrentOrderList(
-                        orderList
+                    WaiterDineinAddOrderController controller =
+                            fxmlLoader.getController();
+
+                    controller.getCurrentOrderList(
+                            orderList
+                    );
+
+                    Scene editScene = new Scene(vbox,
+                            WindowSize.SMALL.WIDTH,
+                            WindowSize.SMALL.HEIGHT);
+
+                    Stage editStage = new Stage();
+                    editStage.setScene(editScene);
+                    // TODO Should final variable this
+                    editStage.setTitle("Add Order Item");
+
+                    editStage.initModality(Modality.APPLICATION_MODAL);
+
+                    editStage.showAndWait();
+
+                    refreshOrderList();
+
+                } catch (IOException ex) {
+                    // TODO catch error
+                    throw new RuntimeException(ex);
+                }
+
+            } else {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        "Please complete table info."
                 );
-
-                Scene editScene = new Scene(vbox,
-                        WindowSize.SMALL.WIDTH,
-                        WindowSize.SMALL.HEIGHT);
-
-                Stage editStage = new Stage();
-                editStage.setScene(editScene);
-                // TODO Should final variable this
-                editStage.setTitle("Add Order Item");
-
-                editStage.initModality(Modality.APPLICATION_MODAL);
-
-                editStage.showAndWait();
-
-                refreshOrderList();
-
-            } catch (IOException ex) {
-                // TODO catch error
-                throw new RuntimeException(ex);
             }
 
         });
 
         confirmButton.setOnAction(e -> {
 
-            // TODO not handling Table name at all - need to check
-            String getNewOrderId = "";
-            // TODO try catch
-            try {
-                getNewOrderId = String.valueOf(HelperMethods.getNewIdByFile("ORDERS"));
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
-            String newOrderId = getNewOrderId;
-            String customerId = String.valueOf(customerChoiceBox
-                    .getValue().getCustomerId());
-            // TODO these are useful and short
-            String orderDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-M-d"));
-            String orderTime = LocalTime.now().format(DateTimeFormatter.ofPattern("H-m"));
-            List<String> itemList = new ArrayList<>();
-            for (FoodDrink item : orderList) {
-                for (int i = 0; i < item.getQuantity(); i++) {
-                    itemList.add(item.getItemName());
-                }
-            }
-            String finalOrderList = DataManager.formatLongArrayToOneColumnString(itemList);
-            List<String> newOrderString = new ArrayList<>(Arrays.asList(
-                    newOrderId,
-                    customerId,
-                    orderDate,
-                    orderTime,
-                    "dinein",
-                    "pending-kitchen", "", "", "",
-                    finalOrderList));
-            // TODO try catch
-            try {
-                DataManager.appendDataToFile("ORDERS", newOrderString);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            if (
+                    tableChoiceBox.getValue() != null
+                            && customerChoiceBox.getValue() != null
+                            && !orderList.isEmpty()
+            ) {
 
-            promptOrderSuccessful();
-            orderList.clear();
-            refreshOrderList();
-            customerChoiceBox.setValue(null);
-            tableChoiceBox.setValue("Choose Table");
+                // TODO not handling Table name at all - need to check
+                String getNewOrderId = "";
+                // TODO try catch
+                try {
+                    getNewOrderId = String.valueOf(HelperMethods.getNewIdByFile("ORDERS"));
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+                String newOrderId = getNewOrderId;
+                String customerId = String.valueOf(customerChoiceBox
+                        .getValue().getCustomerId());
+                // TODO these are useful and short
+                String orderDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-M-d"));
+                String orderTime = LocalTime.now().format(DateTimeFormatter.ofPattern("H-m"));
+                List<String> itemList = new ArrayList<>();
+                for (FoodDrink item : orderList) {
+                    for (int i = 0; i < item.getQuantity(); i++) {
+                        itemList.add(item.getItemName());
+                    }
+                }
+                String finalOrderList = DataManager.formatLongArrayToOneColumnString(itemList);
+                List<String> newOrderString = new ArrayList<>(Arrays.asList(
+                        newOrderId,
+                        customerId,
+                        orderDate,
+                        orderTime,
+                        "dinein",
+                        "pending-kitchen", "", "", "",
+                        finalOrderList));
+                // TODO try catch
+                try {
+                    DataManager.appendDataToFile("ORDERS", newOrderString);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                promptOrderSuccessful();
+                orderList.clear();
+                refreshOrderList();
+                customerChoiceBox.setValue(null);
+                tableChoiceBox.setValue("Choose Table");
+
+            } else {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        "Please select at least one item."
+                );
+            }
 
         });
 

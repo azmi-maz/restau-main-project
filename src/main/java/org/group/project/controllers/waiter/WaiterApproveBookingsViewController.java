@@ -117,7 +117,7 @@ public class WaiterApproveBookingsViewController {
             return new SimpleObjectProperty<>(formattedValue);
         });
 
-        tablePreferenceColumn.setText("Tables");
+        tablePreferenceColumn.setText("Table");
         tablePreferenceColumn.setMinWidth(150);
         tablePreferenceColumn.setStyle("-fx-alignment: CENTER;");
         tablePreferenceColumn.setCellValueFactory(cellData -> {

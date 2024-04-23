@@ -1,11 +1,11 @@
-Table A,2
-Table B,2
-Table C,2
-Table D,2
-Table E,4
-Table F,4
-Table G,4
-Table H,4
-Table I,8
-Table J,8
-Table K,10
+Petite Plateau (2),2
+Amoureux Alcôve (2),2
+Belle Banquette (2),2
+Charme Coin (2),2
+Quatre Quartiers (4),4
+Salle Familiale (4),4
+Convives Carré (4),4
+Groupe Grandeur (4),4
+Huit Héritage (8),8
+Table du Chef (8),8
+Festin Fantastique (10),10

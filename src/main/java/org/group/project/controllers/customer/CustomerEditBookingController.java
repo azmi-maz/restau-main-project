@@ -104,18 +104,35 @@ public class CustomerEditBookingController {
         lenOfReservationTimeChoiceBox.getItems().add("4");
         lenOfReservationTimeChoiceBox.getItems().add("5");
 
-        // TODO enum or get from database
-        tablePreferenceChoiceBox.getItems().add("Table A");
-        tablePreferenceChoiceBox.getItems().add("Table B");
-        tablePreferenceChoiceBox.getItems().add("Table C");
-        tablePreferenceChoiceBox.getItems().add("Table D");
-        tablePreferenceChoiceBox.getItems().add("Table E");
-        tablePreferenceChoiceBox.getItems().add("Table F");
-        tablePreferenceChoiceBox.getItems().add("Table G");
-        tablePreferenceChoiceBox.getItems().add("Table H");
-        tablePreferenceChoiceBox.getItems().add("Table I");
-        tablePreferenceChoiceBox.getItems().add("Table J");
-        tablePreferenceChoiceBox.getItems().add("Table K");
+        // TODO get from database
+        // TODO the magic number
+        numOfGuestsChoiceBox.setOnAction(e -> {
+
+            tablePreferenceChoiceBox.getItems().clear();
+
+            int maxGuestSelected = Integer.parseInt(numOfGuestsChoiceBox.getValue());
+            switch (maxGuestSelected) {
+                case 2:
+                    tablePreferenceChoiceBox.getItems().add("Petite Plateau (2)");
+                    tablePreferenceChoiceBox.getItems().add("Amoureux Alcôve (2)");
+                    tablePreferenceChoiceBox.getItems().add("Belle Banquette (2)");
+                    tablePreferenceChoiceBox.getItems().add("Charme Coin (2)");
+                    break;
+                case 4:
+                    tablePreferenceChoiceBox.getItems().add("Quatre Quartiers (4)");
+                    tablePreferenceChoiceBox.getItems().add("Salle Familiale (4)");
+                    tablePreferenceChoiceBox.getItems().add("Convives Carré (4)");
+                    tablePreferenceChoiceBox.getItems().add("Groupe Grandeur (4)");
+                    break;
+                case 8:
+                    tablePreferenceChoiceBox.getItems().add("Huit Héritage (8)");
+                    tablePreferenceChoiceBox.getItems().add("Table du Chef (8)");
+                    break;
+                default:
+                    tablePreferenceChoiceBox.getItems().add("Festin Fantastique (10)");
+                    break;
+            }
+        });
 
         // TODO cite https://stackoverflow.com/questions/26831978/javafx-datepicker-getvalue-in-a-specific-format
         reservationDatePicker.setConverter(
