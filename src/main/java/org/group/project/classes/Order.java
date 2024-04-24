@@ -56,7 +56,8 @@ public class Order implements NotifyAction {
         this.orderTime = orderTime;
         this.orderType = orderType;
         this.orderStatus = orderStatus;
-        this.orderedFoodDrinkLists = orderedList;
+        this.orderedFoodDrinkLists = new ArrayList<>();
+        orderedFoodDrinkLists.addAll(orderedList);
     }
 
     // TODO comment

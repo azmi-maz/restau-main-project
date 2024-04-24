@@ -154,17 +154,22 @@ public class FloorReport extends Report {
         );
 
         String busiestPeriodReport = String.format(
-                "Past data showed that %s was the busiest day with %d table reservations."
+                "According to previous records, the %s stood " +
+                        "out as the most bustling day, with a total of %d table " +
+                        "reservations."
                         + System.lineSeparator() + System.lineSeparator() +
-                        "Future bookings indicate that %s will the busiest day with %d table reservations."
+                        "Based on upcoming reservations, it seems that " +
+                        "%s will be a particularly busy day, with a " +
+                        "total of %d table reservations."
                         + System.lineSeparator() +
-                        "%s" + System.lineSeparator() +
-                        "So, please plan ahead.",
+                        "%s"
+                        + System.lineSeparator() +
+                        "It would be wise to plan ahead.",
                 pastDateWithMaxNum
-                        .format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                        .format(DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy")),
                 pastMaxNumTableReservations,
                 futureDateWithMaxNum
-                        .format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                        .format(DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy")),
                 futureMaxNumTableReservations,
                 finalFutureBookings
         );

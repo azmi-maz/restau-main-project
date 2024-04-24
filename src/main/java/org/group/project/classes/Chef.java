@@ -18,6 +18,13 @@ public class Chef extends Staff implements OrderAction {
         super(firstName, lastName, username, false);
     }
 
+    // TODO
+    public Chef(String firstName, String lastName, String username,
+                boolean hasAdminRight, int numOfHoursToWork, int numOfTotalHoursWorked) {
+        super(firstName, lastName, username, hasAdminRight,
+                numOfHoursToWork, numOfTotalHoursWorked);
+    }
+
     /**
      * This method select an item as daily special.
      *

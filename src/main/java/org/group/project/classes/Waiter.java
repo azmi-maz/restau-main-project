@@ -20,6 +20,13 @@ public class Waiter extends Staff {
         super(firstName, lastName, username, false);
     }
 
+    // TODO
+    public Waiter(String firstName, String lastName, String username,
+                  boolean hasAdminRight, int numOfHoursToWork, int numOfTotalHoursWorked) {
+        super(firstName, lastName, username, hasAdminRight,
+                numOfHoursToWork, numOfTotalHoursWorked);
+    }
+
     /**
      * This method approves a table reservation.
      *

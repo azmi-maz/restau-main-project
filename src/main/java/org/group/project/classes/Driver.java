@@ -34,6 +34,18 @@ public class Driver extends Staff {
         this.maxDeliveries = 5;
     }
 
+    // TODO
+    public Driver(int driverId, String firstName, String lastName,
+                  String username, boolean hasAdminRight,
+                  int numOfHoursToWork, int numOfTotalHoursWorked,
+                  boolean isAvailable, int maxDeliveries) {
+        super(firstName, lastName, username, hasAdminRight,
+                numOfHoursToWork, numOfTotalHoursWorked);
+        this.driverId = driverId;
+        this.isAvailable = isAvailable;
+        this.maxDeliveries = maxDeliveries;
+    }
+
     /**
      * Getter method to get driver's free to do a round of deliveries.
      *

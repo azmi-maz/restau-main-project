@@ -18,6 +18,14 @@ public class Manager extends Staff {
         super(firstName, lastName, username, true);
     }
 
+    // TODO
+    public Manager(String firstName, String lastName, String username,
+                   boolean hasAdminRight, int numOfHoursToWork,
+                   int numOfTotalHoursWorked) {
+        super(firstName, lastName, username, hasAdminRight,
+                numOfHoursToWork, numOfTotalHoursWorked);
+    }
+
     /**
      * This method adds a new staff member to the user list.
      *

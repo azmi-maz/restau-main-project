@@ -1,10 +1,10 @@
 1,john,doe,john.doe,customer,41 pine street; Swansea,0,0,false,false,0
 2,jane,doe,jane.doe,customer,42 rose street; Swansea,0,0,false,false,0
-3,eric,cartman,waiter,waiter,,0,44,false,false,0
-4,stan,marsh,driver,driver,,44,0,false,true,5
-5,kyle,broflovski,chef,chef,,44,0,false,false,0
+3,eric,cartman,waiter,waiter,,8,36,false,false,0
+4,stan,marsh,driver,driver,,12,32,false,true,5
+5,kyle,broflovski,chef,chef,,32,12,false,false,0
 6,kenny,mccormick,manager,manager,,44,0,true,false,0
-7,adam,jones,adam.jones,driver,,44,0,false,false,0
-8,patrick,smith,patrick.smith,driver,,44,0,false,false,0
+7,adam,jones,adam.jones,driver,,37,7,false,false,0
+8,patrick,smith,patrick.smith,driver,,23,21,false,false,0
 9,Joe,Doe,joe.doe,customer,31 Street; Swansea,0,0,false,false,0
 10,kyle,doe,kyle.doe,customer,30 Street;  Swansea; SA2 4PE,0,0,false,false,0

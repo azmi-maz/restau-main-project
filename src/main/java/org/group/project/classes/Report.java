@@ -153,8 +153,8 @@ public class Report {
     }
 
     // TODO
-    public void appendReportData(String additionalReport) {
-        this.reportData += additionalReport;
+    public void appendReportData(Report additionalReport) {
+        this.reportData += " " + additionalReport.getReportData();
     }
 
     // TODO

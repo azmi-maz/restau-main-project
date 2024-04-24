@@ -71,6 +71,10 @@ public class KitchenReport extends Report {
         Kitchen kitchen = new Kitchen();
         List<Order> orderList = kitchen.getAllOrderTickets();
 
+        if (orderList == null) {
+            return null;
+        }
+
         // Most popular item
         Map<String, Integer> itemCountMap = new HashMap<>();
         // Most active customer
@@ -94,77 +98,78 @@ public class KitchenReport extends Report {
                 String itemName = item.getItemName();
                 if (itemCountMap.containsKey(itemName)) {
                     int currentCount = itemCountMap.get(itemName);
-                    currentCount++;
+                    currentCount += item.getQuantity();
                     itemCountMap.put(itemName, currentCount);
                 } else {
-                    // TODO magic
-                    itemCountMap.put(itemName, 1);
+                    itemCountMap.put(itemName, item.getQuantity());
                 }
 
                 String itemType = item.getItemType();
                 if (foodOnlyMap.containsKey(itemName)
                         && itemType.equalsIgnoreCase("food")) {
                     int getFoodCount = foodOnlyMap.get(itemName);
-                    getFoodCount++;
+                    getFoodCount += item.getQuantity();
                     foodOnlyMap.put(itemName, getFoodCount);
                 } else {
-                    foodOnlyMap.put(itemName, 1);
+                    foodOnlyMap.put(itemName, item.getQuantity());
                 }
 
                 if (drinkOnlyMap.containsKey(itemName)
                         && itemType.equalsIgnoreCase("drink")) {
                     int getFoodCount = foodOnlyMap.get(itemName);
-                    getFoodCount++;
+                    getFoodCount += item.getQuantity();
                     drinkOnlyMap.put(itemName, getFoodCount);
                 } else {
-                    drinkOnlyMap.put(itemName, 1);
+                    drinkOnlyMap.put(itemName, item.getQuantity());
                 }
 
                 if (takeAwayOrderItemMap.containsKey(itemName)
                         && orderType.equalsIgnoreCase("takeaway")) {
                     int getFoodCount = takeAwayOrderItemMap.get(itemName);
-                    getFoodCount++;
+                    getFoodCount += item.getQuantity();
                     takeAwayOrderItemMap.put(itemName, getFoodCount);
                 } else {
-                    takeAwayOrderItemMap.put(itemName, 1);
+                    takeAwayOrderItemMap.put(itemName, item.getQuantity());
                 }
 
                 if (deliveryOrderItemMap.containsKey(itemName)
                         && orderType.equalsIgnoreCase("delivery")) {
                     int getFoodCount = deliveryOrderItemMap.get(itemName);
-                    getFoodCount++;
+                    getFoodCount += item.getQuantity();
                     deliveryOrderItemMap.put(itemName, getFoodCount);
                 } else {
-                    deliveryOrderItemMap.put(itemName, 1);
+                    deliveryOrderItemMap.put(itemName, item.getQuantity());
                 }
 
                 if (dineOrderItemMap.containsKey(itemName)
                         && orderType.equalsIgnoreCase("dinein")) {
                     int getFoodCount = dineOrderItemMap.get(itemName);
-                    getFoodCount++;
+                    getFoodCount += item.getQuantity();
                     dineOrderItemMap.put(itemName, getFoodCount);
                 } else {
-                    dineOrderItemMap.put(itemName, 1);
+                    dineOrderItemMap.put(itemName, item.getQuantity());
                 }
             }
 
             int customerId = order.getCustomer().getCustomerId();
             if (customerCountMap.containsKey(customerId)) {
-                int currentCustomer = customerCountMap.get(customerId);
-                currentCustomer++;
-                customerCountMap.put(customerId, currentCustomer);
+                int currentCustomerCount = customerCountMap.get(customerId);
+                currentCustomerCount++;
+                customerCountMap.put(customerId, currentCustomerCount);
             } else {
                 // TODO magic
                 customerCountMap.put(customerId, 1);
             }
 
-            if (outstandingOrderMap.containsKey(orderType)) {
-                int currentCount = outstandingOrderMap.get(orderType);
-                currentCount++;
-                outstandingOrderMap.put(orderType, currentCount);
-            } else {
-                // TODO magic
-                outstandingOrderMap.put(orderType, 1);
+            if (order.getOrderStatus().equalsIgnoreCase("pending-kitchen")) {
+                if (outstandingOrderMap.containsKey(orderType)) {
+                    int currentCount = outstandingOrderMap.get(orderType);
+                    currentCount++;
+                    outstandingOrderMap.put(orderType, currentCount);
+                } else {
+                    // TODO magic
+                    outstandingOrderMap.put(orderType, 1);
+                }
             }
 
         }
@@ -194,6 +199,41 @@ public class KitchenReport extends Report {
             } else if (mostActiveCustomerCounter == 0) {
                 mostActiveCustomerCounter = currentCounter;
                 mostActiveCustomerId = currentId;
+            }
+        }
+
+        Map<String, Integer> mostActiveCustomerMap = new HashMap<>();
+        for (Order order : orderList) {
+            int currentCustomerId = order.getCustomer().getCustomerId();
+            List<FoodDrink> itemList = order.getOrderedFoodDrinkLists();
+            if (currentCustomerId == mostActiveCustomerId) {
+                for (FoodDrink item : itemList) {
+                    String itemName = item.getItemName();
+                    int itemQty = item.getQuantity();
+                    if (mostActiveCustomerMap.containsKey(itemName)) {
+                        int currentQty = mostActiveCustomerMap.get(itemName);
+                        currentQty += itemQty;
+                        mostActiveCustomerMap.put(itemName, currentQty);
+                    } else {
+                        mostActiveCustomerMap.put(
+                                itemName, itemQty
+                        );
+                    }
+                }
+            }
+        }
+
+        String mostActiveCustomerFavouriteItem = "";
+        int mostActiveCustomerFavItemCounter = 0;
+        for (Map.Entry<String, Integer> entry : mostActiveCustomerMap.entrySet()) {
+            String itemName = entry.getKey();
+            int itemQty = entry.getValue();
+            if (mostActiveCustomerFavItemCounter < itemQty) {
+                mostActiveCustomerFavItemCounter = itemQty;
+                mostActiveCustomerFavouriteItem = itemName;
+            } else if (mostActiveCustomerFavItemCounter == 0) {
+                mostActiveCustomerFavItemCounter = itemQty;
+                mostActiveCustomerFavouriteItem = itemName;
             }
         }
 
@@ -301,7 +341,8 @@ public class KitchenReport extends Report {
         Menu menu = new Menu();
         String typeOfPopularItem = menu.findTypeByItemName(mostPopularItem);
         String mostPopularItemReport = String.format(
-                "The %s is a highly sought-after %s, with a remarkable %d orders.",
+                "The %s is a highly sought-after %s, with a remarkable %d orders." +
+                        System.lineSeparator(),
                 mostPopularItem,
                 typeOfPopularItem.equalsIgnoreCase("food") ?
                         "dish" : "cocktail",
@@ -324,13 +365,19 @@ public class KitchenReport extends Report {
         }
 
         String mostActiveCustomerReport = String.format(
-                "%s is a loyal customer who has placed a total of %d orders.",
+                "%s is a loyal customer who has placed a total of %d orders." +
+                        "They have a deep appreciation for the culinary " +
+                        "arts, especially when it comes to indulging in " +
+                        "delectable treats like %s.",
                 mostActiveCustomerName,
-                mostActiveCustomerCounter
+                mostActiveCustomerCounter,
+                mostActiveCustomerFavouriteItem
         );
 
         String mostOrderedFoodReport = String.format(
-                "The restaurant's most popular dish is %s, while the bar's top choice during happy hours is the %s.",
+                "The restaurant's most popular dish is %s, while the bar's top " +
+                        "choice during happy hours is the %s."
+                        + System.lineSeparator(),
                 mostOrderedFoodItem,
                 mostOrderedDrinkItem
         );
@@ -344,7 +391,7 @@ public class KitchenReport extends Report {
                         "a total of %d, and it seems that %s is a popular " +
                         "option among customers. On weekends, our customers " +
                         "who have a passion for food love to come in and " +
-                        "savor a delicious meal with us. We usually get " +
+                        "savour a delicious meal with us. We usually get " +
                         "about %d dine-in orders, and it appears that %s" +
                         " is the preferred choice among our customers.",
                 numOfTotalOrders,
@@ -359,9 +406,9 @@ public class KitchenReport extends Report {
         String outstandingOrdersByType = String.format(
                 "The kitchen is bustling, with %d tickets to fulfil. " +
                         "Let's make sure the kitchen doesn't experience " +
-                        "burnout. Give priority to %d dine-in orders as " +
+                        "burnout. Give priority to %d dine-in orders, as " +
                         "they are our top sellers, followed by %d takeaways, " +
-                        "particularly during lunch hours. Lastly, focus " +
+                        "particularly during lunch. Lastly, focus " +
                         "on increasing our sales through %d deliveries.",
                 totalNumOfOutstandingOrders,
                 numOfOutstandingDinein,

@@ -1,5 +1,10 @@
 package org.group.project.classes;
 
+import javafx.collections.ObservableList;
+import org.group.project.classes.auxiliary.DataFileStructure;
+import org.group.project.classes.auxiliary.DataManager;
+
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +20,14 @@ public class UserManagement {
      * This constructor is default without any parameters.
      */
     public UserManagement() {
+
         userList = new ArrayList<>();
+
+        try {
+            userList = getUserDataFromDatabase();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -70,6 +82,98 @@ public class UserManagement {
                                    Object newValue) {
         // To code
         return true;
+    }
+
+    // TODO
+    public List<User> getUserDataFromDatabase() throws FileNotFoundException {
+
+        List<User> userList = new ArrayList<>();
+
+        List<String> rawUserList = DataManager.allDataFromFile("USERS");
+
+        for (String user : rawUserList) {
+            List<String> userDetails = List.of(user.split(","));
+            int userId = Integer.parseInt(userDetails.get(DataFileStructure.getIndexByColName("USERS", "userId")));
+            String firstName = userDetails.get(DataFileStructure.getIndexByColName("USERS", "firstName"));
+            String lastName = userDetails.get(DataFileStructure.getIndexByColName("USERS", "lastName"));
+            String username = userDetails.get(DataFileStructure.getIndexByColName("USERS", "username"));
+            String userType = userDetails.get(DataFileStructure.getIndexByColName("USERS", "userType"));
+            String address = userDetails.get(DataFileStructure.getIndexByColName("USERS", "address"));
+            int numOfHoursToWork = Integer.parseInt(userDetails.get(DataFileStructure.getIndexByColName("USERS", "numOfHoursToWork")));
+            int numOfTotalHoursWorked = Integer.parseInt(userDetails.get(DataFileStructure.getIndexByColName("USERS", "numOfTotalHoursWorked")));
+            boolean hasAdminRight = Boolean.parseBoolean(userDetails.get(DataFileStructure.getIndexByColName("USERS", "hasAdminRight")));
+            boolean isAvailable = Boolean.parseBoolean(userDetails.get(DataFileStructure.getIndexByColName("USERS", "isAvailable")));
+            int maxDeliveries = Integer.parseInt(userDetails.get(DataFileStructure.getIndexByColName("USERS", "maxDeliveries")));
+
+            if (userType.equalsIgnoreCase("customer")) {
+                userList.add(new Customer(
+                        firstName,
+                        lastName,
+                        username,
+                        userId,
+                        address
+                ));
+            } else if (userType.equalsIgnoreCase("chef")) {
+                userList.add(new Chef(
+                        firstName,
+                        lastName,
+                        username,
+                        hasAdminRight,
+                        numOfHoursToWork,
+                        numOfTotalHoursWorked
+                ));
+            } else if (userType.equalsIgnoreCase("driver")) {
+                userList.add(new Driver(
+                        userId,
+                        firstName,
+                        lastName,
+                        username,
+                        hasAdminRight,
+                        numOfHoursToWork,
+                        numOfTotalHoursWorked,
+                        isAvailable,
+                        maxDeliveries
+                ));
+            } else if (userType.equalsIgnoreCase("manager")) {
+                userList.add(new Manager(
+                        firstName,
+                        lastName,
+                        username,
+                        hasAdminRight,
+                        numOfHoursToWork,
+                        numOfTotalHoursWorked
+                ));
+            } else if (userType.equalsIgnoreCase("waiter")) {
+                userList.add(new Waiter(
+                        firstName,
+                        lastName,
+                        username,
+                        hasAdminRight,
+                        numOfHoursToWork,
+                        numOfTotalHoursWorked
+                ));
+            }
+        }
+        return userList;
+    }
+
+    // TODO comment
+    public void getStaffData(
+            ObservableList<Staff> data
+    ) throws FileNotFoundException {
+
+        // TODO to filter
+        List<User> staffData = getUserDataFromDatabase();
+        for (User staff : staffData) {
+            Object classType = staff.getClass();
+            String objectType = List.of(classType.toString().split("\\.")).getLast();
+
+            // TODO
+            if (!objectType.equalsIgnoreCase("customer")
+            && !objectType.equalsIgnoreCase("manager")) {
+                data.add((Staff) staff);
+            }
+        }
     }
 
 

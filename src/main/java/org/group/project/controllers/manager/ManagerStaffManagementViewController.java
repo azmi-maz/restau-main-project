@@ -300,41 +300,9 @@ public class ManagerStaffManagementViewController {
         data.clear();
 
         // TODO to filter based on staff only, no customer
-        staffList = DataManager.allDataFromFile("USERS");
+        UserManagement userManagement = new UserManagement();
+        userManagement.getStaffData(data);
 
-        for (String user : staffList) {
-            List<String> userDetails = List.of(user.split(","));
-            String firstName = userDetails.get(DataFileStructure.getIndexByColName("USERS", "firstName"));
-            String lastName = userDetails.get(DataFileStructure.getIndexByColName("USERS", "lastName"));
-            String username = userDetails.get(DataFileStructure.getIndexByColName("USERS", "username"));
-            boolean hasAdminRight = Boolean.parseBoolean(userDetails.get(DataFileStructure.getIndexByColName("USERS", "hasAdminRight")));
-            int numOfHoursToWork = Integer.parseInt(userDetails.get(DataFileStructure.getIndexByColName("USERS", "numOfHoursToWork")));
-            int numOfTotalHoursWorked = Integer.parseInt(userDetails.get(DataFileStructure.getIndexByColName("USERS", "numOfTotalHoursWorked")));
-
-
-            // TODO try catch
-            String searchUserType = "";
-            try {
-                List<String> getUserData = HelperMethods.getUserDataByUsername(username);
-                searchUserType = getUserData.get(DataFileStructure.getIndexByColName("USERS", "userType"));
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-
-            String userType = searchUserType;
-
-            if (!userType.equalsIgnoreCase("customer")
-                    && !userType.equalsIgnoreCase("manager")) {
-                data.add(new Staff(
-                        firstName,
-                        lastName,
-                        username,
-                        hasAdminRight,
-                        numOfHoursToWork,
-                        numOfTotalHoursWorked
-                ));
-            }
-        }
     }
 
     public Optional<ButtonType> promptForUserAcknowledgement(String user) {

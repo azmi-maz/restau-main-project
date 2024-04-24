@@ -33,7 +33,6 @@ public class Staff extends User {
     public Staff(String firstName, String lastName, String username,
                  boolean hasAdminRight, int numOfHoursToWork, int numOfTotalHoursWorked) {
         super(firstName, lastName, username);
-        this.numOfHoursToWork = 44;
         this.hasAdminRight = hasAdminRight;
         this.numOfHoursToWork = numOfHoursToWork;
         this.numOfTotalHoursWorked = numOfTotalHoursWorked;
@@ -47,7 +46,6 @@ public class Staff extends User {
      */
     public boolean setNumOfHoursToWork(int hours) {
         this.numOfHoursToWork = hours;
-        // to code
         return true;
     }
 
@@ -59,7 +57,6 @@ public class Staff extends User {
      */
     public boolean setNumOfTotalHoursWorked(int hours) {
         this.numOfTotalHoursWorked = hours;
-        // to code
         return true;
     }
 

@@ -6,13 +6,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import org.group.project.Main;
-import org.group.project.classes.FloorReport;
-import org.group.project.classes.KitchenReport;
-import org.group.project.classes.Report;
-import org.group.project.classes.User;
+import org.group.project.classes.*;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.DataFileStructure;
 import org.group.project.classes.auxiliary.DataManager;
+import org.group.project.classes.auxiliary.HelperMethods;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -50,9 +48,10 @@ public class ManagerReportViewController {
     public void initialize() throws URISyntaxException, FileNotFoundException {
 
         // TODO enum?
-        reportTypeChoiceBox.getItems().add("Most popular item");
         reportTypeChoiceBox.getItems().add("Busiest period");
         reportTypeChoiceBox.getItems().add("Most active customer");
+        reportTypeChoiceBox.getItems().add("Most popular item");
+        reportTypeChoiceBox.getItems().add("Outstanding orders");
         reportTypeChoiceBox.getItems().add("Staff worked hours");
 
         reportTypeChoiceBox.setValue("Choose report type");
@@ -125,7 +124,7 @@ public class ManagerReportViewController {
                             currentUser
                     );
                     mostActive.appendReportData(
-                            mostLoyal.generateReport()
+                            mostLoyal
                     );
                     reportTextArea.setText(
                             mostActive.generateReport()
@@ -141,7 +140,21 @@ public class ManagerReportViewController {
                     break;
 
                 case "Staff worked hours":
-                    reportTextArea.setText("Staff worked hours");
+                    UserReport userReport = new UserReport(
+                            "Staff worked hours",
+                            currentUser
+                    );
+                    reportTextArea.setText(
+                            userReport.generateReport()
+                    );
+
+                    // TODO
+                    try {
+                        userReport.saveReportToDatabase();
+                        refreshReportList();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                     break;
 
                 case "Outstanding orders":
@@ -244,11 +257,36 @@ public class ManagerReportViewController {
                             "reportData"
                     ));
 
-            String generatedBy = reportDetails.get(
+            String generatedBy = "";
+            String generatedById = reportDetails.get(
                     DataFileStructure.getIndexByColName(
                             "REPORTS",
                             "generatedBy"
                     ));
+            List<String> generatedByDetails = HelperMethods.getDataById(
+                    "USERS",
+                    generatedById
+            );
+
+            User generatedByUser = new User(
+                    generatedByDetails.get(
+                            DataFileStructure.getIndexByColName(
+                                    "USERS",
+                                    "firstName"
+                            )),
+                    generatedByDetails.get(
+                            DataFileStructure.getIndexByColName(
+                                    "USERS",
+                                    "lastName"
+                            )),
+                    generatedByDetails.get(
+                            DataFileStructure.getIndexByColName(
+                                    "USERS",
+                                    "username"
+                            ))
+            );
+
+            generatedBy = generatedByUser.getDataForListDisplay();
 
             List<String> reportDateDetails = List.of(reportDetails.get(
                     DataFileStructure.getIndexByColName(
