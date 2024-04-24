@@ -32,7 +32,7 @@ public class FloorReport extends Report {
             throw new RuntimeException(e);
         }
         super.setReportId(nextReportId);
-        if (reportType.equalsIgnoreCase("busiest period")) {
+        if (reportType.equalsIgnoreCase("busiest periods")) {
             super.setReportData(getBusiestPeriodReport());
         } else if (reportType.equalsIgnoreCase("most active customer")) {
             super.setReportData(getMostActiveCustomerReport());
@@ -180,7 +180,7 @@ public class FloorReport extends Report {
                 maxNumBookings
         );
 
-        if (getReportType().equalsIgnoreCase("busiest period")) {
+        if (getReportType().equalsIgnoreCase("busiest periods")) {
             return busiestPeriodReport;
         } else if (getReportType().equalsIgnoreCase("most active customer")) {
             return mostActiveCustomerReport;

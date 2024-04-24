@@ -48,7 +48,7 @@ public class ManagerReportViewController {
     public void initialize() throws URISyntaxException, FileNotFoundException {
 
         // TODO enum?
-        reportTypeChoiceBox.getItems().add("Busiest period");
+        reportTypeChoiceBox.getItems().add("Busiest periods");
         reportTypeChoiceBox.getItems().add("Most active customer");
         reportTypeChoiceBox.getItems().add("Most popular item");
         reportTypeChoiceBox.getItems().add("Outstanding orders");
@@ -96,9 +96,9 @@ public class ManagerReportViewController {
                     }
                     break;
 
-                case "Busiest period":
+                case "Busiest periods":
                     FloorReport busiestPeriod = new FloorReport(
-                            "Busiest period",
+                            "Busiest periods",
                             currentUser
                     );
                     reportTextArea.setText(
