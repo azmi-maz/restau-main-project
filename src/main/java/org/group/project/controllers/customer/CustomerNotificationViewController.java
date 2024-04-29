@@ -16,19 +16,19 @@ import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.group.project.Main;
-import org.group.project.classes.*;
-import org.group.project.classes.auxiliary.DataFileStructure;
-import org.group.project.classes.auxiliary.DataManager;
-import org.group.project.classes.auxiliary.HelperMethods;
+import org.group.project.classes.Customer;
+import org.group.project.classes.Notification;
+import org.group.project.classes.NotificationBoard;
+import org.group.project.classes.UserManagement;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.ImageLoader;
+import org.group.project.exceptions.TextFileNotFoundException;
 import org.group.project.scenes.WindowSize;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
 public class CustomerNotificationViewController {
 
@@ -50,23 +50,22 @@ public class CustomerNotificationViewController {
     @FXML
     private BorderPane borderPane;
 
-    private String userId;
-
-    private List<String> notificationList;
+    private int userId;
 
     @FXML
     private TableView<Notification> notificationTable = new TableView<>();
     private ObservableList<Notification> data =
             FXCollections.observableArrayList();
 
-    public void initialize() throws URISyntaxException, FileNotFoundException {
+    public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
                 "/background/main-bg" +
                 ".jpg").toURI().toString());
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,
-                BackgroundSize.AUTO, false, false, true, true);
+                BackgroundSize.AUTO, false,
+                false, true, true);
 
         borderPane.setBackground(new Background(new BackgroundImage(bgImage,
                 BackgroundRepeat.NO_REPEAT,
@@ -115,21 +114,29 @@ public class CustomerNotificationViewController {
             viewButton.setTooltip(new Tooltip("View details"));
             boolean readStatus = cellData.getValue().getReadStatus();
             if (readStatus) {
-                ImageLoader.setUpGraphicButton(viewButton, 15, 15, "read");
+                ImageLoader.setUpGraphicButton(viewButton,
+                        15, 15, "read");
             } else {
-                ImageLoader.setUpGraphicButton(viewButton, 15, 11, "unread");
+                ImageLoader.setUpGraphicButton(viewButton,
+                        15, 11, "unread");
             }
             int notificationId = cellData.getValue().getNotificationId();
-            LocalDate notificationDate = cellData.getValue().getNotificationDate();
-            LocalTime notificationTime = cellData.getValue().getNotificationTime();
-            String notificationType = cellData.getValue().getNotificationType();
+            LocalDate notificationDate = cellData.getValue()
+                    .getNotificationDate();
+            LocalTime notificationTime = cellData.getValue()
+                    .getNotificationTime();
+            String notificationType = cellData.getValue()
+                    .getNotificationType();
             String messageBody = cellData.getValue().getMessageBody();
 
             viewButton.setOnAction(e -> {
+                Customer customer = (Customer) Main.getCurrentUser();
+
                 try {
                     FXMLLoader fxmlLoader =
                             new FXMLLoader(Main.class.getResource(
-                                    "smallwindows/customer-notification-details" +
+                                    "smallwindows/" +
+                                            "customer-notification-details" +
                                             ".fxml"));
 
                     VBox vbox = fxmlLoader.load();
@@ -158,18 +165,19 @@ public class CustomerNotificationViewController {
                     editStage.showAndWait();
 
                     if (!readStatus) {
-                        DataManager.editColumnDataByUniqueId(
-                                "NOTIFICATION",
-                                notificationId,
-                                "readStatus",
-                                "true");
+                        customer.updateNotificationReadStatus(
+                                notificationId
+                        );
                     }
 
                     refreshNotificationList();
 
                 } catch (IOException ex) {
-                    // TODO catch error
-                    throw new RuntimeException(ex);
+                    AlertPopUpWindow.displayErrorWindow(
+                            "Error",
+                            ex.getMessage()
+                    );
+                    ex.printStackTrace();
                 }
 
             });
@@ -183,7 +191,7 @@ public class CustomerNotificationViewController {
     }
 
     // TODO comment
-    public void refreshNotificationList() throws FileNotFoundException {
+    public void refreshNotificationList() {
 
         updateUserId();
 
@@ -191,59 +199,20 @@ public class CustomerNotificationViewController {
         notificationTable.getItems().clear();
         data.clear();
 
-        notificationList = DataManager.allDataFromFile("NOTIFICATION");
+        try {
 
-        for (String notification : notificationList) {
-            List<String> notificationDetails = List.of(notification.split(","));
+            NotificationBoard notificationBoard = new NotificationBoard();
+            notificationBoard.getNotificationDataByUserId(
+                    data,
+                    userId
+            );
 
-            // userId
-            int currentUserId = Integer.parseInt(notificationDetails.get(DataFileStructure.getIndexByColName("NOTIFICATION", "userId")));
-
-            // TODO filter user id here
-            if (String.valueOf(currentUserId).equalsIgnoreCase(userId)) {
-
-                // notification id
-                int notifcationid = Integer.parseInt(notificationDetails.get(DataFileStructure.getIndexColOfUniqueId("NOTIFICATION")));
-
-
-                // notificationDate
-                List<String> notificationDateDetails = List.of(notificationDetails.get(DataFileStructure.getIndexByColName("NOTIFICATION", "notificationDate")).split("-"));
-                LocalDate notificationDate =
-                        LocalDate.of(Integer.parseInt(notificationDateDetails.get(0)),
-                                Integer.parseInt(notificationDateDetails.get(1)),
-                                Integer.parseInt(notificationDateDetails.get(2)));
-
-                // notificationTime
-                List<String> notificationTimeDetails = List.of(notificationDetails.get(DataFileStructure.getIndexByColName("NOTIFICATION", "notificationTime")).split("-"));
-
-                LocalTime notificationTime =
-                        LocalTime.of(Integer.parseInt(notificationTimeDetails.get(0)),
-                                Integer.parseInt(notificationTimeDetails.get(1)));
-
-                // notificationType
-                String notificationType = notificationDetails.get(DataFileStructure.getIndexByColName("NOTIFICATION", "notificationType"));
-
-                // readStatus
-                boolean readStatus = Boolean.parseBoolean(notificationDetails.get(DataFileStructure.getIndexByColName("NOTIFICATION", "readStatus")));
-
-                // messageBody
-                String messageBody = notificationDetails.get(DataFileStructure.getIndexByColName("NOTIFICATION", "messageBody"));
-
-                if (notificationType.equalsIgnoreCase("booking")) {
-                    // TODO this is needed to replace the ; to ,
-                    messageBody = HelperMethods.formatAddressToRead(messageBody);
-                }
-
-                data.add(new Notification(
-                        notifcationid,
-                        currentUserId,
-                        notificationDate,
-                        notificationTime,
-                        notificationType,
-                        messageBody,
-                        readStatus
-                ));
-            }
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
         }
     }
 
@@ -253,14 +222,16 @@ public class CustomerNotificationViewController {
             return;
         }
 
-        // TODO try catch
         try {
-            userId = String.valueOf(
-                    HelperMethods
-                            .findUserIdByUsername(
-                                    Main.getCurrentUser().getUsername()));
-        } catch (FileNotFoundException ex) {
-            throw new RuntimeException(ex);
+            UserManagement userManagement = new UserManagement();
+            userId = userManagement.getUserIdByUsername(
+                    Main.getCurrentUser().getUsername());
+        } catch (TextFileNotFoundException ex) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    ex.getMessage()
+            );
+            ex.printStackTrace();
         }
     }
 }

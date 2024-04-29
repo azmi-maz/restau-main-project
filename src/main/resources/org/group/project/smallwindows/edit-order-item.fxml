@@ -37,7 +37,6 @@
                 <TextField fx:id="quantityTextField"
                            styleClass="quantityTextField"
                            text="1"
-                           onKeyReleased="#onChange"
                 />
             </VBox>
         </VBox>

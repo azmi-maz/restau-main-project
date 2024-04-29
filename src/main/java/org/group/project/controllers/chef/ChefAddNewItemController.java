@@ -6,13 +6,12 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.group.project.Main;
+import org.group.project.classes.Chef;
+import org.group.project.classes.Menu;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
-import org.group.project.classes.auxiliary.DataManager;
-import org.group.project.classes.auxiliary.HelperMethods;
+import org.group.project.exceptions.TextFileNotFoundException;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ChefAddNewItemController {
@@ -36,32 +35,47 @@ public class ChefAddNewItemController {
 
     public void initialize() {
 
-        itemTypeChoiceBox.setValue("Choose type");
-        itemTypeChoiceBox.getItems().add("Food");
-        itemTypeChoiceBox.getItems().add("Drink");
+        try {
+
+            Menu menu = new Menu();
+            menu.updateItemTypeChoiceBox(
+                    itemTypeChoiceBox
+            );
+
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
+
 
         addNewItemButton.setOnAction(e -> {
 
             if (
                     !itemNameTextField.getText().isBlank()
-                            && !itemTypeChoiceBox.getValue().equals("Choose type")
+                            && !itemTypeChoiceBox.getValue()
+                            .equals("Choose type")
             ) {
 
                 String itemName = itemNameTextField.getText().toLowerCase();
                 String itemType = itemTypeChoiceBox.getValue().toLowerCase();
+                Chef chef = (Chef) Main.getCurrentUser();
 
-                List<String> newMenuItem = null;
                 try {
-                    newMenuItem = getPresetItem(itemName);
-                } catch (FileNotFoundException ex) {
-                    throw new RuntimeException(ex);
-                }
-
-                // TODO handle try catch
-                try {
-                    DataManager.appendDataToFile("MENU", newMenuItem);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+                    boolean isSuccessful = chef.createNewMenuItem(itemName);
+                    if (isSuccessful) {
+                        promptItemAddedSuccessfully();
+                    } else {
+                        promptItemAddFailed();
+                    }
+                } catch (TextFileNotFoundException ex) {
+                    AlertPopUpWindow.displayErrorWindow(
+                            "Error",
+                            ex.getMessage()
+                    );
+                    ex.printStackTrace();
                 }
 
                 closeWindow();
@@ -73,38 +87,35 @@ public class ChefAddNewItemController {
                 );
             }
 
-            });
+        });
 
-            cancelButton.setOnAction(e -> {
-                closeWindow();
-            });
-        }
-
-        public void setItemList (List < String > menuItemList) {
-            this.menuItemList = menuItemList;
-        }
-
-        public List<String> getPresetItem (String itemName) throws
-        FileNotFoundException {
-            List<String> presetItem = new ArrayList<>();
-            switch (itemName) {
-                case "pizza", "pepsi", "coke", "spaghetti", "soup":
-                    presetItem =
-                            HelperMethods
-                                    .getDataById("PRESET_ITEMS", itemName);
-                    break;
-                default:
-                    presetItem =
-                            HelperMethods
-                                    .getDataById("PRESET_ITEMS", "pizza");
-                    break;
-            }
-            return presetItem;
-        }
-
-        private void closeWindow () {
-            Stage stage = (Stage) vbox.getScene().getWindow();
-            stage.close();
-        }
-
+        cancelButton.setOnAction(e -> {
+            closeWindow();
+        });
     }
+
+    public void setItemList(List<String> menuItemList) {
+        this.menuItemList = menuItemList;
+    }
+
+    private void promptItemAddedSuccessfully() {
+        AlertPopUpWindow.displayInformationWindow(
+                "New Item",
+                "Your new creation was added successfully!",
+                "Ok"
+        );
+    }
+
+    private void promptItemAddFailed() {
+        AlertPopUpWindow.displayErrorWindow(
+                "Error",
+                "Something went wrong. Please do it again."
+        );
+    }
+
+    private void closeWindow() {
+        Stage stage = (Stage) vbox.getScene().getWindow();
+        stage.close();
+    }
+
+}

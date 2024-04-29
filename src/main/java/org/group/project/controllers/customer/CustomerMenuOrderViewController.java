@@ -2,7 +2,6 @@ package org.group.project.controllers.customer;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,9 +9,10 @@ import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.group.project.Main;
-import org.group.project.classes.auxiliary.DataFileStructure;
-import org.group.project.classes.auxiliary.DataManager;
 import org.group.project.classes.FoodDrink;
+import org.group.project.classes.Menu;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.exceptions.TextFileNotFoundException;
 import org.group.project.scenes.WindowSize;
 
 import java.io.FileNotFoundException;
@@ -24,18 +24,9 @@ import java.util.List;
 public class CustomerMenuOrderViewController {
 
     @FXML
-    private VBox mainVBox;
-
-    @FXML
     private GridPane gridPane;
 
-    @FXML
-    private ImageView bgImage;
-
     private List<FoodDrink> orderList;
-
-    private final int DAILY_SPECIAL_TAG_HEIGHT = 55;
-    private final int DAILY_SPECIAL_TAG_WIDTH = 55;
 
     public CustomerMenuOrderViewController(List<FoodDrink> orderList) {
         this.orderList = orderList;
@@ -57,58 +48,19 @@ public class CustomerMenuOrderViewController {
                 BackgroundPosition.CENTER,
                 bSize)));
 
-        // TODO try catch?
-        List<String> imageDataList = DataManager.allDataFromFile("MENU");
+        try {
 
-        Image dailySpecial = new Image(Main.class.getResource("images" +
-                "/icons/daily-special-stamp.png").toURI().toString());
+            Menu menu = new Menu();
+            menu.populateCustomerMenuFromDatabase(
+                    gridPane
+            );
 
-        for (String imageData : imageDataList) {
-            List<String> imageDataDetails = List.of(imageData.split(","));
-            boolean isDailySpecial = Boolean.parseBoolean(imageDataDetails.get(DataFileStructure.getIndexByColName("MENU", "isDailySpecial")));
-            String url = imageDataDetails.get(DataFileStructure.getIndexByColName("MENU", "imageurl"));
-            double heightSub = Double.parseDouble(imageDataDetails.get(DataFileStructure.getIndexByColName("MENU", "height-sub")));
-            double heightDiv = Double.parseDouble(imageDataDetails.get(DataFileStructure.getIndexByColName("MENU", "height-div")));
-            double widthSub = Double.parseDouble(imageDataDetails.get(DataFileStructure.getIndexByColName("MENU", "width-sub")));
-            double widthDiv = Double.parseDouble(imageDataDetails.get(DataFileStructure.getIndexByColName("MENU", "width-div")));
-            int colIdx = Integer.parseInt(imageDataDetails.get(DataFileStructure.getIndexByColName("MENU", "colIdx")));
-            int rowIdx = Integer.parseInt(imageDataDetails.get(DataFileStructure.getIndexByColName("MENU", "rowIdx")));
-            int colSpan = Integer.parseInt(imageDataDetails.get(DataFileStructure.getIndexByColName("MENU", "colSpan")));
-            int rowSpan = Integer.parseInt(imageDataDetails.get(DataFileStructure.getIndexByColName("MENU", "rowSpan")));
-            String imgAlign = imageDataDetails.get(DataFileStructure.getIndexByColName("MENU", "imgAlign"));
-            String tagAlign = imageDataDetails.get(DataFileStructure.getIndexByColName("MENU", "tagAlign"));
-            String stackAlign = imageDataDetails.get(DataFileStructure.getIndexByColName("MENU", "stackAlign"));
-            double maxHeight = Double.parseDouble(imageDataDetails.get(DataFileStructure.getIndexByColName("MENU", "maxHeight")));
-            double maxWidth = Double.parseDouble(imageDataDetails.get(DataFileStructure.getIndexByColName("MENU", "maxWidth")));
-
-            Image image = new Image(Main.class.getResource(url).toURI().toString());
-
-            ImageView imageView = new ImageView(image);
-            imageView.fitHeightProperty().bind(gridPane.heightProperty().subtract(heightSub).divide(heightDiv));
-            imageView.fitWidthProperty().bind(gridPane.widthProperty().subtract(widthSub).divide(widthDiv));
-            imageView.setPreserveRatio(true);
-
-            StackPane imageViewFirstStack = new StackPane();
-            StackPane imageViewSecondStack = new StackPane();
-            imageViewFirstStack.getChildren().add(imageView);
-            ImageView dailySpecialImg = new ImageView(dailySpecial);
-            dailySpecialImg.setFitHeight(DAILY_SPECIAL_TAG_HEIGHT);
-            dailySpecialImg.setFitWidth(DAILY_SPECIAL_TAG_WIDTH);
-            dailySpecialImg.setPreserveRatio(true);
-
-            if (isDailySpecial) {
-                imageViewSecondStack.getChildren().add(dailySpecialImg);
-            }
-            imageViewFirstStack.getChildren().add(imageViewSecondStack);
-
-            gridPane.add(imageViewFirstStack, colIdx, rowIdx, colSpan, rowSpan);
-
-            imageViewFirstStack.setAlignment(imageView, Pos.valueOf(imgAlign));
-            imageViewFirstStack.setAlignment(dailySpecialImg, Pos.valueOf(tagAlign));
-            imageViewFirstStack.setAlignment(imageViewSecondStack, Pos.valueOf(stackAlign));
-            imageViewSecondStack.setMaxHeight(maxHeight);
-            imageViewSecondStack.setMaxWidth(maxWidth);
-
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
         }
 
         gridPane.setOnMouseClicked(e -> {

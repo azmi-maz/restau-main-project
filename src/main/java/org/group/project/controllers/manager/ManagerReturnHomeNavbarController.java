@@ -15,11 +15,14 @@ public class ManagerReturnHomeNavbarController {
 
     public void initialize() throws URISyntaxException {
 
-        ImageLoader.setUpGraphicButton(homeButton, 25, 25,
+        ImageLoader.setUpGraphicButton(homeButton,
+                25, 25,
                 "undo");
 
         homeButton.setOnMousePressed(e -> {
-            ManagerScenesMap.getManagerStage().setScene(ManagerScenesMap.getScenes().get(ManagerMapsMain.HOME));
+            ManagerScenesMap.getManagerStage().setScene(
+                    ManagerScenesMap.getScenes()
+                            .get(ManagerMapsMain.HOME));
         });
 
     }

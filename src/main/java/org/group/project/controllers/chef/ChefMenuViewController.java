@@ -17,13 +17,14 @@ import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.group.project.Main;
-import org.group.project.classes.auxiliary.DataFileStructure;
-import org.group.project.classes.auxiliary.DataManager;
+import org.group.project.classes.Chef;
 import org.group.project.classes.FoodDrink;
+import org.group.project.classes.Menu;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.ImageLoader;
+import org.group.project.exceptions.TextFileNotFoundException;
 import org.group.project.scenes.WindowSize;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -57,14 +58,15 @@ public class ChefMenuViewController {
             FXCollections.observableArrayList();
 
     // TODO comment
-    public void initialize() throws URISyntaxException, FileNotFoundException {
+    public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
                 "/background/chef-main" +
                 ".jpg").toURI().toString());
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,
-                BackgroundSize.AUTO, false, false, true, true);
+                BackgroundSize.AUTO, false,
+                false, true, true);
 
         borderPane.setBackground(new Background(new BackgroundImage(bgImage,
                 BackgroundRepeat.NO_REPEAT,
@@ -79,7 +81,8 @@ public class ChefMenuViewController {
         noColumn.setStyle("-fx-alignment: CENTER;");
         noColumn.setCellValueFactory(cellData -> {
             int index =
-                    cellData.getTableView().getItems().indexOf(cellData.getValue());
+                    cellData.getTableView().getItems().indexOf(
+                            cellData.getValue());
             index++;
             return new SimpleObjectProperty<>(index).asString();
         });
@@ -98,13 +101,15 @@ public class ChefMenuViewController {
         itemTypeColumn.setCellValueFactory(
                 new PropertyValueFactory<>("itemType"));
 
-        Image favourite = new Image(Objects.requireNonNull(Main.class.getResourceAsStream(
-                "images/icons/favourite.png")));
+        Image favourite = new Image(Objects.requireNonNull
+                (Main.class.getResourceAsStream(
+                        "images/icons/favourite.png")));
         ImageView empty = new ImageView(favourite);
         empty.setFitWidth(15);
         empty.setFitHeight(15);
-        Image favouriteFilled = new Image(Objects.requireNonNull(Main.class.getResourceAsStream(
-                "images/icons/favourite-filled.png")));
+        Image favouriteFilled = new Image(Objects.requireNonNull(
+                Main.class.getResourceAsStream(
+                        "images/icons/favourite-filled.png")));
         ImageView filled = new ImageView(favouriteFilled);
         filled.setFitWidth(15);
         filled.setFitHeight(15);
@@ -113,15 +118,18 @@ public class ChefMenuViewController {
         dailySpecialColumn.setMinWidth(110);
         dailySpecialColumn.setStyle("-fx-alignment: CENTER;");
         dailySpecialColumn.setCellValueFactory(cellData -> {
-            String itemName = cellData.getValue().getItemName();
-            boolean isDailySpecial = cellData.getValue().isItemDailySpecial();
+            FoodDrink item = cellData.getValue();
+            boolean isDailySpecial = item.isItemDailySpecial();
             Button favouriteButton = new Button();
-            favouriteButton.setTooltip(new Tooltip("Mark as Daily Special"));
+            favouriteButton.setTooltip(
+                    new Tooltip("Mark as Daily Special"));
 
             if (isDailySpecial) {
-                ImageLoader.setUpGraphicButton(favouriteButton, 15, 15, "favourite-filled");
+                ImageLoader.setUpGraphicButton(favouriteButton,
+                        15, 15, "favourite-filled");
             } else {
-                ImageLoader.setUpGraphicButton(favouriteButton, 15, 15, "favourite");
+                ImageLoader.setUpGraphicButton(favouriteButton,
+                        15, 15, "favourite");
             }
 
             favouriteButton.getStyleClass().add("exit");
@@ -136,19 +144,32 @@ public class ChefMenuViewController {
                 favouriteButton.getStyleClass().add("exit");
             });
 
-            String newStatus = String.valueOf(!isDailySpecial);
             favouriteButton.setOnAction(e -> {
+                Chef chef = (Chef) Main.getCurrentUser();
 
-                // TODO try catch
                 try {
-                    DataManager.editColumnDataByUniqueId("MENU",
-                            itemName, "isDailySpecial",
-                            newStatus);
+                    boolean isSuccessful = chef.chooseDailySpecial(
+                            item
+                    );
+                    if (isSuccessful) {
+                        AlertPopUpWindow.displayInformationWindow(
+                                "Daily Special",
+                                String.format(
+                                        "%s status was updated successfully.",
+                                        item.getItemName()
+                                ),
+                                "Ok"
+                        );
+                    }
 
                     refreshMenuItemList();
 
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+                } catch (TextFileNotFoundException ex) {
+                    AlertPopUpWindow.displayErrorWindow(
+                            "Error",
+                            ex.getMessage()
+                    );
+                    ex.printStackTrace();
                 }
 
             });
@@ -163,7 +184,8 @@ public class ChefMenuViewController {
             try {
                 FXMLLoader fxmlLoader =
                         new FXMLLoader(Main.class.getResource(
-                                "smallwindows/chef-add-newmenuitem" +
+                                "smallwindows/" +
+                                        "chef-add-newmenuitem" +
                                         ".fxml"));
 
                 VBox vbox = fxmlLoader.load();
@@ -189,40 +211,35 @@ public class ChefMenuViewController {
                 refreshMenuItemList();
 
             } catch (IOException ex) {
-                // TODO catch error
-                throw new RuntimeException(ex);
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        ex.getMessage()
+                );
+                ex.printStackTrace();
             }
 
         });
     }
 
     // TODO comment
-    private void refreshMenuItemList() throws FileNotFoundException {
+    private void refreshMenuItemList() {
 
         // TODO comment
         menuItemTable.getItems().clear();
         data.clear();
 
-        menuItemList = DataManager.allDataFromFile("MENU");
+        try {
 
-        for (String item : menuItemList) {
+            Menu menu = new Menu();
+            menu.getMenuData(data);
 
-            List<String> itemDetails = List.of(item.split(","));
-            String itemName = itemDetails.get(DataFileStructure
-                    .getIndexByColName("MENU", "itemName"));
-            String itemType = itemDetails.get(DataFileStructure
-                    .getIndexByColName("MENU", "itemType"));
-            boolean isDailySpecial = Boolean
-                    .parseBoolean(itemDetails
-                            .get(DataFileStructure
-                                    .getIndexByColName("MENU", "isDailySpecial")));
-
-            data.add(new FoodDrink(
-                    itemName,
-                    itemType,
-                    isDailySpecial
-            ));
-
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
         }
+
     }
 }

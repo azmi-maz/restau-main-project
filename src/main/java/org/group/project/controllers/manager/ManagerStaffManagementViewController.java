@@ -16,14 +16,17 @@ import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.group.project.Main;
-import org.group.project.classes.*;
-import org.group.project.classes.auxiliary.*;
+import org.group.project.classes.Manager;
+import org.group.project.classes.Staff;
+import org.group.project.classes.User;
+import org.group.project.classes.UserManagement;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.classes.auxiliary.ImageLoader;
+import org.group.project.exceptions.TextFileNotFoundException;
 import org.group.project.scenes.WindowSize;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Optional;
 
 public class ManagerStaffManagementViewController {
@@ -52,10 +55,6 @@ public class ManagerStaffManagementViewController {
     @FXML
     private TableColumn<Staff, Button> actionButtonColumn2;
 
-    private String userId;
-
-    private List<String> staffList;
-
     @FXML
     private TableView<Staff> staffListTable = new TableView<>();
     private ObservableList<Staff> data =
@@ -65,19 +64,17 @@ public class ManagerStaffManagementViewController {
     private BorderPane borderPane;
 
     @FXML
-    private VBox vbox;
-
-    @FXML
     private Button addStaffButton;
 
-    public void initialize() throws URISyntaxException, FileNotFoundException {
+    public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
                 "/background/manager-main" +
                 ".jpg").toURI().toString());
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,
-                BackgroundSize.AUTO, false, false, true, true);
+                BackgroundSize.AUTO, false,
+                false, true, true);
 
         borderPane.setBackground(new Background(new BackgroundImage(bgImage,
                 BackgroundRepeat.NO_REPEAT,
@@ -119,17 +116,23 @@ public class ManagerStaffManagementViewController {
         positionColumn.setMinWidth(150);
         positionColumn.setStyle("-fx-alignment: CENTER;");
         positionColumn.setCellValueFactory(cellData -> {
-            // TODO try catch
-            String userType = "";
+
+            UserManagement userManagement = null;
             try {
-                List<String> userDetails = HelperMethods.getUserDataByUsername(cellData.getValue().getUsername());
-                userType = userDetails.get(DataFileStructure.getIndexByColName("USERS", "userType"));
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
+                userManagement = new UserManagement();
+            } catch (TextFileNotFoundException e) {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        e.getMessage()
+                );
+                e.printStackTrace();
             }
+            User user = userManagement.getUserByUsername(
+                    cellData.getValue().getUsername()
+            );
+            String userType = userManagement.getStaffClass(user);
             if (userType != "") {
                 String temp = userType;
-                userType = "";
                 userType = temp.substring(0, 1).toUpperCase()
                         + temp.substring(1);
             }
@@ -143,74 +146,71 @@ public class ManagerStaffManagementViewController {
         actionButtonColumn1.setStyle("-fx-alignment: CENTER;");
         actionButtonColumn1.setCellValueFactory(cellData -> {
             Button editButton = new Button();
-            ImageLoader.setUpGraphicButton(editButton, 15, 15, "edit");
-            String firstName = cellData.getValue().getFirstNameForDisplay();
-            String lastName = cellData.getValue().getLastNameForDisplay();
-            String username = cellData.getValue().getUsername();
-            int hoursLeft = cellData.getValue().getNumOfHoursToWork();
-            int totalHoursWorked = cellData.getValue().getNumOfTotalHoursWorked();
-            String position;
-            String userId;
+            ImageLoader.setUpGraphicButton(editButton,
+                    15, 15, "edit");
 
-            // TODO try catch
-            String searchUserType = "";
-            String searchUserId = "";
             try {
-                List<String> getUserData = HelperMethods.getUserDataByUsername(cellData.getValue().getUsername());
-                searchUserType = getUserData.get(DataFileStructure.getIndexByColName("USERS", "userType"));
-                searchUserId = getUserData.get(DataFileStructure.getIndexColOfUniqueId("USERS"));
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
+
+                UserManagement userManagement = new UserManagement();
+                Staff staff = (Staff) userManagement.getUserByUsername(
+                        cellData.getValue().getUsername()
+                );
+                int searchStaffId = -1;
+                searchStaffId = userManagement.getUserIdByUsername(
+                        staff.getUsername()
+                );
+                String staffId = String.valueOf(searchStaffId);
+
+                editButton.setOnAction(e -> {
+
+                    try {
+                        FXMLLoader fxmlLoader =
+                                new FXMLLoader(Main.class.getResource(
+                                        "smallwindows/manager-edit-user" +
+                                                ".fxml"));
+
+                        VBox vbox = fxmlLoader.load();
+
+                        ManagerStaffManagementDetailsController controller =
+                                fxmlLoader.getController();
+
+                        controller.setStaffDetails(
+                                staffId,
+                                staff
+                        );
+
+                        Scene editScene = new Scene(vbox,
+                                WindowSize.SMALL.WIDTH,
+                                WindowSize.SMALL.HEIGHT);
+
+                        Stage editStage = new Stage();
+                        editStage.setScene(editScene);
+                        // TODO Should final variable this
+                        editStage.setTitle("Edit Details");
+
+                        editStage.initModality(Modality.APPLICATION_MODAL);
+
+                        editStage.showAndWait();
+
+                        refreshStaffList();
+
+                    } catch (IOException ex) {
+                        AlertPopUpWindow.displayErrorWindow(
+                                "Error",
+                                ex.getMessage()
+                        );
+                        ex.printStackTrace();
+                    }
+
+                });
+
+            } catch (TextFileNotFoundException e) {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        e.getMessage()
+                );
+                e.printStackTrace();
             }
-
-            position = searchUserType;
-            userId = searchUserId;
-
-
-            editButton.setOnAction(e -> {
-
-                try {
-                    FXMLLoader fxmlLoader =
-                            new FXMLLoader(Main.class.getResource(
-                                    "smallwindows/manager-edit-user" +
-                                            ".fxml"));
-
-                    VBox vbox = fxmlLoader.load();
-
-                    ManagerStaffManagementDetailsController controller =
-                            fxmlLoader.getController();
-
-                    controller.setStaffDetails(
-                            userId,
-                            firstName,
-                            lastName,
-                            username,
-                            hoursLeft,
-                            totalHoursWorked,
-                            position
-                    );
-
-                    Scene editScene = new Scene(vbox,
-                            WindowSize.SMALL.WIDTH,
-                            WindowSize.SMALL.HEIGHT);
-
-                    Stage editStage = new Stage();
-                    editStage.setScene(editScene);
-                    // TODO Should final variable this
-                    editStage.setTitle("Edit Details");
-
-                    editStage.initModality(Modality.APPLICATION_MODAL);
-
-                    editStage.showAndWait();
-
-                    refreshStaffList();
-
-                } catch (IOException ex) {
-                    // TODO catch error
-                    throw new RuntimeException(ex);
-                }
-
-            });
 
 
             return new SimpleObjectProperty<>(editButton);
@@ -220,36 +220,61 @@ public class ManagerStaffManagementViewController {
         actionButtonColumn2.setStyle("-fx-alignment: CENTER;");
         actionButtonColumn2.setCellValueFactory(cellData -> {
             Button deleteButton = new Button();
-            ImageLoader.setUpGraphicButton(deleteButton, 15, 15, "delete");
+            ImageLoader.setUpGraphicButton(deleteButton,
+                    15, 15, "delete");
             String firstName = cellData.getValue().getFirstNameForDisplay();
-            // TODO try catch
+            User currentUser = cellData.getValue();
+
             int searchUserId = -1;
             try {
-                searchUserId = HelperMethods.findUserIdByUsername(cellData.getValue().getUsername());
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
+                searchUserId = currentUser.getUserId();
+            } catch (TextFileNotFoundException e) {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        e.getMessage()
+                );
+                e.printStackTrace();
             }
 
             if (searchUserId == -1) {
-                // TODO throw error?
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        "This user does not exist."
+                );
             }
 
             // TODO comment
             int selectedUserId = searchUserId;
             deleteButton.setOnAction(e -> {
+                Manager manager = (Manager) Main.getCurrentUser();
+
                 Optional<ButtonType> userChoice =
                         promptForUserAcknowledgement(firstName);
 
                 if (userChoice.get()
                         .getButtonData().toString()
                         .equalsIgnoreCase("OK_DONE")) {
-                    deleteStaff(selectedUserId);
 
-                    // TODO try catch
                     try {
+                        boolean isSuccessful = manager
+                                .removeStaffMember(selectedUserId);
+                        if (isSuccessful) {
+                            AlertPopUpWindow.displayInformationWindow(
+                                    "Staff Update",
+                                    String.format(
+                                            "%s was deleted successfully.",
+                                            firstName
+                                    ),
+                                    "Ok"
+                            );
+                        }
                         refreshStaffList();
-                    } catch (FileNotFoundException ex) {
-                        throw new RuntimeException(ex);
+                    } catch (TextFileNotFoundException ex) {
+                        AlertPopUpWindow.displayErrorWindow(
+                                "Error",
+                                ex.getMessage()
+                        );
+                        ex.printStackTrace();
                     }
                 }
 
@@ -286,22 +311,34 @@ public class ManagerStaffManagementViewController {
                 refreshStaffList();
 
             } catch (IOException ex) {
-                // TODO catch error
-                throw new RuntimeException(ex);
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        ex.getMessage()
+                );
+                ex.printStackTrace();
             }
 
         });
     }
 
-    private void refreshStaffList() throws FileNotFoundException {
+    private void refreshStaffList() {
 
         // TODO comment that this clears up the list everytime it refresh
         staffListTable.getItems().clear();
         data.clear();
 
-        // TODO to filter based on staff only, no customer
-        UserManagement userManagement = new UserManagement();
-        userManagement.getStaffData(data);
+        try {
+
+            UserManagement userManagement = new UserManagement();
+            userManagement.getStaffData(data);
+
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
 
     }
 
@@ -310,16 +347,6 @@ public class ManagerStaffManagementViewController {
                 "Delete User Request",
                 "Do you want to delete " + user + "?"
         );
-    }
-
-    public void deleteStaff(int userId) {
-        // TODO try catch
-        try {
-            DataManager.deleteUniqueIdFromFile("USERS",
-                    userId);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
     }
 
 

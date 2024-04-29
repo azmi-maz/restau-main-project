@@ -14,7 +14,7 @@ public class ManagerScenesMap {
 
     private static Stage stage;
 
-    /** Holds the various scenes to switch between */
+    // Holds the various scenes to switch between
     private static Map<ManagerMapsMain, Scene> managerScenes =
             new HashMap<>();
 
@@ -29,13 +29,6 @@ public class ManagerScenesMap {
                 new ManagementView(stage).getScene());
         managerScenes.put(ManagerMapsMain.REPORT,
                 new ReportsView(stage).getScene());
-
-        // TODO setting and user scene?
-
-
-//        stage.setScene(Main.getScenes().get(ManagerMapsMain.HOME));
-//        stage.setTitle("Cafe94 Restaurant");
-//        stage.show();
 
     }
 

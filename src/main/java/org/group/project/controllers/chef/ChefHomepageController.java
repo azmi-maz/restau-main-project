@@ -18,14 +18,13 @@ public class ChefHomepageController {
 
     public void initialize() throws URISyntaxException {
 
-        mainTitle.setText("Welcome, Chef!");
-
         Image bgImage = new Image(Main.class.getResource("images" +
                 "/background/chef-main" +
                 ".jpg").toURI().toString());
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,
-                BackgroundSize.AUTO, false, false, true, true);
+                BackgroundSize.AUTO, false,
+                false, true, true);
 
         borderPane.setBackground(new Background(new BackgroundImage(bgImage,
                 BackgroundRepeat.NO_REPEAT,

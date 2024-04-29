@@ -31,7 +31,7 @@ public class OrderDetailsController implements ControllerView {
                             "customerscenes/stackscenes/customer-cart-order" +
                                     "-details" +
                                     ".fxml"));
-//            fxmlLoader.setController(this);
+
             orderList = MenuController.orderList;
             CustomerOrderDetailsViewController customerOrderDetailsViewController =
                     new CustomerOrderDetailsViewController(orderList, newOrder);

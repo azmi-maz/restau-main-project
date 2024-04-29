@@ -3,17 +3,17 @@ package org.group.project.controllers.waiter;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import org.group.project.Main;
-import org.group.project.classes.auxiliary.HelperMethods;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.classes.auxiliary.DataManager;
 import org.group.project.classes.auxiliary.ImageLoader;
 import org.group.project.controllers.main.UserProfileView;
+import org.group.project.exceptions.ClearFileFailedException;
 import org.group.project.scenes.MainScenes;
 import org.group.project.scenes.waiter.WaiterMapsMain;
 import org.group.project.scenes.waiter.WaiterScenesMap;
 import org.group.project.scenes.waiter.mainViews.BookingView;
 import org.group.project.scenes.waiter.mainViews.DineInView;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class WaiterHomepageNavbarController {
@@ -48,43 +48,35 @@ public class WaiterHomepageNavbarController {
         ImageLoader.setUpGraphicButton(logOffButton, 25, 25, "power");
 
         dineInOrderButton.setOnMousePressed(e -> {
-            // TODO try catch
-            try {
-                DineInView.controller.refreshCustomerList();
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
+            DineInView.controller.refreshCustomerList();
             WaiterScenesMap.getWaiterStage().setScene(WaiterScenesMap.getScenes().get(WaiterMapsMain.DINEIN));
         });
 
         pendingApprovalButton.setOnMousePressed(e -> {
-            // TODO try catch
-            try {
-                BookingView.controller.refreshReservationList();
-                BookingView.waiterDeliveryCounterController.refreshDeliveryCounter();
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
+            BookingView.controller.refreshReservationList();
+            BookingView.waiterDeliveryCounterController.refreshDeliveryCounter();
             WaiterScenesMap.getWaiterStage().setScene(WaiterScenesMap.getScenes().get(WaiterMapsMain.BOOKING));
         });
 
         orderHistoryButton.setOnMousePressed(e -> {
-            // TODO history scene
+            // Purposely not implemented
         });
 
         userButton.setOnMousePressed(e -> {
-            // TODO
             UserProfileView userProfileView = new UserProfileView();
             userProfileView.showWindow();
         });
 
         logOffButton.setOnMousePressed(e -> {
-            // TODO remove all active user info here
-            // TODO try catch
+            // Log off by removing active user info
             try {
-                HelperMethods.clearActiveUser();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+                DataManager.clearFileData("ACTIVE_USER");
+            } catch (ClearFileFailedException ex) {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        ex.getMessage()
+                );
+                ex.printStackTrace();
             }
             Main.getStage().setScene(Main.getScenes().get(MainScenes.LOGIN));
         });

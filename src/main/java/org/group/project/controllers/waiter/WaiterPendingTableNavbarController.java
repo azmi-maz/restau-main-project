@@ -8,7 +8,6 @@ import org.group.project.scenes.waiter.WaiterMapsMain;
 import org.group.project.scenes.waiter.WaiterScenesMap;
 import org.group.project.scenes.waiter.mainViews.BookingView;
 
-import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 
 public class WaiterPendingTableNavbarController {
@@ -24,28 +23,23 @@ public class WaiterPendingTableNavbarController {
         ImageLoader.setUpGraphicButton(homeButton, 25, 25,
                 "undo");
 
-        ImageLoader.setUpGraphicButton(pendingTablesButton, 25, 25,
+        ImageLoader.setUpGraphicButton(pendingTablesButton,
+                25, 25,
                 "reservation");
 
         homeButton.setOnMousePressed(e -> {
-            // TODO try catch
-            try {
-                WaiterView.waiterMainCounterController.refreshMainCounter();
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
-            WaiterScenesMap.getWaiterStage().setScene(WaiterScenesMap.getScenes().get(WaiterMapsMain.HOME));
+            WaiterView.waiterMainCounterController
+                    .refreshMainCounter();
+            WaiterScenesMap.getWaiterStage().setScene(
+                    WaiterScenesMap.getScenes().get(WaiterMapsMain.HOME));
         });
 
         pendingTablesButton.setOnMousePressed(e -> {
-            // TODO try catch
-            try {
-                BookingView.controller.refreshReservationList();
-                BookingView.waiterDeliveryCounterController.refreshDeliveryCounter();
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
-            WaiterScenesMap.getWaiterStage().setScene(WaiterScenesMap.getScenes().get(WaiterMapsMain.BOOKING));
+            BookingView.controller.refreshReservationList();
+            BookingView.waiterDeliveryCounterController
+                    .refreshDeliveryCounter();
+            WaiterScenesMap.getWaiterStage().setScene(
+                    WaiterScenesMap.getScenes().get(WaiterMapsMain.BOOKING));
         });
 
     }

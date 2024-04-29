@@ -1,13 +1,14 @@
 package org.group.project.classes;
 
 import javafx.collections.ObservableList;
+import javafx.scene.control.ChoiceBox;
 import org.group.project.classes.auxiliary.DataFileStructure;
 import org.group.project.classes.auxiliary.DataManager;
-import org.group.project.classes.auxiliary.HelperMethods;
+import org.group.project.exceptions.TextFileNotFoundException;
 
-import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -18,34 +19,55 @@ import java.util.*;
 public class Floor {
     protected HashMap<Table, List<Booking>> tableBookings;
 
+    private static final int MAX_BOOKING_LENGTH = 5;
+    private static final LocalTime OPENING_TIME = LocalTime.of(10, 00);
+    private static final LocalTime LATEST_BOOKING_TIME = LocalTime.of(21, 00);
+
     /**
      * This constructor set up the restaurant floor.
      */
-    public Floor() {
+    public Floor() throws TextFileNotFoundException {
 
         tableBookings = new HashMap<>();
+        List<Table> tableList;
         List<Booking> bookingList;
 
-        // TODO
         try {
+
             bookingList = getBookingDataFromDatabase();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            tableList = getTableDataFromDatabase();
+
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
         }
 
-        for (Booking booking : bookingList) {
-            Table currentBookingTable = booking.getTablePreference().getFirst();
-            if (tableBookings.containsKey(currentBookingTable)) {
-                List<Booking> currentBookingByTable = tableBookings.get(currentBookingTable);
-                currentBookingByTable.add(booking);
-            } else {
-                tableBookings.put(currentBookingTable,
-                        new ArrayList<>(Arrays.asList(
-                                booking
-                        )));
+        for (Table table : tableList) {
+            if (!tableBookings.containsKey(table)) {
+                tableBookings.put(
+                        table,
+                        new ArrayList<>()
+                );
             }
         }
 
+        for (Booking booking : bookingList) {
+            String currentBookingTableName = booking
+                    .getTablePreference()
+                    .getFirst()
+                    .getTableName();
+            for (Map.Entry<Table, List<Booking>> entry : tableBookings.entrySet()) {
+                Table table = entry.getKey();
+                String tableName = table.getTableName();
+                List<Booking> bookings = entry.getValue();
+                if (tableName
+                        .equalsIgnoreCase(currentBookingTableName)) {
+                    bookings.add(
+                            booking
+                    );
+                }
+            }
+        }
     }
 
     /**
@@ -252,79 +274,331 @@ public class Floor {
     }
 
     // TODO
-    public List<Booking> getBookingDataFromDatabase() throws FileNotFoundException {
+    public List<Booking> getBookingDataFromDatabase() throws TextFileNotFoundException {
 
-        List<Booking> bookingList = new ArrayList<>();
-        List<String> pendingTableReservations = DataManager.allDataFromFile("BOOKINGS");
+        try {
+            List<Booking> bookingList = new ArrayList<>();
+            List<String> tableReservations = DataManager.allDataFromFile("BOOKINGS");
+            UserManagement userManagement = new UserManagement();
 
-        for (String booking : pendingTableReservations) {
+            for (String booking : tableReservations) {
+                bookingList.add(
+                        getBookingFromString(
+                                userManagement,
+                                booking)
+                );
+            }
+
+            return bookingList;
+
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    // TODO
+    public Booking getBookingFromString(
+            UserManagement userManagement,
+            String booking
+    ) throws TextFileNotFoundException {
+        try {
+
             List<String> bookingDetails = List.of(booking.split(","));
-            int bookingId = Integer.parseInt(bookingDetails.get(0));
-            List<String> bookingDateDetails =
-                    List.of(bookingDetails.get(2).split("-"));
-            List<String> bookingTimeDetails =
-                    List.of(bookingDetails.get(3).split("-"));
-            Customer customer;
-            LocalDate bookingDate =
-                    LocalDate.of(Integer.parseInt(bookingDateDetails.get(0)),
-                            Integer.parseInt(bookingDateDetails.get(1)),
-                            Integer.parseInt(bookingDateDetails.get(2)));
-            LocalTime bookingTime =
-                    LocalTime.of(Integer.parseInt(bookingTimeDetails.get(0)),
-                            Integer.parseInt(bookingTimeDetails.get(1)));
-            int numOfGuests = Integer.parseInt(bookingDetails.get(4));
-            int bookingLength = Integer.parseInt(bookingDetails.get(5));
-            String[] bookingTables = bookingDetails.get(6).split(";");
-            String bookingStatus = bookingDetails.get(7);
+            int bookingId = Integer.parseInt(bookingDetails.get(
+                    DataFileStructure.getIndexColOfUniqueId(
+                            "BOOKINGS"
+                    )
+            ));
+            int customerId = Integer.parseInt(bookingDetails.get(
+                    DataFileStructure.getIndexByColName(
+                            "BOOKINGS", "userId")));
+            Customer customer = userManagement.getCustomerById(
+                    customerId
+            );
+
+            LocalDate bookingDate = getLocalDateFromString(
+                    bookingDetails.get(DataFileStructure
+                            .getIndexByColName(
+                                    "BOOKINGS",
+                                    "bookingDate"
+                            ))
+            );
+            LocalTime bookingTime = getLocalTimeFromString(
+                    bookingDetails.get(DataFileStructure
+                            .getIndexByColName(
+                                    "BOOKINGS",
+                                    "bookingTime"
+                            ))
+            );
+            int numOfGuests = Integer.parseInt(bookingDetails.get(
+                    DataFileStructure
+                            .getIndexByColName(
+                                    "BOOKINGS",
+                                    "numOfGuests"
+                            )
+            ));
+            int bookingLength = Integer.parseInt(bookingDetails.get(
+                    DataFileStructure
+                            .getIndexByColName(
+                                    "BOOKINGS",
+                                    "bookingLength"
+                            )
+            ));
+            String bookingTable = bookingDetails.get(
+                    DataFileStructure
+                            .getIndexByColName(
+                                    "BOOKINGS",
+                                    "tablePreference"
+                            )
+            );
+            String bookingStatus = bookingDetails.get(
+                    DataFileStructure
+                            .getIndexByColName(
+                                    "BOOKINGS",
+                                    "bookingStatus"
+                            )
+            );
             List<Table> tablePreference = new ArrayList<>();
 
-            List<String> customerString = HelperMethods.getDataById("USERS",
-                    bookingDetails.get(DataFileStructure.getIndexByColName(
-                            "BOOKINGS", "userId")));
-            for (String rawTable : bookingTables) {
-                List<String> rawTableDetails = HelperMethods.getDataById(
-                        "TABLES", rawTable);
-                tablePreference.add(new Table(rawTableDetails.get(0),
-                        Integer.parseInt(rawTableDetails.get(1))));
-            }
-            if (customerString != null) {
-                customer = new Customer(
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "firstName")),
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "lastName")),
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "username")),
-                        Integer.parseInt(customerString.get(DataFileStructure.getIndexByColName("USERS", "userId"))),
-                        HelperMethods.formatAddressToRead(customerString.get(DataFileStructure.getIndexByColName("USERS", "address")))
-                );
+            getTablesFromString(tablePreference, bookingTable);
 
-                bookingList.add(new Booking(
-                        bookingId,
-                        customer,
-                        bookingDate,
-                        bookingTime,
-                        numOfGuests,
-                        tablePreference,
-                        bookingLength,
-                        bookingStatus
-                ));
+            return new Booking(
+                    bookingId,
+                    customer,
+                    bookingDate,
+                    bookingTime,
+                    numOfGuests,
+                    tablePreference,
+                    bookingLength,
+                    bookingStatus
+            );
+
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    // TODO
+    public LocalDate getLocalDateFromString(
+            String bookingDate
+    ) {
+        List<String> bookingDateDetails =
+                List.of(bookingDate.split("-"));
+        return LocalDate.of(Integer.parseInt(bookingDateDetails.get(0)),
+                Integer.parseInt(bookingDateDetails.get(1)),
+                Integer.parseInt(bookingDateDetails.get(2)));
+    }
+
+    // TODO
+    public LocalTime getLocalTimeFromString(
+            String bookingTime
+    ) {
+        List<String> bookingTimeDetails =
+                List.of(bookingTime.split("-"));
+        return LocalTime.of(Integer.parseInt(bookingTimeDetails.get(0)),
+                Integer.parseInt(bookingTimeDetails.get(1)));
+    }
+
+    // TODO
+    public void getTablesFromString(
+            List<Table> tablePreference,
+            String searchTableName
+    ) throws TextFileNotFoundException {
+        try {
+            List<Table> tableList = getTableDataFromDatabase();
+
+            for (Table table : tableList) {
+                if (table
+                        .getTableName()
+                        .equalsIgnoreCase(searchTableName)) {
+                    tablePreference.add(table);
+                }
+            }
+
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    // TODO
+    public Booking createNewBooking(
+            int customerId,
+            LocalDate bookingDate,
+            LocalTime bookingTime,
+            int numOfGuests,
+            Table tablePreference,
+            int bookingLength
+    ) throws TextFileNotFoundException {
+
+        try {
+
+            return new Booking(
+                    getNewBookingId(),
+                    customerId,
+                    bookingDate,
+                    bookingTime,
+                    numOfGuests,
+                    tablePreference,
+                    bookingLength
+            );
+
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    // TODO
+    public int getNewBookingId() {
+
+        List<Booking> allUniqueBookings = getAllUniqueBookings();
+        int lastBookingId = -1;
+        for (Booking booking : allUniqueBookings) {
+            int currentBookingId = booking.getBookingId();
+            if (lastBookingId < currentBookingId) {
+                lastBookingId = currentBookingId;
+            } else if (lastBookingId == -1) {
+                lastBookingId = currentBookingId;
             }
         }
+        if (lastBookingId > -1) {
+            lastBookingId++;
+        }
+        return lastBookingId;
+    }
 
-        return bookingList;
+    // TODO
+    public Booking getCurrentBooking(
+            Booking booking,
+            LocalDate bookingDate,
+            LocalTime bookingTime,
+            int numOfGuests,
+            Table table,
+            int bookingLength
+    ) {
+
+        int bookingId = booking.getBookingId();
+        Customer customer = booking.getCustomer();
+        List<Table> tablePreference = new ArrayList<>(
+                Arrays.asList(table)
+        );
+        String bookingStatus = booking.getBookingStatus();
+        return new Booking(
+                bookingId,
+                customer,
+                bookingDate,
+                bookingTime,
+                numOfGuests,
+                tablePreference,
+                bookingLength,
+                bookingStatus
+        );
+    }
+
+    // TODO
+    public void addBookingToDatabase(
+            Booking newBooking
+    ) throws TextFileNotFoundException {
+        String bookingId = String.valueOf(newBooking.getBookingId());
+        String customerId = String.valueOf(newBooking.getCustomerId());
+        String bookingDate = newBooking
+                .getBookingDate()
+                .format(DateTimeFormatter.ofPattern("yyyy-M-d"));
+        String bookingTime = newBooking
+                .getBookingTime()
+                .format(DateTimeFormatter.ofPattern("H-m"));
+        String numOfGuests = String.valueOf(newBooking.getNumOfGuests());
+        String bookingLength =
+                String.valueOf(newBooking.getBookingLengthInHour());
+        String tablePreference =
+                newBooking.getTablePreference().getFirst().getTableName();
+        String bookingStatus = newBooking.getBookingStatus();
+
+        List<String> newBookingForDatabase = new ArrayList<>(Arrays.asList(
+                bookingId,
+                customerId,
+                bookingDate,
+                bookingTime,
+                numOfGuests,
+                bookingLength,
+                tablePreference,
+                bookingStatus
+        ));
+
+        try {
+            DataManager.appendDataToFile("BOOKINGS", newBookingForDatabase);
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    // TODO
+    public void editBookingDataInDatabase(
+            Booking editedBooking
+    ) throws TextFileNotFoundException {
+        int bookingId = editedBooking.getBookingId();
+        String bookingDate = editedBooking
+                .getBookingDate()
+                .format(DateTimeFormatter.ofPattern("yyyy-M-d"));
+        String bookingTime = editedBooking
+                .getBookingTime()
+                .format(DateTimeFormatter.ofPattern("H-m"));
+        String numOfGuests = String.valueOf(editedBooking
+                .getNumOfGuests());
+        String tablePreference = String.valueOf(editedBooking
+                .getTablePreference().getFirst());
+        String bookingLength = String.valueOf(editedBooking
+                .getBookingLengthInHour());
+
+        try {
+            DataManager.editColumnDataByUniqueId("BOOKINGS", bookingId,
+                    "bookingDate", bookingDate);
+            DataManager.editColumnDataByUniqueId("BOOKINGS", bookingId,
+                    "bookingTime", bookingTime);
+            DataManager.editColumnDataByUniqueId("BOOKINGS", bookingId,
+                    "numOfGuests", numOfGuests);
+            DataManager.editColumnDataByUniqueId("BOOKINGS", bookingId,
+                    "tablePreference", tablePreference);
+            DataManager.editColumnDataByUniqueId("BOOKINGS", bookingId,
+                    "bookingLength", bookingLength);
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     // TODO comment
-    public void getUpdatedBookingData(
+    public void getPendingBookingData(
             ObservableList<Booking> data
-    ) throws FileNotFoundException {
+    ) {
 
-        // TODO to filter
-        List<Booking> bookingData = getBookingDataFromDatabase();
+        List<Booking> bookingData = getAllUniqueBookings();
         for (Booking booking : bookingData) {
 
             // TODO make sure pending-approval status is standardized
             if (booking
                     .getBookingStatus()
                     .equalsIgnoreCase("pending-approval")) {
+                data.add(booking);
+            }
+        }
+    }
+
+    // TODO comment
+    public void getBookingDataByUserId(
+            ObservableList<Booking> data,
+            int userId
+    ) {
+
+        List<Booking> bookingData = getAllUniqueBookings();
+        for (Booking booking : bookingData) {
+
+            if (booking
+                    .getCustomerId() == userId) {
                 data.add(booking);
             }
         }
@@ -351,4 +625,128 @@ public class Floor {
         }
         return false;
     }
+
+    // TODO
+    public List<Table> getTableDataFromDatabase()
+            throws TextFileNotFoundException {
+
+        try {
+            List<Table> tableList = new ArrayList<>();
+            List<String> tableData = null;
+            tableData = DataManager.allDataFromFile("TABLES");
+            for (String table : tableData) {
+                List<String> tableDetails = List.of(table.split(","));
+                String tableName = tableDetails.get(
+                        DataFileStructure.getIndexByColName(
+                                "TABLES",
+                                "tableName"
+                        )
+                );
+                int numOfSeats = Integer.parseInt(tableDetails.get(
+                        DataFileStructure.getIndexByColName(
+                                "TABLES",
+                                "numOfSeats"
+                        )
+                ));
+                tableList.add(new Table(
+                        tableName,
+                        numOfSeats
+                ));
+            }
+            return tableList;
+
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    // TODO
+    public void updateTableChoiceBox(
+            ChoiceBox<Table> tableChoiceBox
+    ) {
+        Set<Table> tableList = getSetOfTables();
+        List<Table> unsortedTables = new ArrayList<>();
+        for (Table table : tableList) {
+            unsortedTables.add(table);
+        }
+        Collections.sort(
+                unsortedTables,
+                Comparator.comparing(Table::getNumberOfSeats)
+        );
+        tableChoiceBox.getItems().addAll(unsortedTables);
+    }
+
+    // TODO
+    public void updateTablesBasedOnGuests(
+            int numOfGuests,
+            ChoiceBox<Table> tableChoiceBox
+    ) {
+        tableChoiceBox.getItems().clear();
+        Set<Table> tableList = getSetOfTables();
+        for (Table table : tableList) {
+            if (table.getNumberOfSeats() == numOfGuests) {
+                tableChoiceBox.getItems().add(table);
+            }
+        }
+    }
+
+    // TODO
+    public void updateNumOfGuestsChoiceBox(
+            ChoiceBox<Integer> numOfGuestsChoiceBox
+    ) {
+        List<Integer> uniqueNumOfGuests = new ArrayList<>();
+        Set<Table> tableList = getSetOfTables();
+        for (Table table : tableList) {
+            if (!uniqueNumOfGuests.contains(
+                    table.getNumberOfSeats()
+            )) {
+                uniqueNumOfGuests.add(
+                        table.getNumberOfSeats()
+                );
+            }
+        }
+        Collections.sort(uniqueNumOfGuests);
+        for (int numOfGuest : uniqueNumOfGuests) {
+            numOfGuestsChoiceBox.getItems()
+                    .add(numOfGuest);
+        }
+    }
+
+    // TODO
+    public void updateBookingLengthChoiceBox(
+            ChoiceBox<Integer> bookingLengthChoiceBox
+    ) {
+        bookingLengthChoiceBox.getItems().clear();
+        for (int i = 1; i < MAX_BOOKING_LENGTH; i++) {
+            bookingLengthChoiceBox.getItems().add(i);
+        }
+    }
+
+    // TODO
+    public void updateReservationTimeChoiceBox(
+            ChoiceBox<LocalTime> reservationTimeChoiceBox
+    ) {
+        // TODO magic
+        reservationTimeChoiceBox.getItems().clear();
+        for (LocalTime startTime = OPENING_TIME;
+             startTime.compareTo(LATEST_BOOKING_TIME) <= 0;
+             startTime = startTime.plusMinutes(30)) {
+            reservationTimeChoiceBox
+                    .getItems()
+                    .add(startTime);
+        }
+    }
+
+    /**
+     * This method formats address to transform any symbols compatible for
+     * users to read.
+     *
+     * @param address - the formatted address taken from database.
+     * @return an address with the correct format.
+     */
+    public String formatAddressToRead(String address) {
+        return address.replaceAll(";", ",");
+    }
+
 }

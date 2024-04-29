@@ -1,8 +1,8 @@
 package org.group.project.classes;
 
 import org.group.project.classes.auxiliary.DataManager;
+import org.group.project.exceptions.TextFileNotFoundException;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -49,7 +49,7 @@ public class Order implements NotifyAction {
     public Order(int orderId, User user, LocalDate orderDate,
                  LocalTime orderTime,
                  String orderType, String orderStatus,
-                 List<FoodDrink> orderedList) {
+                 List<FoodDrink> orderList) {
         this.orderId = orderId;
         this.user = user;
         this.orderDate = orderDate;
@@ -57,7 +57,34 @@ public class Order implements NotifyAction {
         this.orderType = orderType;
         this.orderStatus = orderStatus;
         this.orderedFoodDrinkLists = new ArrayList<>();
-        orderedFoodDrinkLists.addAll(orderedList);
+        orderedFoodDrinkLists.addAll(orderList);
+    }
+
+    // TODO
+    public Order(String orderType,
+                 int customerId,
+                 List<FoodDrink> orderList)
+            throws TextFileNotFoundException {
+
+        Kitchen kitchen = new Kitchen();
+        orderId = kitchen.getNewOrderId();
+        UserManagement userManagement = new UserManagement();
+        user = userManagement.getCustomerById(customerId);
+        orderDate = LocalDate.now();
+        orderTime = LocalTime.now();
+        if (orderType.equalsIgnoreCase("delivery order")) {
+            this.orderType = "delivery";
+            this.orderStatus = "pending-approval";
+        } else if (orderType
+                .equalsIgnoreCase("takeaway order")) {
+            this.orderType = "takeaway";
+            this.orderStatus = "pending-kitchen";
+        } else {
+            this.orderType = "dinein";
+            this.orderStatus = "pending-kitchen";
+        }
+        this.orderedFoodDrinkLists = new ArrayList<>();
+        orderedFoodDrinkLists.addAll(orderList);
     }
 
     // TODO comment
@@ -192,17 +219,25 @@ public class Order implements NotifyAction {
     }
 
     // TODO comment
-    public void markOffOrderAsComplete() throws IOException {
-        if (orderType.equalsIgnoreCase("takeaway")
-                || orderType.equalsIgnoreCase("dinein")) {
-            DataManager.editColumnDataByUniqueId("ORDERS",
-                    orderId, "orderStatus",
-                    "completed");
-        } else if (orderType.equalsIgnoreCase("delivery")) {
-            DataManager.editColumnDataByUniqueId("ORDERS",
-                    orderId, "orderStatus",
-                    "pending-delivery");
+    public boolean markOffOrderAsComplete() throws TextFileNotFoundException {
+        try {
+            if (orderType.equalsIgnoreCase("takeaway")
+                    || orderType.equalsIgnoreCase("dinein")) {
+                boolean isSuccessful = DataManager.editColumnDataByUniqueId("ORDERS",
+                        orderId, "orderStatus",
+                        "completed");
+                return isSuccessful;
+            } else if (orderType.equalsIgnoreCase("delivery")) {
+                boolean isSuccessful = DataManager.editColumnDataByUniqueId("ORDERS",
+                        orderId, "orderStatus",
+                        "pending-delivery");
+                return isSuccessful;
+            }
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
         }
+        return false;
     }
 
 }

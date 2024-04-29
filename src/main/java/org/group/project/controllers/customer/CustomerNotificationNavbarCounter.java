@@ -4,12 +4,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import org.group.project.Main;
-import org.group.project.classes.auxiliary.DataFileStructure;
-import org.group.project.classes.auxiliary.DataManager;
-import org.group.project.classes.auxiliary.HelperMethods;
-
-import java.io.FileNotFoundException;
-import java.util.List;
+import org.group.project.classes.NotificationBoard;
+import org.group.project.classes.UserManagement;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.exceptions.TextFileNotFoundException;
 
 public class CustomerNotificationNavbarCounter {
 
@@ -24,49 +22,46 @@ public class CustomerNotificationNavbarCounter {
     @FXML
     private Label notificationCounter2;
 
-    private void getUserId() throws FileNotFoundException {
-        userId = HelperMethods
-                .findUserIdByUsername(Main
-                        .getCurrentUser().getUsername());
+    private void getUserId() {
+
+        try {
+
+            UserManagement userManagement = new UserManagement();
+            userId = userManagement.getUserIdByUsername(
+                    Main.getCurrentUser().getUsername());
+
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
     }
 
-    public void refreshNotificationCounter() throws FileNotFoundException {
+    public void refreshNotificationCounter() {
 
         int newCounter = 0;
         getUserId();
 
-        List<String> notificationList = DataManager.allDataFromFile("NOTIFICATION");
-
-        for (String notification : notificationList) {
-            List<String> notificationDetails = List.of(notification.split(","));
-
-            // userId
-            int currentUserId = Integer.parseInt(notificationDetails.get(DataFileStructure.getIndexByColName("NOTIFICATION", "userId")));
-
-            // read status
-            boolean readStatus = Boolean.parseBoolean(notificationDetails.get(DataFileStructure.getIndexByColName("NOTIFICATION", "readStatus")));
-
-            // TODO filter user id here
-            if (currentUserId == userId && !readStatus) {
-                newCounter++;
-            }
+        NotificationBoard notificationBoard = null;
+        try {
+            notificationBoard = new NotificationBoard();
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
         }
-        
-        if (newCounter == 0) {
-            notificationCounter1.setText("");
-            notificationCounter2.setText("");
-            counterBox.getStyleClass().clear();
-        } else if (newCounter > 0 && newCounter <= 9) {
-            notificationCounter1.setText(String.valueOf(newCounter));
-            notificationCounter2.setText("");
-            counterBox.getStyleClass().clear();
-            counterBox.getStyleClass().add("counterBox");
-        } else if (newCounter > 9 && newCounter <= 99) {
-            String count = String.valueOf(newCounter);
-            notificationCounter1.setText(String.valueOf(count.charAt(0)));
-            notificationCounter2.setText(String.valueOf(count.charAt(1)));
-            counterBox.getStyleClass().clear();
-            counterBox.getStyleClass().add("counterBox");
-        }
+        newCounter = notificationBoard.getUnreadNotificationByUserId(
+                userId);
+
+        notificationBoard.updatesNavbarCounter(
+                newCounter,
+                notificationCounter1,
+                notificationCounter2,
+                counterBox
+        );
     }
 }

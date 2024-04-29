@@ -3,10 +3,11 @@ package org.group.project.controllers.waiter;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import org.group.project.classes.auxiliary.DataFileStructure;
-import org.group.project.classes.auxiliary.DataManager;
+import org.group.project.classes.Kitchen;
+import org.group.project.classes.Order;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.exceptions.TextFileNotFoundException;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 
 public class WaiterDeliveryNavbarCounter {
@@ -20,22 +21,31 @@ public class WaiterDeliveryNavbarCounter {
     @FXML
     private Label deliveryCounter2;
 
-    public void refreshDeliveryCounter() throws FileNotFoundException {
+    public void refreshDeliveryCounter() {
 
         int newCounter = 0;
 
-        List<String> pendingDeliveryList = DataManager.allDataFromFile("ORDERS");
+        try {
 
-        for (String delivery : pendingDeliveryList) {
-            List<String> deliveryDetails = List.of(delivery.split(","));
+            Kitchen kitchen = new Kitchen();
+            List<Order> pendingDeliveryList = kitchen.getAllOrderTickets();
 
-            // order status
-            String orderStatus = deliveryDetails.get(DataFileStructure.getIndexByColName("ORDERS", "orderStatus"));
+            for (Order delivery : pendingDeliveryList) {
 
-            // TODO filter
-            if (orderStatus.equalsIgnoreCase("pending-approval")) {
-                newCounter++;
+                // TODO filter
+                if (kitchen.isDeliveryOrderClass(delivery)
+                        && delivery.getOrderStatus()
+                        .equalsIgnoreCase("pending-approval")) {
+                    newCounter++;
+                }
             }
+
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
         }
 
         if (newCounter == 0) {
@@ -54,5 +64,6 @@ public class WaiterDeliveryNavbarCounter {
             counterBox.getStyleClass().clear();
             counterBox.getStyleClass().add("counterBox");
         }
+
     }
 }

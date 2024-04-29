@@ -4,11 +4,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import org.group.project.Main;
-import org.group.project.classes.auxiliary.DataFileStructure;
-import org.group.project.classes.auxiliary.DataManager;
-import org.group.project.classes.auxiliary.HelperMethods;
+import org.group.project.classes.DeliveryOrder;
+import org.group.project.classes.Kitchen;
+import org.group.project.classes.User;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.exceptions.TextFileNotFoundException;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 
 public class DriverPendingDeliveryNavbarCounter {
@@ -24,42 +25,40 @@ public class DriverPendingDeliveryNavbarCounter {
     @FXML
     private Label pendingDeliveryCounter2;
 
-    private void getUserId() throws FileNotFoundException {
-        userId = HelperMethods
-                .findUserIdByUsername(Main
-                        .getCurrentUser().getUsername());
+    private void getUserId() {
+        try {
+            User user = Main.getCurrentUser();
+            userId = user.getUserId();
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
     }
 
-    public void refreshPendingDeliveryCounter() throws FileNotFoundException {
+    public void refreshPendingDeliveryCounter() {
 
         int newCounter = 0;
         getUserId();
 
-        List<String> pendingDeliveryList = DataManager.allDataFromFile("ORDERS");
+        try {
+            Kitchen kitchen = new Kitchen();
 
-        for (String delivery : pendingDeliveryList) {
-            List<String> deliveryDetails = List.of(delivery.split(","));
+            List<DeliveryOrder> pendingDeliveryList = kitchen
+                    .getPendingDeliveryDataByDriverId(
+                            userId
+                    );
 
-            // driverId
-            boolean isDriverAssignedToOrder = !deliveryDetails
-                    .get(DataFileStructure
-                            .getIndexByColName("ORDERS", "assignedDriver")).isBlank();
-            int searchDriverId = -1;
-            if (isDriverAssignedToOrder) {
-                searchDriverId = Integer.parseInt(deliveryDetails
-                        .get(DataFileStructure
-                                .getIndexByColName("ORDERS", "assignedDriver")));
+            newCounter = pendingDeliveryList.size();
 
-            }
-
-            // order status
-            String orderStatus = deliveryDetails.get(DataFileStructure.getIndexByColName("ORDERS", "orderStatus"));
-
-            // TODO filter driver id here
-            if (searchDriverId == userId
-                    && orderStatus.equalsIgnoreCase("pending-delivery")) {
-                newCounter++;
-            }
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
         }
 
         if (newCounter == 0) {

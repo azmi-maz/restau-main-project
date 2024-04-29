@@ -7,17 +7,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.group.project.Main;
+import org.group.project.classes.Customer;
+import org.group.project.classes.UserManagement;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
-import org.group.project.classes.auxiliary.DataFileStructure;
-import org.group.project.classes.auxiliary.DataManager;
-import org.group.project.classes.auxiliary.HelperMethods;
-import org.group.project.exceptions.InvalidUserException;
+import org.group.project.exceptions.ClearFileFailedException;
+import org.group.project.exceptions.InvalidUsernameException;
+import org.group.project.exceptions.TextFileNotFoundException;
 import org.group.project.scenes.MainScenes;
 import org.group.project.scenes.main.CustomerView;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * This controller class handles the new-customer-registration fxml events.
@@ -60,53 +57,25 @@ public class CustomerRegistrationController {
             errorUsernameLabel.setStyle("-fx-font-size: 1");
 
             // New customer
-            List<String> newUserDetails = new ArrayList<>();
-            List<TextField> dataRow = new ArrayList<>(Arrays.asList(firstName,
-                    lastName, username, address));
-            List<String> fileRowStructure = new ArrayList<>(Arrays.asList());
-            fileRowStructure.addAll(DataFileStructure.getValues("USERS"));
+            String customerFirstName = firstName.getText();
+            String customerLastName = lastName.getText();
+            String customerUsername = username.getText();
+            String customerAddress = address.getText();
 
-            boolean isColumnMatched = false;
-            for (String colName : fileRowStructure) {
-                for (TextField textField : dataRow) {
-                    if (textField != null && colName
-                            .equalsIgnoreCase(textField.getId())) {
-                        if (textField.getId().equalsIgnoreCase("address")) {
-                            newUserDetails.add(HelperMethods
-                                    .formatAddressToWrite(textField.getText()));
-                        } else {
-                            newUserDetails.add(textField.getText());
-                        }
-                        isColumnMatched = true;
-                    }
-                }
-                if (!isColumnMatched) {
-                    newUserDetails.add("");
-                    isColumnMatched = false;
-                }
-            }
+            UserManagement userManagement = new UserManagement();
+            Customer newCustomer = userManagement.createNewCustomer(
+                    customerFirstName,
+                    customerLastName,
+                    customerUsername,
+                    customerAddress
+            );
 
             // Checks username is not duplicate
-            boolean usernameAlreadyExist =
-                    HelperMethods.isUsernameExist(username.getText());
+            boolean usernameAlreadyExist = userManagement
+                    .isUsernameAlreadyExist(customerUsername);
             if (usernameAlreadyExist) {
-                throw new InvalidUserException("Username already exist. " +
-                        "Please " +
-                        "use another username.");
+                throw new InvalidUsernameException();
             }
-
-            // Is a customer
-            newUserDetails.add(DataFileStructure.getIndexByColName("USERS",
-                    "userType"), "customer");
-
-            // Customer id
-            newUserDetails.set(DataFileStructure.getIndexByColName("USERS",
-                            "userId"),
-                    Integer.toString(HelperMethods.getNewUserId()));
-
-            // Not applicable for customer
-            newUserDetails.addAll(Arrays.asList("0", "0", "false", "false",
-                    "0"));
 
             if (
                     !firstName.getText().isBlank()
@@ -114,38 +83,26 @@ public class CustomerRegistrationController {
                             && !username.getText().isBlank()
                             && !address.getText().isBlank()
             ) {
-                // Add the new user to file
-                DataManager.appendDataToFile("USERS", newUserDetails);
+                // Add the new user to file and persist as active user
+                userManagement.addNewCustomerToDatabase(
+                        newCustomer
+                );
 
-                // Set the new user as the active user
-                List<String> currentUser = new ArrayList<>(Arrays.asList(
-                        newUserDetails
-                                .get(DataFileStructure.getIndexColOfUniqueId("USERS")),
-                        newUserDetails.get(DataFileStructure
-                                .getIndexByColName("USERS", "firstName")),
-                        newUserDetails.get(DataFileStructure
-                                .getIndexByColName("USERS", "lastName")),
-                        newUserDetails.get(DataFileStructure
-                                .getIndexByColName("USERS", "username")),
-                        newUserDetails.get(DataFileStructure
-                                .getIndexByColName("USERS", "userType"))
-                ));
-
-                DataManager.appendDataToFile("ACTIVE_USER", currentUser);
-
-                Main.setCurrentUser(HelperMethods.getActiveUser());
+                Main.setCurrentUser(userManagement.getActiveUser());
 
                 AlertPopUpWindow.displayInformationWindow(
                         "Registration Successful!",
-                        "Thank you for joining Cafe94, " + firstName.getText() +
-                                "!" + System.lineSeparator() + "Feeling hangry?",
+                        "Thank you for joining Cafe94, "
+                                + firstName.getText() +
+                                "!" + System.lineSeparator()
+                                + "Feeling hangry?",
                         "Yes, I am."
                 );
 
                 CustomerView.controller.welcomeCustomer();
 
-                Main.getStage().setScene(Main.getScenes().get(MainScenes.CUSTOMER));
-
+                Main.getStage().setScene(Main.getScenes()
+                        .get(MainScenes.CUSTOMER));
 
                 closeWindow();
 
@@ -158,12 +115,22 @@ public class CustomerRegistrationController {
 
             }
 
-        } catch (Exception error) {
+        } catch (InvalidUsernameException error) {
             errorUsernameLabel.setText(error.getMessage());
+            AlertPopUpWindow.displayErrorWindow(
+                    "Invalid Username",
+                    error.getMessage()
+            );
             errorUsernameLabel.setVisible(true);
             errorUsernameLabel.setStyle("-fx-font-size: 11");
 
             error.printStackTrace();
+        } catch (TextFileNotFoundException | ClearFileFailedException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
         }
     }
 

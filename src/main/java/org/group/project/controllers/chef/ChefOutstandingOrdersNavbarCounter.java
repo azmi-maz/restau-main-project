@@ -3,10 +3,11 @@ package org.group.project.controllers.chef;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import org.group.project.classes.auxiliary.DataFileStructure;
-import org.group.project.classes.auxiliary.DataManager;
+import org.group.project.classes.Kitchen;
+import org.group.project.classes.Order;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.exceptions.TextFileNotFoundException;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 
 public class ChefOutstandingOrdersNavbarCounter {
@@ -20,19 +21,27 @@ public class ChefOutstandingOrdersNavbarCounter {
     @FXML
     private Label outstandingCounter2;
 
-    public void refreshOutstandingCounter() throws FileNotFoundException {
+    public void refreshOutstandingCounter() {
 
         int newCounter = 0;
 
-        List<String> outstandingList = DataManager.allDataFromFile("ORDERS");
+        Kitchen kitchen = null;
+        try {
+            kitchen = new Kitchen();
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
+        List<Order> outstandingList = kitchen.getAllOrderTickets();
 
-        for (String outstanding : outstandingList) {
-            List<String> outstandingDetails = List.of(outstanding.split(","));
+        for (Order outstandingOrder : outstandingList) {
 
             // order status
-            String orderStatus = outstandingDetails.get(DataFileStructure.getIndexByColName("ORDERS", "orderStatus"));
+            String orderStatus = outstandingOrder.getOrderStatus();
 
-            // TODO filter user id here
             if (orderStatus.equalsIgnoreCase("pending-kitchen")) {
                 newCounter++;
             }

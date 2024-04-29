@@ -8,7 +8,6 @@ import org.group.project.scenes.waiter.WaiterMapsMain;
 import org.group.project.scenes.waiter.WaiterScenesMap;
 import org.group.project.scenes.waiter.mainViews.DeliveryView;
 
-import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 
 public class WaiterPendingDeliveryNavbarController {
@@ -24,28 +23,22 @@ public class WaiterPendingDeliveryNavbarController {
         ImageLoader.setUpGraphicButton(homeButton, 25, 25,
                 "undo");
 
-        ImageLoader.setUpGraphicButton(pendingDeliveryButton, 25, 25,
+        ImageLoader.setUpGraphicButton(pendingDeliveryButton,
+                25, 25,
                 "delivery");
 
         homeButton.setOnMousePressed(e -> {
-            // TODO try catch
-            try {
-                WaiterView.waiterMainCounterController.refreshMainCounter();
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
-            WaiterScenesMap.getWaiterStage().setScene(WaiterScenesMap.getScenes().get(WaiterMapsMain.HOME));
+            WaiterView.waiterMainCounterController.refreshMainCounter();
+            WaiterScenesMap.getWaiterStage().setScene(WaiterScenesMap
+                    .getScenes().get(WaiterMapsMain.HOME));
         });
 
         pendingDeliveryButton.setOnMousePressed(e -> {
-            // TODO try catch
-            try {
-                DeliveryView.controller.refreshPendingDeliveryList();
-                DeliveryView.waiterBookingCounterController.refreshBookingCounter();
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
-            WaiterScenesMap.getWaiterStage().setScene(WaiterScenesMap.getScenes().get(WaiterMapsMain.DELIVERY));
+            DeliveryView.controller.refreshPendingDeliveryList();
+            DeliveryView.waiterBookingCounterController
+                    .refreshBookingCounter();
+            WaiterScenesMap.getWaiterStage().setScene(WaiterScenesMap
+                    .getScenes().get(WaiterMapsMain.DELIVERY));
         });
 
 

@@ -66,7 +66,8 @@ public class CustomerOrderHistoryDetailsController {
         noColumn.setStyle("-fx-alignment: CENTER;");
         noColumn.setCellValueFactory(cellData -> {
             int index =
-                    cellData.getTableView().getItems().indexOf(cellData.getValue());
+                    cellData.getTableView().getItems()
+                            .indexOf(cellData.getValue());
             index++;
             return new SimpleObjectProperty<>(index).asString();
         });
@@ -131,54 +132,54 @@ public class CustomerOrderHistoryDetailsController {
         }
 
         if (orderDate != null) {
-            // TODO might wanna put this in DeliveryOrder class, different is no
-            //  customer details here
+
+            // delivery order
             String deliveryOrderTemplate =
                     "Order no. " +
                             orderId + System.lineSeparator() +
                             "Order date: " +
-                            orderDate.format(DateTimeFormatter.ofPattern("dd/MM" +
-                                    "/yyyy")) + "  " +
-                            orderTime.format(DateTimeFormatter.ofPattern("hh:mm " +
-                                    "a")) + System.lineSeparator() +
+                            orderDate.format(DateTimeFormatter.ofPattern(
+                                    "dd/MM/yyyy")) + "  " +
+                            orderTime.format(DateTimeFormatter.ofPattern(
+                                    "hh:mm a")) + System.lineSeparator() +
                             "Status: " +
                             orderStatus + System.lineSeparator() +
                             "Driver: " +
                             assignedDriver + System.lineSeparator() +
-                            "Delivery time: ";
+                            "Est. delivery time: ";
 
             if (deliveryTime != null) {
-                deliveryOrderTemplate += deliveryTime.format(DateTimeFormatter.ofPattern("hh:mm " +
-                        "a")) + System.lineSeparator();
+                deliveryOrderTemplate += deliveryTime.format(
+                        DateTimeFormatter.ofPattern("hh:mm a"))
+                        + System.lineSeparator();
             }
 
-            // TODO might wanna put this in TakeawayOrder class, different is no
-            // customer details here
+            // takeaway order
             String takeawayOrderTemplate =
                     "Order no. " +
                             orderId + System.lineSeparator() +
                             "Order date: " +
-                            orderDate.format(DateTimeFormatter.ofPattern("dd/MM" +
-                                    "/yyyy")) + "  " +
-                            orderTime.format(DateTimeFormatter.ofPattern("hh:mm " +
-                                    "a")) + System.lineSeparator() +
+                            orderDate.format(DateTimeFormatter.ofPattern(
+                                    "dd/MM/yyyy")) + "  " +
+                            orderTime.format(DateTimeFormatter.ofPattern(
+                                    "hh:mm a")) + System.lineSeparator() +
                             "Status: " +
                             orderStatus + System.lineSeparator() +
                             "Pickup time: ";
 
             if (estimatedPickupTime != null) {
-                takeawayOrderTemplate += estimatedPickupTime.format(DateTimeFormatter.ofPattern("hh:mm " +
+                takeawayOrderTemplate += estimatedPickupTime.format(
+                        DateTimeFormatter.ofPattern("hh:mm " +
                         "a")) + System.lineSeparator();
             }
 
-            // TODO might wanna put this in Order class, different is no
-            // customer details here
+            // dinein order
             String dineinOrderTemplate =
                     "Order date: " +
-                            orderDate.format(DateTimeFormatter.ofPattern("dd/MM" +
-                                    "/yyyy")) + "  " +
-                            orderTime.format(DateTimeFormatter.ofPattern("hh:mm " +
-                                    "a")) + System.lineSeparator() +
+                            orderDate.format(DateTimeFormatter.ofPattern(
+                                    "dd/MM/yyyy")) + "  " +
+                            orderTime.format(DateTimeFormatter.ofPattern(
+                                    "hh:mm a")) + System.lineSeparator() +
                             "Status: " +
                             orderStatus + System.lineSeparator();
 

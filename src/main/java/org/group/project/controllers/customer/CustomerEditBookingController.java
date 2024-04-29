@@ -7,9 +7,14 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import org.group.project.classes.auxiliary.DataManager;
+import org.group.project.Main;
+import org.group.project.classes.Booking;
+import org.group.project.classes.Customer;
+import org.group.project.classes.Floor;
+import org.group.project.classes.Table;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.exceptions.TextFileNotFoundException;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -23,16 +28,16 @@ public class CustomerEditBookingController {
     private DatePicker reservationDatePicker;
 
     @FXML
-    private ChoiceBox<String> reservationTimeChoiceBox;
+    private ChoiceBox<LocalTime> reservationTimeChoiceBox;
 
     @FXML
-    private ChoiceBox<String> numOfGuestsChoiceBox;
+    private ChoiceBox<Integer> numOfGuestsChoiceBox;
 
     @FXML
-    private ChoiceBox<String> tablePreferenceChoiceBox;
+    private ChoiceBox<Table> tablePreferenceChoiceBox;
 
     @FXML
-    private ChoiceBox<String> lenOfReservationTimeChoiceBox;
+    private ChoiceBox<Integer> lenOfReservationTimeChoiceBox;
 
     @FXML
     private Button saveChangesButton;
@@ -40,104 +45,72 @@ public class CustomerEditBookingController {
     @FXML
     private Button closeButton;
 
-    private int bookingId;
+    private Booking currentBooking;
 
     public void initialize() {
 
-        // TODO enum this?
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(10, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(10, 30)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(11, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(11, 30)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(12, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(12, 30)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(13, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(13, 30)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(14, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(14, 30)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(15, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(15, 30)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(16, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(16, 30)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(17, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(17, 30)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(18, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(18, 30)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(19, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(19, 30)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(20, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(20, 30)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(21, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        reservationDatePicker.setOnAction(e -> {
+            if (reservationDatePicker.getValue()
+                    .compareTo(LocalDate.now()) < 0) {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        "Reservation date cannot be " +
+                                "less than current date."
+                );
+                reservationDatePicker.setValue(LocalDate.now());
+            }
+        });
 
-        // TODO
-        numOfGuestsChoiceBox.getItems().add("2");
-        numOfGuestsChoiceBox.getItems().add("4");
-        numOfGuestsChoiceBox.getItems().add("8");
-        numOfGuestsChoiceBox.getItems().add("10");
 
-        lenOfReservationTimeChoiceBox.getItems().add("1");
-        lenOfReservationTimeChoiceBox.getItems().add("2");
-        lenOfReservationTimeChoiceBox.getItems().add("3");
-        lenOfReservationTimeChoiceBox.getItems().add("4");
-        lenOfReservationTimeChoiceBox.getItems().add("5");
+        try {
+            Floor floor = new Floor();
+
+            floor.updateReservationTimeChoiceBox(
+                    reservationTimeChoiceBox
+            );
+            floor.updateNumOfGuestsChoiceBox(
+                    numOfGuestsChoiceBox
+            );
+            floor.updateBookingLengthChoiceBox(
+                    lenOfReservationTimeChoiceBox
+            );
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
 
         // TODO get from database
-        // TODO the magic number
         numOfGuestsChoiceBox.setOnAction(e -> {
 
-            tablePreferenceChoiceBox.getItems().clear();
+            try {
+                Floor floor = new Floor();
 
-            int maxGuestSelected = Integer.parseInt(numOfGuestsChoiceBox.getValue());
-            switch (maxGuestSelected) {
-                case 2:
-                    tablePreferenceChoiceBox.getItems().add("Petite Plateau (2)");
-                    tablePreferenceChoiceBox.getItems().add("Amoureux Alcôve (2)");
-                    tablePreferenceChoiceBox.getItems().add("Belle Banquette (2)");
-                    tablePreferenceChoiceBox.getItems().add("Charme Coin (2)");
-                    break;
-                case 4:
-                    tablePreferenceChoiceBox.getItems().add("Quatre Quartiers (4)");
-                    tablePreferenceChoiceBox.getItems().add("Salle Familiale (4)");
-                    tablePreferenceChoiceBox.getItems().add("Convives Carré (4)");
-                    tablePreferenceChoiceBox.getItems().add("Groupe Grandeur (4)");
-                    break;
-                case 8:
-                    tablePreferenceChoiceBox.getItems().add("Huit Héritage (8)");
-                    tablePreferenceChoiceBox.getItems().add("Table du Chef (8)");
-                    break;
-                default:
-                    tablePreferenceChoiceBox.getItems().add("Festin Fantastique (10)");
-                    break;
+                tablePreferenceChoiceBox.getItems().clear();
+
+                int maxGuestSelected = numOfGuestsChoiceBox.getValue();
+
+                floor.updateTablesBasedOnGuests(
+                        maxGuestSelected,
+                        tablePreferenceChoiceBox
+                );
+            } catch (TextFileNotFoundException ex) {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        ex.getMessage()
+                );
+                ex.printStackTrace();
             }
+
         });
 
         // TODO cite https://stackoverflow.com/questions/26831978/javafx-datepicker-getvalue-in-a-specific-format
         reservationDatePicker.setConverter(
                 new StringConverter<>() {
-                    final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    final DateTimeFormatter dateFormatter =
+                            DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
                     @Override
                     public String toString(LocalDate date) {
@@ -154,32 +127,60 @@ public class CustomerEditBookingController {
 
         saveChangesButton.setOnAction(e -> {
             // TODO set new value
-            String bookingDate = String.valueOf(reservationDatePicker.getValue());
-            LocalTime getBookingTime = LocalTime
-                    .parse(reservationTimeChoiceBox
-                            .getValue(), DateTimeFormatter
-                            .ofPattern("hh:mm a"));
-            String bookingTime = getBookingTime.format(DateTimeFormatter.ofPattern("H-m"));
-            String numOfGuests = numOfGuestsChoiceBox.getValue();
-            String tablePreference =
-                    tablePreferenceChoiceBox.getValue();
-            String bookingLength =
-                    lenOfReservationTimeChoiceBox.getValue();
 
-            // TODO handle try catch
-            try {
-                DataManager.editColumnDataByUniqueId("BOOKINGS", bookingId,
-                        "bookingDate", bookingDate);
-                DataManager.editColumnDataByUniqueId("BOOKINGS", bookingId,
-                        "bookingTime", bookingTime);
-                DataManager.editColumnDataByUniqueId("BOOKINGS", bookingId,
-                        "numOfGuests", numOfGuests);
-                DataManager.editColumnDataByUniqueId("BOOKINGS", bookingId,
-                        "tablePreference", tablePreference);
-                DataManager.editColumnDataByUniqueId("BOOKINGS", bookingId,
-                        "bookingLength", bookingLength);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+            Customer customer = (Customer) Main.getCurrentUser();
+
+            if (
+                    reservationDatePicker.getValue() != null
+                            && reservationTimeChoiceBox.getValue() != null
+                            && numOfGuestsChoiceBox.getValue() != null
+                            && tablePreferenceChoiceBox.getValue() != null
+                            && lenOfReservationTimeChoiceBox.getValue() != null
+            ) {
+
+                LocalDate bookingDate = reservationDatePicker.getValue();
+                LocalTime bookingTime = reservationTimeChoiceBox.getValue();
+                int numOfGuests = numOfGuestsChoiceBox.getValue();
+                Table tablePreference = tablePreferenceChoiceBox.getValue();
+                int bookingLength = lenOfReservationTimeChoiceBox.getValue();
+
+                try {
+                    Floor floor = new Floor();
+                    Booking editedBooking = floor
+                            .getCurrentBooking(
+                                    currentBooking,
+                                    bookingDate,
+                                    bookingTime,
+                                    numOfGuests,
+                                    tablePreference,
+                                    bookingLength
+                            );
+                    boolean isSuccessful = customer.editBooking(
+                            editedBooking,
+                            floor
+                    );
+                    if (isSuccessful) {
+                        AlertPopUpWindow.displayInformationWindow(
+                                "Table Reservation Update",
+                                "Amendments were made successfully.",
+                                "Ok"
+                        );
+                    }
+
+                } catch (TextFileNotFoundException ex) {
+                    AlertPopUpWindow.displayErrorWindow(
+                            "Error",
+                            ex.getMessage()
+                    );
+                    ex.printStackTrace();
+                }
+
+            } else {
+
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        "Please complete the form."
+                );
             }
 
             closeWindow();
@@ -192,21 +193,16 @@ public class CustomerEditBookingController {
 
     }
 
-    public void setBookingToView(int bookingId,
-                                 LocalDate reservationDate,
-                                 LocalTime reservationTime,
-                                 int numOfGuests,
-                                 String tablePreference,
-                                 int bookingLength) {
-
-        this.bookingId = bookingId;
-        reservationDatePicker.setValue(reservationDate);
+    public void setBookingToView(Booking booking) {
+        currentBooking = booking;
+        reservationDatePicker.setValue(booking.getBookingDate());
         reservationTimeChoiceBox.setValue(
-                reservationTime
-                        .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        numOfGuestsChoiceBox.setValue(String.valueOf(numOfGuests));
-        lenOfReservationTimeChoiceBox.setValue(String.valueOf(bookingLength));
-        tablePreferenceChoiceBox.setValue(tablePreference);
+                booking.getBookingTime());
+        numOfGuestsChoiceBox.setValue(booking.getNumOfGuests());
+        lenOfReservationTimeChoiceBox.setValue(
+                booking.getBookingLengthInHour());
+        tablePreferenceChoiceBox.setValue(
+                booking.getTablePreference().getFirst());
     }
 
     private void closeWindow() {

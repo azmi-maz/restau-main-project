@@ -31,11 +31,22 @@ public class Staff extends User {
 
     // TODO comment
     public Staff(String firstName, String lastName, String username,
-                 boolean hasAdminRight, int numOfHoursToWork, int numOfTotalHoursWorked) {
+                 boolean hasAdminRight, int numOfHoursToWork,
+                 int numOfTotalHoursWorked) {
         super(firstName, lastName, username);
         this.hasAdminRight = hasAdminRight;
         this.numOfHoursToWork = numOfHoursToWork;
         this.numOfTotalHoursWorked = numOfTotalHoursWorked;
+    }
+
+    // TODO
+    public Staff(
+            String firstName, String lastName, String username
+    ) {
+        super(firstName, lastName, username);
+        hasAdminRight = false;
+        numOfHoursToWork = 44;
+        numOfTotalHoursWorked = 0;
     }
 
     /**

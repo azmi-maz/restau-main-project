@@ -8,6 +8,7 @@ module org.group.project {
     exports org.group.project.test.generators;
     exports org.group.project.scenes;
     exports org.group.project.classes.auxiliary;
+    exports org.group.project.exceptions;
     opens org.group.project.classes to javafx.fxml;
     opens org.group.project.scenes to javafx.fxml;
     opens org.group.project.controllers.customer to javafx.fxml;

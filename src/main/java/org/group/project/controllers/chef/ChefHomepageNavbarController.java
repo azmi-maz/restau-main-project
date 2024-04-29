@@ -3,16 +3,16 @@ package org.group.project.controllers.chef;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import org.group.project.Main;
-import org.group.project.classes.auxiliary.HelperMethods;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.classes.auxiliary.DataManager;
 import org.group.project.classes.auxiliary.ImageLoader;
 import org.group.project.controllers.main.UserProfileView;
+import org.group.project.exceptions.ClearFileFailedException;
+import org.group.project.scenes.MainScenes;
 import org.group.project.scenes.chef.ChefMapsMain;
 import org.group.project.scenes.chef.ChefScenesMap;
-import org.group.project.scenes.MainScenes;
 import org.group.project.scenes.chef.mainViews.OutstandingView;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class ChefHomepageNavbarController {
@@ -34,50 +34,55 @@ public class ChefHomepageNavbarController {
 
     public void initialize() throws URISyntaxException {
 
-        ImageLoader.setUpGraphicButton(outstandingOrderButton, 25, 25,
+        ImageLoader.setUpGraphicButton(outstandingOrderButton,
+                25, 25,
                 "pending");
 
-        ImageLoader.setUpGraphicButton(orderHistoryButton, 25, 25, "history");
+        ImageLoader.setUpGraphicButton(orderHistoryButton,
+                25, 25, "history");
 
-        ImageLoader.setUpGraphicButton(menuButton, 25, 25, "menu");
+        ImageLoader.setUpGraphicButton(menuButton,
+                25, 25, "menu");
 
-        ImageLoader.setUpGraphicButton(userButton, 25, 25, "user");
+        ImageLoader.setUpGraphicButton(userButton,
+                25, 25, "user");
 
-        ImageLoader.setUpGraphicButton(logOffButton, 25, 25, "power");
+        ImageLoader.setUpGraphicButton(logOffButton,
+                25, 25, "power");
 
         outstandingOrderButton.setOnMousePressed(e -> {
-            // TODO try catch
-            try {
-                OutstandingView.controller.refreshOutstandingOrdersList();
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
-            ChefScenesMap.getChefStage().setScene(ChefScenesMap.getScenes().get(ChefMapsMain.OUTSTANDING));
+            OutstandingView.controller.refreshOutstandingOrdersList();
+            ChefScenesMap.getChefStage().setScene(
+                    ChefScenesMap.getScenes().get(ChefMapsMain.OUTSTANDING));
         });
 
         orderHistoryButton.setOnMousePressed(e -> {
-            // TODO order history?
+            // Purposely not implemented
         });
 
         menuButton.setOnMousePressed(e -> {
-            ChefScenesMap.getChefStage().setScene(ChefScenesMap.getScenes().get(ChefMapsMain.MENU));
+            ChefScenesMap.getChefStage().setScene(
+                    ChefScenesMap.getScenes().get(ChefMapsMain.MENU));
         });
 
         userButton.setOnMousePressed(e -> {
-            // TODO
             UserProfileView userProfileView = new UserProfileView();
             userProfileView.showWindow();
         });
 
         logOffButton.setOnMousePressed(e -> {
-            // TODO remove all active user info here
-            // TODO try catch
+            // Log off by removing active user info
             try {
-                HelperMethods.clearActiveUser();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+                DataManager.clearFileData("ACTIVE_USER");
+            } catch (ClearFileFailedException ex) {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        ex.getMessage()
+                );
+                ex.printStackTrace();
             }
-            Main.getStage().setScene(Main.getScenes().get(MainScenes.LOGIN));
+            Main.getStage().setScene(Main.getScenes()
+                    .get(MainScenes.LOGIN));
         });
 
     }

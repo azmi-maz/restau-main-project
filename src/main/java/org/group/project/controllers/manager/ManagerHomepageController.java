@@ -18,14 +18,13 @@ public class ManagerHomepageController {
 
     public void initialize() throws URISyntaxException {
 
-        mainTitle.setText("Welcome, Manager!");
-
         Image bgImage = new Image(Main.class.getResource("images" +
                 "/background/manager-main" +
                 ".jpg").toURI().toString());
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,
-                BackgroundSize.AUTO, false, false, true, true);
+                BackgroundSize.AUTO, false,
+                false, true, true);
 
         borderPane.setBackground(new Background(new BackgroundImage(bgImage,
                 BackgroundRepeat.NO_REPEAT,

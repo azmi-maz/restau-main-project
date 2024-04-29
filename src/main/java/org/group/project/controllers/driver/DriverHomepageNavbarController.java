@@ -3,16 +3,16 @@ package org.group.project.controllers.driver;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import org.group.project.Main;
-import org.group.project.classes.auxiliary.HelperMethods;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.classes.auxiliary.DataManager;
 import org.group.project.classes.auxiliary.ImageLoader;
 import org.group.project.controllers.main.UserProfileView;
+import org.group.project.exceptions.ClearFileFailedException;
+import org.group.project.scenes.MainScenes;
 import org.group.project.scenes.driver.DriverMapsMain;
 import org.group.project.scenes.driver.DriverScenesMap;
-import org.group.project.scenes.MainScenes;
 import org.group.project.scenes.driver.mainViews.DeliveryView;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class DriverHomepageNavbarController {
@@ -31,45 +31,49 @@ public class DriverHomepageNavbarController {
 
     public void initialize() throws URISyntaxException {
 
-        ImageLoader.setUpGraphicButton(pendingDeliveriesButton, 25, 25,
+        ImageLoader.setUpGraphicButton(pendingDeliveriesButton,
+                25, 25,
                 "pending");
 
-        ImageLoader.setUpGraphicButton(deliveryHistoryButton, 25, 25, "history");
+        ImageLoader.setUpGraphicButton(deliveryHistoryButton,
+                25, 25, "history");
 
-        ImageLoader.setUpGraphicButton(userButton, 25, 25, "user");
+        ImageLoader.setUpGraphicButton(userButton, 25,
+                25, "user");
 
-        ImageLoader.setUpGraphicButton(logOffButton, 25, 25, "power");
+        ImageLoader.setUpGraphicButton(logOffButton, 25,
+                25, "power");
 
         pendingDeliveriesButton.setOnMousePressed(e -> {
 
-            // TODO comment
-            try {
-                DeliveryView.controller.refreshPendingDeliveryList();
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
-            DriverScenesMap.getDriverStage().setScene(DriverScenesMap.getScenes().get(DriverMapsMain.DELIVERY));
+            DeliveryView.controller.refreshPendingDeliveryList();
+            DriverScenesMap.getDriverStage().setScene(
+                    DriverScenesMap.getScenes()
+                            .get(DriverMapsMain.DELIVERY));
         });
 
         deliveryHistoryButton.setOnMousePressed(e -> {
-            // TODO order history?
+            // Purposely not implemented
         });
 
         userButton.setOnMousePressed(e -> {
-            // TODO
             UserProfileView userProfileView = new UserProfileView();
             userProfileView.showWindow();
         });
 
         logOffButton.setOnMousePressed(e -> {
-            // TODO remove all active user info here
-            // TODO try catch
+            // Log off by removing active user info
             try {
-                HelperMethods.clearActiveUser();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+                DataManager.clearFileData("ACTIVE_USER");
+            } catch (ClearFileFailedException ex) {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        ex.getMessage()
+                );
+                ex.printStackTrace();
             }
-            Main.getStage().setScene(Main.getScenes().get(MainScenes.LOGIN));
+            Main.getStage().setScene(Main.getScenes()
+                    .get(MainScenes.LOGIN));
         });
 
     }

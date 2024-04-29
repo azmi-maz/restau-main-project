@@ -6,18 +6,18 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.group.project.classes.auxiliary.DataManager;
+import org.group.project.Main;
+import org.group.project.classes.Manager;
+import org.group.project.classes.Staff;
+import org.group.project.classes.UserManagement;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.ImageLoader;
-
-import java.io.IOException;
+import org.group.project.exceptions.TextFileNotFoundException;
 
 public class ManagerStaffManagementDetailsController {
 
     @FXML
     private VBox vbox;
-
-    @FXML
-    private VBox hoursLeftVbox;
 
     @FXML
     private TextField firstNameTextField;
@@ -58,54 +58,78 @@ public class ManagerStaffManagementDetailsController {
 
         setTextFieldToDisabled();
 
-        ImageLoader.setUpGraphicButton(incrementHoursLeftButton, 15, 15, "arrow-up");
-        ImageLoader.setUpGraphicButton(decrementHoursLeftButton, 15, 15, "arrow-down");
+        try {
 
-        // TODO enum this?
-        positionChoiceBox.getItems().add("Chef");
-        positionChoiceBox.getItems().add("Driver");
-        positionChoiceBox.getItems().add("Waiter");
+            UserManagement userManagement = new UserManagement();
 
-        incrementHoursLeftButton.setOnAction(e -> {
-            incrementHoursLeft();
-            setButtonVisibility();
-        });
+            ImageLoader.setUpGraphicButton(incrementHoursLeftButton,
+                    15, 15, "arrow-up");
+            ImageLoader.setUpGraphicButton(decrementHoursLeftButton,
+                    15, 15, "arrow-down");
 
-        decrementHoursLeftButton.setOnAction(e -> {
-            decrementHoursLeft();
-            setButtonVisibility();
-        });
+            userManagement.updateStaffTypeChoiceBox(
+                    positionChoiceBox
+            );
 
-        saveButton.setOnAction(e -> {
+            incrementHoursLeftButton.setOnAction(e -> {
+                incrementHoursLeft();
+                setButtonVisibility();
+            });
 
-            String firstName = firstNameTextField.getText().toLowerCase();
-            String lastName = lastNameTextField.getText().toLowerCase();
-            String username = usernameTextField.getText();
-            String hoursLeft = hoursLeftTextField.getText();
-            String totalHoursWorked = totalHoursWorkedTextField.getText();
-            String position = positionChoiceBox.getValue().toLowerCase();
+            decrementHoursLeftButton.setOnAction(e -> {
+                decrementHoursLeft();
+                setButtonVisibility();
+            });
 
-            // TODO handle try catch
-            try {
-                DataManager.editColumnDataByUniqueId("USERS", userId,
-                        "firstName", firstName);
-                DataManager.editColumnDataByUniqueId("USERS", userId,
-                        "lastName", lastName);
-                DataManager.editColumnDataByUniqueId("USERS", userId,
-                        "username", username);
-                DataManager.editColumnDataByUniqueId("USERS", userId,
-                        "numOfHoursToWork", hoursLeft);
-                DataManager.editColumnDataByUniqueId("USERS", userId,
-                        "numOfTotalHoursWorked", totalHoursWorked);
-                DataManager.editColumnDataByUniqueId("USERS", userId,
-                        "userType", position);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            saveButton.setOnAction(e -> {
+                Manager manager = (Manager) Main.getCurrentUser();
 
-            closeWindow();
+                String firstName = firstNameTextField.getText().toLowerCase();
+                String lastName = lastNameTextField.getText().toLowerCase();
+                String username = usernameTextField.getText();
+                String hoursLeft = hoursLeftTextField.getText();
+                String totalHoursWorked = totalHoursWorkedTextField.getText();
+                String position = positionChoiceBox.getValue().toLowerCase();
 
-        });
+                boolean isSuccessful = false;
+                try {
+                    isSuccessful = manager.editStaffMemberDetails(
+                            userManagement,
+                            userId,
+                            firstName,
+                            lastName,
+                            username,
+                            hoursLeft,
+                            totalHoursWorked,
+                            position
+                    );
+                } catch (TextFileNotFoundException ex) {
+                    AlertPopUpWindow.displayErrorWindow(
+                            "Error",
+                            ex.getMessage()
+                    );
+                    ex.printStackTrace();
+                }
+
+                if (isSuccessful) {
+                    AlertPopUpWindow.displayInformationWindow(
+                            "Staff Detail Edit",
+                            "Edit was done successfully.",
+                            "Ok"
+                    );
+                }
+
+                closeWindow();
+
+            });
+
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
 
         returnButton.setOnAction(e -> {
             closeWindow();
@@ -115,21 +139,41 @@ public class ManagerStaffManagementDetailsController {
 
     public void setStaffDetails(
             String userId,
-            String firstName,
-            String lastName,
-            String username,
-            int hoursLeft,
-            int totalHoursWorked,
-            String position
+            Staff staff
     ) {
         this.userId = userId;
-        firstNameTextField.setText(firstName);
-        lastNameTextField.setText(lastName);
-        usernameTextField.setText(username);
-        hoursLeftTextField.setText(String.valueOf(hoursLeft));
-        totalHoursWorkedTextField.setText(String.valueOf(totalHoursWorked));
-        positionChoiceBox.setValue(position.substring(0, 1).toUpperCase()
-                + position.substring(1));
+        firstNameTextField.setText(
+                staff.getFirstNameForDisplay()
+        );
+        lastNameTextField.setText(
+                staff.getLastNameForDisplay()
+        );
+        usernameTextField.setText(
+                staff.getUsername()
+        );
+        hoursLeftTextField.setText(String.valueOf(
+                staff.getNumOfHoursToWork()
+        ));
+        totalHoursWorkedTextField.setText(String.valueOf(
+                staff.getNumOfTotalHoursWorked()
+        ));
+
+        UserManagement userManagement = null;
+        try {
+            userManagement = new UserManagement();
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
+
+        String staffType = userManagement.getStaffClass(
+                staff
+        );
+        positionChoiceBox.setValue(staffType.substring(0, 1).toUpperCase()
+                + staffType.substring(1));
         setButtonVisibility();
     }
 
@@ -138,9 +182,11 @@ public class ManagerStaffManagementDetailsController {
         currentHour++;
         hoursLeftTextField.setText(String.valueOf(currentHour));
 
-        int currentTotalHoursWorked = Integer.parseInt(totalHoursWorkedTextField.getText());
+        int currentTotalHoursWorked = Integer.parseInt(
+                totalHoursWorkedTextField.getText());
         currentTotalHoursWorked--;
-        totalHoursWorkedTextField.setText(String.valueOf(currentTotalHoursWorked));
+        totalHoursWorkedTextField.setText(String.valueOf(
+                currentTotalHoursWorked));
     }
 
     public void decrementHoursLeft() {
@@ -148,9 +194,11 @@ public class ManagerStaffManagementDetailsController {
         currentHour--;
         hoursLeftTextField.setText(String.valueOf(currentHour));
 
-        int currentTotalHoursWorked = Integer.parseInt(totalHoursWorkedTextField.getText());
+        int currentTotalHoursWorked = Integer.parseInt(
+                totalHoursWorkedTextField.getText());
         currentTotalHoursWorked++;
-        totalHoursWorkedTextField.setText(String.valueOf(currentTotalHoursWorked));
+        totalHoursWorkedTextField.setText(String.valueOf(
+                currentTotalHoursWorked));
     }
 
     public void setButtonVisibility() {

@@ -9,26 +9,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.group.project.Main;
 import org.group.project.classes.*;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
-import org.group.project.classes.auxiliary.DataManager;
-import org.group.project.classes.auxiliary.HelperMethods;
 import org.group.project.classes.auxiliary.ImageLoader;
+import org.group.project.exceptions.TextFileNotFoundException;
 import org.group.project.scenes.WindowSize;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,10 +31,7 @@ public class WaiterDineinOrderController {
     private BorderPane borderPane;
 
     @FXML
-    private ImageView bgImage;
-
-    @FXML
-    private ChoiceBox<String> tableChoiceBox;
+    private ChoiceBox<Table> tableChoiceBox;
 
     @FXML
     private ChoiceBox<Customer> customerChoiceBox;
@@ -76,8 +66,6 @@ public class WaiterDineinOrderController {
     @FXML
     private Button cancelOrderButton;
 
-    private int userId;
-
     private List<Customer> customerList = new ArrayList<>();
 
     private List<FoodDrink> orderList = new ArrayList<>();
@@ -104,27 +92,22 @@ public class WaiterDineinOrderController {
                 BackgroundPosition.CENTER,
                 bSize)));
 
-        // TODO get from database
-        tableChoiceBox.getItems().add("Petite Plateau (2)");
-        tableChoiceBox.getItems().add("Amoureux Alcôve (2)");
-        tableChoiceBox.getItems().add("Belle Banquette (2)");
-        tableChoiceBox.getItems().add("Charme Coin (2)");
-        tableChoiceBox.getItems().add("Quatre Quartiers (4)");
-        tableChoiceBox.getItems().add("Salle Familiale (4)");
-        tableChoiceBox.getItems().add("Convives Carré (4)");
-        tableChoiceBox.getItems().add("Groupe Grandeur (4)");
-        tableChoiceBox.getItems().add("Huit Héritage (8)");
-        tableChoiceBox.getItems().add("Table du Chef (8)");
-        tableChoiceBox.getItems().add("Festin Fantastique (10)");
-
-        tableChoiceBox.setValue("Choose Table");
-
-        // TODO comment try catch - update customer list
         try {
-            refreshCustomerList();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+
+            Floor floor = new Floor();
+            floor.updateTableChoiceBox(
+                    tableChoiceBox
+            );
+
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
         }
+
+        refreshCustomerList();
 
         updateCustomerChoiceBox();
 
@@ -168,8 +151,11 @@ public class WaiterDineinOrderController {
                     refreshOrderList();
 
                 } catch (IOException ex) {
-                    // TODO catch error
-                    throw new RuntimeException(ex);
+                    AlertPopUpWindow.displayErrorWindow(
+                            "Error",
+                            ex.getMessage()
+                    );
+                    ex.printStackTrace();
                 }
 
             } else {
@@ -182,54 +168,43 @@ public class WaiterDineinOrderController {
         });
 
         confirmButton.setOnAction(e -> {
+            Waiter waiter = (Waiter) Main.getCurrentUser();
 
             if (
                     tableChoiceBox.getValue() != null
                             && customerChoiceBox.getValue() != null
                             && !orderList.isEmpty()
             ) {
+                int customerId = customerChoiceBox
+                        .getValue().getCustomerId();
 
-                // TODO not handling Table name at all - need to check
-                String getNewOrderId = "";
-                // TODO try catch
+
+                boolean isSuccessful = false;
+
                 try {
-                    getNewOrderId = String.valueOf(HelperMethods.getNewIdByFile("ORDERS"));
-                } catch (FileNotFoundException ex) {
-                    throw new RuntimeException(ex);
-                }
-                String newOrderId = getNewOrderId;
-                String customerId = String.valueOf(customerChoiceBox
-                        .getValue().getCustomerId());
-                // TODO these are useful and short
-                String orderDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-M-d"));
-                String orderTime = LocalTime.now().format(DateTimeFormatter.ofPattern("H-m"));
-                List<String> itemList = new ArrayList<>();
-                for (FoodDrink item : orderList) {
-                    for (int i = 0; i < item.getQuantity(); i++) {
-                        itemList.add(item.getItemName());
-                    }
-                }
-                String finalOrderList = DataManager.formatLongArrayToOneColumnString(itemList);
-                List<String> newOrderString = new ArrayList<>(Arrays.asList(
-                        newOrderId,
-                        customerId,
-                        orderDate,
-                        orderTime,
-                        "dinein",
-                        "pending-kitchen", "", "", "",
-                        finalOrderList));
-                // TODO try catch
-                try {
-                    DataManager.appendDataToFile("ORDERS", newOrderString);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+
+                    isSuccessful = waiter.takeDineInOrders(
+                            customerId,
+                            orderList
+                    );
+
+                } catch (TextFileNotFoundException ex) {
+                    AlertPopUpWindow.displayErrorWindow(
+                            "Error",
+                            ex.getMessage()
+                    );
+                    ex.printStackTrace();
                 }
 
-                promptOrderSuccessful();
+                if (isSuccessful) {
+                    promptOrderSuccessful();
+                }
+
+
                 orderList.clear();
                 refreshOrderList();
                 customerChoiceBox.setValue(null);
-                tableChoiceBox.setValue("Choose Table");
+                tableChoiceBox.setValue(null);
 
             } else {
                 AlertPopUpWindow.displayErrorWindow(
@@ -319,8 +294,11 @@ public class WaiterDineinOrderController {
                     refreshOrderList();
 
                 } catch (IOException ex) {
-                    // TODO catch error
-                    throw new RuntimeException(ex);
+                    AlertPopUpWindow.displayErrorWindow(
+                            "Error",
+                            ex.getMessage()
+                    );
+                    ex.printStackTrace();
                 }
 
             });
@@ -358,23 +336,33 @@ public class WaiterDineinOrderController {
     }
 
     private void refreshOrderList() {
-        // TODO get user id
-        userId = 3;
         orderDetailsTable.getItems().clear();
         data.clear();
         data.addAll(orderList);
         orderDetailsTable.setItems(data);
     }
 
-    // TODO comment and try catch
-    public void refreshCustomerList() throws FileNotFoundException {
-        if (customerList != null && !customerList.isEmpty()) {
-            customerList.clear();
-            customerList = HelperMethods.getCustomers();
-            updateCustomerChoiceBox();
-        } else {
-            customerList.addAll(HelperMethods.getCustomers());
-            updateCustomerChoiceBox();
+    // TODO comment
+    public void refreshCustomerList() {
+
+        try {
+
+            UserManagement userManagement = new UserManagement();
+            if (customerList != null && !customerList.isEmpty()) {
+                customerList.clear();
+                userManagement.updateCustomerList(customerList);
+                updateCustomerChoiceBox();
+            } else {
+                userManagement.updateCustomerList(customerList);
+                updateCustomerChoiceBox();
+            }
+
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
         }
     }
 

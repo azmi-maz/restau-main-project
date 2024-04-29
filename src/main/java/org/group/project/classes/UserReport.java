@@ -1,8 +1,7 @@
 package org.group.project.classes;
 
-import org.group.project.classes.auxiliary.HelperMethods;
+import org.group.project.exceptions.TextFileNotFoundException;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,16 +21,12 @@ public class UserReport extends Report {
      * @param user       - the user who generated the report.
      */
     public UserReport(String reportType,
-                      User user) {
+                      User user)
+            throws TextFileNotFoundException {
+
         super(reportType, user);
-        int nextReportId = 0;
-        try {
-            nextReportId = HelperMethods.getNewIdByFile("REPORTS");
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        super.setReportId(nextReportId);
         super.setReportData(getStaffWhoWorkedTheMostHoursReport());
+
     }
 
     /**
@@ -39,26 +34,38 @@ public class UserReport extends Report {
      *
      * @return the report for staff who worked the most.
      */
-    public String getStaffWhoWorkedTheMostHoursReport() {
-        return prepareReportData();
+    public String getStaffWhoWorkedTheMostHoursReport()
+            throws TextFileNotFoundException {
+        try {
+            return prepareReportData();
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     // TODO
-    public String prepareReportData() {
+    public String prepareReportData()
+            throws TextFileNotFoundException {
 
-        UserManagement userManagement = new UserManagement();
-        List<User> userList = userManagement.getListOfAllUsers();
+        UserManagement userManagement = null;
+        try {
+            userManagement = new UserManagement();
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+        List<User> userList = userManagement.getUserList();
         List<Staff> staffList = new ArrayList<>();
 
         // Hours worked by staff
         Map<String, Integer> staffHoursWorkedMap = new HashMap<>();
         for (User user : userList) {
 
-            Object classType = user.getClass();
-            String objectType = List.of(classType
-                    .toString().split("\\.")).getLast();
+            boolean isCustomer = userManagement.isCustomer(user);
 
-            if (!objectType.equalsIgnoreCase("customer")) {
+            if (!isCustomer) {
                 Staff staff = (Staff) user;
                 staffList.add(staff);
                 String currentUsername = staff.getUsername();
@@ -95,21 +102,13 @@ public class UserReport extends Report {
 
         String staffWithFullName = "";
         String staffPosition = "";
-        User staffWithTheMostWorkedHours = null;
-        for (User user : userList) {
-            if (user.getUsername().equalsIgnoreCase(
-                    mostWorkedHoursStaffUsername
-            )) {
-                staffWithTheMostWorkedHours = user;
-            }
-        }
+        User staffWithTheMostWorkedHours = userManagement
+                .getUserByUsername(mostWorkedHoursStaffUsername);
 
         staffWithFullName = staffWithTheMostWorkedHours
                 .getDataForListDisplay();
-        staffPosition = List.of(staffWithTheMostWorkedHours
-                        .getClass().toString().split("\\."))
-                .getLast()
-                .toLowerCase();
+        staffPosition = userManagement.getStaffClass(
+                staffWithTheMostWorkedHours).toLowerCase();
 
         String mostWorkedHoursStaffReport = String.format(
                 "%s, is an exceptional %s, having dedicated %d hours to " +

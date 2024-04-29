@@ -7,7 +7,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.group.project.classes.FoodDrink;
+import org.group.project.classes.Menu;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.exceptions.TextFileNotFoundException;
 
 import java.util.List;
 
@@ -45,34 +47,20 @@ public class WaiterDineinAddOrderController {
 
         comboItemName.setValue("Choose Item");
 
-        // TODO definitely get from database to populate this
-        // TODO capitalize words
-        // TODO arrange alphabetically
-        comboItemName.getItems().add("steak au poivre");
-        comboItemName.getItems().add("marseilles shrimp stew");
-        comboItemName.getItems().add("duck a lorange");
-        comboItemName.getItems().add("lyon chicken");
-        comboItemName.getItems().add("coq au vin");
-        comboItemName.getItems().add("stuffed pork tenderloin");
-        comboItemName.getItems().add("lobster thermidor");
-        comboItemName.getItems().add("strip steak frite");
-        comboItemName.getItems().add("classic duck confit");
-        comboItemName.getItems().add("pear tarte tatin");
-        comboItemName.getItems().add("chocolate souffle");
-        comboItemName.getItems().add("classic creme brulee");
-        comboItemName.getItems().add("croquembouche");
-        comboItemName.getItems().add("manhattan");
-        comboItemName.getItems().add("margarita");
-        comboItemName.getItems().add("cosmopolitan");
-        comboItemName.getItems().add("bloody mary");
-        comboItemName.getItems().add("white russian");
-        comboItemName.getItems().add("mojito");
-        comboItemName.getItems().add("negroni");
-        comboItemName.getItems().add("daiquiri");
-        comboItemName.getItems().add("martini");
-        comboItemName.getItems().add("pina colada");
-        comboItemName.getItems().add("irish coffee");
-        comboItemName.getItems().add("long island iced tea");
+        try {
+
+            Menu menu = new Menu();
+            menu.updateDineinMenuChoiceBox(
+                    comboItemName
+            );
+
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
 
         addItemButton.setOnAction(e -> {
 

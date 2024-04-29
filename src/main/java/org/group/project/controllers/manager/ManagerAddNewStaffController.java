@@ -6,15 +6,12 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.group.project.Main;
+import org.group.project.classes.Manager;
+import org.group.project.classes.Staff;
+import org.group.project.classes.UserManagement;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
-import org.group.project.classes.auxiliary.DataManager;
-import org.group.project.classes.auxiliary.HelperMethods;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import org.group.project.exceptions.TextFileNotFoundException;
 
 public class ManagerAddNewStaffController {
 
@@ -41,62 +38,81 @@ public class ManagerAddNewStaffController {
 
     public void initialize() {
 
-        // TODO enum this?
-        positionChoiceBox.getItems().add("Chef");
-        positionChoiceBox.getItems().add("Driver");
-        positionChoiceBox.getItems().add("Waiter");
+        try {
 
-        addStaffButton.setOnAction(e -> {
+            UserManagement userManagement = new UserManagement();
+            userManagement.updateStaffTypeChoiceBox(
+                    positionChoiceBox
+            );
 
-            if (
-                    !firstNameTextField.getText().isBlank() &&
-                            !lastNameTextField.getText().isBlank() &&
-                            !usernameTextField.getText().isBlank() &&
-                            positionChoiceBox.getValue() != null
-            ) {
+            addStaffButton.setOnAction(e -> {
 
-                int getNewUserId = -1;
-                try {
-                    getNewUserId = HelperMethods.getNewUserId();
-                } catch (FileNotFoundException ex) {
-                    throw new RuntimeException(ex);
+                Manager manager = (Manager) Main.getCurrentUser();
+
+                if (
+                        !firstNameTextField.getText().isBlank() &&
+                                !lastNameTextField.getText().isBlank() &&
+                                !usernameTextField.getText().isBlank() &&
+                                positionChoiceBox.getValue() != null
+                ) {
+
+                    String firstName = firstNameTextField.getText().toLowerCase();
+                    String lastName = lastNameTextField.getText().toLowerCase();
+                    String username = usernameTextField.getText();
+                    String userType = positionChoiceBox.getValue().toLowerCase();
+
+                    Staff newStaff = userManagement.createNewStaff(
+                            firstName,
+                            lastName,
+                            username,
+                            userType
+                    );
+
+                    boolean isSuccessful = false;
+
+                    try {
+
+                        isSuccessful = manager.addNewStaffMember(
+                                userManagement,
+                                newStaff
+                        );
+
+                    } catch (TextFileNotFoundException ex) {
+                        AlertPopUpWindow.displayErrorWindow(
+                                "Error",
+                                ex.getMessage()
+                        );
+                        ex.printStackTrace();
+                    }
+
+                    if (isSuccessful) {
+                        AlertPopUpWindow.displayInformationWindow(
+                                "New Staff",
+                                String.format(
+                                        "%s was added successfully.",
+                                        newStaff.getDataForListDisplay()
+                                ), "Ok"
+                        );
+                    }
+
+                    closeWindow();
+
+                } else {
+                    AlertPopUpWindow.displayErrorWindow(
+                            "Error",
+                            "Please complete the form."
+                    );
                 }
-                String newUserId = String.valueOf(getNewUserId);
-                String firstName = firstNameTextField.getText().toLowerCase();
-                String lastName = lastNameTextField.getText().toLowerCase();
-                String username = usernameTextField.getText();
-                String userType = positionChoiceBox.getValue().toLowerCase();
 
-                // TODO review this
-                List<String> newUser = new ArrayList<>(Arrays.asList(
-                        newUserId,
-                        firstName,
-                        lastName,
-                        username,
-                        userType,
-                        "", "44", "0", "false", "false", "0"
-                ));
+            });
 
-                // TODO try catch
-                try {
-                    DataManager.appendDataToFile(
-                            "USERS",
-                            newUser);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-
-                closeWindow();
-
-            } else {
-
-                AlertPopUpWindow.displayErrorWindow(
-                        "Error",
-                        "Please complete the form."
-                );
-            }
-
-        });
+        } catch (TextFileNotFoundException ex) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    ex.getMessage()
+            );
+            ex.printStackTrace();
+        }
 
         cancelButton.setOnAction(e -> {
             closeWindow();

@@ -1,16 +1,11 @@
 package org.group.project.classes;
 
-import javafx.collections.ObservableList;
-import org.group.project.classes.auxiliary.DataFileStructure;
 import org.group.project.classes.auxiliary.DataManager;
-import org.group.project.classes.auxiliary.HelperMethods;
+import org.group.project.exceptions.TextFileNotFoundException;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,15 +45,6 @@ public class DeliveryOrder extends Order implements NotifyAction {
         customerAddress = customer.getDeliveryAddress();
         this.deliveryTime = deliveryTime;
         this.assignedDriver = assignedDriver;
-    }
-
-    /**
-     * Getter method to get the customer who made the delivery order.
-     *
-     * @return the customer.
-     */
-    public Customer getCustomer() {
-        return super.getCustomer();
     }
 
     /**
@@ -163,54 +149,53 @@ public class DeliveryOrder extends Order implements NotifyAction {
     }
 
     // TODO comment
-    public String getAssignedDriverId(
-            String name) throws FileNotFoundException {
-        return String.valueOf(HelperMethods
-                .findUserIdByUsername(name));
-    }
-
-    // TODO comment
-    public List<String> prepareNotificationData() throws FileNotFoundException {
-        List<String> data = new ArrayList<>();
-        data.add(String.valueOf(HelperMethods.getNewIdByFile("NOTIFICATION")));
-        data.add(String.valueOf(super.getCustomer().getCustomerId()));
-        data.add(Notification.getNotificationDateForDatabase());
-        data.add(Notification.getNotificationTimeForDatabase());
-        data.add("delivery");
-        data.add("false");
-        return data;
-    }
-
-    // TODO comment
-    public void cancelDeliveryOrder() throws IOException {
+    public void cancelDeliveryOrder() throws TextFileNotFoundException {
         int orderId = super.getOrderId();
-        DataManager.editColumnDataByUniqueId("ORDERS",
-                orderId, "orderStatus",
-                "failed");
+        try {
+            DataManager.editColumnDataByUniqueId("ORDERS",
+                    orderId, "orderStatus",
+                    "failed");
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     // TODO comment
-    public void approveDeliverOrder(
-            String driverId
-    ) throws IOException {
+    public void approveDeliveryOrder(
+            int driverId
+    ) throws TextFileNotFoundException {
         int orderId = super.getOrderId();
-        DataManager.editColumnDataByUniqueId("ORDERS",
-                orderId, "orderStatus",
-                "pending-kitchen");
-        DataManager.editColumnDataByUniqueId("ORDERS",
-                orderId, "assignedDriver",
-                driverId);
-        DataManager.editColumnDataByUniqueId("ORDERS",
-                orderId, "deliveryTime",
-                getEstimatedDeliveryTimeForDatabase());
+        try {
+            DataManager.editColumnDataByUniqueId("ORDERS",
+                    orderId, "orderStatus",
+                    "pending-kitchen");
+            DataManager.editColumnDataByUniqueId("ORDERS",
+                    orderId, "assignedDriver",
+                    String.valueOf(driverId));
+            DataManager.editColumnDataByUniqueId("ORDERS",
+                    orderId, "deliveryTime",
+                    getEstimatedDeliveryTimeForDatabase());
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     // TODO comment
-    public void confirmDeliverOrder() throws IOException {
+    public boolean confirmDeliveryOrder()
+            throws TextFileNotFoundException {
         int orderId = super.getOrderId();
-        DataManager.editColumnDataByUniqueId("ORDERS",
-                orderId, "orderStatus",
-                "completed");
+        boolean isSuccessful = false;
+        try {
+            isSuccessful = DataManager.editColumnDataByUniqueId("ORDERS",
+                    orderId, "orderStatus",
+                    "completed");
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return isSuccessful;
     }
 
     // TODO comment
@@ -242,153 +227,43 @@ public class DeliveryOrder extends Order implements NotifyAction {
         );
     }
 
-    // TODO comment
-    public static void getUpdatedDeliveryOrderData(
-            ObservableList<DeliveryOrder> data
-    ) throws FileNotFoundException {
-
-        // TODO comment
-        List<String> pendingDeliveryList = DataManager.allDataFromFile("ORDERS");
-
-        for (String order : pendingDeliveryList) {
-            List<String> orderDetails = List.of(order.split(","));
-
-            // orderId
-            int orderId = Integer.parseInt(orderDetails.get(DataFileStructure.getIndexByColName("ORDERS", "orderId")));
-
-            // user
-            Customer customer;
-
-            List<String> customerString = HelperMethods.getDataById("USERS",
-                    orderDetails.get(DataFileStructure.getIndexByColName(
-                            "BOOKINGS", "userId")));
-
-            // orderDate
-            List<String> orderDateDetails = List.of(orderDetails.get(2).split("-"));
-
-            LocalDate orderDate =
-                    LocalDate.of(Integer.parseInt(orderDateDetails.get(0)),
-                            Integer.parseInt(orderDateDetails.get(1)),
-                            Integer.parseInt(orderDateDetails.get(2)));
-
-            // orderTime
-            List<String> orderTimeDetails = List.of(orderDetails.get(3).split("-"));
-
-            LocalTime orderTime =
-                    LocalTime.of(Integer.parseInt(orderTimeDetails.get(0)),
-                            Integer.parseInt(orderTimeDetails.get(1)));
-
-            // orderType
-            String orderType =
-                    orderDetails.get(DataFileStructure.getIndexByColName(
-                            "ORDERS", "orderType"));
-
-            // orderStatus
-            String orderStatus =
-                    orderDetails.get(DataFileStructure.getIndexByColName(
-                            "ORDERS", "orderStatus"));
-
-            // orderedFoodDrinkLists
-            String[] orderListArray =
-                    orderDetails.get(DataFileStructure.getIndexByColName(
-                            "ORDERS", "orderedLists")).split(";");
-            List<FoodDrink> orderFoodDrinkList = new ArrayList<>();
-            for (String item : orderListArray) {
-                // TODO find item type by item name
-                String itemType = "food";
-                FoodDrink newItem = new FoodDrink(item, itemType);
-                boolean isNewItem = true;
-                for (FoodDrink currentItem : orderFoodDrinkList) {
-                    if (currentItem.getItemName().equalsIgnoreCase(item)) {
-                        currentItem.incrementQuantity();
-                        isNewItem = false;
-                    }
-                }
-                if (isNewItem) {
-                    orderFoodDrinkList.add(newItem);
-                }
-            }
-
-            // assignedDriver and deliveryTime
-            LocalTime deliveryTime = null;
-            Driver assignedDriver = null;
-
-            if (orderType.equalsIgnoreCase("delivery")) {
-                List<String> deliveryTimeDetails =
-                        List.of(orderDetails.get(DataFileStructure.getIndexByColName(
-                                "ORDERS", "deliveryTime")).split(
-                                "-"));
-                if (deliveryTimeDetails.size() == 2) {
-                    deliveryTime = LocalTime.of(Integer.parseInt(deliveryTimeDetails.get(0)),
-                            Integer.parseInt(deliveryTimeDetails.get(1)));
-                }
-                List<String> driverString = HelperMethods.getDataById("USERS",
-                        orderDetails.get(DataFileStructure.getIndexByColName(
-                                "ORDERS", "assignedDriver")));
-
-                if (driverString != null) {
-                    assignedDriver = new Driver(
-                            Integer.parseInt(driverString.get(DataFileStructure.getIndexByColName(
-                                    "USERS", "userId"))),
-                            driverString.get(DataFileStructure.getIndexByColName(
-                                    "USERS", "firstName")),
-                            driverString.get(DataFileStructure.getIndexByColName(
-                                    "USERS", "lastName")),
-                            driverString.get(DataFileStructure.getIndexByColName(
-                                    "USERS", "username"))
-                    );
-                }
-            }
-
-            if (customerString != null) {
-                customer = new Customer(
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "firstName")),
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "lastName")),
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "username")),
-                        Integer.parseInt(customerString.get(DataFileStructure.getIndexByColName("USERS", "userId"))),
-                        HelperMethods.formatAddressToRead(customerString.get(DataFileStructure.getIndexByColName("USERS", "address")))
-                );
-
-                // TODO here's the filter for pending yet-to-be-approved deliveries
-                // TODO to filer in "pending-approval" only?
-                if (orderType.equalsIgnoreCase("delivery")
-                        && orderStatus.equalsIgnoreCase("pending-approval")) {
-                    data.add(new DeliveryOrder(
-                            orderId,
-                            customer,
-                            orderDate,
-                            orderTime,
-                            deliveryTime,
-                            orderStatus,
-                            assignedDriver,
-                            orderFoodDrinkList
-                    ));
-
-                }
-            }
-        }
-    }
-
     @Override
     public void notifyCustomer(Customer customer,
-                               boolean isSuccessfulRequest) throws FileNotFoundException {
-        List<String> newNotificationMessage = prepareNotificationData();
+                               boolean isSuccessfulRequest)
+            throws TextFileNotFoundException {
 
-        if (isSuccessfulRequest) {
-            if (super.getOrderStatus().equalsIgnoreCase("pending-approval")) {
-                newNotificationMessage.add(approveDeliveryMessage());
-            } else {
-                newNotificationMessage.add(confirmDeliveryMessage());
-            }
-        } else {
-            newNotificationMessage.add(cancelDeliveryMessage());
-        }
-
-        // TODO try catch
         try {
-            DataManager.appendDataToFile("NOTIFICATION", newNotificationMessage);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
+            NotificationBoard notificationBoard = new NotificationBoard();
+            String notificationType = "delivery";
+            Notification newNotification = notificationBoard.createNewNotification(
+                    customer.getCustomerId(),
+                    notificationType
+            );
+
+            if (isSuccessfulRequest) {
+                if (super.getOrderStatus().equalsIgnoreCase("pending-approval")) {
+                    newNotification.setMessageBody(
+                            approveDeliveryMessage()
+                    );
+                } else {
+                    newNotification.setMessageBody(
+                            confirmDeliveryMessage()
+                    );
+                }
+            } else {
+                newNotification.setMessageBody(
+                        cancelDeliveryMessage()
+                );
+            }
+
+            notificationBoard.addNotificationToDatabase(
+                    newNotification
+            );
+
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
         }
     }
 }

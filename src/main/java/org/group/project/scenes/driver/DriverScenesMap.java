@@ -29,10 +29,6 @@ public class DriverScenesMap {
         driverScenes.put(DriverMapsMain.DELIVERY,
                 new DeliveryView(stage).getScene());
 
-//        stage.setScene(Main.getScenes().get(MainScenes.CUSTOMER));
-//        stage.setTitle("Cafe94 Restaurant");
-//        stage.show();
-
     }
 
     public static Map<DriverMapsMain, Scene> getScenes() {

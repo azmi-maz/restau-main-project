@@ -3,10 +3,11 @@ package org.group.project.controllers.waiter;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import org.group.project.classes.auxiliary.DataFileStructure;
-import org.group.project.classes.auxiliary.DataManager;
+import org.group.project.classes.Booking;
+import org.group.project.classes.Floor;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.exceptions.TextFileNotFoundException;
 
-import java.io.FileNotFoundException;
 import java.util.List;
 
 public class WaiterBookingNavbarCounter {
@@ -20,22 +21,32 @@ public class WaiterBookingNavbarCounter {
     @FXML
     private Label bookingCounter2;
 
-    public void refreshBookingCounter() throws FileNotFoundException {
+    public void refreshBookingCounter() {
 
         int newCounter = 0;
 
-        List<String> pendingBookingList = DataManager.allDataFromFile("BOOKINGS");
+        try {
 
-        for (String booking : pendingBookingList) {
-            List<String> bookingDetails = List.of(booking.split(","));
+            Floor floor = new Floor();
+            List<Booking> pendingBookingList = floor.getAllUniqueBookings();
 
-            // booking status
-            String bookingStatus = bookingDetails.get(DataFileStructure.getIndexByColName("BOOKINGS", "bookingStatus"));
+            for (Booking booking : pendingBookingList) {
 
-            // TODO filter
-            if (bookingStatus.equalsIgnoreCase("pending-approval")) {
-                newCounter++;
+                // booking status
+                String bookingStatus = booking.getBookingStatus();
+
+                // TODO filter
+                if (bookingStatus.equalsIgnoreCase("pending-approval")) {
+                    newCounter++;
+                }
             }
+
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
         }
 
         if (newCounter == 0) {

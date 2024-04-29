@@ -3,14 +3,15 @@ package org.group.project.controllers.manager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import org.group.project.Main;
-import org.group.project.classes.auxiliary.HelperMethods;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.classes.auxiliary.DataManager;
 import org.group.project.classes.auxiliary.ImageLoader;
 import org.group.project.controllers.main.UserProfileView;
+import org.group.project.exceptions.ClearFileFailedException;
 import org.group.project.scenes.MainScenes;
 import org.group.project.scenes.manager.ManagerMapsMain;
 import org.group.project.scenes.manager.ManagerScenesMap;
 
-import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class ManagerHomepageNavbarController {
@@ -32,42 +33,53 @@ public class ManagerHomepageNavbarController {
 
     public void initialize() throws URISyntaxException {
 
-        ImageLoader.setUpGraphicButton(managementButton, 25, 25,
+        ImageLoader.setUpGraphicButton(managementButton,
+                25, 25,
                 "users");
 
-        ImageLoader.setUpGraphicButton(reportButton, 25, 25, "report");
+        ImageLoader.setUpGraphicButton(reportButton,
+                25, 25, "report");
 
-        ImageLoader.setUpGraphicButton(settingButton, 25, 25, "settings");
+        ImageLoader.setUpGraphicButton(settingButton,
+                25, 25, "settings");
 
-        ImageLoader.setUpGraphicButton(userButton, 25, 25, "user");
+        ImageLoader.setUpGraphicButton(userButton,
+                25, 25, "user");
 
-        ImageLoader.setUpGraphicButton(logOffButton, 25, 25, "power");
+        ImageLoader.setUpGraphicButton(logOffButton,
+                25, 25, "power");
 
         managementButton.setOnMousePressed(e -> {
-            ManagerScenesMap.getManagerStage().setScene(ManagerScenesMap.getScenes().get(ManagerMapsMain.MANAGEMENT));
+            ManagerScenesMap.getManagerStage().setScene(
+                    ManagerScenesMap.getScenes()
+                            .get(ManagerMapsMain.MANAGEMENT));
         });
 
         reportButton.setOnMousePressed(e -> {
-            ManagerScenesMap.getManagerStage().setScene(ManagerScenesMap.getScenes().get(ManagerMapsMain.REPORT));
+            ManagerScenesMap.getManagerStage().setScene(
+                    ManagerScenesMap.getScenes()
+                            .get(ManagerMapsMain.REPORT));
         });
 
         settingButton.setOnMousePressed(e -> {
-            // TODO setting scene?
+            // Purposely not implemented
         });
 
         userButton.setOnMousePressed(e -> {
-            // TODO
             UserProfileView userProfileView = new UserProfileView();
             userProfileView.showWindow();
         });
 
         logOffButton.setOnMousePressed(e -> {
-            // TODO remove all active user info here
-            // TODO try catch
+            // Log off by removing active user info
             try {
-                HelperMethods.clearActiveUser();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+                DataManager.clearFileData("ACTIVE_USER");
+            } catch (ClearFileFailedException ex) {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        ex.getMessage()
+                );
+                ex.printStackTrace();
             }
             Main.getStage().setScene(Main.getScenes().get(MainScenes.LOGIN));
         });

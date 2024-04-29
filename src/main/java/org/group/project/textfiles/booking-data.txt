@@ -1,14 +1,17 @@
-1,1,2024-2-12,7-30,8,2,Huit Héritage (8),approved
-2,2,2024-2-13,5-30,2,1,Petite Plateau (2),pending-approval
-3,1,2024-4-14,18-30,2,1,Amoureux Alcôve (2),pending-approval
-4,1,2024-04-20,14-0,2,3,Petite Plateau (2),pending-approval
+2,2,2024-2-13,5-30,2,1,Petite Plateau (2),failed
+3,1,2024-4-14,18-30,2,1,Amoureux Alcôve (2),approved
+4,1,2024-5-1,14-0,8,3,Huit Héritage (8),pending-approval
 5,1,2024-04-20,19-0,2,2,Amoureux Alcôve (2),pending-approval
-6,1,2024-04-21,14-0,8,2,Table du Chef (8),pending-approval
+6,1,2024-04-21,14-0,8,2,Table du Chef (8),approved
 7,2,2024-04-19,14-30,2,2,Belle Banquette (2),pending-approval
 8,1,2024-04-30,15-0,2,2,Charme Coin (2),approved
-9,1,2024-04-30,15-0,4,2,Quatre Quartiers (4),approved
-10,1,2024-04-30,14-30,2,2,Petite Plateau (2),pending-approval
-12,10,2024-04-19,16-0,4,2,Salle Familiale (4),pending-approval
+9,1,2024-04-30,15-0,4,2,Quatre Quartiers (4),failed
+10,1,2024-4-30,14-30,10,2,Festin Fantastique (10),pending-approval
+12,10,2024-04-19,16-0,4,2,Salle Familiale (4),failed
 13,10,2024-04-19,14-0,2,2,Amoureux Alcôve (2),pending-approval
-14,1,2024-04-21,15-30,4,2,Convives Carré (4),pending-approval
-15,1,2024-04-23,14-0,4,2,Groupe Grandeur (4),pending-approval
+14,1,2024-04-21,15-30,4,2,Convives Carré (4),failed
+15,1,2024-5-1,14-0,4,2,Groupe Grandeur (4),pending-approval
+16,1,2024-04-28,18-0,4,2,Salle Familiale (4),approved
+17,1,2024-4-30,10-30,10,2,Festin Fantastique (10),pending-approval
+18,1,2024-5-1,15-0,4,2,Salle Familiale (4),approved
+19,1,2024-5-2,18-0,4,2,Convives Carré (4),pending-approval

@@ -5,10 +5,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.group.project.classes.*;
+import org.group.project.Main;
+import org.group.project.classes.Customer;
+import org.group.project.classes.DeliveryOrder;
+import org.group.project.classes.Driver;
+import org.group.project.classes.Order;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
-
-import java.io.IOException;
+import org.group.project.exceptions.TextFileNotFoundException;
 
 public class DriverPendingDeliveryDetailsController {
 
@@ -38,19 +41,25 @@ public class DriverPendingDeliveryDetailsController {
     public void initialize() {
 
         deliveryCompletedButton.setOnAction(e -> {
+            Driver driver = (Driver) Main.getCurrentUser();
 
-            // TODO handle try catch
             try {
-                currentOrder.confirmDeliverOrder();
-                currentOrder.notifyCustomer(
-                        currentOrder.getCustomer(),
-                        true
+                boolean isSuccessful = driver.confirmDeliveryOrder(
+                        currentOrder);
+                if (isSuccessful) {
+                    currentOrder.notifyCustomer(
+                            currentOrder.getCustomer(),
+                            true
+                    );
+                    promptDeliverySuccessful(currentOrder);
+                }
+            } catch (TextFileNotFoundException ex) {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        ex.getMessage()
                 );
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+                ex.printStackTrace();
             }
-
-            promptDeliverySuccessful();
 
             closeWindow();
         });
@@ -72,10 +81,14 @@ public class DriverPendingDeliveryDetailsController {
         this.currentOrder = (DeliveryOrder) currentOrder;
     }
 
-    public void promptDeliverySuccessful() {
+    public void promptDeliverySuccessful(
+            DeliveryOrder currentOrder) {
         AlertPopUpWindow.displayInformationWindow(
                 "Order Delivery",
-                "Delivery is successful!",
+                String.format(
+                        "Delivery is successful for order" +
+                                " no.%d!",
+                        currentOrder.getOrderId()),
                 "Ok"
         );
     }

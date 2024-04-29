@@ -5,10 +5,11 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
-import org.group.project.classes.auxiliary.AlertPopUpWindow;
-import org.group.project.classes.auxiliary.HelperMethods;
 import org.group.project.classes.User;
-import org.group.project.scenes.*;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.classes.auxiliary.DataManager;
+import org.group.project.exceptions.ClearFileFailedException;
+import org.group.project.scenes.MainScenes;
 import org.group.project.scenes.chef.ChefScenesMap;
 import org.group.project.scenes.customer.CustomerScenesMap;
 import org.group.project.scenes.driver.DriverScenesMap;
@@ -24,16 +25,15 @@ import java.util.Optional;
 public class Main extends Application {
 
     /**
-     * Holds the various scenes manager to switch between
+     * Holds the various scenes to switch between
      */
     private static Map<MainScenes, Scene> scenes = new HashMap<>();
 
     private static Stage stage;
 
     private static User currentUser;
-
-    // TODO the static application name here Cafe94 Restaurant and use it in
-    //  all classes.
+    private static final String restaurantName =
+            "Cafe94 Restaurant";
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -49,8 +49,7 @@ public class Main extends Application {
 
         // Start with user log in
         stage.setScene(scenes.get(MainScenes.LOGIN));
-        // TODO final variable constant this
-        stage.setTitle("Cafe94 Restaurant");
+        stage.setTitle(restaurantName);
         stage.show();
 
         stage.setOnCloseRequest(e -> {
@@ -61,16 +60,19 @@ public class Main extends Application {
                     .getButtonData().toString()
                     .equalsIgnoreCase("OK_DONE")) {
 
-                // TODO try catch
                 try {
-                    HelperMethods.clearActiveUser();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+                    DataManager.clearFileData("ACTIVE_USER");
+                } catch (ClearFileFailedException ex) {
+                    AlertPopUpWindow.displayErrorWindow(
+                            "Error",
+                            ex.getMessage()
+                    );
+                    ex.printStackTrace();
                 }
                 Platform.exit();
                 System.exit(0);
             }
-            // TODO this cancels the exit
+            // This cancels the exit
             e.consume();
 
         });

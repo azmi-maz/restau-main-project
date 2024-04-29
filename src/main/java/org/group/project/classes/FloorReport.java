@@ -1,8 +1,7 @@
 package org.group.project.classes;
 
-import org.group.project.classes.auxiliary.HelperMethods;
+import org.group.project.exceptions.TextFileNotFoundException;
 
-import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -23,20 +22,17 @@ public class FloorReport extends Report {
      * @param user       - the user who generated the report.
      */
     public FloorReport(String reportType,
-                       User user) {
+                       User user)
+            throws TextFileNotFoundException {
+
         super(reportType, user);
-        int nextReportId = 0;
-        try {
-            nextReportId = HelperMethods.getNewIdByFile("REPORTS");
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        super.setReportId(nextReportId);
+
         if (reportType.equalsIgnoreCase("busiest periods")) {
             super.setReportData(getBusiestPeriodReport());
         } else if (reportType.equalsIgnoreCase("most active customer")) {
             super.setReportData(getMostActiveCustomerReport());
         }
+
     }
 
     /**
@@ -44,8 +40,14 @@ public class FloorReport extends Report {
      *
      * @return the report for busiest period.
      */
-    public String getBusiestPeriodReport() {
-        return prepareReportData();
+    public String getBusiestPeriodReport()
+            throws TextFileNotFoundException {
+        try {
+            return prepareReportData();
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     /**
@@ -53,14 +55,26 @@ public class FloorReport extends Report {
      *
      * @return the report for most active customer.
      */
-    public String getMostActiveCustomerReport() {
-        return prepareReportData();
+    public String getMostActiveCustomerReport()
+            throws TextFileNotFoundException {
+        try {
+            return prepareReportData();
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     // TODO
-    public String prepareReportData() {
+    public String prepareReportData() throws TextFileNotFoundException {
 
-        Floor floor = new Floor();
+        Floor floor = null;
+        try {
+            floor = new Floor();
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
         List<Booking> bookingList = floor.getAllUniqueBookings();
 
         Map<LocalDate, Integer> dateRangeMap = new HashMap<>();

@@ -6,22 +6,21 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.group.project.Main;
+import org.group.project.classes.Customer;
+import org.group.project.classes.User;
+import org.group.project.classes.UserManagement;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
-import org.group.project.classes.auxiliary.DataFileStructure;
 import org.group.project.classes.auxiliary.DataManager;
-import org.group.project.classes.auxiliary.HelperMethods;
+import org.group.project.exceptions.ClearFileFailedException;
+import org.group.project.exceptions.TextFileNotFoundException;
 import org.group.project.scenes.MainScenes;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.List;
 
 public class EditProfileController {
 
     @FXML
     private VBox vbox;
 
-    private String userId;
+    private int userId;
 
     @FXML
     private TextField firstNameTextField;
@@ -52,8 +51,7 @@ public class EditProfileController {
             if (
                     !firstNameTextField.getText().isBlank() &&
                             !lastNameTextField.getText().isBlank() &&
-                            !usernameTextField.getText().isBlank() &&
-                            !addressTextField.getText().isBlank()
+                            !usernameTextField.getText().isBlank()
             ) {
 
                 updateUserId();
@@ -62,44 +60,64 @@ public class EditProfileController {
                 String username = usernameTextField.getText();
                 String address = "";
                 if (addressTextField.getText() != null) {
-                    address = HelperMethods
-                            .formatAddressToWrite(addressTextField.getText());
+                    address = addressTextField.getText();
                 }
 
-                // TODO try catch
+                UserManagement userManagement = null;
                 try {
-                    DataManager.editColumnDataByUniqueId(
-                            "USERS", userId,
-                            "firstName", firstName
+                    userManagement = new UserManagement();
+                } catch (TextFileNotFoundException ex) {
+                    AlertPopUpWindow.displayErrorWindow(
+                            "Error",
+                            ex.getMessage()
                     );
-                    DataManager.editColumnDataByUniqueId(
-                            "USERS", userId,
-                            "lastName", lastName
-                    );
-                    DataManager.editColumnDataByUniqueId(
-                            "USERS", userId,
-                            "username", username
-                    );
+                    ex.printStackTrace();
+                }
+
+                try {
                     if (addressTextField.getText() != null) {
-                        DataManager.editColumnDataByUniqueId(
-                                "USERS", userId,
-                                "address", address
+                        userManagement.editExistingUserProfile(
+                                userId,
+                                firstName,
+                                lastName,
+                                username,
+                                address
+                        );
+                    } else {
+                        userManagement.editExistingUserProfile(
+                                userId,
+                                firstName,
+                                lastName,
+                                username
                         );
                     }
                     AlertPopUpWindow.displayInformationWindow(
                             "Info",
-                            "There were changes made to the user profile. Please log in again.",
+                            "There were changes made to the user " +
+                                    "profile. Please log in again.",
                             "Ok"
                     );
-                    // TODO try catch
+
+                    // Log off by removing active user info
                     try {
-                        HelperMethods.clearActiveUser();
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
+                        DataManager.clearFileData("ACTIVE_USER");
+                    } catch (ClearFileFailedException ex) {
+                        AlertPopUpWindow.displayErrorWindow(
+                                "Error",
+                                ex.getMessage()
+                        );
+                        ex.printStackTrace();
                     }
-                    Main.getStage().setScene(Main.getScenes().get(MainScenes.LOGIN));
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+
+                    Main.getStage().setScene(Main.getScenes()
+                            .get(MainScenes.LOGIN));
+
+                } catch (TextFileNotFoundException ex) {
+                    AlertPopUpWindow.displayErrorWindow(
+                            "Error",
+                            ex.getMessage()
+                    );
+                    ex.printStackTrace();
                 }
 
                 closeWindow();
@@ -120,28 +138,38 @@ public class EditProfileController {
 
     }
 
-    public void populateUserDetails() throws FileNotFoundException {
+    public void populateUserDetails() {
+
+        UserManagement userManagement = null;
+        try {
+
+            userManagement = new UserManagement();
+
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
+
         String currentUsername = Main.getCurrentUser().getUsername();
-        List<String> userDetails = HelperMethods.getUserDataByUsername(currentUsername);
-        String userType = userDetails.get(DataFileStructure
-                .getIndexByColName("USERS", "userType"));
+        User currentUser = userManagement.getUserByUsername(
+                currentUsername);
+
+        String userType = userManagement.getStaffClass
+                (currentUser).toLowerCase();
         firstNameTextField.setText(
-                userDetails.get(DataFileStructure
-                        .getIndexByColName("USERS",
-                                "firstName")));
+                currentUser.getFirstNameForDisplay());
         lastNameTextField.setText(
-                userDetails.get(DataFileStructure
-                        .getIndexByColName("USERS",
-                                "lastName")));
+                currentUser.getLastNameForDisplay());
         usernameTextField.setText(
-                userDetails.get(DataFileStructure
-                        .getIndexByColName("USERS",
-                                "username")));
+                currentUser.getUsername());
         if (userType.equalsIgnoreCase("customer")) {
+            Customer customer = (Customer) currentUser;
             addressTextField.setText(
-                    HelperMethods.formatAddressToRead(userDetails.get(DataFileStructure
-                            .getIndexByColName("USERS",
-                                    "address"))));
+                    customer.getDeliveryAddressToRead()
+            );
             addressBox.setStyle("visibility: visible");
         } else {
             addressBox.setStyle("visibility: hidden");
@@ -154,14 +182,16 @@ public class EditProfileController {
             return;
         }
 
-        // TODO try catch
         try {
-            userId = String.valueOf(
-                    HelperMethods
-                            .findUserIdByUsername(
-                                    Main.getCurrentUser().getUsername()));
-        } catch (FileNotFoundException ex) {
-            throw new RuntimeException(ex);
+            UserManagement userManagement = new UserManagement();
+            userId = userManagement.getUserIdByUsername(
+                    Main.getCurrentUser().getUsername());
+        } catch (TextFileNotFoundException ex) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    ex.getMessage()
+            );
+            ex.printStackTrace();
         }
     }
 

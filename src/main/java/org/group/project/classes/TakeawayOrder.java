@@ -1,14 +1,10 @@
 package org.group.project.classes;
 
-import org.group.project.classes.auxiliary.DataManager;
-import org.group.project.classes.auxiliary.HelperMethods;
+import org.group.project.exceptions.TextFileNotFoundException;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,15 +36,6 @@ public class TakeawayOrder extends Order implements NotifyAction {
                          String orderStatus, List<FoodDrink> orderedList) {
         super(orderId, customer, orderDate, orderTime, "takeaway", orderStatus, orderedList);
         this.estimatedPickupTime = estimatedPickupTime;
-    }
-
-    /**
-     * Getter method to get the customer who made the delivery order.
-     *
-     * @return the customer.
-     */
-    public Customer getCustomer() {
-        return super.getCustomer();
     }
 
     /**
@@ -117,18 +104,6 @@ public class TakeawayOrder extends Order implements NotifyAction {
     }
 
     // TODO comment
-    public List<String> prepareNotificationData() throws FileNotFoundException {
-        List<String> data = new ArrayList<>();
-        data.add(String.valueOf(HelperMethods.getNewIdByFile("NOTIFICATION")));
-        data.add(String.valueOf(super.getCustomer().getCustomerId()));
-        data.add(Notification.getNotificationDateForDatabase());
-        data.add(Notification.getNotificationTimeForDatabase());
-        data.add("takeaway");
-        data.add("false");
-        return data;
-    }
-
-    // TODO comment
     public String completeTakeawayOrderMessage() {
         return String.format(
                 "Your order no.%d is ready for pickup at %s.",
@@ -139,18 +114,30 @@ public class TakeawayOrder extends Order implements NotifyAction {
 
     @Override
     public void notifyCustomer(Customer customer,
-                               boolean isSuccessfulRequest) throws FileNotFoundException {
-        List<String> newNotificationMessage = prepareNotificationData();
+                               boolean isSuccessfulRequest)
+            throws TextFileNotFoundException {
 
-        if (isSuccessfulRequest) {
-            newNotificationMessage.add(completeTakeawayOrderMessage());
-        }
-
-        // TODO try catch
         try {
-            DataManager.appendDataToFile("NOTIFICATION", newNotificationMessage);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
+            NotificationBoard notificationBoard = new NotificationBoard();
+            String notificationType = "takeaway";
+            Notification newNotification = notificationBoard.createNewNotification(
+                    customer.getCustomerId(),
+                    notificationType
+            );
+
+            if (isSuccessfulRequest) {
+                newNotification.setMessageBody(
+                        completeTakeawayOrderMessage()
+                );
+            }
+            notificationBoard.addNotificationToDatabase(
+                    newNotification
+            );
+
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
         }
 
     }

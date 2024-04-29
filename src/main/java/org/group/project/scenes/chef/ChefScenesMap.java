@@ -32,12 +32,6 @@ public class ChefScenesMap {
         chefScenes.put(ChefMapsMain.MENU,
                 new MenuView(stage).getScene());
 
-        // TODO user scene and order history?
-
-//        stage.setScene(Main.getScenes().get(MainScenes.CUSTOMER));
-//        stage.setTitle("Cafe94 Restaurant");
-//        stage.show();
-
     }
 
     public static Map<ChefMapsMain, Scene> getScenes() {

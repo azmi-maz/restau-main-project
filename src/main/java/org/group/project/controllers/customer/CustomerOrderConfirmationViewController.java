@@ -7,25 +7,21 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import org.group.project.Main;
-import org.group.project.classes.*;
+import org.group.project.classes.Customer;
+import org.group.project.classes.FoodDrink;
+import org.group.project.classes.Order;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
-import org.group.project.classes.auxiliary.DataManager;
-import org.group.project.classes.auxiliary.HelperMethods;
+import org.group.project.exceptions.TextFileNotFoundException;
 import org.group.project.scenes.customer.stackViews.MenuController;
 import org.group.project.scenes.customer.stackViews.OrderConfirmationController;
 import org.group.project.scenes.customer.stackViews.OrderDetailsController;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,9 +41,6 @@ public class CustomerOrderConfirmationViewController {
 
     @FXML
     private BorderPane borderPane;
-
-    @FXML
-    private ImageView bgImage;
 
     private List<Order> newOrder;
 
@@ -86,7 +79,8 @@ public class CustomerOrderConfirmationViewController {
                 ".jpg").toURI().toString());
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,
-                BackgroundSize.AUTO, false, false, true, true);
+                BackgroundSize.AUTO, false,
+                false, true, true);
 
         borderPane.setBackground(new Background(new BackgroundImage(bgImage,
                 BackgroundRepeat.NO_REPEAT,
@@ -103,7 +97,8 @@ public class CustomerOrderConfirmationViewController {
         noColumn.setStyle("-fx-alignment: CENTER;");
         noColumn.setCellValueFactory(cellData -> {
             int index =
-                    cellData.getTableView().getItems().indexOf(cellData.getValue());
+                    cellData.getTableView().getItems().indexOf(
+                            cellData.getValue());
             index++;
             return new SimpleObjectProperty<>(index).asString();
         });
@@ -141,10 +136,10 @@ public class CustomerOrderConfirmationViewController {
         // TODO might wanna put this in DeliveryOrder class
         String deliveryOrderTemplate =
                 "Order date: " +
-                        orderDate.format(DateTimeFormatter.ofPattern("dd/MM" +
-                                "/yyyy")) + "  " +
-                        orderTime.format(DateTimeFormatter.ofPattern("hh:mm " +
-                                "a")) + System.lineSeparator() +
+                        orderDate.format(DateTimeFormatter.ofPattern(
+                                "dd/MM/yyyy")) + "  " +
+                        orderTime.format(DateTimeFormatter.ofPattern(
+                                "hh:mm a")) + System.lineSeparator() +
                         "Customer id: " +
                         customerId + System.lineSeparator() +
                         "Customer name: " +
@@ -155,10 +150,10 @@ public class CustomerOrderConfirmationViewController {
         // TODO might wanna put this in TakeawayOrder class
         String takeawayOrderTemplate =
                 "Order date: " +
-                        orderDate.format(DateTimeFormatter.ofPattern("dd/MM" +
-                                "/yyyy")) + "  " +
-                        orderTime.format(DateTimeFormatter.ofPattern("hh:mm " +
-                                "a")) + System.lineSeparator() +
+                        orderDate.format(DateTimeFormatter.ofPattern(
+                                "dd/MM/yyyy")) + "  " +
+                        orderTime.format(DateTimeFormatter.ofPattern(
+                                "hh:mm a")) + System.lineSeparator() +
                         "Customer id: " +
                         customerId + System.lineSeparator() +
                         "Customer name: " +
@@ -175,16 +170,11 @@ public class CustomerOrderConfirmationViewController {
         // TODO write to database
         cardButton.setOnAction(e -> {
             addOrderToDatabase();
-            cancelConfirmationAndGoBackToMenu();
-            promptOrderSuccessful();
         });
 
         // TODO fix order, check if it works
         cashButton.setOnAction(e -> {
             addOrderToDatabase();
-            cancelConfirmationAndGoBackToMenu();
-            promptOrderSuccessful();
-
         });
 
         // TODO fix order, check if it works
@@ -205,45 +195,23 @@ public class CustomerOrderConfirmationViewController {
     // TODO add order to database
     public void addOrderToDatabase() {
 
-        // TODO handle try catch properly
+        Customer customer = (Customer) Main.getCurrentUser();
+
         try {
-            String orderId = String.valueOf(HelperMethods.getNewIdByFile("ORDERS"));
-            String userId = String.valueOf(orderDetails.getCustomer().getCustomerId());
-            String orderDate = orderDetails.getOrderDate().getYear() + "-"
-                    + orderDetails.getOrderDate().getMonthValue() + "-"
-                    + orderDetails.getOrderDate().getDayOfMonth();
-            String orderTime =
-                    orderDetails.getOrderTime().getHour() + "-"
-                            + orderDetails.getOrderTime().getMinute();
-            String orderType = orderDetails.getOrderType();
-            String orderStatus = orderDetails.getOrderStatus();
-            String estimatedPickupTime = "";
-            String assignedDriver = "";
-            String deliveryTime = "";
-            String orderLists = DataManager.formatLongArrayToOneColumnString(
-                    orderDetails.getListOfItemNamesInOrderList());
-
-            List<String> newOrderForDatabase = new ArrayList<>(Arrays.asList(
-                    orderId,
-                    userId,
-                    orderDate,
-                    orderTime,
-                    orderType,
-                    orderStatus,
-                    estimatedPickupTime,
-                    assignedDriver,
-                    deliveryTime,
-                    orderLists
-            ));
-
-            DataManager.appendDataToFile("ORDERS", newOrderForDatabase);
-
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-
-            // TODO appendDataToFile catch
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            boolean isSuccessful = customer
+                    .addNewOrder(
+                            newOrder.getFirst()
+                    );
+            if (isSuccessful) {
+                cancelConfirmationAndGoBackToMenu();
+                promptOrderSuccessful();
+            }
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
         }
     }
 

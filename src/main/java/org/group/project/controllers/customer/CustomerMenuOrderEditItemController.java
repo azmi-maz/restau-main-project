@@ -123,12 +123,6 @@ public class CustomerMenuOrderEditItemController {
         stage.close();
     }
 
-    public void onChange() {
-        // TODO do the error check here for wrong numberformaterror add Alert
-        //  here
-//        System.out.println("Quantity Field changed to " + quantityTextField.getText());
-    }
-
     // TODO this updates the quantity field to the current value
     private void getCurrentQty(String itemName) {
 

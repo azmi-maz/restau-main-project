@@ -16,17 +16,17 @@ import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.group.project.Main;
-import org.group.project.classes.*;
-import org.group.project.classes.auxiliary.*;
+import org.group.project.classes.Booking;
+import org.group.project.classes.Customer;
+import org.group.project.classes.Floor;
+import org.group.project.classes.UserManagement;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.classes.auxiliary.ImageLoader;
+import org.group.project.exceptions.TextFileNotFoundException;
 import org.group.project.scenes.WindowSize;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class CustomerBookingsHistoryViewController {
@@ -64,8 +64,6 @@ public class CustomerBookingsHistoryViewController {
     @FXML
     private Button newReservationButton;
 
-    private List<String> tableReservations;
-
     @FXML
     private TableView<Booking> reservationTable = new TableView<>();
     private ObservableList<Booking> data =
@@ -74,16 +72,17 @@ public class CustomerBookingsHistoryViewController {
     @FXML
     private BorderPane borderPane;
 
-    private String userId;
+    private int userId;
 
-    public void initialize() throws FileNotFoundException, URISyntaxException {
+    public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
                 "/background/main-bg" +
                 ".jpg").toURI().toString());
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,
-                BackgroundSize.AUTO, false, false, true, true);
+                BackgroundSize.AUTO, false,
+                false, true, true);
 
         borderPane.setBackground(new Background(new BackgroundImage(bgImage,
                 BackgroundRepeat.NO_REPEAT,
@@ -112,7 +111,8 @@ public class CustomerBookingsHistoryViewController {
         bookingTimeColumn.setMinWidth(150);
         bookingTimeColumn.setStyle("-fx-alignment: CENTER;");
         bookingTimeColumn.setCellValueFactory(cellData -> {
-            String formattedTime = cellData.getValue().getBookingTimeInFormat();
+            String formattedTime = cellData.getValue()
+                    .getBookingTimeInFormat();
             return new SimpleObjectProperty<>(formattedTime);
         });
 
@@ -151,15 +151,9 @@ public class CustomerBookingsHistoryViewController {
         actionButtonColumn1.setStyle("-fx-alignment: CENTER;");
         actionButtonColumn1.setCellValueFactory(cellData -> {
             Button editButton = new Button();
-            ImageLoader.setUpGraphicButton(editButton, 15, 15, "edit");
-            int bookingId =
-                    cellData.getValue().getBookingId();
-            LocalDate reservationDate = cellData.getValue().getBookingDate();
-            LocalTime reservationTime = cellData.getValue().getBookingTime();
-            int numOfGuests = cellData.getValue().getNumOfGuests();
-            String tablePreference =
-                    cellData.getValue().getTableNames().toString();
-            int bookingLength = cellData.getValue().getBookingLengthInHour();
+            ImageLoader.setUpGraphicButton(editButton,
+                    15, 15, "edit");
+            Booking currentBooking = cellData.getValue();
 
             editButton.setOnMousePressed(e -> {
 
@@ -179,7 +173,8 @@ public class CustomerBookingsHistoryViewController {
                 try {
                     FXMLLoader fxmlLoader =
                             new FXMLLoader(Main.class.getResource(
-                                    "smallwindows/customer-view-booking" +
+                                    "smallwindows/" +
+                                            "customer-view-booking" +
                                             ".fxml"));
 
                     VBox vbox = fxmlLoader.load();
@@ -187,9 +182,7 @@ public class CustomerBookingsHistoryViewController {
                     CustomerEditBookingController controller =
                             fxmlLoader.getController();
 
-                    controller.setBookingToView(bookingId, reservationDate,
-                            reservationTime, numOfGuests,
-                            tablePreference, bookingLength);
+                    controller.setBookingToView(currentBooking);
 
                     Scene editScene = new Scene(vbox,
                             WindowSize.SMALL.WIDTH,
@@ -207,8 +200,11 @@ public class CustomerBookingsHistoryViewController {
                     refreshReservationList();
 
                 } catch (IOException ex) {
-                    // TODO catch error
-                    throw new RuntimeException(ex);
+                    AlertPopUpWindow.displayErrorWindow(
+                            "Error",
+                            ex.getMessage()
+                    );
+                    ex.printStackTrace();
                 }
             });
 
@@ -219,25 +215,43 @@ public class CustomerBookingsHistoryViewController {
         actionButtonColumn2.setStyle("-fx-alignment: CENTER;");
         actionButtonColumn2.setCellValueFactory(cellData -> {
             Button deleteButton = new Button();
-            ImageLoader.setUpGraphicButton(deleteButton, 15, 15, "delete");
-            int bookingId =
-                    cellData.getValue().getBookingId();
+            ImageLoader.setUpGraphicButton(deleteButton,
+                    15, 15, "delete");
+            Booking selectedBooking = cellData.getValue();
 
             // TODO comment - delete the reservation and refresh list
             deleteButton.setOnMousePressed(e -> {
+                Customer customer = (Customer) Main.getCurrentUser();
+
                 Optional<ButtonType> userChoice =
                         promptForUserAcknowledgement();
 
                 if (userChoice.get()
                         .getButtonData().toString()
                         .equalsIgnoreCase("OK_DONE")) {
-                    deleteBooking(bookingId);
 
-                    // TODO try catch
                     try {
+                        boolean isSuccessful = customer.deleteBooking(
+                                selectedBooking
+                        );
+                        if (isSuccessful) {
+                            AlertPopUpWindow.displayInformationWindow(
+                                    "Table Reservation Update",
+                                    String.format(
+                                            "Reservation no.%d was " +
+                                                    "deleted successfully.",
+                                            selectedBooking.getBookingId()
+                                    ),
+                                    "Ok"
+                            );
+                        }
                         refreshReservationList();
-                    } catch (FileNotFoundException ex) {
-                        throw new RuntimeException(ex);
+                    } catch (TextFileNotFoundException ex) {
+                        AlertPopUpWindow.displayErrorWindow(
+                                "Error",
+                                ex.getMessage()
+                        );
+                        ex.printStackTrace();
                     }
                 }
 
@@ -247,7 +261,8 @@ public class CustomerBookingsHistoryViewController {
 
         reservationTable.setItems(data);
 
-        ImageLoader.setUpGraphicButton(newReservationButton, 25, 25, "edit");
+        ImageLoader.setUpGraphicButton(newReservationButton,
+                25, 25, "edit");
 
         newReservationButton.setOnAction(e -> {
 
@@ -255,7 +270,8 @@ public class CustomerBookingsHistoryViewController {
             try {
                 FXMLLoader fxmlLoader =
                         new FXMLLoader(Main.class.getResource(
-                                "smallwindows/customer-add-booking" +
+                                "smallwindows/" +
+                                        "customer-add-booking" +
                                         ".fxml"));
 
                 VBox vbox = fxmlLoader.load();
@@ -281,15 +297,18 @@ public class CustomerBookingsHistoryViewController {
                 refreshReservationList();
 
             } catch (IOException ex) {
-                // TODO catch error
-                throw new RuntimeException(ex);
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        ex.getMessage()
+                );
+                ex.printStackTrace();
             }
         });
 
     }
 
     // TODO comment
-    public void refreshReservationList() throws FileNotFoundException {
+    public void refreshReservationList() {
 
         updateUserId();
 
@@ -297,67 +316,22 @@ public class CustomerBookingsHistoryViewController {
         reservationTable.getItems().clear();
         data.clear();
 
-        // TODO to filter based on userid
-        tableReservations = DataManager.allDataFromFile("BOOKINGS");
+        try {
 
-        for (String booking : tableReservations) {
-            List<String> bookingDetails = List.of(booking.split(","));
-            String currentUserId = bookingDetails
-                    .get(DataFileStructure
-                            .getIndexByColName("BOOKINGS", "userId"));
+            Floor floor = new Floor();
+            floor.getBookingDataByUserId(
+                    data,
+                    userId
+            );
 
-            if (currentUserId.equalsIgnoreCase(userId)) {
-
-                int bookingId = Integer.parseInt(bookingDetails.get(0));
-                List<String> bookingDateDetails =
-                        List.of(bookingDetails.get(2).split("-"));
-                List<String> bookingTimeDetails =
-                        List.of(bookingDetails.get(3).split("-"));
-                Customer customer;
-                LocalDate bookingDate =
-                        LocalDate.of(Integer.parseInt(bookingDateDetails.get(0)),
-                                Integer.parseInt(bookingDateDetails.get(1)),
-                                Integer.parseInt(bookingDateDetails.get(2)));
-                LocalTime bookingTime =
-                        LocalTime.of(Integer.parseInt(bookingTimeDetails.get(0)),
-                                Integer.parseInt(bookingTimeDetails.get(1)));
-                int numOfGuests = Integer.parseInt(bookingDetails.get(4));
-                int bookingLength = Integer.parseInt(bookingDetails.get(5));
-                String[] bookingTables = bookingDetails.get(6).split(";");
-                String bookingStatus = bookingDetails.get(7);
-                List<Table> tablePreference = new ArrayList<>();
-
-                // TODO filter by current userId
-                List<String> customerString = HelperMethods.getDataById("USERS",
-                        bookingDetails.get(DataFileStructure.getIndexByColName(
-                                "BOOKINGS", "userId")));
-                for (String rawTable : bookingTables) {
-                    List<String> rawTableDetails = HelperMethods.getDataById(
-                            "TABLES", rawTable);
-                    tablePreference.add(new Table(rawTableDetails.get(0),
-                            Integer.parseInt(rawTableDetails.get(1))));
-                }
-                if (customerString != null) {
-                    customer = new Customer(
-                            customerString.get(DataFileStructure.getIndexByColName("USERS", "firstName")),
-                            customerString.get(DataFileStructure.getIndexByColName("USERS", "lastName")),
-                            customerString.get(DataFileStructure.getIndexByColName("USERS", "username")),
-                            Integer.parseInt(customerString.get(DataFileStructure.getIndexByColName("USERS", "userId"))),
-                            HelperMethods.formatAddressToRead(customerString.get(DataFileStructure.getIndexByColName("USERS", "address")))
-                    );
-                    data.add(new Booking(
-                            bookingId,
-                            customer,
-                            bookingDate,
-                            bookingTime,
-                            numOfGuests,
-                            tablePreference,
-                            bookingLength,
-                            bookingStatus
-                    ));
-                }
-            }
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
         }
+
     }
 
     public Optional<ButtonType> promptForUserAcknowledgement() {
@@ -373,24 +347,18 @@ public class CustomerBookingsHistoryViewController {
             return;
         }
 
-        // TODO try catch
         try {
-            userId = String.valueOf(
-                    HelperMethods
-                            .findUserIdByUsername(
-                                    Main.getCurrentUser().getUsername()));
-        } catch (FileNotFoundException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
 
-    public void deleteBooking(int bookingId) {
-        // TODO try catch
-        try {
-            DataManager.deleteUniqueIdFromFile("BOOKINGS",
-                    bookingId);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            UserManagement userManagement = new UserManagement();
+            userId = userManagement.getUserIdByUsername(
+                    Main.getCurrentUser().getUsername());
+
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
         }
     }
 

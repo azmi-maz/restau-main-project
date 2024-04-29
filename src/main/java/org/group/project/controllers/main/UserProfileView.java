@@ -6,6 +6,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.group.project.Main;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
@@ -40,8 +41,11 @@ public class UserProfileView {
             editStage.showAndWait();
 
         } catch (IOException ex) {
-            // TODO catch error
-            throw new RuntimeException(ex);
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    ex.getMessage()
+            );
+            ex.printStackTrace();
         }
     }
 }

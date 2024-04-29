@@ -6,12 +6,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.group.project.classes.Customer;
-import org.group.project.classes.DeliveryOrder;
-import org.group.project.classes.Driver;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import org.group.project.Main;
+import org.group.project.classes.*;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.exceptions.TextFileNotFoundException;
 
 public class WaiterEditDeliveryOrderController {
 
@@ -51,38 +49,50 @@ public class WaiterEditDeliveryOrderController {
 
         setTextFieldToDisabled();
 
-        // TODO comment & try catch
+        // TODO comment
         try {
-            Driver.getUpdatedDriverList(assignedDriverComboBox);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+
+            UserManagement userManagement = new UserManagement();
+            userManagement.updateDriverList(assignedDriverComboBox);
+
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
         }
 
         saveButton.setOnAction(e -> {
 
-            // TODO try catch
-            // TODO if no driver chosen, throws error here and need to catch it
-            // TODO or just onChange and notify the user before save button
-            String driverName = assignedDriverComboBox
-                    .getValue().getUsername();
-            String searchDriverId;
             try {
-                searchDriverId = currentOrder.getAssignedDriverId(driverName);
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
-            String driverId = searchDriverId;
 
-            // TODO try catch
-            try {
-                currentOrder.approveDeliverOrder(driverId);
-                currentOrder.notifyCustomer(
-                        currentOrder.getCustomer(),
-                        true
+                Waiter waiter = (Waiter) Main.getCurrentUser();
+                Driver selectedDriver = assignedDriverComboBox
+                        .getValue();
+                int searchDriverId = selectedDriver.getUserId();
+                int driverId = searchDriverId;
+
+                boolean isSuccessful = waiter.approveDeliveryOrder(
+                        currentOrder,
+                        driverId
                 );
+                if (isSuccessful) {
+                    AlertPopUpWindow.displayInformationWindow(
+                            "Delivery Order Update",
+                            String.format("Delivery order no.%d " +
+                                            "was approved successfully.",
+                                    currentOrder.getOrderId()),
+                            "Ok"
+                    );
+                }
 
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+            } catch (TextFileNotFoundException ex) {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        ex.getMessage()
+                );
+                ex.printStackTrace();
             }
 
             closeWindow();

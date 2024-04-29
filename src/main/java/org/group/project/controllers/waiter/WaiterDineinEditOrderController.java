@@ -53,7 +53,6 @@ public class WaiterDineinEditOrderController {
             ) {
 
                 String currentItemName = comboItemName.getValue();
-                // TODO handle invalid quantity
                 int updatedQty = Integer.parseInt(quantityTextField.getText());
 
                 for (FoodDrink item : orderList) {

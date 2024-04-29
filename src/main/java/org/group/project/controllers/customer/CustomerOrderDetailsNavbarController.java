@@ -14,12 +14,11 @@ public class CustomerOrderDetailsNavbarController {
 
     public void initialize() throws URISyntaxException {
 
-        ImageLoader.setUpGraphicButton(returnToMenuButton, 25, 25, "undo");
+        ImageLoader.setUpGraphicButton(returnToMenuButton,
+                25, 25, "undo");
 
         returnToMenuButton.setOnMousePressed(e -> {
             OrderDetailsController.presenter.returnToMenu();
-//            CustomerScenesMap.getCustomerStage().setScene(CustomerScenesMap.getScenes().get(CustomerMapsMain.MENU));
-
         });
 
     }

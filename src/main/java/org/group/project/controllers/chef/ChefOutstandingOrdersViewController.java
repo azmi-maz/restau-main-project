@@ -9,16 +9,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import org.group.project.Main;
+import org.group.project.classes.Chef;
 import org.group.project.classes.Kitchen;
 import org.group.project.classes.Order;
-import org.group.project.classes.TakeawayOrder;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.ImageLoader;
+import org.group.project.exceptions.TextFileNotFoundException;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Optional;
 
 public class ChefOutstandingOrdersViewController {
@@ -50,22 +48,21 @@ public class ChefOutstandingOrdersViewController {
     @FXML
     private BorderPane borderPane;
 
-    private List<String> outstandingOrdersList;
-
     @FXML
     private TableView<Order> outstandingOrdersTable = new TableView<>();
     private ObservableList<Order> data =
             FXCollections.observableArrayList();
 
     // TODO comment
-    public void initialize() throws URISyntaxException, FileNotFoundException {
+    public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
                 "/background/chef-main" +
                 ".jpg").toURI().toString());
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,
-                BackgroundSize.AUTO, false, false, true, true);
+                BackgroundSize.AUTO, false,
+                false, true, true);
 
         borderPane.setBackground(new Background(new BackgroundImage(bgImage,
                 BackgroundRepeat.NO_REPEAT,
@@ -85,8 +82,8 @@ public class ChefOutstandingOrdersViewController {
         customerColumn.setMinWidth(150);
         customerColumn.setStyle("-fx-alignment: CENTER;");
         customerColumn.setCellValueFactory(cellData -> {
-            String customerName =
-                    cellData.getValue().getCustomer().getDataForListDisplay();
+            String customerName = cellData.getValue()
+                    .getCustomer().getDataForListDisplay();
             return new SimpleObjectProperty<>(customerName);
         });
 
@@ -103,7 +100,8 @@ public class ChefOutstandingOrdersViewController {
         orderTimeColumn.setMinWidth(150);
         orderTimeColumn.setStyle("-fx-alignment: CENTER;");
         orderTimeColumn.setCellValueFactory(cellData -> {
-            String formattedTime = cellData.getValue().getOrderTimeInFormat();
+            String formattedTime = cellData.getValue()
+                    .getOrderTimeInFormat();
             return new SimpleObjectProperty<>(formattedTime);
         });
 
@@ -117,7 +115,8 @@ public class ChefOutstandingOrdersViewController {
         itemsColumn.setMinWidth(200);
         itemsColumn.setStyle("-fx-alignment: CENTER-LEFT;");
         itemsColumn.setCellValueFactory(cellData -> {
-            String orderList = cellData.getValue().getListOfItemsForDisplay();
+            String orderList = cellData.getValue()
+                    .getListOfItemsForDisplay();
             return new SimpleObjectProperty<>(orderList);
         });
 
@@ -132,11 +131,14 @@ public class ChefOutstandingOrdersViewController {
         actionButtonColumn.setStyle("-fx-alignment: CENTER;");
         actionButtonColumn.setCellValueFactory(cellData -> {
             Button markAsCompleteButton = new Button();
-            markAsCompleteButton.setTooltip(new Tooltip("Mark as complete"));
-            ImageLoader.setUpGraphicButton(markAsCompleteButton, 15, 15, "confirm");
+            markAsCompleteButton.setTooltip(
+                    new Tooltip("Mark as complete"));
+            ImageLoader.setUpGraphicButton(markAsCompleteButton,
+                    15, 15, "confirm");
             Order selectedOrder = cellData.getValue();
 
             markAsCompleteButton.setOnAction(e -> {
+                Chef chef = (Chef) Main.getCurrentUser();
 
                 Optional<ButtonType> userChoice = promptForUserAcknowledgement(
                         "Update Pending Order",
@@ -146,23 +148,28 @@ public class ChefOutstandingOrdersViewController {
                 if (userChoice.get()
                         .getButtonData().toString()
                         .equalsIgnoreCase("OK_DONE")) {
-                    // TODO try catch
+
+                    boolean isSuccessful = false;
                     try {
-                        selectedOrder.markOffOrderAsComplete();
-                        if (selectedOrder.getOrderType().equalsIgnoreCase("takeaway")) {
-                            TakeawayOrder takeawayOrder = (TakeawayOrder) selectedOrder;
-                            takeawayOrder.setEstimatedPickupTime();
-                            takeawayOrder.notifyCustomer(
-                                    takeawayOrder.getCustomer(),
-                                    true
-                            );
-                        }
-
-                        refreshOutstandingOrdersList();
-
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
+                        isSuccessful = chef.updateOrderStatus(selectedOrder);
+                    } catch (TextFileNotFoundException ex) {
+                        AlertPopUpWindow.displayErrorWindow(
+                                "Error",
+                                ex.getMessage()
+                        );
+                        ex.printStackTrace();
                     }
+                    if (isSuccessful) {
+                        AlertPopUpWindow.displayInformationWindow(
+                                "Order Status",
+                                "Thank you for completing this order.",
+                                "Ok"
+                        );
+                    }
+
+                    refreshOutstandingOrdersList();
+
+
                 }
 
             });
@@ -174,14 +181,24 @@ public class ChefOutstandingOrdersViewController {
     }
 
     // TODO comment
-    public void refreshOutstandingOrdersList() throws FileNotFoundException {
+    public void refreshOutstandingOrdersList() {
 
         // TODO comment
         outstandingOrdersTable.getItems().clear();
         data.clear();
 
-        Kitchen kitchen = new Kitchen();
-        kitchen.getPendingOrderData(data);
+        try {
+
+            Kitchen kitchen = new Kitchen();
+            kitchen.getPendingKitchenOrderData(data);
+
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
     }
 
     // TODO make this private or send it up to AlertType class

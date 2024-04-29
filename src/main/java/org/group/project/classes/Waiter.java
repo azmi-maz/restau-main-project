@@ -1,5 +1,7 @@
 package org.group.project.classes;
 
+import org.group.project.exceptions.TextFileNotFoundException;
+
 import java.util.List;
 
 /**
@@ -22,7 +24,8 @@ public class Waiter extends Staff {
 
     // TODO
     public Waiter(String firstName, String lastName, String username,
-                  boolean hasAdminRight, int numOfHoursToWork, int numOfTotalHoursWorked) {
+                  boolean hasAdminRight, int numOfHoursToWork,
+                  int numOfTotalHoursWorked) {
         super(firstName, lastName, username, hasAdminRight,
                 numOfHoursToWork, numOfTotalHoursWorked);
     }
@@ -30,23 +33,76 @@ public class Waiter extends Staff {
     /**
      * This method approves a table reservation.
      *
-     * @param booking - the selected table reservation.
+     * @param booking  - the selected table reservation.
+     * @param customer - the customer who made the table reservation.
      * @return true if the table reservation is approved successfully.
      */
-    public boolean approveTableReservation(Booking booking) {
-        booking.updateBookingStatus("approved");
+    public boolean approveTableReservation(
+            Booking booking,
+            Customer customer) throws TextFileNotFoundException {
+
+        try {
+
+            booking.approveBooking();
+            booking.notifyCustomer(customer,
+                    true);
+
+            return true;
+
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    // TODO
+    public boolean cancelTableReservation(
+            Booking booking,
+            Customer customer) throws TextFileNotFoundException {
+
+        try {
+            booking.cancelBooking();
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        booking.notifyCustomer(customer,
+                false);
+
         return true;
     }
 
     /**
      * This method create a dine-in order for customers in the restaurant.
      *
-     * @param orderLists - the list of orders from the dine-in customers.
+     * @param customerId - the id of the dinein customer.
+     * @param orderList  - the list of orders from the dine-in customers.
      * @return true if the order was created successfully.
      */
-    public boolean takeDineInOrders(List<FoodDrink> orderLists) {
-        // to code
-        return true;
+    public boolean takeDineInOrders(
+            int customerId,
+            List<FoodDrink> orderList)
+            throws TextFileNotFoundException {
+
+        try {
+
+            Kitchen kitchen = new Kitchen();
+
+            Order newOrder = kitchen.createNewOrder(
+                    "dinein",
+                    customerId,
+                    orderList
+            );
+            kitchen.addOrderToDatabase(
+                    newOrder
+            );
+
+            return true;
+
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     /**
@@ -54,27 +110,72 @@ public class Waiter extends Staff {
      * the delivery.
      *
      * @param deliveryOrder - the selected delivery order.
+     * @param driverId      - the id of the assigned driver.
      * @return true if the approval and driver assignment were made
      * successfully.
      */
-    public boolean approveDeliveryOrder(DeliveryOrder deliveryOrder) {
-        // need OrderUpdate method from DeliveryOrder
-        // deliveryOrder.
+    public boolean approveDeliveryOrder(
+            DeliveryOrder deliveryOrder,
+            int driverId) throws TextFileNotFoundException {
 
-        // get any available drivers from userlist
-        // set this delivery order with that driver
-        return true;
+        try {
+
+            assignDriverForDelivery(
+                    deliveryOrder,
+                    driverId
+            );
+            deliveryOrder.notifyCustomer(
+                    deliveryOrder.getCustomer(),
+                    true
+            );
+
+            return true;
+
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    // TODO
+    public boolean cancelDeliveryOrder(
+            DeliveryOrder deliveryOrder)
+            throws TextFileNotFoundException {
+
+        try {
+
+            deliveryOrder.cancelDeliveryOrder();
+            deliveryOrder.notifyCustomer(
+                    deliveryOrder.getCustomer(),
+                    false
+            );
+
+            return true;
+
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     /**
      * This method assigns a driver to a delivery order.
      *
      * @param deliveryOrder - the selected delivery order.
+     * @param driverId      - the id of the assigned driver.
      * @return true if the driver assignment was successfully.
      */
-    public boolean assignDriverForDelivery(DeliveryOrder deliveryOrder) {
-        // to code
-        return true;
+    public void assignDriverForDelivery(
+            DeliveryOrder deliveryOrder,
+            int driverId) throws TextFileNotFoundException {
+
+        try {
+            deliveryOrder.approveDeliveryOrder(driverId);
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+
     }
 
 }

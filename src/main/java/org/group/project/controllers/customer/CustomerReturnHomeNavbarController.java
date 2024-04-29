@@ -7,7 +7,6 @@ import org.group.project.scenes.customer.CustomerMapsMain;
 import org.group.project.scenes.customer.CustomerScenesMap;
 import org.group.project.scenes.main.CustomerView;
 
-import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 
 public class CustomerReturnHomeNavbarController {
@@ -17,16 +16,15 @@ public class CustomerReturnHomeNavbarController {
 
     public void initialize() throws URISyntaxException {
 
-        ImageLoader.setUpGraphicButton(returnButton, 25, 25, "undo");
+        ImageLoader.setUpGraphicButton(returnButton,
+                25, 25, "undo");
 
         returnButton.setOnMousePressed(e -> {
-            // TODO try catch
-            try {
-                CustomerView.customerNotificationNavbarController.refreshNotificationCounter();
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
-            CustomerScenesMap.getCustomerStage().setScene(CustomerScenesMap.getScenes().get(CustomerMapsMain.HOME));
+            CustomerView.customerNotificationNavbarController
+                    .refreshNotificationCounter();
+            CustomerScenesMap.getCustomerStage().setScene(
+                    CustomerScenesMap.getScenes()
+                            .get(CustomerMapsMain.HOME));
         });
 
     }

@@ -1,10 +1,8 @@
 package org.group.project.classes;
 
 import org.group.project.classes.auxiliary.DataManager;
-import org.group.project.classes.auxiliary.HelperMethods;
+import org.group.project.exceptions.TextFileNotFoundException;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -95,6 +93,36 @@ public class Booking implements NotifyAction {
         this.tablePreference.addAll(tableRequest);
         this.bookingLengthInHour = bookingLength;
         this.bookingStatus = status;
+    }
+
+    // TODO
+    public Booking(
+            int newBookingId,
+            int customerId,
+            LocalDate bookingDate,
+            LocalTime bookingTime,
+            int numOfGuests,
+            Table tablePreference,
+            int bookingLength
+    ) throws TextFileNotFoundException {
+
+        try {
+
+            bookingId = newBookingId;
+            UserManagement userManagement = new UserManagement();
+            customer = userManagement.getCustomerById(customerId);
+            this.bookingDate = bookingDate;
+            this.bookingTime = bookingTime;
+            this.numOfGuests = numOfGuests;
+            this.tablePreference.add(tablePreference);
+            this.bookingLengthInHour = bookingLength;
+            bookingStatus = "pending-approval";
+
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+
     }
 
     // TODO comment
@@ -268,52 +296,73 @@ public class Booking implements NotifyAction {
     }
 
     // TODO comment
-    public List<String> prepareNotificationData() throws FileNotFoundException {
-        List<String> data = new ArrayList<>();
-        data.add(String.valueOf(HelperMethods.getNewIdByFile("NOTIFICATION")));
-        data.add(String.valueOf(customer.getCustomerId()));
-        data.add(Notification.getNotificationDateForDatabase());
-        data.add(Notification.getNotificationTimeForDatabase());
-        data.add("booking");
-        data.add("false");
-        return data;
+    public void approveBooking() throws TextFileNotFoundException {
+
+        try {
+            DataManager.editColumnDataByUniqueId("BOOKINGS",
+                    bookingId, "bookingStatus",
+                    "approved");
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+
     }
 
     // TODO comment
-    public void approveBooking() throws IOException {
-        DataManager.editColumnDataByUniqueId("BOOKINGS",
-                bookingId, "bookingStatus",
-                "approved");
+    public void cancelBooking() throws TextFileNotFoundException {
+        try {
+            DataManager.editColumnDataByUniqueId("BOOKINGS",
+                    bookingId, "bookingStatus",
+                    "failed");
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
-    // TODO comment
-    public void cancelBooking() throws IOException {
-        DataManager.editColumnDataByUniqueId("BOOKINGS",
-                bookingId, "bookingStatus",
-                "failed");
-    }
-
-    public void deleteBooking() throws IOException {
-        DataManager.deleteUniqueIdFromFile("BOOKINGS",
-                bookingId);
+    public void deleteBooking() throws TextFileNotFoundException {
+        try {
+            DataManager.deleteUniqueIdFromFile("BOOKINGS",
+                    bookingId);
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     @Override
     public void notifyCustomer(Customer customer,
-                               boolean isSuccessfulRequest) throws FileNotFoundException {
-        List<String> newNotificationMessage = prepareNotificationData();
+                               boolean isSuccessfulRequest)
+            throws TextFileNotFoundException {
 
-        if (isSuccessfulRequest) {
-            newNotificationMessage.add(successfulBookingMessage());
-        } else {
-            newNotificationMessage.add(failedBookingMessage());
-        }
-
-        // TODO try catch
         try {
-            DataManager.appendDataToFile("NOTIFICATION", newNotificationMessage);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
+            NotificationBoard notificationBoard = new NotificationBoard();
+            String notificationType = "booking";
+            Notification newNotification = notificationBoard
+                    .createNewNotification(
+                            customer.getCustomerId(),
+                            notificationType
+                    );
+
+            if (isSuccessfulRequest) {
+                newNotification.setMessageBody(
+                        successfulBookingMessage()
+                );
+            } else {
+                newNotification.setMessageBody(
+                        failedBookingMessage()
+                );
+            }
+
+            notificationBoard.addNotificationToDatabase(
+                    newNotification
+            );
+
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
         }
 
     }

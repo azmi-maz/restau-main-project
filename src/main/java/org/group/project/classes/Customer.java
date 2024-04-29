@@ -1,7 +1,7 @@
 package org.group.project.classes;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.group.project.classes.auxiliary.DataManager;
+import org.group.project.exceptions.TextFileNotFoundException;
 
 /**
  * This class handles customer data and all the methods that a customer can
@@ -12,9 +12,6 @@ import java.util.List;
 public class Customer extends User {
     private int customerId;
     private String deliveryAddress;
-    private List<Booking> listOfBookingsMade;
-    private List<Order> listOfOrdersMade;
-    private List<Notification> listOfNotifications;
 
     /**
      * This constructor creates a new customer.
@@ -30,6 +27,21 @@ public class Customer extends User {
         super(firstName, lastName, username);
         this.customerId = customerId;
         this.deliveryAddress = deliveryAddress;
+    }
+
+    // TODO
+    public Customer(
+            String firstName,
+            String lastName,
+            String username,
+            String deliveryAddress
+    ) throws TextFileNotFoundException {
+
+        super(firstName, lastName, username);
+        UserManagement userManagement = new UserManagement();
+        this.customerId = userManagement.getNewUserId();
+        this.deliveryAddress = formatAddressToWrite(deliveryAddress);
+
     }
 
     /**
@@ -50,33 +62,68 @@ public class Customer extends User {
         return deliveryAddress;
     }
 
-    /**
-     * Getter method to get the list of bookings made by the customer.
-     *
-     * @return the list of bookings previously made.
-     */
-    public List<Booking> getListOfBookingsMade() {
-        return listOfBookingsMade;
+    // TODO
+    public String getDeliveryAddressToRead() {
+
+        return deliveryAddress
+                .replaceAll(";", ",");
     }
 
     /**
      * This method adds a new booking to the list that each customer holds.
      *
      * @param booking - the newly made booking.
+     * @param floor   - the list of bookings.
      * @return true if booking was made successfully.
      */
-    public boolean addNewBooking(Booking booking) {
-        // to code
+    public boolean addNewBooking(
+            Booking booking,
+            Floor floor) throws TextFileNotFoundException {
+
+        try {
+            floor.addBookingToDatabase(
+                    booking
+            );
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+
         return true;
     }
 
-    /**
-     * Getter method to get the list of orders made by the customer.
-     *
-     * @return the list of orders previously made.
-     */
-    public List<Order> getOrdersMade() {
-        return listOfOrdersMade;
+    // TODO
+    public boolean editBooking(
+            Booking booking,
+            Floor floor
+    ) throws TextFileNotFoundException {
+
+        try {
+            floor.editBookingDataInDatabase(
+                    booking
+            );
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+        return true;
+    }
+
+    // TODO
+    public boolean deleteBooking(
+            Booking booking
+    ) throws TextFileNotFoundException {
+
+        int bookingId = booking.getBookingId();
+        try {
+            return DataManager.deleteUniqueIdFromFile(
+                    "BOOKINGS",
+                    bookingId);
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     /**
@@ -85,41 +132,47 @@ public class Customer extends User {
      * @param order - the new order made.
      * @return true of the order was made successfully.
      */
-    public boolean addNewOrder(Order order) {
-        // to code
-        return true;
+    public boolean addNewOrder(Order order)
+            throws TextFileNotFoundException {
+
+        try {
+
+            Kitchen kitchen = new Kitchen();
+            return kitchen.addOrderToDatabase(
+                    order
+            );
+
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    // TODO
+    public void updateNotificationReadStatus(
+            int notificationId
+    ) throws TextFileNotFoundException {
+        try {
+            DataManager.editColumnDataByUniqueId(
+                    "NOTIFICATION",
+                    notificationId,
+                    "readStatus",
+                    "true");
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     /**
-     * Getter method to get the list of notifications for a customer.
+     * This method formats address to transform any symbols incompatible for
+     * data storage.
      *
-     * @return the list of notifications.
+     * @param address - the unformatted address taken from textfield.
+     * @return an address with the correct format.
      */
-    public List<Notification> getListOfNotifications() {
-        return listOfNotifications;
-    }
-
-    /**
-     * This method add a new notification to a customer.
-     *
-     * @param notification - the new notification to be added.
-     * @return true if the new notification was added successfully.
-     */
-    public boolean addNewNotification(Notification notification) {
-        // to code
-        return true;
-    }
-
-    /**
-     * This method allows the customer to view the current menu of the
-     * restaurant.
-     *
-     * @return the current menu list of available foods and drinks.
-     */
-    public List<FoodDrink> viewMenuList() {
-        // to code
-        return new ArrayList<>() {
-        };
+    public String formatAddressToWrite(String address) {
+        return address.replaceAll(",", ";");
     }
 
     /**

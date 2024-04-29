@@ -16,20 +16,16 @@ import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.group.project.Main;
-import org.group.project.classes.*;
-import org.group.project.classes.auxiliary.DataFileStructure;
-import org.group.project.classes.auxiliary.DataManager;
-import org.group.project.classes.auxiliary.HelperMethods;
+import org.group.project.classes.Kitchen;
+import org.group.project.classes.Order;
+import org.group.project.classes.UserManagement;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.ImageLoader;
+import org.group.project.exceptions.TextFileNotFoundException;
 import org.group.project.scenes.WindowSize;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CustomerOrderHistoryViewController {
 
@@ -54,23 +50,22 @@ public class CustomerOrderHistoryViewController {
     @FXML
     private BorderPane borderPane;
 
-    private String userId;
-
-    private List<String> orderHistoryList;
+    private int userId;
 
     @FXML
     private TableView<Order> orderHistoryTable = new TableView<>();
     private ObservableList<Order> data =
             FXCollections.observableArrayList();
 
-    public void initialize() throws URISyntaxException, FileNotFoundException {
+    public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
                 "/background/main-bg" +
                 ".jpg").toURI().toString());
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,
-                BackgroundSize.AUTO, false, false, true, true);
+                BackgroundSize.AUTO, false,
+                false, true, true);
 
         borderPane.setBackground(new Background(new BackgroundImage(bgImage,
                 BackgroundRepeat.NO_REPEAT,
@@ -122,44 +117,17 @@ public class CustomerOrderHistoryViewController {
             Button viewButton = new Button();
             // TODO use tool tips for other buttons, where necessary
             viewButton.setTooltip(new Tooltip("View details"));
-            ImageLoader.setUpGraphicButton(viewButton, 15, 15, "view-details");
+            ImageLoader.setUpGraphicButton(viewButton,
+                    15, 15, "view-details");
             Order getOrder = cellData.getValue();
-//            LocalDate orderDate = cellData.getValue().getOrderDate();
-//            LocalTime orderTime =
-//                    cellData.getValue().getOrderTime();
-//            String orderType = cellData.getValue().getOrderType();
-//            String orderStatus = cellData.getValue().getOrderStatus();
-//            List<FoodDrink> orderList =
-//                    cellData.getValue().getOrderedFoodDrinkLists();
-//
-//            Driver assignedDriver;
-//            LocalTime deliveryTime;
-//            if (orderType.equalsIgnoreCase("delivery")) {
-//                Order getOrder = cellData.getValue();
-//                DeliveryOrder deliveryOrder = (DeliveryOrder) getOrder;
-//                assignedDriver = deliveryOrder.getDriver();
-//
-//                deliveryTime = deliveryOrder.getDeliveryTime();
-//            } else {
-//                assignedDriver = null;
-//                deliveryTime = null;
-//            }
-//
-//            LocalTime estimatedPickupTime;
-//            if (orderType.equalsIgnoreCase("takeaway")) {
-//                Order getOrder = cellData.getValue();
-//                TakeawayOrder takeawayOrder = (TakeawayOrder) getOrder;
-//                estimatedPickupTime = takeawayOrder.getPickupTime();
-//            } else {
-//                estimatedPickupTime = null;
-//            }
 
             viewButton.setOnAction(e -> {
 
                 try {
                     FXMLLoader fxmlLoader =
                             new FXMLLoader(Main.class.getResource(
-                                    "smallwindows/customer-order-details" +
+                                    "smallwindows/" +
+                                            "customer-order-details" +
                                             ".fxml"));
 
                     VBox vbox = fxmlLoader.load();
@@ -187,8 +155,11 @@ public class CustomerOrderHistoryViewController {
                     refreshOrderHistoryList();
 
                 } catch (IOException ex) {
-                    // TODO catch error
-                    throw new RuntimeException(ex);
+                    AlertPopUpWindow.displayErrorWindow(
+                            "Error",
+                            ex.getMessage()
+                    );
+                    ex.printStackTrace();
                 }
             });
             return new SimpleObjectProperty<>(viewButton);
@@ -199,7 +170,7 @@ public class CustomerOrderHistoryViewController {
     }
 
     // TODO comment
-    public void refreshOrderHistoryList() throws FileNotFoundException {
+    public void refreshOrderHistoryList() {
 
         updateUserId();
 
@@ -207,164 +178,20 @@ public class CustomerOrderHistoryViewController {
         orderHistoryTable.getItems().clear();
         data.clear();
 
-        // TODO to filter based on userid
-        orderHistoryList = DataManager.allDataFromFile("ORDERS");
-
-        for (String order : orderHistoryList) {
-            List<String> orderDetails = List.of(order.split(","));
-
-            String currentUserId = orderDetails.get(DataFileStructure.getIndexByColName("ORDERS", "userId"));
-
-            if (currentUserId.equalsIgnoreCase(userId)) {
-
-                // orderId
-                int orderId = Integer.parseInt(orderDetails.get(DataFileStructure.getIndexByColName("ORDERS", "orderId")));
-
-                // user
-                Customer customer;
-
-                // TODO filter by current userId
-                List<String> customerString = HelperMethods.getDataById("USERS",
-                        userId);
-
-                // orderDate
-                List<String> orderDateDetails = List.of(orderDetails.get(2).split("-"));
-
-                LocalDate orderDate =
-                        LocalDate.of(Integer.parseInt(orderDateDetails.get(0)),
-                                Integer.parseInt(orderDateDetails.get(1)),
-                                Integer.parseInt(orderDateDetails.get(2)));
-
-                // orderTime
-                List<String> orderTimeDetails = List.of(orderDetails.get(3).split("-"));
-
-                LocalTime orderTime =
-                        LocalTime.of(Integer.parseInt(orderTimeDetails.get(0)),
-                                Integer.parseInt(orderTimeDetails.get(1)));
-
-                // orderType
-                String orderType =
-                        orderDetails.get(DataFileStructure.getIndexByColName(
-                                "ORDERS", "orderType"));
-
-                // orderStatus
-                String orderStatus =
-                        orderDetails.get(DataFileStructure.getIndexByColName(
-                                "ORDERS", "orderStatus"));
-
-                // orderedFoodDrinkLists
-                String[] orderListArray =
-                        orderDetails.get(DataFileStructure.getIndexByColName(
-                                "ORDERS", "orderedLists")).split(";");
-                List<FoodDrink> orderFoodDrinkList = new ArrayList<>();
-                for (String item : orderListArray) {
-                    // TODO find item type by item name
-                    String itemType = "food";
-                    FoodDrink newItem = new FoodDrink(item, itemType);
-                    boolean isNewItem = true;
-                    for (FoodDrink currentItem : orderFoodDrinkList) {
-                        if (currentItem.getItemName().equalsIgnoreCase(item)) {
-                            currentItem.incrementQuantity();
-                            isNewItem = false;
-                        }
-                    }
-                    if (isNewItem) {
-                        orderFoodDrinkList.add(newItem);
-                    }
-                }
-
-                // assignedDriver and deliveryTime
-                LocalTime deliveryTime = null;
-                Driver assignedDriver = null;
-
-                if (orderType.equalsIgnoreCase("delivery")) {
-                    List<String> deliveryTimeDetails =
-                            List.of(orderDetails.get(DataFileStructure.getIndexByColName(
-                                    "ORDERS", "deliveryTime")).split(
-                                    "-"));
-                    if (deliveryTimeDetails.size() == 2) {
-                        deliveryTime = LocalTime.of(Integer.parseInt(deliveryTimeDetails.get(0)),
-                                Integer.parseInt(deliveryTimeDetails.get(1)));
-                    }
-                    List<String> driverString = HelperMethods.getDataById("USERS",
-                            orderDetails.get(DataFileStructure.getIndexByColName(
-                                    "ORDERS", "assignedDriver")));
-
-                    if (driverString != null) {
-                        assignedDriver = new Driver(
-                                Integer.parseInt(driverString.get(DataFileStructure.getIndexByColName(
-                                        "USERS", "userId"))),
-                                driverString.get(DataFileStructure.getIndexByColName(
-                                        "USERS", "firstName")),
-                                driverString.get(DataFileStructure.getIndexByColName(
-                                        "USERS", "lastName")),
-                                driverString.get(DataFileStructure.getIndexByColName(
-                                        "USERS", "username"))
-                        );
-                    }
-                }
-
-                // estimatedPickupTime
-                LocalTime pickupTime = null;
-
-                if (orderType.equalsIgnoreCase("takeaway")) {
-                    List<String> pickupTimeDetails =
-                            List.of(orderDetails.get(DataFileStructure.getIndexByColName(
-                                    "ORDERS", "estimatedPickupTime")).split(
-                                    "-"));
-                    if (pickupTimeDetails.size() == 2) {
-                        pickupTime =
-                                LocalTime.of(Integer.parseInt(pickupTimeDetails.get(0)),
-                                        Integer.parseInt(pickupTimeDetails.get(1)));
-                    }
-                }
-
-                if (customerString != null) {
-                    customer = new Customer(
-                            customerString.get(DataFileStructure.getIndexByColName("USERS", "firstName")),
-                            customerString.get(DataFileStructure.getIndexByColName("USERS", "lastName")),
-                            customerString.get(DataFileStructure.getIndexByColName("USERS", "username")),
-                            Integer.parseInt(customerString.get(DataFileStructure.getIndexByColName("USERS", "userId"))),
-                            HelperMethods.formatAddressToRead(customerString.get(DataFileStructure.getIndexByColName("USERS", "address")))
-                    );
-                    if (orderType.equalsIgnoreCase("delivery")) {
-                        data.add(new DeliveryOrder(
-                                orderId,
-                                customer,
-                                orderDate,
-                                orderTime,
-                                deliveryTime,
-                                orderStatus,
-                                assignedDriver,
-                                orderFoodDrinkList
-                        ));
-
-                    } else if (orderType.equalsIgnoreCase("takeaway")) {
-                        data.add(new TakeawayOrder(
-                                orderId,
-                                customer,
-                                orderDate,
-                                orderTime,
-                                pickupTime,
-                                orderStatus,
-                                orderFoodDrinkList
-                        ));
-
-                    } else {
-                        data.add(new Order(
-                                orderId,
-                                customer,
-                                orderDate,
-                                orderTime,
-                                orderType,
-                                orderStatus,
-                                orderFoodDrinkList
-                        ));
-
-                    }
-                }
-            }
+        try {
+            Kitchen kitchen = new Kitchen();
+            kitchen.getOrderDataByUserId(
+                    data,
+                    userId
+            );
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
         }
+
     }
 
     private void updateUserId() {
@@ -373,14 +200,16 @@ public class CustomerOrderHistoryViewController {
             return;
         }
 
-        // TODO try catch
         try {
-            userId = String.valueOf(
-                    HelperMethods
-                            .findUserIdByUsername(
-                                    Main.getCurrentUser().getUsername()));
-        } catch (FileNotFoundException ex) {
-            throw new RuntimeException(ex);
+            UserManagement userManagement = new UserManagement();
+            userId = userManagement.getUserIdByUsername(
+                    Main.getCurrentUser().getUsername());
+        } catch (TextFileNotFoundException ex) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    ex.getMessage()
+            );
+            ex.printStackTrace();
         }
     }
 }

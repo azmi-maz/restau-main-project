@@ -62,6 +62,17 @@ public class Notification {
         this.readStatus = readStatus;
     }
 
+    // TODO
+    public Notification(int notificationId,
+                        int userId,
+                        String notificationType) {
+        this.notificationId = notificationId;
+        this.userId = userId;
+        notificationDate = LocalDate.now();
+        notificationTime = LocalTime.now();
+        this.notificationType = notificationType;
+    }
+
     /**
      * Getter method to get the notification date
      *
@@ -73,22 +84,26 @@ public class Notification {
 
     // TODO comment
     public String getNotificationDateInFormat() {
-        return notificationDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        return getNotificationDate()
+                .format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     // TODO comment
-    public static String getNotificationDateForDatabase() {
-        return LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-M-d"));
+    public String getNotificationDateForDatabase() {
+        return getNotificationDate()
+                .format(DateTimeFormatter.ofPattern("yyyy-M-d"));
     }
 
     // TODO comment
     public String getNotificationTimeInFormat() {
-        return notificationTime.format(DateTimeFormatter.ofPattern("hh:mm a"));
+        return getNotificationTime()
+                .format(DateTimeFormatter.ofPattern("hh:mm a"));
     }
 
     // TODO comment
-    public static String getNotificationTimeForDatabase() {
-        return LocalTime.now().format(DateTimeFormatter.ofPattern("H-m"));
+    public String getNotificationTimeForDatabase() {
+        return getNotificationTime()
+                .format(DateTimeFormatter.ofPattern("H-m"));
     }
 
     // TODO comment
@@ -122,6 +137,13 @@ public class Notification {
      */
     public String getMessageBody() {
         return messageBody;
+    }
+
+    // TODO
+    public void setMessageBody(
+            String messageBody
+    ) {
+        this.messageBody = messageBody;
     }
 
     /**

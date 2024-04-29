@@ -13,20 +13,18 @@ import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.group.project.Main;
-import org.group.project.classes.*;
+import org.group.project.classes.FoodDrink;
+import org.group.project.classes.Kitchen;
+import org.group.project.classes.Order;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
-import org.group.project.classes.auxiliary.DataFileStructure;
-import org.group.project.classes.auxiliary.HelperMethods;
 import org.group.project.classes.auxiliary.ImageLoader;
+import org.group.project.exceptions.TextFileNotFoundException;
 import org.group.project.scenes.WindowSize;
 import org.group.project.scenes.customer.stackViews.MenuController;
 import org.group.project.scenes.customer.stackViews.OrderDetailsController;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -89,7 +87,8 @@ public class CustomerOrderDetailsViewController {
                 ".jpg").toURI().toString());
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,
-                BackgroundSize.AUTO, false, false, true, true);
+                BackgroundSize.AUTO, false,
+                false, true, true);
 
         borderPane.setBackground(new Background(new BackgroundImage(bgImage,
                 BackgroundRepeat.NO_REPEAT,
@@ -97,17 +96,28 @@ public class CustomerOrderDetailsViewController {
                 BackgroundPosition.CENTER,
                 bSize)));
 
-        choiceBox.getItems().add("Delivery Order");
-        choiceBox.getItems().add("Takeaway Order");
+        try {
 
-        choiceBox.setValue("Delivery Order");
+            Kitchen kitchen = new Kitchen();
+            kitchen.updateOrderTypeChoiceBox(
+                    choiceBox
+            );
+
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
 
         noColumn.setText("No.");
         noColumn.setMinWidth(40);
         noColumn.setStyle("-fx-alignment: CENTER;");
         noColumn.setCellValueFactory(cellData -> {
             int index =
-                    cellData.getTableView().getItems().indexOf(cellData.getValue());
+                    cellData.getTableView().getItems().indexOf(
+                            cellData.getValue());
             index++;
             return new SimpleObjectProperty<>(index).asString();
         });
@@ -134,17 +144,13 @@ public class CustomerOrderDetailsViewController {
 
         actionButtonColumn.setText("Action");
 
-        // TODO this doesn't work
-        actionButtonColumn1.setStyle("-fx-padding: 0; -fx-margin: 0; " +
-                "-fx-background-color: transparent; -fx-text-fill: transparent;");
-
-
         actionButtonColumn1.setMinWidth(35);
         actionButtonColumn1.setStyle("-fx-alignment: CENTER;");
         actionButtonColumn1.setCellValueFactory(cellData -> {
             Button editButton = new Button();
             editButton.setTooltip(new Tooltip("Edit Order"));
-            ImageLoader.setUpGraphicButton(editButton, 15, 15, "edit");
+            ImageLoader.setUpGraphicButton(editButton,
+                    15, 15, "edit");
             String imageFile = cellData.getValue().getImageFileName();
             String labelName = cellData.getValue().getItemNameForDisplay();
 
@@ -177,11 +183,12 @@ public class CustomerOrderDetailsViewController {
 
                     refreshOrderList();
 
-                } catch (IOException ex) {
-                    // TODO catch error
-                    throw new RuntimeException(ex);
-                } catch (URISyntaxException ex) {
-                    throw new RuntimeException(ex);
+                } catch (IOException | URISyntaxException ex) {
+                    AlertPopUpWindow.displayErrorWindow(
+                            "Error",
+                            ex.getMessage()
+                    );
+                    ex.printStackTrace();
                 }
 
             });
@@ -195,7 +202,8 @@ public class CustomerOrderDetailsViewController {
         actionButtonColumn2.setCellValueFactory(cellData -> {
             Button deleteButton = new Button();
             deleteButton.setTooltip(new Tooltip("Delete Order"));
-            ImageLoader.setUpGraphicButton(deleteButton, 15, 15, "delete");
+            ImageLoader.setUpGraphicButton(deleteButton,
+                    15, 15, "delete");
             FoodDrink item = cellData.getValue();
 
             deleteButton.setOnMousePressed(e -> {
@@ -208,12 +216,8 @@ public class CustomerOrderDetailsViewController {
 
         confirmButton.setOnMousePressed(e -> {
             newOrder.clear();
-            // TODO try catch
-            try {
-                newOrder.add(createNewOrder());
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
+
+            newOrder.add(createNewOrder());
             OrderDetailsController.presenter.goToOrderConfirmation();
         });
 
@@ -241,53 +245,30 @@ public class CustomerOrderDetailsViewController {
         orderDetailsTable.setItems(data);
     }
 
-    public Order createNewOrder() throws FileNotFoundException {
+    // TODO
+    public Order createNewOrder() {
 
-        // TODO try catch upstream
-        int orderId = HelperMethods.getNewIdByFile("ORDERS");
+        try {
 
-        // TODO comment
-        List<String> customerDetails = HelperMethods.getUserDataByUsername(Main.getCurrentUser().getUsername());
-        Customer newCustomer = new Customer(
-                customerDetails.get(DataFileStructure.getIndexByColName("USERS", "firstName")),
-                customerDetails.get(DataFileStructure.getIndexByColName("USERS", "lastName")),
-                customerDetails.get(DataFileStructure.getIndexByColName("USERS", "username")),
-                Integer.parseInt(customerDetails.get(DataFileStructure.getIndexByColName("USERS", "userId"))),
-                HelperMethods
-                        .formatAddressToRead(customerDetails
-                                .get(DataFileStructure
-                                        .getIndexByColName("USERS", "address")))
-        );
+            Kitchen kitchen = new Kitchen();
+            String orderType = choiceBox.getValue();
+            int customerId = Main.getCurrentUser().getUserId();
 
-        LocalDate dateNow = LocalDate.now();
-        LocalTime timeNow = LocalTime.now();
+            return kitchen.createNewOrder(
+                    orderType,
+                    customerId,
+                    orderList
+            );
 
-        // TODO choicebox must not be empty
-        // TODO constant variables, where to final static
-        String orderType = choiceBox.getValue();
-        String orderStatus = "";
-        if (orderType.equalsIgnoreCase("delivery order")) {
-            orderType = "delivery";
-            orderStatus = "pending-approval";
-        } else {
-            orderType = "takeaway";
-            orderStatus = "pending-kitchen";
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
         }
 
-        Order orderDetails = new Order(
-                orderId,
-                newCustomer,
-                dateNow,
-                timeNow,
-                orderType,
-                orderStatus
-        );
-
-        for (FoodDrink item : orderList) {
-            orderDetails.addItemToOrderList(item);
-        }
-
-        return orderDetails;
+        return null;
     }
 
     public Optional<ButtonType> promptForUserAcknowledgement() {

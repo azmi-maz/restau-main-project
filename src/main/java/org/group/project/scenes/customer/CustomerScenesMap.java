@@ -16,7 +16,7 @@ public class CustomerScenesMap {
 
     private static Stage stage;
 
-    /** Holds the various scenes to switch between */
+    // Holds the various scenes to switch between
     private static Map<CustomerMapsMain, Scene> customerScenes =
             new HashMap<>();
 
@@ -35,12 +35,6 @@ public class CustomerScenesMap {
                 new OrdersView(stage).getScene());
         customerScenes.put(CustomerMapsMain.NOTIFICATION,
                 new NotificationView(stage).getScene());
-
-        // TODO help scene and setting scene
-
-//        stage.setScene(Main.getScenes().get(MainScenes.CUSTOMER));
-//        stage.setTitle("Cafe94 Restaurant");
-//        stage.show();
 
     }
 

@@ -1,11 +1,6 @@
 package org.group.project.classes;
 
-import javafx.scene.control.ComboBox;
-import org.group.project.classes.auxiliary.DataFileStructure;
-import org.group.project.classes.auxiliary.DataManager;
-
-import java.io.FileNotFoundException;
-import java.util.List;
+import org.group.project.exceptions.TextFileNotFoundException;
 
 /**
  * This class represents driver role in the restaurant.
@@ -46,12 +41,19 @@ public class Driver extends Staff {
         this.maxDeliveries = maxDeliveries;
     }
 
+    // TODO
+    public Driver(String firstName, String lastName, String username) {
+        super(firstName, lastName, username, false);
+        this.isAvailable = true;
+        this.maxDeliveries = 5;
+    }
+
     /**
      * Getter method to get driver's free to do a round of deliveries.
      *
      * @return true if driver is available.
      */
-    public boolean isAvailable() {
+    public boolean getIsAvailable() {
         return isAvailable;
     }
 
@@ -82,28 +84,14 @@ public class Driver extends Staff {
         this.maxDeliveries = maxDeliveries;
     }
 
-    // TODO comment
-    public static void getUpdatedDriverList(
-            ComboBox<Driver> driverComboBox) throws FileNotFoundException {
-        List<String> driverList = DataManager.allDataFromFile("USERS");
-        for (String driver : driverList) {
-            List<String> driverDetails = List.of(driver.split(","));
-            String userType = driverDetails
-                    .get(DataFileStructure
-                            .getIndexByColName("USERS", "userType"));
-            if (userType.equalsIgnoreCase("driver")) {
-                driverComboBox.getItems().add(new Driver(
-                        Integer.parseInt(driverDetails
-                                .get(DataFileStructure
-                                        .getIndexColOfUniqueId("USERS"))),
-                        driverDetails.get(DataFileStructure
-                                .getIndexByColName("USERS", "firstName")),
-                        driverDetails.get(DataFileStructure
-                                .getIndexByColName("USERS", "lastName")),
-                        driverDetails.get(DataFileStructure
-                                .getIndexByColName("USERS", "username"))
-                ));
-            }
+    // TODO
+    public boolean confirmDeliveryOrder(DeliveryOrder order)
+            throws TextFileNotFoundException {
+        try {
+            return order.confirmDeliveryOrder();
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
         }
     }
 

@@ -1,14 +1,16 @@
 package org.group.project.classes;
 
 import javafx.collections.ObservableList;
+import javafx.scene.control.ChoiceBox;
 import org.group.project.classes.auxiliary.DataFileStructure;
 import org.group.project.classes.auxiliary.DataManager;
-import org.group.project.classes.auxiliary.HelperMethods;
+import org.group.project.exceptions.TextFileNotFoundException;
 
-import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,18 +20,24 @@ import java.util.List;
  */
 public class Kitchen {
     private List<Order> orderTickets;
+    private static final List<String> orderTypes =
+            new ArrayList<>(Arrays.asList(
+                    "Delivery Order",
+                    "Takeaway Order"
+            ));
 
     /**
      * This constructor is default without any parameters.
      */
-    public Kitchen() {
+    public Kitchen() throws TextFileNotFoundException {
 
         orderTickets = new ArrayList<>();
 
         try {
             orderTickets = getOrderDataFromDatabase();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
         }
 
     }
@@ -196,38 +204,103 @@ public class Kitchen {
     }
 
     // TODO
-    public List<Order> getOrderDataFromDatabase() throws FileNotFoundException {
+    public Order createNewOrder(
+            String orderType,
+            int customerId,
+            List<FoodDrink> orderList
+    ) throws TextFileNotFoundException {
+        try {
+            return new Order(
+                    orderType,
+                    customerId,
+                    orderList
+            );
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
 
-        List<Order> orderList = new ArrayList<>();
-        List<String> allOrdersFromDatabase = DataManager.allDataFromFile("ORDERS");
+    // TODO
+    public int getNewOrderId() {
 
-        for (String order : allOrdersFromDatabase) {
+        Order lastOrder = orderTickets.getLast();
+        int lastOrderId = lastOrder.getOrderId();
+        lastOrderId++;
+        return lastOrderId;
+    }
+
+    // TODO
+    public List<Order> getOrderDataFromDatabase()
+            throws TextFileNotFoundException {
+
+        try {
+
+            List<Order> orderList = new ArrayList<>();
+            List<String> allOrdersFromDatabase = DataManager
+                    .allDataFromFile("ORDERS");
+            UserManagement userManagement = new UserManagement();
+            Menu menu = new Menu();
+
+            for (String order : allOrdersFromDatabase) {
+                orderList.add(
+                        getOrderFromString(
+                                userManagement,
+                                menu,
+                                order
+                        )
+                );
+            }
+            return orderList;
+
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
+
+    // TODO
+    public Order getOrderFromString(
+            UserManagement userManagement,
+            Menu menu,
+            String order
+    ) throws TextFileNotFoundException {
+        try {
+
             List<String> orderDetails = List.of(order.split(","));
+
             // orderId
-            int orderId = Integer.parseInt(orderDetails.get(DataFileStructure.getIndexByColName("ORDERS", "orderId")));
+            int orderId = Integer.parseInt(orderDetails
+                    .get(DataFileStructure.getIndexColOfUniqueId(
+                            "ORDERS"
+                    )));
 
             // user
-            Customer customer;
-
-            // TODO
-            List<String> customerString = HelperMethods.getDataById("USERS",
-                    orderDetails.get(DataFileStructure.getIndexByColName(
-                            "BOOKINGS", "userId")));
+            int customerId = Integer.parseInt(orderDetails.get(
+                    DataFileStructure.getIndexByColName(
+                            "ORDERS", "userId")));
+            Customer customer = userManagement.getCustomerById(
+                    customerId
+            );
 
             // orderDate
-            List<String> orderDateDetails = List.of(orderDetails.get(2).split("-"));
-
-            LocalDate orderDate =
-                    LocalDate.of(Integer.parseInt(orderDateDetails.get(0)),
-                            Integer.parseInt(orderDateDetails.get(1)),
-                            Integer.parseInt(orderDateDetails.get(2)));
+            LocalDate orderDate = getLocalDateFromString(
+                    orderDetails.get(DataFileStructure
+                            .getIndexByColName(
+                                    "ORDERS",
+                                    "orderDate"
+                            ))
+            );
 
             // orderTime
-            List<String> orderTimeDetails = List.of(orderDetails.get(3).split("-"));
-
-            LocalTime orderTime =
-                    LocalTime.of(Integer.parseInt(orderTimeDetails.get(0)),
-                            Integer.parseInt(orderTimeDetails.get(1)));
+            LocalTime orderTime = getLocalTimeFromString(
+                    orderDetails.get(DataFileStructure
+                            .getIndexByColName(
+                                    "ORDERS",
+                                    "orderTime"
+                            ))
+            );
 
             // orderType
             String orderType =
@@ -244,52 +317,32 @@ public class Kitchen {
                     orderDetails.get(DataFileStructure.getIndexByColName(
                             "ORDERS", "orderedLists")).split(";");
             List<FoodDrink> orderFoodDrinkList = new ArrayList<>();
-            Menu menu = new Menu();
-            for (String item : orderListArray) {
-                // TODO find item type by item name
-                String itemType = menu.findTypeByItemName(
-                        item
-                );
-                FoodDrink newItem = new FoodDrink(item, itemType);
-                boolean isNewItem = true;
-                for (FoodDrink currentItem : orderFoodDrinkList) {
-                    if (currentItem.getItemName().equalsIgnoreCase(item)) {
-                        currentItem.incrementQuantity();
-                        isNewItem = false;
-                    }
-                }
-                if (isNewItem) {
-                    orderFoodDrinkList.add(newItem);
-                }
-            }
+            getMenuItemFromString(
+                    menu,
+                    orderListArray,
+                    orderFoodDrinkList
+            );
 
             // assignedDriver and deliveryTime
             LocalTime deliveryTime = null;
             Driver assignedDriver = null;
 
             if (orderType.equalsIgnoreCase("delivery")) {
-                List<String> deliveryTimeDetails =
-                        List.of(orderDetails.get(DataFileStructure.getIndexByColName(
-                                "ORDERS", "deliveryTime")).split(
-                                "-"));
-                if (deliveryTimeDetails.size() == 2) {
-                    deliveryTime = LocalTime.of(Integer.parseInt(deliveryTimeDetails.get(0)),
-                            Integer.parseInt(deliveryTimeDetails.get(1)));
-                }
-                List<String> driverString = HelperMethods.getDataById("USERS",
-                        orderDetails.get(DataFileStructure.getIndexByColName(
-                                "ORDERS", "assignedDriver")));
 
-                if (driverString != null) {
-                    assignedDriver = new Driver(
-                            Integer.parseInt(driverString.get(DataFileStructure.getIndexByColName(
-                                    "USERS", "userId"))),
-                            driverString.get(DataFileStructure.getIndexByColName(
-                                    "USERS", "firstName")),
-                            driverString.get(DataFileStructure.getIndexByColName(
-                                    "USERS", "lastName")),
-                            driverString.get(DataFileStructure.getIndexByColName(
-                                    "USERS", "username"))
+                deliveryTime = getLocalTimeFromString(
+                        orderDetails.get(DataFileStructure
+                                .getIndexByColName(
+                                        "ORDERS",
+                                        "deliveryTime"
+                                ))
+                );
+
+                String driverId = orderDetails.get(
+                        DataFileStructure.getIndexByColName(
+                                "ORDERS", "assignedDriver"));
+                if (!driverId.isBlank()) {
+                    assignedDriver = userManagement.getDriverById(
+                            Integer.parseInt(driverId)
                     );
                 }
             }
@@ -298,82 +351,285 @@ public class Kitchen {
             LocalTime pickupTime = null;
 
             if (orderType.equalsIgnoreCase("takeaway")) {
-                List<String> pickupTimeDetails =
-                        List.of(orderDetails.get(DataFileStructure.getIndexByColName(
-                                "ORDERS", "estimatedPickupTime")).split(
-                                "-"));
-                if (pickupTimeDetails.size() == 2) {
-                    pickupTime =
-                            LocalTime.of(Integer.parseInt(pickupTimeDetails.get(0)),
-                                    Integer.parseInt(pickupTimeDetails.get(1)));
-                }
+                pickupTime = getLocalTimeFromString(
+                        orderDetails.get(DataFileStructure
+                                .getIndexByColName(
+                                        "ORDERS",
+                                        "estimatedPickupTime"
+                                ))
+                );
             }
 
-            // TODO comment here the filter applies to pending-kitchen
-            if (customerString != null) {
-                customer = new Customer(
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "firstName")),
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "lastName")),
-                        customerString.get(DataFileStructure.getIndexByColName("USERS", "username")),
-                        Integer.parseInt(customerString.get(DataFileStructure.getIndexByColName("USERS", "userId"))),
-                        HelperMethods.formatAddressToRead(customerString.get(DataFileStructure.getIndexByColName("USERS", "address")))
+            // TODO
+            if (orderType.equalsIgnoreCase("delivery")) {
+                return new DeliveryOrder(
+                        orderId,
+                        customer,
+                        orderDate,
+                        orderTime,
+                        deliveryTime,
+                        orderStatus,
+                        assignedDriver,
+                        orderFoodDrinkList
                 );
-                if (orderType.equalsIgnoreCase("delivery")) {
-                    orderList.add(new DeliveryOrder(
-                            orderId,
-                            customer,
-                            orderDate,
-                            orderTime,
-                            deliveryTime,
-                            orderStatus,
-                            assignedDriver,
-                            orderFoodDrinkList
-                    ));
 
-                } else if (orderType.equalsIgnoreCase("takeaway")) {
-                    orderList.add(new TakeawayOrder(
-                            orderId,
-                            customer,
-                            orderDate,
-                            orderTime,
-                            pickupTime,
-                            orderStatus,
-                            orderFoodDrinkList
-                    ));
+            } else if (orderType.equalsIgnoreCase("takeaway")) {
+                return new TakeawayOrder(
+                        orderId,
+                        customer,
+                        orderDate,
+                        orderTime,
+                        pickupTime,
+                        orderStatus,
+                        orderFoodDrinkList
+                );
 
-                } else {
-                    orderList.add(new Order(
-                            orderId,
-                            customer,
-                            orderDate,
-                            orderTime,
-                            orderType,
-                            orderStatus,
-                            orderFoodDrinkList
-                    ));
+            } else {
+                return new Order(
+                        orderId,
+                        customer,
+                        orderDate,
+                        orderTime,
+                        orderType,
+                        orderStatus,
+                        orderFoodDrinkList
+                );
 
+            }
+
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    // TODO
+    public LocalDate getLocalDateFromString(
+            String orderDate
+    ) {
+        List<String> orderDateDetails =
+                List.of(orderDate.split("-"));
+        return LocalDate.of(Integer.parseInt(orderDateDetails.get(0)),
+                Integer.parseInt(orderDateDetails.get(1)),
+                Integer.parseInt(orderDateDetails.get(2)));
+    }
+
+    // TODO
+    public LocalTime getLocalTimeFromString(
+            String orderTime
+    ) {
+        if (!orderTime.isBlank()) {
+            List<String> orderTimeDetails =
+                    List.of(orderTime.split("-"));
+            return LocalTime.of(Integer.parseInt(orderTimeDetails.get(0)),
+                    Integer.parseInt(orderTimeDetails.get(1)));
+        }
+        return null;
+    }
+
+    // TODO
+    public void getMenuItemFromString(
+            Menu menu,
+            String[] orderListArray,
+            List<FoodDrink> orderFoodDrinkList
+    ) {
+        for (String item : orderListArray) {
+            // TODO find item type by item name
+            String itemType = menu.findTypeByItemName(
+                    item
+            );
+            FoodDrink newItem = new FoodDrink(item, itemType);
+            boolean isNewItem = true;
+            for (FoodDrink currentItem : orderFoodDrinkList) {
+                if (currentItem.getItemName().equalsIgnoreCase(item)) {
+                    currentItem.incrementQuantity();
+                    isNewItem = false;
                 }
+            }
+            if (isNewItem) {
+                orderFoodDrinkList.add(newItem);
             }
         }
-        return orderList;
+    }
+
+    // TODO
+    public boolean addOrderToDatabase(
+            Order newOrder
+    ) throws TextFileNotFoundException {
+        String orderId = String.valueOf(newOrder.getOrderId());
+        String userId = String.valueOf(newOrder.getCustomer().getCustomerId());
+        String orderDate = newOrder.getOrderDate()
+                .format(DateTimeFormatter.ofPattern("yyyy-M-d"));
+        String orderTime =
+                newOrder.getOrderTime()
+                        .format(DateTimeFormatter.ofPattern("H-m"));
+        String orderType = newOrder.getOrderType();
+        String orderStatus = newOrder.getOrderStatus();
+        String estimatedPickupTime = "";
+        String assignedDriver = "";
+        String deliveryTime = "";
+        String orderLists = DataManager.formatLongArrayToOneColumnString(
+                newOrder.getListOfItemNamesInOrderList());
+
+        List<String> newOrderForDatabase = new ArrayList<>(Arrays.asList(
+                orderId,
+                userId,
+                orderDate,
+                orderTime,
+                orderType,
+                orderStatus,
+                estimatedPickupTime,
+                assignedDriver,
+                deliveryTime,
+                orderLists
+        ));
+
+        try {
+            return DataManager.appendDataToFile("ORDERS",
+                    newOrderForDatabase);
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     // TODO comment
-    public void getPendingOrderData(
-            ObservableList<Order> data
-    ) throws FileNotFoundException {
+    public void getPendingApprovalOrderData(
+            ObservableList<DeliveryOrder> data
+    ) {
 
         // TODO to filter
-        List<Order> orderData = getOrderDataFromDatabase();
-        for (Order order : orderData) {
+        for (Order order : orderTickets) {
 
             // TODO
-            if (order.getOrderStatus()
+            if (isDeliveryOrderClass(order)
+                    && order.getOrderStatus()
                     .equalsIgnoreCase("pending-approval")) {
+                data.add((DeliveryOrder) order);
+            }
+        }
+    }
+
+    // TODO comment
+    public void getPendingKitchenOrderData(
+            ObservableList<Order> data
+    ) {
+
+        for (Order order : orderTickets) {
+            if (order.getOrderStatus()
+                    .equalsIgnoreCase("pending-kitchen")) {
+                data.add(order);
+            }
+        }
+
+    }
+
+    // TODO comment
+    public List<DeliveryOrder> getPendingDeliveryDataByDriverId(
+            int userId
+    ) throws TextFileNotFoundException {
+        try {
+
+            List<DeliveryOrder> pendingDeliveryData = new ArrayList<>();
+            for (Order order : orderTickets) {
+
+                // TODO pending delivery by driver id
+                if (isDeliveryOrderClass(order)) {
+                    DeliveryOrder deliveryOrder = (DeliveryOrder) order;
+
+                    if (deliveryOrder.getOrderStatus()
+                            .equalsIgnoreCase("pending-delivery")) {
+                        int driverId = 0;
+                        driverId = deliveryOrder
+                                .getDriver().getUserId();
+                        if (driverId == userId) {
+                            pendingDeliveryData.add((DeliveryOrder) order);
+                        }
+                    }
+                }
+            }
+            return pendingDeliveryData;
+
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    // TODO comment
+    public void getPendingDeliveryDataByDriverId(
+            ObservableList<DeliveryOrder> data,
+            int driverId
+    ) throws TextFileNotFoundException {
+
+        try {
+
+            for (Order order : orderTickets) {
+
+                if (isDeliveryOrderClass(order)) {
+                    DeliveryOrder deliveryOrder = (DeliveryOrder) order;
+                    Driver driver = deliveryOrder.getDriver();
+                    if (driver != null) {
+                        if (driver.getUserId() == driverId
+                                && deliveryOrder.getOrderStatus()
+                                .equalsIgnoreCase("pending-delivery")) {
+                            data.add(deliveryOrder);
+                        }
+                    }
+                }
+            }
+
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    // TODO
+    public boolean isDeliveryOrderClass(Order order) {
+        Object classType = order.getClass();
+        String objectType = List.of(classType.toString().split("\\.")).getLast();
+        if (objectType.equalsIgnoreCase("deliveryorder")) {
+            return true;
+        }
+        return false;
+    }
+
+    // TODO comment
+    public void getOrderDataByUserId(
+            ObservableList<Order> data,
+            int userId
+    ) {
+
+        for (Order order : orderTickets) {
+            Customer customer = order.getCustomer();
+            if (customer != null
+                    && customer.getCustomerId() == userId) {
                 data.add(order);
             }
         }
     }
 
+    // TODO
+    public void updateOrderTypeChoiceBox(
+            ChoiceBox<String> choiceBox
+    ) {
+        for (String orderType : orderTypes) {
+            choiceBox.getItems()
+                    .add(orderType);
+        }
+        choiceBox.setValue(orderTypes.getFirst());
+    }
+
+    /**
+     * This method formats address to transform any symbols compatible for
+     * users to read.
+     *
+     * @param address - the formatted address taken from database.
+     * @return an address with the correct format.
+     */
+    public String formatAddressToRead(String address) {
+        return address.replaceAll(";", ",");
+    }
 
 }

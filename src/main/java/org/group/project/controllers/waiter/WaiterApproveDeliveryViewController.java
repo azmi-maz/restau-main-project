@@ -9,20 +9,20 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.group.project.Main;
-import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.DeliveryOrder;
+import org.group.project.classes.Kitchen;
+import org.group.project.classes.Waiter;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.ImageLoader;
+import org.group.project.exceptions.TextFileNotFoundException;
 import org.group.project.scenes.WindowSize;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Optional;
 
 public class WaiterApproveDeliveryViewController {
@@ -57,18 +57,12 @@ public class WaiterApproveDeliveryViewController {
     @FXML
     private BorderPane borderPane;
 
-    // TODO Delete all of these bgImage declared here as they're redundant
-    @FXML
-    private ImageView bgImage;
-
-    private List<String> pendingDeliveryList;
-
     @FXML
     private TableView<DeliveryOrder> pendingDeliveryTable = new TableView<>();
     private ObservableList<DeliveryOrder> data =
             FXCollections.observableArrayList();
 
-    public void initialize() throws URISyntaxException, FileNotFoundException {
+    public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
                 "/background/waiter-main" +
@@ -171,8 +165,11 @@ public class WaiterApproveDeliveryViewController {
                     refreshPendingDeliveryList();
 
                 } catch (IOException ex) {
-                    // TODO catch error
-                    throw new RuntimeException(ex);
+                    AlertPopUpWindow.displayErrorWindow(
+                            "Error",
+                            ex.getMessage()
+                    );
+                    ex.printStackTrace();
                 }
 
             });
@@ -190,6 +187,8 @@ public class WaiterApproveDeliveryViewController {
             DeliveryOrder selectedOrder = cellData.getValue();
 
             cancelButton.setOnAction(e -> {
+                Waiter waiter = (Waiter) Main.getCurrentUser();
+
                 Optional<ButtonType> userChoice = promptForUserAcknowledgement(
                         "Delivery Order Cancellation",
                         "Do you want to cancel this delivery order?"
@@ -198,18 +197,31 @@ public class WaiterApproveDeliveryViewController {
                 if (userChoice.get()
                         .getButtonData().toString()
                         .equalsIgnoreCase("OK_DONE")) {
-                    // TODO try catch
+
                     try {
-                        selectedOrder.cancelDeliveryOrder();
-                        selectedOrder.notifyCustomer(
-                                selectedOrder.getCustomer(),
-                                false
+                        boolean isSuccessful = waiter.cancelDeliveryOrder(
+                                selectedOrder
                         );
+                        if (isSuccessful) {
+                            AlertPopUpWindow.displayInformationWindow(
+                                    "Delivery Order Update",
+                                    String.format(
+                                            "Delivery order no.%d was " +
+                                                    "cancelled successfully.",
+                                            selectedOrder.getOrderId()
+                                    ),
+                                    "Ok"
+                            );
+                        }
 
                         refreshPendingDeliveryList();
 
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
+                    } catch (TextFileNotFoundException ex) {
+                        AlertPopUpWindow.displayErrorWindow(
+                                "Error",
+                                ex.getMessage()
+                        );
+                        ex.printStackTrace();
                     }
                 }
             });
@@ -222,13 +234,25 @@ public class WaiterApproveDeliveryViewController {
     }
 
     // TODO comment
-    public void refreshPendingDeliveryList() throws FileNotFoundException {
+    public void refreshPendingDeliveryList() {
 
         // TODO comment
         pendingDeliveryTable.getItems().clear();
         data.clear();
 
-        DeliveryOrder.getUpdatedDeliveryOrderData(data);
+        try {
+
+            Kitchen kitchen = new Kitchen();
+
+            kitchen.getPendingApprovalOrderData(data);
+
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
 
     }
 

@@ -7,7 +7,6 @@ import org.group.project.scenes.driver.DriverMapsMain;
 import org.group.project.scenes.driver.DriverScenesMap;
 import org.group.project.scenes.main.DriverView;
 
-import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 
 public class DriverReturnHomeNavbarController {
@@ -17,16 +16,14 @@ public class DriverReturnHomeNavbarController {
 
     public void initialize() throws URISyntaxException {
 
-        ImageLoader.setUpGraphicButton(homeButton, 25, 25, "undo");
+        ImageLoader.setUpGraphicButton(homeButton,
+                25, 25, "undo");
 
         homeButton.setOnMousePressed(e -> {
-            // TODO try catch
-            try {
-                DriverView.driverPendingDeliveryNavbarCounterController.refreshPendingDeliveryCounter();
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
-            DriverScenesMap.getDriverStage().setScene(DriverScenesMap.getScenes().get(DriverMapsMain.HOME));
+            DriverView.driverPendingDeliveryNavbarCounterController
+                    .refreshPendingDeliveryCounter();
+            DriverScenesMap.getDriverStage().setScene(
+                    DriverScenesMap.getScenes().get(DriverMapsMain.HOME));
         });
 
     }

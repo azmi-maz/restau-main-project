@@ -12,11 +12,11 @@ import org.group.project.Main;
 import org.group.project.classes.Booking;
 import org.group.project.classes.Customer;
 import org.group.project.classes.Floor;
+import org.group.project.classes.Waiter;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.ImageLoader;
+import org.group.project.exceptions.TextFileNotFoundException;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -61,7 +61,7 @@ public class WaiterApproveBookingsViewController {
     @FXML
     private BorderPane borderPane;
 
-    public void initialize() throws FileNotFoundException, URISyntaxException {
+    public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
                 "/background/waiter-main" +
@@ -144,6 +144,7 @@ public class WaiterApproveBookingsViewController {
             Customer selectedCustomer = cellData.getValue().getCustomer();
 
             confirmButton.setOnAction(e -> {
+                Waiter waiter = (Waiter) Main.getCurrentUser();
 
                 Optional<ButtonType> userChoice = promptForUserAcknowledgement(
                         "Table Reservation Approval",
@@ -153,16 +154,30 @@ public class WaiterApproveBookingsViewController {
                 if (userChoice.get()
                         .getButtonData().toString()
                         .equalsIgnoreCase("OK_DONE")) {
-                    // TODO try catch
-                    try {
-                        selectedBooking.approveBooking();
-                        selectedBooking.notifyCustomer(selectedCustomer,
-                                true);
 
+                    try {
+                        boolean isSuccessful = waiter.approveTableReservation(
+                                selectedBooking,
+                                selectedCustomer
+                        );
+                        if (isSuccessful) {
+                            AlertPopUpWindow.displayInformationWindow(
+                                    "Table Reservation",
+                                    String.format(
+                                            "Booking no.%d was approved " +
+                                                    "successfully.",
+                                            selectedBooking.getBookingId()
+                                    ), "Ok"
+                            );
+                        }
                         refreshReservationList();
 
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
+                    } catch (TextFileNotFoundException ex) {
+                        AlertPopUpWindow.displayErrorWindow(
+                                "Error",
+                                ex.getMessage()
+                        );
+                        ex.printStackTrace();
                     }
                 }
             });
@@ -181,6 +196,7 @@ public class WaiterApproveBookingsViewController {
 
             // TODO Dont delete the booking, change status to failed
             cancelButton.setOnAction(e -> {
+                Waiter waiter = (Waiter) Main.getCurrentUser();
 
                 Optional<ButtonType> userChoice = promptForUserAcknowledgement(
                         "Table Reservation Approval",
@@ -190,17 +206,33 @@ public class WaiterApproveBookingsViewController {
                 if (userChoice.get()
                         .getButtonData().toString()
                         .equalsIgnoreCase("OK_DONE")) {
-                    // TODO try catch
-                    try {
-                        selectedBooking.cancelBooking();
-                        selectedBooking.notifyCustomer(selectedCustomer,
-                                false);
 
+                    try {
+
+                        boolean isSuccessful = waiter.cancelTableReservation(
+                                selectedBooking,
+                                selectedCustomer
+                        );
+                        if (isSuccessful) {
+                            AlertPopUpWindow.displayInformationWindow(
+                                    "Table Reservation",
+                                    String.format(
+                                            "Booking no.%d was rejected " +
+                                                    "successfully.",
+                                            selectedBooking.getBookingId()
+                                    ), "Ok"
+                            );
+                        }
                         refreshReservationList();
 
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
+                    } catch (TextFileNotFoundException ex) {
+                        AlertPopUpWindow.displayErrorWindow(
+                                "Error",
+                                ex.getMessage()
+                        );
+                        ex.printStackTrace();
                     }
+
                 }
             });
 
@@ -211,14 +243,25 @@ public class WaiterApproveBookingsViewController {
 
     }
 
-    public void refreshReservationList() throws FileNotFoundException {
+    public void refreshReservationList() {
 
         // TODO comment that this clears up the list everytime it refresh
         pendingApprovalsTable.getItems().clear();
         data.clear();
 
-        Floor floor = new Floor();
-        floor.getUpdatedBookingData(data);
+        try {
+
+            Floor floor = new Floor();
+
+            floor.getPendingBookingData(data);
+
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
 
     }
 

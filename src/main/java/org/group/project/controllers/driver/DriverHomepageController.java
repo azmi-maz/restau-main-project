@@ -18,14 +18,13 @@ public class DriverHomepageController {
 
     public void initialize() throws URISyntaxException {
 
-        mainTitle.setText("Welcome, Driver!");
-
         Image bgImage = new Image(Main.class.getResource("images" +
                 "/background/driver-main" +
                 ".jpg").toURI().toString());
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,
-                BackgroundSize.AUTO, false, false, true, true);
+                BackgroundSize.AUTO, false,
+                false, true, true);
 
         borderPane.setBackground(new Background(new BackgroundImage(bgImage,
                 BackgroundRepeat.NO_REPEAT,

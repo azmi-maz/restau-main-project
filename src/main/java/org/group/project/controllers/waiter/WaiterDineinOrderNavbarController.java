@@ -7,7 +7,6 @@ import org.group.project.scenes.main.WaiterView;
 import org.group.project.scenes.waiter.WaiterMapsMain;
 import org.group.project.scenes.waiter.WaiterScenesMap;
 
-import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 
 public class WaiterDineinOrderNavbarController {
@@ -15,21 +14,13 @@ public class WaiterDineinOrderNavbarController {
     @FXML
     private Button homeButton;
 
-    @FXML
-    private Button addItemButton;
-
     public void initialize() throws URISyntaxException {
 
         ImageLoader.setUpGraphicButton(homeButton, 25, 25,
                 "undo");
 
         homeButton.setOnMousePressed(e -> {
-            // TODO try catch
-            try {
-                WaiterView.waiterMainCounterController.refreshMainCounter();
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
+            WaiterView.waiterMainCounterController.refreshMainCounter();
             WaiterScenesMap.getWaiterStage().setScene(WaiterScenesMap.getScenes().get(WaiterMapsMain.HOME));
         });
 

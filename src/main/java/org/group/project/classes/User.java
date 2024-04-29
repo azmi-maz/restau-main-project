@@ -1,6 +1,7 @@
 package org.group.project.classes;
 
 import org.group.project.classes.auxiliary.DataFileStructure;
+import org.group.project.exceptions.TextFileNotFoundException;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class User {
 
     // TODO comment
     public String getFirstNameForDisplay() {
-        return firstName.substring(0,1).toUpperCase()
+        return firstName.substring(0, 1).toUpperCase()
                 + firstName.substring(1);
     }
 
@@ -53,7 +54,7 @@ public class User {
 
     // TODO comment
     public String getLastNameForDisplay() {
-        return lastName.substring(0,1).toUpperCase()
+        return lastName.substring(0, 1).toUpperCase()
                 + lastName.substring(1);
     }
 
@@ -64,6 +65,19 @@ public class User {
      */
     public String getUsername() {
         return username;
+    }
+
+    // TODO
+    public int getUserId() throws TextFileNotFoundException {
+
+        try {
+            UserManagement userManagement = new UserManagement();
+            return userManagement.getUserIdByUsername(
+                    getUsername());
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     /**

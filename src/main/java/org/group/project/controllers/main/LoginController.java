@@ -3,23 +3,21 @@ package org.group.project.controllers.main;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.group.project.Main;
-import org.group.project.classes.auxiliary.DataFileStructure;
-import org.group.project.classes.auxiliary.DataManager;
-import org.group.project.classes.auxiliary.HelperMethods;
+import org.group.project.classes.User;
+import org.group.project.classes.UserManagement;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.exceptions.ClearFileFailedException;
+import org.group.project.exceptions.TextFileNotFoundException;
 import org.group.project.scenes.MainScenes;
 import org.group.project.scenes.WindowSize;
 import org.group.project.scenes.main.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * This controller class handles login-view fxml events.
@@ -28,8 +26,6 @@ import java.util.List;
  */
 public class LoginController {
 
-    private Stage stage;
-
     @FXML
     private TextField loginUsername;
 
@@ -37,102 +33,105 @@ public class LoginController {
     private Label resultLabel;
 
     @FXML
-    private Hyperlink newFoodie;
+    protected void onLoginButtonClick() {
 
-    @FXML
-    protected void onLoginButtonClick() throws IOException {
+        try {
 
-        boolean isUsernameExist =
-                HelperMethods.isUsernameExist(loginUsername.getText());
+            UserManagement userManagement = new UserManagement();
 
-        if (isUsernameExist) {
+            String inputUsername = loginUsername.getText();
 
-//            System.out.println(resultLabel.getStyleClass());
+            boolean isUsernameExist = userManagement.isUsernameAlreadyExist(
+                    inputUsername
+            );
 
-            // These remove error, success, hidden-label. Without removing
-            // all, the style name piles up
-            resultLabel.getStyleClass().removeAll("error");
-            resultLabel.getStyleClass().removeAll("success");
-            resultLabel.getStyleClass().removeAll("hidden-label");
+            if (isUsernameExist) {
 
-            // This adds success css
-            resultLabel.getStyleClass().add("success");
+                // These remove error, success, hidden-label.
+                resultLabel.getStyleClass().removeAll("error");
+                resultLabel.getStyleClass().removeAll("success");
+                resultLabel.getStyleClass().removeAll("hidden-label");
 
-            // The success message
-            // TODO have to clean this off after sign in, else logged off still have this displayed
-            resultLabel.setText("Login successful!");
+                // This adds success css
+                resultLabel.getStyleClass().add("success");
 
-            // TODO Try catch?
-            List<String> registeredUserDetails =
-                    HelperMethods.getUserDataByUsername(loginUsername.getText());
+                // The success message
+                resultLabel.setText("Login successful!");
 
-            List<String> currentUser = new ArrayList<>(Arrays.asList(
-                    registeredUserDetails
-                            .get(DataFileStructure.getIndexColOfUniqueId("USERS")),
-                    registeredUserDetails.get(DataFileStructure
-                            .getIndexByColName("USERS", "firstName")),
-                    registeredUserDetails.get(DataFileStructure
-                            .getIndexByColName("USERS", "lastName")),
-                    registeredUserDetails.get(DataFileStructure
-                            .getIndexByColName("USERS", "username")),
-                    registeredUserDetails.get(DataFileStructure
-                            .getIndexByColName("USERS", "userType"))
-            ));
+                User currentUser = userManagement.getUserByUsername(
+                        inputUsername
+                );
 
-            DataManager.appendDataToFile("ACTIVE_USER", currentUser);
+                String userType =
+                        userManagement.getStaffClass(currentUser).toLowerCase();
 
-            String userType =
-                    registeredUserDetails.get(DataFileStructure
-                            .getIndexByColName("USERS", "userType"));
+                userManagement.persistActiveUserData(currentUser);
 
-            Main.setCurrentUser(HelperMethods.getActiveUser());
+                Main.setCurrentUser(userManagement.getActiveUser());
 
-            switch (userType) {
-                case "manager":
-                    ManagerView.controller.welcomeManager();
-                    Main.getStage().setScene(Main.getScenes().get(MainScenes.MANAGER));
-                    break;
-                case "waiter":
-                    WaiterView.controller.welcomeWaiter();
-                    WaiterView.waiterMainCounterController.refreshMainCounter();
-                    Main.getStage().setScene(Main.getScenes().get(MainScenes.WAITER));
-                    break;
-                case "chef":
-                    ChefView.controller.welcomeChef();
-                    ChefView.chefOutstandingOrdersNavbarCounterController.refreshOutstandingCounter();
-                    Main.getStage().setScene(Main.getScenes().get(MainScenes.CHEF));
-                    break;
-                case "driver":
-                    DriverView.controller.welcomeDriver();
-                    DriverView.driverPendingDeliveryNavbarCounterController.refreshPendingDeliveryCounter();
-                    Main.getStage().setScene(Main.getScenes().get(MainScenes.DRIVER));
-                    break;
-                default:
-                    CustomerView.controller.welcomeCustomer();
-                    CustomerView.customerNotificationNavbarController.refreshNotificationCounter();
-                    Main.getStage().setScene(Main.getScenes().get(MainScenes.CUSTOMER));
-                    break;
+                switch (userType) {
+                    case "manager":
+                        ManagerView.controller.welcomeManager();
+                        Main.getStage().setScene(Main.getScenes()
+                                .get(MainScenes.MANAGER));
+                        break;
+                    case "waiter":
+                        WaiterView.controller.welcomeWaiter();
+                        WaiterView.waiterMainCounterController
+                                .refreshMainCounter();
+                        Main.getStage().setScene(Main.getScenes()
+                                .get(MainScenes.WAITER));
+                        break;
+                    case "chef":
+                        ChefView.controller.welcomeChef();
+                        ChefView.chefOutstandingOrdersNavbarCounterController
+                                .refreshOutstandingCounter();
+                        Main.getStage().setScene(Main.getScenes()
+                                .get(MainScenes.CHEF));
+                        break;
+                    case "driver":
+                        DriverView.controller.welcomeDriver();
+                        DriverView.driverPendingDeliveryNavbarCounterController
+                                .refreshPendingDeliveryCounter();
+                        Main.getStage().setScene(Main.getScenes()
+                                .get(MainScenes.DRIVER));
+                        break;
+                    default:
+                        CustomerView.controller.welcomeCustomer();
+                        CustomerView.customerNotificationNavbarController
+                                .refreshNotificationCounter();
+                        Main.getStage().setScene(Main.getScenes()
+                                .get(MainScenes.CUSTOMER));
+                        break;
+                }
+
+                // Reset the loginUsername textfield and resultLabel
+                resultLabel.setText("");
+                resultLabel.getStyleClass().removeAll("success");
+                loginUsername.setText("");
+
+
+            } else {
+
+                // The error message
+                resultLabel.setText("Login unsuccessful. Please try again.");
+
+                // These remove hidden-label, success and error.
+                resultLabel.getStyleClass().removeAll("hidden-label");
+                resultLabel.getStyleClass().removeAll("success");
+                resultLabel.getStyleClass().removeAll("error");
+
+                // Adds the error css
+                resultLabel.getStyleClass().add("error");
             }
 
-            // TODO reset the loginUsername textfield and resultLabel
-            resultLabel.setText("");
-            resultLabel.getStyleClass().removeAll("success");
-            loginUsername.setText("");
-
-
-        } else {
-
-            // The error message
-            resultLabel.setText("Login unsuccessful. Please try again.");
-
-            // These remove hidden-label, success and error. Without removing
-            // all, the style name piles up
-            resultLabel.getStyleClass().removeAll("hidden-label");
-            resultLabel.getStyleClass().removeAll("success");
-            resultLabel.getStyleClass().removeAll("error");
-
-            // The adds the error css
-            resultLabel.getStyleClass().add("error");
+        } catch (TextFileNotFoundException |
+                 ClearFileFailedException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
         }
     }
 
@@ -152,16 +151,21 @@ public class LoginController {
 
             Stage newCustomerRegistrationStage = new Stage();
             newCustomerRegistrationStage.setScene(newCustomerRegistration);
-            newCustomerRegistrationStage.setTitle("New Customer Registration");
+            newCustomerRegistrationStage.setTitle(
+                    "New Customer Registration");
 
-            newCustomerRegistrationStage.initModality(Modality.APPLICATION_MODAL);
+            newCustomerRegistrationStage.initModality(
+                    Modality.APPLICATION_MODAL);
 
             newCustomerRegistrationStage.showAndWait();
 
 
         } catch (IOException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
             e.printStackTrace();
-            System.exit(-1);
         }
     }
 

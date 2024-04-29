@@ -7,18 +7,17 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import org.group.project.Main;
+import org.group.project.classes.Booking;
+import org.group.project.classes.Customer;
+import org.group.project.classes.Floor;
+import org.group.project.classes.Table;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
-import org.group.project.classes.auxiliary.DataManager;
-import org.group.project.classes.auxiliary.HelperMethods;
+import org.group.project.exceptions.TextFileNotFoundException;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class CustomerAddBookingController {
 
@@ -29,16 +28,16 @@ public class CustomerAddBookingController {
     private DatePicker reservationDatePicker;
 
     @FXML
-    private ChoiceBox<String> reservationTimeChoiceBox;
+    private ChoiceBox<LocalTime> reservationTimeChoiceBox;
 
     @FXML
-    private ChoiceBox<String> numOfGuestsChoiceBox;
+    private ChoiceBox<Integer> numOfGuestsChoiceBox;
 
     @FXML
-    private ChoiceBox<String> lenOfReservationTimeChoiceBox;
+    private ChoiceBox<Integer> lenOfReservationTimeChoiceBox;
 
     @FXML
-    private ChoiceBox<String> tablePreferenceChoiceBox;
+    private ChoiceBox<Table> tablePreferenceChoiceBox;
 
     @FXML
     private Button confirmButton;
@@ -47,115 +46,69 @@ public class CustomerAddBookingController {
     private Button cancelButton;
 
     @FXML
-    private String userId;
+    private int userId;
 
     public void initialize() {
 
         reservationDatePicker.setOnAction(e -> {
-            if (reservationDatePicker.getValue().compareTo(LocalDate.now()) < 0) {
+            if (reservationDatePicker.getValue().compareTo(
+                    LocalDate.now()) < 0) {
                 AlertPopUpWindow.displayErrorWindow(
                         "Error",
-                        "Reservation date cannot be less than current date."
+                        "Reservation date cannot be less " +
+                                "than current date."
                 );
                 reservationDatePicker.setValue(LocalDate.now());
             }
         });
 
-        // TODO enum this?
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(10, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(10, 30)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(11, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(11, 30)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(12, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(12, 30)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(13, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(13, 30)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(14, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(14, 30)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(15, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(15, 30)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(16, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(16, 30)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(17, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(17, 30)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(18, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(18, 30)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(19, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(19, 30)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(20, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(20, 30)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
-        reservationTimeChoiceBox.getItems().add(LocalTime.of(21, 00)
-                .format(DateTimeFormatter.ofPattern("hh:mm a")));
+        try {
+            Floor floor = new Floor();
 
-        // TODO
-        numOfGuestsChoiceBox.getItems().add("2");
-        numOfGuestsChoiceBox.getItems().add("4");
-        numOfGuestsChoiceBox.getItems().add("8");
-        numOfGuestsChoiceBox.getItems().add("10");
+            floor.updateReservationTimeChoiceBox(
+                    reservationTimeChoiceBox
+            );
+            floor.updateNumOfGuestsChoiceBox(
+                    numOfGuestsChoiceBox
+            );
+            floor.updateBookingLengthChoiceBox(
+                    lenOfReservationTimeChoiceBox
+            );
 
-        lenOfReservationTimeChoiceBox.getItems().add("1");
-        lenOfReservationTimeChoiceBox.getItems().add("2");
-        lenOfReservationTimeChoiceBox.getItems().add("3");
-        lenOfReservationTimeChoiceBox.getItems().add("4");
-        lenOfReservationTimeChoiceBox.getItems().add("5");
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
 
         // TODO get from database
-        // TODO the magic number
         numOfGuestsChoiceBox.setOnAction(e -> {
 
-            tablePreferenceChoiceBox.getItems().clear();
-
-            int maxGuestSelected = Integer.parseInt(numOfGuestsChoiceBox.getValue());
-            switch (maxGuestSelected) {
-                case 2:
-                    tablePreferenceChoiceBox.getItems().add("Petite Plateau (2)");
-                    tablePreferenceChoiceBox.getItems().add("Amoureux Alcôve (2)");
-                    tablePreferenceChoiceBox.getItems().add("Belle Banquette (2)");
-                    tablePreferenceChoiceBox.getItems().add("Charme Coin (2)");
-                    break;
-                case 4:
-                    tablePreferenceChoiceBox.getItems().add("Quatre Quartiers (4)");
-                    tablePreferenceChoiceBox.getItems().add("Salle Familiale (4)");
-                    tablePreferenceChoiceBox.getItems().add("Convives Carré (4)");
-                    tablePreferenceChoiceBox.getItems().add("Groupe Grandeur (4)");
-                    break;
-                case 8:
-                    tablePreferenceChoiceBox.getItems().add("Huit Héritage (8)");
-                    tablePreferenceChoiceBox.getItems().add("Table du Chef (8)");
-                    break;
-                default:
-                    tablePreferenceChoiceBox.getItems().add("Festin Fantastique (10)");
-                    break;
+            try {
+                Floor floor = new Floor();
+                int maxGuestSelected = numOfGuestsChoiceBox.getValue();
+                floor.updateTablesBasedOnGuests(
+                        maxGuestSelected,
+                        tablePreferenceChoiceBox
+                );
+            } catch (TextFileNotFoundException ex) {
+                AlertPopUpWindow.displayErrorWindow(
+                        "Error",
+                        ex.getMessage()
+                );
+                ex.printStackTrace();
             }
+
         });
 
 
         // TODO cite https://stackoverflow.com/questions/26831978/javafx-datepicker-getvalue-in-a-specific-format
         reservationDatePicker.setConverter(
                 new StringConverter<>() {
-                    final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    final DateTimeFormatter dateFormatter = DateTimeFormatter
+                            .ofPattern("dd/MM/yyyy");
 
                     @Override
                     public String toString(LocalDate date) {
@@ -173,6 +126,8 @@ public class CustomerAddBookingController {
         confirmButton.setOnAction(e -> {
             // TODO set new value
 
+            Customer customer = (Customer) Main.getCurrentUser();
+
             if (
                     reservationDatePicker.getValue() != null
                             && reservationTimeChoiceBox.getValue() != null
@@ -181,44 +136,40 @@ public class CustomerAddBookingController {
                             && lenOfReservationTimeChoiceBox.getValue() != null
             ) {
 
-                // TODO try catch
-                String newBookingId = "";
+                LocalDate bookingDate = reservationDatePicker.getValue();
+                LocalTime bookingTime = reservationTimeChoiceBox.getValue();
+                int numOfGuests = numOfGuestsChoiceBox.getValue();
+                Table tablePreference = tablePreferenceChoiceBox.getValue();
+                int bookingLength = lenOfReservationTimeChoiceBox.getValue();
+
                 try {
-                    newBookingId = String.valueOf(HelperMethods.getNewIdByFile("BOOKINGS"));
-                } catch (FileNotFoundException ex) {
-                    throw new RuntimeException(ex);
-                }
-
-                String bookingDate = String.valueOf(reservationDatePicker.getValue());
-                LocalTime getBookingTime = LocalTime
-                        .parse(reservationTimeChoiceBox
-                                .getValue(), DateTimeFormatter
-                                .ofPattern("hh:mm a"));
-                String bookingTime = getBookingTime.format(DateTimeFormatter.ofPattern("H-m"));
-                String numOfGuests = numOfGuestsChoiceBox.getValue();
-                String bookingLength =
-                        lenOfReservationTimeChoiceBox.getValue();
-                String tablePreference =
-                        tablePreferenceChoiceBox.getValue();
-                String bookingStatus = "pending-approval";
-
-                List<String> newBooking = new ArrayList<>(Arrays.asList(
-                        newBookingId,
-                        userId,
-                        bookingDate,
-                        bookingTime,
-                        numOfGuests,
-                        bookingLength,
-                        tablePreference,
-                        bookingStatus
-                ));
-
-
-                // TODO handle try catch
-                try {
-                    DataManager.appendDataToFile("BOOKINGS", newBooking);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+                    Floor floor = new Floor();
+                    Booking newBooking = floor.createNewBooking(
+                            userId,
+                            bookingDate,
+                            bookingTime,
+                            numOfGuests,
+                            tablePreference,
+                            bookingLength
+                    );
+                    boolean isSuccessful = customer.addNewBooking(
+                            newBooking,
+                            floor
+                    );
+                    if (isSuccessful) {
+                        AlertPopUpWindow.displayInformationWindow(
+                                "Table Reservation Update",
+                                "New table reservation was " +
+                                        "made successfully.",
+                                "Ok"
+                        );
+                    }
+                } catch (TextFileNotFoundException ex) {
+                    AlertPopUpWindow.displayErrorWindow(
+                            "Error",
+                            ex.getMessage()
+                    );
+                    ex.printStackTrace();
                 }
 
                 closeWindow();
@@ -239,7 +190,7 @@ public class CustomerAddBookingController {
     }
 
     // TODO checks and comment
-    public void prepareNewBooking(String userId) {
+    public void prepareNewBooking(int userId) {
         this.userId = userId;
     }
 

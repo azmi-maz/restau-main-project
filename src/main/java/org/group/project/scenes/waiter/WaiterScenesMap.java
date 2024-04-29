@@ -35,12 +35,6 @@ public class WaiterScenesMap {
         waiterScenes.put(WaiterMapsMain.DINEIN,
                 new DineInView(stage).getScene());
 
-        // TODO history scene and user scene
-
-//        stage.setScene(Main.getScenes().get(MainScenes.CUSTOMER));
-//        stage.setTitle("Cafe94 Restaurant");
-//        stage.show();
-
     }
 
     public static Map<WaiterMapsMain, Scene> getScenes() {

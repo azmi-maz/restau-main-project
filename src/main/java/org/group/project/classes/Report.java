@@ -1,14 +1,12 @@
 package org.group.project.classes;
 
-import org.group.project.Main;
+import org.group.project.classes.auxiliary.DataFileStructure;
 import org.group.project.classes.auxiliary.DataManager;
-import org.group.project.classes.auxiliary.HelperMethods;
+import org.group.project.exceptions.TextFileNotFoundException;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,11 +59,15 @@ public class Report {
     }
 
     // TODO
-    public Report(String reportType, User user) {
+    public Report(String reportType, User user)
+            throws TextFileNotFoundException {
+
+        this.reportId = getNewReportId();
         this.reportType = reportType;
         this.generatedBy = user.getDataForListDisplay();
         this.generatedOnDate = LocalDate.now();
         this.generatedOnTime = LocalTime.now();
+
     }
 
     /**
@@ -80,6 +82,29 @@ public class Report {
     // TODO
     public void setReportId(int reportId) {
         this.reportId = reportId;
+    }
+
+    // TODO
+    public int getNewReportId() throws TextFileNotFoundException {
+        try {
+            List<String> listOfData = DataManager
+                    .allDataFromFile("REPORTS");
+            int lastId = -1;
+            String lastReport = listOfData.getLast();
+            String[] reportDetails = lastReport.split(",");
+            int reportIdIndex = DataFileStructure
+                    .getIndexColOfUniqueId("REPORTS");
+            lastId = Integer.parseInt(reportDetails[reportIdIndex]);
+            if (lastId > -1) {
+                lastId++;
+                return lastId;
+            }
+            return lastId;
+
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     /**
@@ -207,26 +232,6 @@ public class Report {
                 getGeneratedOnDateInFormat(),
                 getGeneratedOnTimeInFormat(),
                 uncompactReportData(getReportData())
-        );
-    }
-
-    // TODO
-    public void saveReportToDatabase() throws IOException {
-        List<String> reportFormat = new ArrayList<>();
-        String userId = String.valueOf(HelperMethods
-                .findUserIdByUsername(
-                        Main.getCurrentUser().getUsername()));
-        reportFormat.add(
-                String.valueOf(getReportId()));
-        reportFormat.add(getReportType());
-        reportFormat.add(userId);
-        reportFormat.add(getGeneratedOnDateForDatabase());
-        reportFormat.add(getGeneratedOnTimeForDatabase());
-        reportFormat.add(getReportDataForDatabase());
-
-        DataManager.appendDataToFile(
-                "REPORTS",
-                reportFormat
         );
     }
 
