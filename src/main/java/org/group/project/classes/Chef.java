@@ -12,7 +12,7 @@ import java.util.List;
 public class Chef extends Staff {
 
     /**
-     * The constructor to create new chef.
+     * The constructor to create new chef with basic info.
      *
      * @param firstName - the first name of the staff.
      * @param lastName  - the last name of the staff.
@@ -22,7 +22,16 @@ public class Chef extends Staff {
         super(firstName, lastName, username, false);
     }
 
-    // TODO
+    /**
+     * The constructor to create new chef from the database.
+     *
+     * @param firstName             - the first name of the staff.
+     * @param lastName              - the last name of the staff.
+     * @param username              - the username chosen by the staff.
+     * @param hasAdminRight         - the right to admin access.
+     * @param numOfHoursToWork      - the num of hours remaining.
+     * @param numOfTotalHoursWorked - the total hours worked by chef.
+     */
     public Chef(String firstName, String lastName, String username,
                 boolean hasAdminRight, int numOfHoursToWork,
                 int numOfTotalHoursWorked) {
@@ -35,6 +44,7 @@ public class Chef extends Staff {
      *
      * @param item - the food or drink item selected.
      * @return true if the item was updated successfully.
+     * @throws TextFileNotFoundException - if text file is non-existent.
      */
     public boolean chooseDailySpecial(FoodDrink item)
             throws TextFileNotFoundException {
@@ -65,6 +75,7 @@ public class Chef extends Staff {
      *
      * @param newItem - a new food or drink.
      * @return true if the new item was added successfully.
+     * @throws TextFileNotFoundException - if text file is non-existent.
      */
     public boolean createNewMenuItem(String newItem)
             throws TextFileNotFoundException {
@@ -88,6 +99,7 @@ public class Chef extends Staff {
      *
      * @param selectedOrder - the order to be marked off as complete.
      * @return true if order was updated successfully.
+     * @throws TextFileNotFoundException - if text file is non-existent
      */
     public boolean updateOrderStatus(Order selectedOrder)
             throws TextFileNotFoundException {

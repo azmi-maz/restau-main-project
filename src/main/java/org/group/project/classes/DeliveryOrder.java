@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class DeliveryOrder extends Order implements NotifyAction {
     private Driver assignedDriver;
-    private String customerAddress;
+    private final String customerAddress;
     private LocalTime deliveryTime;
 
     /**
@@ -28,20 +28,29 @@ public class DeliveryOrder extends Order implements NotifyAction {
      */
     public DeliveryOrder(int orderId, Customer customer, LocalDate orderDate,
                          LocalTime orderTime) {
-        super(orderId, customer, orderDate, orderTime, "delivery", "pending-approval");
+        super(orderId, customer, orderDate,
+                orderTime, "delivery", "pending-approval");
         customerAddress = customer.getDeliveryAddress();
-        // TODO review this is needed or not
-        // Default 30 mins for now - restaurant policy to deliver within 30
-        // mins.
-//        deliveryTime = orderTime.plusMinutes(30);
     }
 
-    // TODO comment to get updated data
+    /**
+     * The constructor to create DeliveryOrder from a database.
+     *
+     * @param orderId        - the unique id.
+     * @param customer       - the customer who is making the order.
+     * @param orderDate      - the date of the order.
+     * @param orderTime      - the time of the order.
+     * @param deliveryTime   - the estimated delivery time.
+     * @param orderStatus    - the status of the order.
+     * @param assignedDriver - the driver assigned to deliver the order.
+     * @param orderedList    - the list of food/drink items ordered.
+     */
     public DeliveryOrder(int orderId, Customer customer, LocalDate orderDate,
                          LocalTime orderTime, LocalTime deliveryTime,
                          String orderStatus, Driver assignedDriver,
                          List<FoodDrink> orderedList) {
-        super(orderId, customer, orderDate, orderTime, "delivery", orderStatus, orderedList);
+        super(orderId, customer, orderDate, orderTime,
+                "delivery", orderStatus, orderedList);
         customerAddress = customer.getDeliveryAddress();
         this.deliveryTime = deliveryTime;
         this.assignedDriver = assignedDriver;
@@ -132,12 +141,21 @@ public class DeliveryOrder extends Order implements NotifyAction {
         return deliveryTime;
     }
 
-    // TODO comment
+    /**
+     * Getter method to get the delivery time in hh:mm a format.
+     *
+     * @return the delivery time in the desired format.
+     */
     public String getDeliveryTimeInFormat() {
         return deliveryTime.format(DateTimeFormatter.ofPattern("hh:mm a"));
     }
 
-    // TODO comment
+    /**
+     * This method formats the estimated delivery time in database-friendly
+     * format.
+     *
+     * @return - the estimated delivery time in the desired format.
+     */
     public String getEstimatedDeliveryTimeForDatabase() {
         // TODO final variable for added time 30 minutes
         LocalTime timeOfApproval = LocalTime.now();
@@ -148,7 +166,11 @@ public class DeliveryOrder extends Order implements NotifyAction {
                 .format(DateTimeFormatter.ofPattern("H-m"));
     }
 
-    // TODO comment
+    /**
+     * This method cancels the delivery order made by customer.
+     *
+     * @throws TextFileNotFoundException - if the text file is non-existent.
+     */
     public void cancelDeliveryOrder() throws TextFileNotFoundException {
         int orderId = super.getOrderId();
         try {
@@ -161,7 +183,13 @@ public class DeliveryOrder extends Order implements NotifyAction {
         }
     }
 
-    // TODO comment
+    /**
+     * This method updates the delivery order status, driver and
+     * its estimated delivery time.
+     *
+     * @param driverId - the id of the assigned driver.
+     * @throws TextFileNotFoundException - the text file is non-existent.
+     */
     public void approveDeliveryOrder(
             int driverId
     ) throws TextFileNotFoundException {
@@ -182,23 +210,31 @@ public class DeliveryOrder extends Order implements NotifyAction {
         }
     }
 
-    // TODO comment
+    /**
+     * This method completes the delivery order by delivering it to the
+     * customer successfully.
+     *
+     * @return true if the status update is made successfully to the database.
+     * @throws TextFileNotFoundException - if the text file is non-existent.
+     */
     public boolean confirmDeliveryOrder()
             throws TextFileNotFoundException {
         int orderId = super.getOrderId();
-        boolean isSuccessful = false;
         try {
-            isSuccessful = DataManager.editColumnDataByUniqueId("ORDERS",
+            return DataManager.editColumnDataByUniqueId("ORDERS",
                     orderId, "orderStatus",
                     "completed");
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
             throw e;
         }
-        return isSuccessful;
     }
 
-    // TODO comment
+    /**
+     * This creates a message to inform delivery order was approved.
+     *
+     * @return the main message.
+     */
     public String approveDeliveryMessage() {
         return String.format(
                 "Your order no.%d is on the way. Estimated time of delivery" +
@@ -208,7 +244,12 @@ public class DeliveryOrder extends Order implements NotifyAction {
         );
     }
 
-    // TODO comment
+    /**
+     * This creates a failure message to inform that delivery order was
+     * cancelled.
+     *
+     * @return the main message.
+     */
     public String cancelDeliveryMessage() {
         return String.format(
                 "We're sorry. Your delivery order no.%d was cancelled " +
@@ -218,7 +259,12 @@ public class DeliveryOrder extends Order implements NotifyAction {
         );
     }
 
-    // TODO comment
+    /**
+     * This creates a successful message to inform that delivery order
+     * was delivered successfully.
+     *
+     * @return the main message,
+     */
     public String confirmDeliveryMessage() {
         return String.format(
                 "Your order no.%d was delivered successfully. " +
@@ -227,6 +273,14 @@ public class DeliveryOrder extends Order implements NotifyAction {
         );
     }
 
+    /**
+     * This notifies the customer who made the delivery order of any
+     * status changes.
+     *
+     * @param customer            - The customer to be notified.
+     * @param isSuccessfulRequest - successful request or not.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     @Override
     public void notifyCustomer(Customer customer,
                                boolean isSuccessfulRequest)

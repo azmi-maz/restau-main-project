@@ -51,6 +51,11 @@ public enum DataFileStructure {
     private final String uniqueId;
     private final List<String> structure = new ArrayList<>();
 
+    /**
+     * The constructor to create the DataFileStructure enum attributes.
+     * @param uniqueId - the unique id of the database text file.
+     * @param structure - the array of column names of that file.
+     */
     DataFileStructure(String uniqueId, String[] structure) {
         this.uniqueId = uniqueId;
         this.structure.addAll(Arrays.asList(structure));

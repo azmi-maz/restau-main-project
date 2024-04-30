@@ -29,7 +29,19 @@ public class Driver extends Staff {
         this.maxDeliveries = 5;
     }
 
-    // TODO
+    /**
+     * This constructor creates a driver from the database.
+     *
+     * @param driverId              - the unique id.
+     * @param firstName             - the first name of the staff.
+     * @param lastName              - the last name of the staff.
+     * @param username              - the username chosen by the staff.
+     * @param hasAdminRight         - the right for admin access.
+     * @param numOfHoursToWork      - the number of hours remaining.
+     * @param numOfTotalHoursWorked - the total hours worked.
+     * @param isAvailable           - the driver's availability.
+     * @param maxDeliveries         - the max number of active deliveries.
+     */
     public Driver(int driverId, String firstName, String lastName,
                   String username, boolean hasAdminRight,
                   int numOfHoursToWork, int numOfTotalHoursWorked,
@@ -41,7 +53,13 @@ public class Driver extends Staff {
         this.maxDeliveries = maxDeliveries;
     }
 
-    // TODO
+    /**
+     * This constructor creates a driver with basic info.
+     *
+     * @param firstName - the first name of the staff.
+     * @param lastName  - the last name of the staff.
+     * @param username  - the username chosen by the staff.
+     */
     public Driver(String firstName, String lastName, String username) {
         super(firstName, lastName, username, false);
         this.isAvailable = true;
@@ -84,7 +102,13 @@ public class Driver extends Staff {
         this.maxDeliveries = maxDeliveries;
     }
 
-    // TODO
+    /**
+     * This method confirms a delivery order was delivered successfully.
+     *
+     * @param order - the current order being delivered.
+     * @return true if the confirmation update was made successfully.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public boolean confirmDeliveryOrder(DeliveryOrder order)
             throws TextFileNotFoundException {
         try {
@@ -95,7 +119,11 @@ public class Driver extends Staff {
         }
     }
 
-    // TODO comment
+    /**
+     * This display the driver full name when printed out as string.
+     *
+     * @return the driver full name.
+     */
     @Override
     public String toString() {
         return super.getDataForListDisplay();

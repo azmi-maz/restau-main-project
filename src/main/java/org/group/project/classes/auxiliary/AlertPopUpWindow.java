@@ -13,6 +13,13 @@ import java.util.Optional;
  */
 public class AlertPopUpWindow {
 
+    /**
+     * This display information for users to acknowledge.
+     *
+     * @param title      - the title of the alert window.
+     * @param content    - the main message.
+     * @param buttonName - the button text, e.g. Ok
+     */
     public static void displayInformationWindow(String title, String content
             , String buttonName) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -24,6 +31,14 @@ public class AlertPopUpWindow {
         alert.showAndWait();
     }
 
+    /**
+     * This display a choice for the user to choose from; either
+     * answer yes or no to the question asked.
+     *
+     * @param title   - the title of the alert window.
+     * @param content - the main message.
+     * @return the selected response as button type.
+     */
     public static Optional<ButtonType> displayConfirmationWindow(String title,
                                                                  String content) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -37,8 +52,15 @@ public class AlertPopUpWindow {
         return alert.showAndWait();
     }
 
+    /**
+     * This display a choice for user to display or delete reports.
+     *
+     * @param title   - the title of the alert window.
+     * @param content - the main message.
+     * @return the selected response as button type.
+     */
     public static Optional<ButtonType> displayChoiceWindow(String title,
-                                                                 String content) {
+                                                           String content) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
@@ -50,6 +72,12 @@ public class AlertPopUpWindow {
         return alert.showAndWait();
     }
 
+    /**
+     * This display errors that was caught by the try-catch.
+     *
+     * @param title   - the title of the alert.
+     * @param content - the main message of the error.
+     */
     public static void displayErrorWindow(String title,
                                           String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

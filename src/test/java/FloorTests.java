@@ -1,22 +1,15 @@
-import org.group.project.classes.Booking;
-import org.group.project.classes.Customer;
-import org.group.project.classes.Floor;
-import org.group.project.test.generators.BookingGenerator;
-import org.group.project.test.generators.CustomerGenerator;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FloorTests {
 
     @Test
     public void testGetAllUniqueBookings() {
-        Customer customer = CustomerGenerator.createCustomer1();
-        Customer customer2 = CustomerGenerator.createCustomer2();
-
-        Booking booking1 = BookingGenerator.createBooking1();
-
-        Booking booking2 = BookingGenerator.createBooking2();
+//        Customer customer = CustomerGenerator.createCustomer1();
+//        Customer customer2 = CustomerGenerator.createCustomer2();
+//
+//        Booking booking1 = BookingGenerator.createBooking1();
+//
+//        Booking booking2 = BookingGenerator.createBooking2();
 
 //        Floor frontHouse = new Floor();
 //
@@ -129,6 +122,6 @@ public class FloorTests {
 //        System.out.println(frontHouse.getAllUniqueBookings());
 
 
-        assertEquals(true, true);
+//        assertEquals(true, true);
     }
 }

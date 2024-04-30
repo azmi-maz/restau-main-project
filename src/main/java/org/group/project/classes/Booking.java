@@ -21,7 +21,7 @@ public class Booking implements NotifyAction {
     private final LocalTime bookingTime;
     private final int numOfGuests;
     private final int bookingLengthInHour;
-    private final List<Table> tablePreference = new ArrayList<Table>();
+    private final List<Table> tablePreference = new ArrayList<>();
     private String bookingStatus;
 
     /**
@@ -81,6 +81,7 @@ public class Booking implements NotifyAction {
      * @param numOfGuests   - number of guests for the table reservation.
      * @param tableRequest  - list of one table or more for the guests.
      * @param bookingLength - the booking length requested by customer.
+     * @param status        - the status of the booking.
      */
     public Booking(int bookingId, Customer customer, LocalDate bookingDate,
                    LocalTime bookingTime, int numOfGuests,
@@ -95,7 +96,20 @@ public class Booking implements NotifyAction {
         this.bookingStatus = status;
     }
 
-    // TODO
+    /**
+     * Booking constructor to create booking from existing data taken from
+     * database.
+     *
+     * @param newBookingId    - the unique id.
+     * @param customerId      - the customer id who made the booking.
+     * @param bookingDate     - the date of the booking.
+     * @param bookingTime     - the time of the booking.
+     * @param numOfGuests     - the number of guests for that booking.
+     * @param tablePreference - the table reserved for the customer.
+     * @param bookingLength   - the length of the booking time.
+     * @throws TextFileNotFoundException - if the booking data file is
+     *                                   non-existent
+     */
     public Booking(
             int newBookingId,
             int customerId,
@@ -125,7 +139,11 @@ public class Booking implements NotifyAction {
 
     }
 
-    // TODO comment
+    /**
+     * Getter method to get the booking id.
+     *
+     * @return - the booking id.
+     */
     public int getBookingId() {
         return bookingId;
     }
@@ -157,7 +175,11 @@ public class Booking implements NotifyAction {
         return bookingDate;
     }
 
-    // TODO comment
+    /**
+     * Getter method to get the booking date in dd/mm/yyyy format.
+     *
+     * @return - the booking date in the desired format.
+     */
     public String getBookingDateInFormat() {
         return bookingDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
@@ -171,7 +193,11 @@ public class Booking implements NotifyAction {
         return bookingTime;
     }
 
-    // TODO comment
+    /**
+     * Getter method to get the booking time in hh:mm a format.
+     *
+     * @return - the booking time in the desired format.
+     */
     public String getBookingTimeInFormat() {
         return bookingTime.format(DateTimeFormatter.ofPattern("hh:mm a"));
     }
@@ -274,7 +300,12 @@ public class Booking implements NotifyAction {
                 + getEndBookingTime();
     }
 
-    // TODO comment
+    /**
+     * This method creates a message to confirm a reservation was made
+     * successfully.
+     *
+     * @return - the formatted successful message.
+     */
     public String successfulBookingMessage() {
         return String.format(
                 "Good news! Your table reservation "
@@ -285,7 +316,12 @@ public class Booking implements NotifyAction {
         );
     }
 
-    // TODO comment
+    /**
+     * This method creates a message to indicate a reservation was
+     * cancelled by the waiter.
+     *
+     * @return - the formatted message that informs the cancellation.
+     */
     public String failedBookingMessage() {
         return String.format(
                 "We're terribly sorry! Unfortunately; your table reservation "
@@ -295,7 +331,12 @@ public class Booking implements NotifyAction {
         );
     }
 
-    // TODO comment
+    /**
+     * This method approves a table reservation by changing its status to
+     * approved.
+     *
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public void approveBooking() throws TextFileNotFoundException {
 
         try {
@@ -309,7 +350,12 @@ public class Booking implements NotifyAction {
 
     }
 
-    // TODO comment
+    /**
+     * This method cancels a table reservation by changing its status to
+     * failed.
+     *
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public void cancelBooking() throws TextFileNotFoundException {
         try {
             DataManager.editColumnDataByUniqueId("BOOKINGS",
@@ -321,6 +367,12 @@ public class Booking implements NotifyAction {
         }
     }
 
+    /**
+     * This method deletes a table reservation by deleting the specific
+     * data in the database by its booking id.
+     *
+     * @throws TextFileNotFoundException - if the text file is non-existent.
+     */
     public void deleteBooking() throws TextFileNotFoundException {
         try {
             DataManager.deleteUniqueIdFromFile("BOOKINGS",
@@ -331,6 +383,14 @@ public class Booking implements NotifyAction {
         }
     }
 
+    /**
+     * This method updates the customer who made the booking according to
+     * the status changes.
+     *
+     * @param customer            - The customer to be notified.
+     * @param isSuccessfulRequest - successful request or not.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     @Override
     public void notifyCustomer(Customer customer,
                                boolean isSuccessfulRequest)

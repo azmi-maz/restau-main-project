@@ -24,7 +24,8 @@ public class Floor {
     private static final LocalTime LATEST_BOOKING_TIME = LocalTime.of(21, 00);
 
     /**
-     * This constructor set up the restaurant floor.
+     * This constructor set up the restaurant floor and updates its data
+     * from the database.
      */
     public Floor() throws TextFileNotFoundException {
 
@@ -76,7 +77,6 @@ public class Floor {
      * @return the set of tables.
      */
     public Set<Table> getSetOfTables() {
-        // to check
         return tableBookings.keySet();
     }
 
@@ -155,8 +155,10 @@ public class Floor {
                  * To implement this, it requires tables to exist separately
                  * based on date and time. And to implement checking those
                  * table is available or not.
+                 *
+                 * purposely not implemented
+                 * table.bookSeats(booking.getNumOfGuests());
                  */
-//                table.bookSeats(booking.getNumOfGuests());
 
                 tableBookings.get(table).add(booking);
             }
@@ -273,7 +275,12 @@ public class Floor {
         return filteredBookings;
     }
 
-    // TODO
+    /**
+     * This method gets the booking data from the database.
+     *
+     * @return the list of bookings.
+     * @throws TextFileNotFoundException - if the text file is non-existent.
+     */
     public List<Booking> getBookingDataFromDatabase() throws TextFileNotFoundException {
 
         try {
@@ -297,7 +304,14 @@ public class Floor {
         }
     }
 
-    // TODO
+    /**
+     * This method creates a booking object from a data taken from the database.
+     *
+     * @param userManagement - the class that is needed to get the customer.
+     * @param booking        - the booking data in string.
+     * @return the booking object with updated data.
+     * @throws TextFileNotFoundException - if the text file is non-existent.
+     */
     public Booking getBookingFromString(
             UserManagement userManagement,
             String booking

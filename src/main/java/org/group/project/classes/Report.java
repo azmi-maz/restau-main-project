@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * This class standardises all reports in a clear and informative manner for
- * viewing or printing.
+ * viewing.
  *
  * @author azmi_maz
  */

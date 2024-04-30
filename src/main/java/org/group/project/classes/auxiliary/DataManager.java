@@ -31,8 +31,7 @@ public abstract class DataManager {
         try {
             File file = new File(FileNames.DATA.getDataFile(fileName));
             List<String> resultArray = new ArrayList<>();
-            Scanner fileReader = null;
-            fileReader = new Scanner(file);
+            Scanner fileReader = new Scanner(file);
             while (fileReader.hasNextLine()) {
                 String data = fileReader.nextLine();
                 resultArray.add(data);
@@ -102,7 +101,13 @@ public abstract class DataManager {
         return formattedLine;
     }
 
-    // TODO
+    /**
+     * This method formats array type to be a string type for database.
+     *
+     * @param line - the unformatted array.
+     * @param <T>  - the array type should be List or array only.
+     * @return - String format of the array.
+     */
     public static <T> String formatLongArrayToOneColumnString(T line) {
         String formattedLine = "";
         if (line instanceof List) {
@@ -134,7 +139,7 @@ public abstract class DataManager {
      * @param fileType - specify the data file to append the new line.
      * @param uniqueId - the unique id of the data to be deleted.
      * @param <T>      - either Integer or String type of id.
-     * @throws IOException - if the fileType is non-existent.
+     * @throws TextFileNotFoundException - if the fileType is non-existent.
      */
     public static <T> boolean deleteUniqueIdFromFile(
             String fileType,
@@ -171,8 +176,7 @@ public abstract class DataManager {
 
             fileReader.close();
             fileWriter.close();
-            tempFile.renameTo(inputFile);
-            return true;
+            return tempFile.renameTo(inputFile);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -188,7 +192,7 @@ public abstract class DataManager {
      * @param columnName - the attribute/column name to edit.
      * @param newData    - the new value/data for the specified column.
      * @param <T>        - either Integer or String of id.
-     * @throws IOException - if the fileType is non-existent.
+     * @throws TextFileNotFoundException - if the fileType is non-existent.
      */
     public static <T> boolean editColumnDataByUniqueId(
             String fileType,
@@ -237,9 +241,7 @@ public abstract class DataManager {
 
             fileReader.close();
             fileWriter.close();
-            tempFile.renameTo(inputFile);
-
-            return true;
+            return tempFile.renameTo(inputFile);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -247,7 +249,12 @@ public abstract class DataManager {
         }
     }
 
-    // TODO comment
+    /**
+     * This deletes all the data in a text file.
+     *
+     * @param fileType - the name of the text file or filetype.
+     * @throws ClearFileFailedException - The specific file is non-existent.
+     */
     public static void clearFileData(
             String fileType) throws ClearFileFailedException {
 

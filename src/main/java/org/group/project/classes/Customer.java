@@ -10,8 +10,8 @@ import org.group.project.exceptions.TextFileNotFoundException;
  * @author azmi_maz
  */
 public class Customer extends User {
-    private int customerId;
-    private String deliveryAddress;
+    private final int customerId;
+    private final String deliveryAddress;
 
     /**
      * This constructor creates a new customer.
@@ -29,7 +29,15 @@ public class Customer extends User {
         this.deliveryAddress = deliveryAddress;
     }
 
-    // TODO
+    /**
+     * This constructor creates customer based on data taken from the database.
+     *
+     * @param firstName       - the first name of the customer.
+     * @param lastName        - the last name of the customer.
+     * @param username        - the username given by the customer.
+     * @param deliveryAddress - the delivery address in one single string.
+     * @throws TextFileNotFoundException - if the text file is non-existent.
+     */
     public Customer(
             String firstName,
             String lastName,
@@ -62,7 +70,12 @@ public class Customer extends User {
         return deliveryAddress;
     }
 
-    // TODO
+    /**
+     * Getter method to get the delivery address from database and formats
+     * the string in readable format.
+     *
+     * @return - the delivery address in TextField friendly-format.
+     */
     public String getDeliveryAddressToRead() {
 
         return deliveryAddress
@@ -92,7 +105,14 @@ public class Customer extends User {
         return true;
     }
 
-    // TODO
+    /**
+     * This method updates/edits the booking that was made previously.
+     *
+     * @param booking - the specific booking selected to edit/update.
+     * @param floor   - the floor object that handles the booking update.
+     * @return - true if the update was made successfully.
+     * @throws TextFileNotFoundException - if the text file is non-existent.
+     */
     public boolean editBooking(
             Booking booking,
             Floor floor
@@ -110,7 +130,13 @@ public class Customer extends User {
         return true;
     }
 
-    // TODO
+    /**
+     * This method deletes the booking selected.
+     *
+     * @param booking - the specific booking to be deleted.
+     * @return - true if the deletion was done successfully.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public boolean deleteBooking(
             Booking booking
     ) throws TextFileNotFoundException {
@@ -148,7 +174,13 @@ public class Customer extends User {
         }
     }
 
-    // TODO
+    /**
+     * This method updates the notification of the customer once they
+     * opened and read the notification message.
+     *
+     * @param notificationId - the id of the read notification.
+     * @throws TextFileNotFoundException - if the text file is non-existent.
+     */
     public void updateNotificationReadStatus(
             int notificationId
     ) throws TextFileNotFoundException {

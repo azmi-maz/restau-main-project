@@ -19,10 +19,21 @@ public enum FileNames {
 
     private final String fileName;
 
+    /**
+     * The constructor to create the FileNames enum attributes.
+     *
+     * @param file - the name of the text files.
+     */
     FileNames(String file) {
         this.fileName = file;
     }
 
+    /**
+     * This method get the file name by the enum key.
+     *
+     * @param name - the enum key.
+     * @return - the file name.
+     */
     private String getValue(String name) {
         for (FileNames file : FileNames.values()) {
             if (file.name().equals(name)) {
@@ -32,6 +43,12 @@ public enum FileNames {
         return "";
     }
 
+    /**
+     * This method gets the data based on file name.
+     *
+     * @param specificFile - the file name.
+     * @return - the data from that file.
+     */
     public String getDataFile(String specificFile) {
         return DATA.fileName.concat(getValue(specificFile));
     }
