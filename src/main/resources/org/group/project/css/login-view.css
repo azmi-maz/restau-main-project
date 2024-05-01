@@ -2,7 +2,7 @@
     -fx-font-size: 45;
     -fx-text-fill: rgb(0, 105, 255);
     -fx-font-weight: bold;
-    -fx-max-width:400;
+    -fx-max-width:500;
 }
 
 .label.welcome-subheader-label {
