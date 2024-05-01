@@ -33,6 +33,11 @@ import java.net.URISyntaxException;
 public class CustomerOrderHistoryViewController {
 
     @FXML
+    private final TableView<Order> orderHistoryTable = new TableView<>();
+    private final ObservableList<Order> data =
+            FXCollections.observableArrayList();
+
+    @FXML
     private TableColumn<Order, String> orderNoColumn;
 
     @FXML
@@ -55,21 +60,23 @@ public class CustomerOrderHistoryViewController {
 
     private int userId;
 
-    @FXML
-    private TableView<Order> orderHistoryTable = new TableView<>();
-    private ObservableList<Order> data =
-            FXCollections.observableArrayList();
-
     /**
      * This initializes the controller for the fxml.
-     *
-     * @throws URISyntaxException // TODO
      */
-    public void initialize() throws URISyntaxException {
+    public void initialize() {
 
-        Image bgImage = new Image(Main.class.getResource("images" +
-                "/background/main-bg" +
-                ".jpg").toURI().toString());
+        Image bgImage = null;
+        try {
+            bgImage = new Image(Main.class.getResource("images" +
+                    "/background/main-bg" +
+                    ".jpg").toURI().toString());
+        } catch (URISyntaxException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,
                 BackgroundSize.AUTO, false,

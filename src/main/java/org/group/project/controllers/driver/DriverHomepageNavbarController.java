@@ -13,8 +13,6 @@ import org.group.project.scenes.driver.DriverMapsMain;
 import org.group.project.scenes.driver.DriverScenesMap;
 import org.group.project.scenes.driver.mainViews.DeliveryView;
 
-import java.net.URISyntaxException;
-
 /**
  * This class loads up the navigation bar for driver home page.
  */
@@ -34,9 +32,8 @@ public class DriverHomepageNavbarController {
 
     /**
      * This initializes the controller for the fxml.
-     * @throws URISyntaxException // TODO
      */
-    public void initialize() throws URISyntaxException {
+    public void initialize() {
 
         ImageLoader.setUpGraphicButton(pendingDeliveriesButton,
                 25, 25,

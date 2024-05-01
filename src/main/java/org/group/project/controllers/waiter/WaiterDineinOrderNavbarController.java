@@ -7,8 +7,6 @@ import org.group.project.scenes.main.WaiterView;
 import org.group.project.scenes.waiter.WaiterMapsMain;
 import org.group.project.scenes.waiter.WaiterScenesMap;
 
-import java.net.URISyntaxException;
-
 /**
  * This class loads up the navigation bar in the dine-in view for waiter.
  */
@@ -19,10 +17,8 @@ public class WaiterDineinOrderNavbarController {
 
     /**
      * This initializes the controller for the fxml.
-     *
-     * @throws URISyntaxException // TODO
      */
-    public void initialize() throws URISyntaxException {
+    public void initialize() {
 
         ImageLoader.setUpGraphicButton(homeButton, 25, 25,
                 "undo");

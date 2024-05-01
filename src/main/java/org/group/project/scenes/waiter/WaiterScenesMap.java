@@ -2,6 +2,7 @@ package org.group.project.scenes.waiter;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.scenes.main.WaiterView;
 import org.group.project.scenes.waiter.mainViews.BookingView;
 import org.group.project.scenes.waiter.mainViews.DeliveryView;
@@ -26,21 +27,30 @@ public class WaiterScenesMap {
      * The constructor that sets up the waiter main scenes.
      *
      * @param stage - the main stage from main.
-     * @throws IOException // TODO
      */
-    public WaiterScenesMap(Stage stage) throws IOException {
+    public WaiterScenesMap(Stage stage) {
 
         WaiterScenesMap.stage = stage;
 
-        // Create and store all scenes up front
-        waiterScenes.put(WaiterMapsMain.HOME,
-                new WaiterView(stage).getScene());
-        waiterScenes.put(WaiterMapsMain.DELIVERY,
-                new DeliveryView(stage).getScene());
-        waiterScenes.put(WaiterMapsMain.BOOKING,
-                new BookingView(stage).getScene());
-        waiterScenes.put(WaiterMapsMain.DINEIN,
-                new DineInView(stage).getScene());
+        try {
+
+            // Create and store all scenes up front
+            waiterScenes.put(WaiterMapsMain.HOME,
+                    new WaiterView(stage).getScene());
+            waiterScenes.put(WaiterMapsMain.DELIVERY,
+                    new DeliveryView(stage).getScene());
+            waiterScenes.put(WaiterMapsMain.BOOKING,
+                    new BookingView(stage).getScene());
+            waiterScenes.put(WaiterMapsMain.DINEIN,
+                    new DineInView(stage).getScene());
+
+        } catch (IOException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
 
     }
 

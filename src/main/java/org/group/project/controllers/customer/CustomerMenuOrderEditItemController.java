@@ -79,16 +79,24 @@ public class CustomerMenuOrderEditItemController {
     /**
      * This method sets up the selected item details to be edited.
      *
-     * @param imageUrl
-     * @param itemName
-     * @param mainList
-     * @throws URISyntaxException - if image uri did not work.
+     * @param imageUrl - the image file uri.
+     * @param itemName - the name of the item.
+     * @param mainList - the list of ordered food/drink.
      */
     public void setItemToEdit(String imageUrl, String itemName,
-                              List<FoodDrink> mainList)
-            throws URISyntaxException {
-        menuImage.setImage(new Image(Main.class.getResource(
-                imageUrl).toURI().toString()));
+                              List<FoodDrink> mainList) {
+
+        try {
+            menuImage.setImage(new Image(Main.class.getResource(
+                    imageUrl).toURI().toString()));
+        } catch (URISyntaxException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
+
         // TODO fix the magic numbers
         menuImage.fitHeightProperty().bind(borderPane.heightProperty()
                 .subtract(10).divide(1.5));

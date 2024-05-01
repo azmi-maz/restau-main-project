@@ -8,8 +8,6 @@ import org.group.project.scenes.waiter.WaiterMapsMain;
 import org.group.project.scenes.waiter.WaiterScenesMap;
 import org.group.project.scenes.waiter.mainViews.BookingView;
 
-import java.net.URISyntaxException;
-
 /**
  * This class loads up the pending table reservation navigation bar for waiter.
  */
@@ -23,10 +21,8 @@ public class WaiterPendingTableNavbarController {
 
     /**
      * This initializes the controller for the fxml.
-     *
-     * @throws URISyntaxException // TODO
      */
-    public void initialize() throws URISyntaxException {
+    public void initialize() {
 
         ImageLoader.setUpGraphicButton(homeButton, 25, 25,
                 "undo");

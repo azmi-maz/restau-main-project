@@ -29,6 +29,12 @@ public class MenuOrderView implements ViewMaker {
 
     }
 
+    /**
+     * This method gets the customer menu order view scene.
+     *
+     * @return the customer menu order view scene.
+     * @throws IOException // TODO
+     */
     @Override
     public Scene getScene() throws IOException {
 

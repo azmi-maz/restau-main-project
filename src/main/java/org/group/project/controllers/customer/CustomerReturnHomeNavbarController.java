@@ -7,8 +7,6 @@ import org.group.project.scenes.customer.CustomerMapsMain;
 import org.group.project.scenes.customer.CustomerScenesMap;
 import org.group.project.scenes.main.CustomerView;
 
-import java.net.URISyntaxException;
-
 /**
  * This class loads up the customer return to home page navigation bar.
  */
@@ -19,10 +17,8 @@ public class CustomerReturnHomeNavbarController {
 
     /**
      * This initializes the controller for the fxml.
-     *
-     * @throws URISyntaxException // TODO
      */
-    public void initialize() throws URISyntaxException {
+    public void initialize() {
 
         ImageLoader.setUpGraphicButton(returnButton,
                 25, 25, "undo");

@@ -14,8 +14,6 @@ import org.group.project.scenes.waiter.WaiterScenesMap;
 import org.group.project.scenes.waiter.mainViews.BookingView;
 import org.group.project.scenes.waiter.mainViews.DineInView;
 
-import java.net.URISyntaxException;
-
 /**
  * This class loads up the home page navigation bar for waiter.
  */
@@ -38,10 +36,8 @@ public class WaiterHomepageNavbarController {
 
     /**
      * This initializes the controller for the fxml.
-     *
-     * @throws URISyntaxException // TODO
      */
-    public void initialize() throws URISyntaxException {
+    public void initialize() {
 
         ImageLoader.setUpGraphicButton(dineInOrderButton,
                 25, 25, "menu");

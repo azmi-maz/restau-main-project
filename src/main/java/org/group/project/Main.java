@@ -37,20 +37,29 @@ public class Main extends Application {
      *
      * @param stage the primary stage for this application, onto which
      *              the application scene can be set.
-     * @throws IOException - if the main scenes are not loaded properly.
      */
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
 
         Main.stage = stage;
 
-        // Holds the various user scenes to switch between.
-        scenes.put(MainScenes.LOGIN, new LoginView(stage).getScene());
-        scenes.put(MainScenes.CUSTOMER, new CustomerScenesMap(stage).getScene());
-        scenes.put(MainScenes.MANAGER, new ManagerScenesMap(stage).getScene());
-        scenes.put(MainScenes.WAITER, new WaiterScenesMap(stage).getScene());
-        scenes.put(MainScenes.CHEF, new ChefScenesMap(stage).getScene());
-        scenes.put(MainScenes.DRIVER, new DriverScenesMap(stage).getScene());
+        try {
+
+            // Holds the various user scenes to switch between.
+            scenes.put(MainScenes.LOGIN, new LoginView(stage).getScene());
+            scenes.put(MainScenes.CUSTOMER, new CustomerScenesMap(stage).getScene());
+            scenes.put(MainScenes.MANAGER, new ManagerScenesMap(stage).getScene());
+            scenes.put(MainScenes.WAITER, new WaiterScenesMap(stage).getScene());
+            scenes.put(MainScenes.CHEF, new ChefScenesMap(stage).getScene());
+            scenes.put(MainScenes.DRIVER, new DriverScenesMap(stage).getScene());
+
+        } catch (IOException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
 
         // Starts with user log in.
         stage.setScene(scenes.get(MainScenes.LOGIN));
@@ -122,12 +131,7 @@ public class Main extends Application {
         currentUser = user;
     }
 
-    /**
-     * This method prompts the user if they want to exit the application.
-     *
-     * @return the button type chosen by the user.
-     */
-    public Optional<ButtonType> promptForUserAcknowledgement() {
+    private Optional<ButtonType> promptForUserAcknowledgement() {
         return AlertPopUpWindow.displayConfirmationWindow(
                 "Exit",
                 "Do you want to exit the program?"

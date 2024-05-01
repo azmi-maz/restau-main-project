@@ -2,6 +2,7 @@ package org.group.project.scenes.chef;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.scenes.chef.mainViews.MenuView;
 import org.group.project.scenes.chef.mainViews.OutstandingView;
 import org.group.project.scenes.main.ChefView;
@@ -25,19 +26,28 @@ public class ChefScenesMap {
      * The constructor that sets up the chef main scenes.
      *
      * @param stage - the main stage from Main.
-     * @throws IOException // TODO
      */
-    public ChefScenesMap(Stage stage) throws IOException {
+    public ChefScenesMap(Stage stage) {
 
         ChefScenesMap.stage = stage;
 
-        // Create and store all scenes up front
-        chefScenes.put(ChefMapsMain.HOME,
-                new ChefView(stage).getScene());
-        chefScenes.put(ChefMapsMain.OUTSTANDING,
-                new OutstandingView(stage).getScene());
-        chefScenes.put(ChefMapsMain.MENU,
-                new MenuView(stage).getScene());
+        try {
+
+            // Create and store all scenes up front
+            chefScenes.put(ChefMapsMain.HOME,
+                    new ChefView(stage).getScene());
+            chefScenes.put(ChefMapsMain.OUTSTANDING,
+                    new OutstandingView(stage).getScene());
+            chefScenes.put(ChefMapsMain.MENU,
+                    new MenuView(stage).getScene());
+
+        } catch (IOException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
 
     }
 

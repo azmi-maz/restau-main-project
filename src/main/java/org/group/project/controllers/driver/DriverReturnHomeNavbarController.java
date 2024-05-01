@@ -7,8 +7,6 @@ import org.group.project.scenes.driver.DriverMapsMain;
 import org.group.project.scenes.driver.DriverScenesMap;
 import org.group.project.scenes.main.DriverView;
 
-import java.net.URISyntaxException;
-
 /**
  * This class loads up the return to home navigation bar for driver.
  */
@@ -19,10 +17,8 @@ public class DriverReturnHomeNavbarController {
 
     /**
      * This initializes the controller for the fxml.
-     *
-     * @throws URISyntaxException // TODO
      */
-    public void initialize() throws URISyntaxException {
+    public void initialize() {
 
         ImageLoader.setUpGraphicButton(homeButton,
                 25, 25, "undo");

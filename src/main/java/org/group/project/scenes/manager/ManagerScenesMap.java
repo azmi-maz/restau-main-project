@@ -2,6 +2,7 @@ package org.group.project.scenes.manager;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.scenes.main.ManagerView;
 import org.group.project.scenes.manager.mainViews.ManagementView;
 import org.group.project.scenes.manager.mainViews.ReportsView;
@@ -25,19 +26,28 @@ public class ManagerScenesMap {
      * The constructor that sets up the manager main scenes.
      *
      * @param stage - the main stage from main.
-     * @throws IOException // TODO
      */
-    public ManagerScenesMap(Stage stage) throws IOException {
+    public ManagerScenesMap(Stage stage) {
 
         ManagerScenesMap.stage = stage;
 
-        // Create and store all scenes up front
-        managerScenes.put(ManagerMapsMain.HOME,
-                new ManagerView(stage).getScene());
-        managerScenes.put(ManagerMapsMain.MANAGEMENT,
-                new ManagementView(stage).getScene());
-        managerScenes.put(ManagerMapsMain.REPORT,
-                new ReportsView(stage).getScene());
+        try {
+
+            // Create and store all scenes up front
+            managerScenes.put(ManagerMapsMain.HOME,
+                    new ManagerView(stage).getScene());
+            managerScenes.put(ManagerMapsMain.MANAGEMENT,
+                    new ManagementView(stage).getScene());
+            managerScenes.put(ManagerMapsMain.REPORT,
+                    new ReportsView(stage).getScene());
+
+        } catch (IOException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
 
     }
 

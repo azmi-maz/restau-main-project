@@ -34,7 +34,18 @@ import java.util.Optional;
 public class CustomerOrderDetailsViewController {
 
     @FXML
-    private ChoiceBox<String> choiceBox = new ChoiceBox<>();
+    private final ChoiceBox<String> choiceBox = new ChoiceBox<>();
+
+    @FXML
+    private final TableView<FoodDrink> orderDetailsTable =
+            new TableView<>();
+
+    private final ObservableList<FoodDrink> data =
+            FXCollections.observableArrayList();
+
+    private final List<FoodDrink> orderList;
+
+    private final List<Order> newOrder;
 
     @FXML
     private Button confirmButton;
@@ -44,10 +55,6 @@ public class CustomerOrderDetailsViewController {
 
     @FXML
     private BorderPane borderPane;
-
-    private List<FoodDrink> orderList;
-
-    private List<Order> newOrder;
 
     @FXML
     private TableColumn<FoodDrink, String> noColumn;
@@ -70,12 +77,6 @@ public class CustomerOrderDetailsViewController {
     @FXML
     private TableColumn<FoodDrink, Button> actionButtonColumn2;
 
-    @FXML
-    private TableView<FoodDrink> orderDetailsTable =
-            new TableView<>();
-
-    private ObservableList<FoodDrink> data =
-            FXCollections.observableArrayList();
 
     /**
      * This loads up the customer current order made.
@@ -91,14 +92,21 @@ public class CustomerOrderDetailsViewController {
 
     /**
      * This initializes the controller for the fxml.
-     *
-     * @throws URISyntaxException // TODO
      */
-    public void initialize() throws URISyntaxException {
+    public void initialize() {
 
-        Image bgImage = new Image(Main.class.getResource("images" +
-                "/background/main-bg" +
-                ".jpg").toURI().toString());
+        Image bgImage = null;
+        try {
+            bgImage = new Image(Main.class.getResource("images" +
+                    "/background/main-bg" +
+                    ".jpg").toURI().toString());
+        } catch (URISyntaxException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,
                 BackgroundSize.AUTO, false,
@@ -197,7 +205,7 @@ public class CustomerOrderDetailsViewController {
 
                     refreshOrderList();
 
-                } catch (IOException | URISyntaxException ex) {
+                } catch (IOException ex) {
                     AlertPopUpWindow.displayErrorWindow(
                             "Error",
                             ex.getMessage()

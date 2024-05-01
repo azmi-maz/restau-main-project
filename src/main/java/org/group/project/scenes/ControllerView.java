@@ -8,5 +8,10 @@ import javafx.scene.Scene;
  */
 public interface ControllerView {
 
+    /**
+     * This method gets the view scene from the presenter.
+     *
+     * @return
+     */
     public Scene getViewScene();
 }

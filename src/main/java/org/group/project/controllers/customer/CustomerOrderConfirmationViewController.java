@@ -31,6 +31,17 @@ import java.util.Optional;
 public class CustomerOrderConfirmationViewController {
 
     @FXML
+    private final TableView<FoodDrink> orderDetailsTable =
+            new TableView<>();
+
+    private final ObservableList<FoodDrink> data =
+            FXCollections.observableArrayList();
+
+    private final List<Order> newOrder;
+
+    private Order orderDetails;
+
+    @FXML
     private Label orderTypeLabel;
 
     @FXML
@@ -44,10 +55,6 @@ public class CustomerOrderConfirmationViewController {
 
     @FXML
     private BorderPane borderPane;
-
-    private List<Order> newOrder;
-
-    private Order orderDetails;
 
     @FXML
     private TextArea orderDetailsTextArea;
@@ -64,13 +71,6 @@ public class CustomerOrderConfirmationViewController {
     @FXML
     private TableColumn<FoodDrink, String> quantityColumn;
 
-    @FXML
-    private TableView<FoodDrink> orderDetailsTable =
-            new TableView<>();
-
-    private ObservableList<FoodDrink> data =
-            FXCollections.observableArrayList();
-
     /**
      * This loads up the list of items the customer made.
      *
@@ -82,14 +82,21 @@ public class CustomerOrderConfirmationViewController {
 
     /**
      * This initializes the controller for the fxml.
-     *
-     * @throws URISyntaxException // TODO
      */
-    public void initialize() throws URISyntaxException {
+    public void initialize() {
 
-        Image bgImage = new Image(Main.class.getResource("images" +
-                "/background/main-bg" +
-                ".jpg").toURI().toString());
+        Image bgImage = null;
+        try {
+            bgImage = new Image(Main.class.getResource("images" +
+                    "/background/main-bg" +
+                    ".jpg").toURI().toString());
+        } catch (URISyntaxException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,
                 BackgroundSize.AUTO, false,

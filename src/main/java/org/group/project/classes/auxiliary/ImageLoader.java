@@ -23,13 +23,16 @@ public class ImageLoader {
      * @param height   - the desired height of the image in px.
      * @param fileName - the image file name.
      */
-    public static void setUpGraphicButton(Button button,
-                                          double width,
-                                          double height,
-                                          String fileName) {
-        Image img = new Image(Objects.requireNonNull(
-                Main.class.getResourceAsStream(
+    public static void setUpGraphicButton(
+            Button button,
+            double width,
+            double height,
+            String fileName) {
+
+        Image img = new Image(
+                Objects.requireNonNull(Main.class.getResourceAsStream(
                         "images/icons/" + fileName + ".png")));
+
         ImageView imgView = new ImageView(img);
         imgView.setFitWidth(width);
         imgView.setFitHeight(height);

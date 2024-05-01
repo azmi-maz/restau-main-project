@@ -58,14 +58,21 @@ public class ChefOutstandingOrdersViewController {
 
     /**
      * This initializes the controller for the fxml.
-     *
-     * @throws URISyntaxException - the image uri did not work.
      */
-    public void initialize() throws URISyntaxException {
+    public void initialize() {
 
-        Image bgImage = new Image(Main.class.getResource("images" +
-                "/background/chef-main" +
-                ".jpg").toURI().toString());
+        Image bgImage = null;
+        try {
+            bgImage = new Image(Main.class.getResource("images" +
+                    "/background/chef-main" +
+                    ".jpg").toURI().toString());
+        } catch (URISyntaxException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,
                 BackgroundSize.AUTO, false,

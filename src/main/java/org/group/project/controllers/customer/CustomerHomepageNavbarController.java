@@ -15,8 +15,6 @@ import org.group.project.scenes.customer.mainViews.BookingsView;
 import org.group.project.scenes.customer.mainViews.NotificationView;
 import org.group.project.scenes.customer.mainViews.OrdersView;
 
-import java.net.URISyntaxException;
-
 /**
  * This class loads up the customer home page navigation bar.
  */
@@ -48,9 +46,8 @@ public class CustomerHomepageNavbarController {
 
     /**
      * This initializes the controller for the fxml.
-     * @throws URISyntaxException - the image uri did not work.
      */
-    public void initialize() throws URISyntaxException {
+    public void initialize() {
 
         ImageLoader.setUpGraphicButton(menuButton,
                 25, 25, "menu");

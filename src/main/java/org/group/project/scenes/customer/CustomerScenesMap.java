@@ -2,6 +2,7 @@ package org.group.project.scenes.customer;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.scenes.customer.mainViews.BookingsView;
 import org.group.project.scenes.customer.mainViews.MenuOrderView;
 import org.group.project.scenes.customer.mainViews.NotificationView;
@@ -27,23 +28,32 @@ public class CustomerScenesMap {
      * The constructor that sets up the customer main scenes.
      *
      * @param stage - the main stage from Main.
-     * @throws IOException // TODO
      */
-    public CustomerScenesMap(Stage stage) throws IOException {
+    public CustomerScenesMap(Stage stage) {
 
         CustomerScenesMap.stage = stage;
 
-        // Create and store all scenes up front
-        customerScenes.put(CustomerMapsMain.HOME,
-                new CustomerView(stage).getScene());
-        customerScenes.put(CustomerMapsMain.BOOKING,
-                new BookingsView(stage).getScene());
-        customerScenes.put(CustomerMapsMain.MENU,
-                new MenuOrderView(stage).getScene());
-        customerScenes.put(CustomerMapsMain.ORDER,
-                new OrdersView(stage).getScene());
-        customerScenes.put(CustomerMapsMain.NOTIFICATION,
-                new NotificationView(stage).getScene());
+        try {
+
+            // Create and store all scenes up front
+            customerScenes.put(CustomerMapsMain.HOME,
+                    new CustomerView(stage).getScene());
+            customerScenes.put(CustomerMapsMain.BOOKING,
+                    new BookingsView(stage).getScene());
+            customerScenes.put(CustomerMapsMain.MENU,
+                    new MenuOrderView(stage).getScene());
+            customerScenes.put(CustomerMapsMain.ORDER,
+                    new OrdersView(stage).getScene());
+            customerScenes.put(CustomerMapsMain.NOTIFICATION,
+                    new NotificationView(stage).getScene());
+
+        } catch (IOException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
 
     }
 

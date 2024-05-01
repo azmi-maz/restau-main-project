@@ -79,14 +79,21 @@ public class CustomerBookingsHistoryViewController {
 
     /**
      * This initializes the controller for the fxml.
-     *
-     * @throws URISyntaxException - the image uri did not work.
      */
-    public void initialize() throws URISyntaxException {
+    public void initialize() {
 
-        Image bgImage = new Image(Main.class.getResource("images" +
-                "/background/main-bg" +
-                ".jpg").toURI().toString());
+        Image bgImage = null;
+        try {
+            bgImage = new Image(Main.class.getResource("images" +
+                    "/background/main-bg" +
+                    ".jpg").toURI().toString());
+        } catch (URISyntaxException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,
                 BackgroundSize.AUTO, false,
@@ -274,7 +281,6 @@ public class CustomerBookingsHistoryViewController {
 
         newReservationButton.setOnAction(e -> {
 
-            // TODO open new form
             try {
                 FXMLLoader fxmlLoader =
                         new FXMLLoader(Main.class.getResource(
