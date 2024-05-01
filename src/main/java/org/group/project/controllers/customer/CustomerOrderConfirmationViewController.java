@@ -25,6 +25,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This class enables the customer to confirm the order made.
+ */
 public class CustomerOrderConfirmationViewController {
 
     @FXML
@@ -68,10 +71,20 @@ public class CustomerOrderConfirmationViewController {
     private ObservableList<FoodDrink> data =
             FXCollections.observableArrayList();
 
+    /**
+     * This loads up the list of items the customer made.
+     *
+     * @param newOrder - the list of items to be confirmed.
+     */
     public CustomerOrderConfirmationViewController(List<Order> newOrder) {
         this.newOrder = newOrder;
     }
 
+    /**
+     * This initializes the controller for the fxml.
+     *
+     * @throws URISyntaxException // TODO
+     */
     public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
@@ -133,7 +146,7 @@ public class CustomerOrderConfirmationViewController {
         String customerDeliveryAddress =
                 orderDetails.getCustomer().getDeliveryAddress();
 
-        // TODO might wanna put this in DeliveryOrder class
+        // DeliveryOrder
         String deliveryOrderTemplate =
                 "Order date: " +
                         orderDate.format(DateTimeFormatter.ofPattern(
@@ -147,7 +160,7 @@ public class CustomerOrderConfirmationViewController {
                         "Delivery address: " +
                         customerDeliveryAddress;
 
-        // TODO might wanna put this in TakeawayOrder class
+        // TakeawayOrder
         String takeawayOrderTemplate =
                 "Order date: " +
                         orderDate.format(DateTimeFormatter.ofPattern(
@@ -167,17 +180,17 @@ public class CustomerOrderConfirmationViewController {
             orderDetailsTextArea.setText(takeawayOrderTemplate);
         }
 
-        // TODO write to database
+        // Updates database
         cardButton.setOnAction(e -> {
             addOrderToDatabase();
         });
 
-        // TODO fix order, check if it works
+        // Updates database
         cashButton.setOnAction(e -> {
             addOrderToDatabase();
         });
 
-        // TODO fix order, check if it works
+        // Cancels the whole order and return back to menu.
         cancelButton.setOnAction(e -> {
 
             Optional<ButtonType> userChoice = promptForUserAcknowledgement();
@@ -192,7 +205,9 @@ public class CustomerOrderConfirmationViewController {
 
     }
 
-    // TODO add order to database
+    /**
+     * This method adds the new order to the database.
+     */
     public void addOrderToDatabase() {
 
         Customer customer = (Customer) Main.getCurrentUser();
@@ -215,7 +230,7 @@ public class CustomerOrderConfirmationViewController {
         }
     }
 
-    public void promptOrderSuccessful() {
+    private void promptOrderSuccessful() {
         AlertPopUpWindow.displayInformationWindow(
                 "Order Request Successful",
                 "Thank you! Your request is being processed now.",
@@ -223,14 +238,14 @@ public class CustomerOrderConfirmationViewController {
         );
     }
 
-    public Optional<ButtonType> promptForUserAcknowledgement() {
+    private Optional<ButtonType> promptForUserAcknowledgement() {
         return AlertPopUpWindow.displayConfirmationWindow(
                 "Cancel Order Request",
                 "Do you want to cancel this order?"
         );
     }
 
-    public void cancelConfirmationAndGoBackToMenu() {
+    private void cancelConfirmationAndGoBackToMenu() {
         OrderConfirmationController.presenter.returnToOrderDetails();
         OrderDetailsController.presenter.returnToMenu();
         MenuController.orderList.clear();

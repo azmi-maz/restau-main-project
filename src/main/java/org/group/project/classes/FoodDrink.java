@@ -6,15 +6,10 @@ package org.group.project.classes;
  * @author azmi_maz
  */
 public class FoodDrink {
-    private String itemName;
-    private String itemType;
+    private final String itemName;
+    private final String itemType;
 
     private int quantity;
-
-    // TODO image url
-    // TODO position
-    // TODO width height size
-    // TODO grid position
 
     private boolean isDailySpecial;
 
@@ -47,7 +42,10 @@ public class FoodDrink {
     }
 
     // TODO comment
-    public FoodDrink(String itemName, String itemType, boolean isDailySpecial) {
+    public FoodDrink(
+            String itemName,
+            String itemType,
+            boolean isDailySpecial) {
         this.itemName = itemName;
         this.itemType = itemType;
         this.isDailySpecial = isDailySpecial;
@@ -62,6 +60,7 @@ public class FoodDrink {
 
     /**
      * Setter method to set the quantity to a new one.
+     *
      * @param newQuantity - the quantity of the item.
      */
     public void setQuantity(int newQuantity) {
@@ -77,7 +76,11 @@ public class FoodDrink {
         return itemName;
     }
 
-    // TODO to check if this is needed vs ImageUrl attribute
+    /**
+     * This method gets the png image file name off the item name.
+     *
+     * @return the png image file name.
+     */
     public String getImageFileName() {
         return itemName.trim().replaceAll(" ", "-")
                 .toLowerCase() + ".png";
@@ -114,15 +117,19 @@ public class FoodDrink {
      * This method updates the daily special status of the item.
      *
      * @param isSpecial - the new update.
-     * @return true if the update was made successfully.
      */
     public void setItemDailySpecial(boolean isSpecial) {
         isDailySpecial = isSpecial;
     }
 
-    // TODO comment
+    /**
+     * This method display the food/drink name with first letter capitalised.
+     *
+     * @return the item name with first letter capitalised.
+     */
     public String getItemNameForDisplay() {
-        return itemName.substring(0,1).toUpperCase() + itemName.substring(1);
+        return itemName.substring(0, 1).toUpperCase()
+                + itemName.substring(1);
     }
 
     /**
@@ -132,7 +139,8 @@ public class FoodDrink {
      */
     @Override
     public String toString() {
-        return getItemName() + " (" + getItemType() + ") quantity: " + getQuantity();
+        return getItemName() + " (" + getItemType()
+                + ") quantity: " + getQuantity();
     }
 
 }

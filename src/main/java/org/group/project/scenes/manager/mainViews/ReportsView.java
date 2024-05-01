@@ -9,15 +9,29 @@ import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
 
+/**
+ * This class prepares the manager report view scene.
+ */
 public class ReportsView implements ViewMaker {
 
     private Stage stage;
 
+    /**
+     * This constructor sets up the stage from the main one.
+     *
+     * @param stage - the main stage.
+     */
     public ReportsView(Stage stage) {
 
         this.stage = stage;
     }
 
+    /**
+     * This method gets the manager report view scene.
+     *
+     * @return the manager report view scene.
+     * @throws IOException // TODO
+     */
     @Override
     public Scene getScene() throws IOException {
 

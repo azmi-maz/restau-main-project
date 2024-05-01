@@ -37,7 +37,11 @@ public class User {
         return firstName;
     }
 
-    // TODO comment
+    /**
+     * This method gets capitalised first name of the user.
+     *
+     * @return the user first name.
+     */
     public String getFirstNameForDisplay() {
         return firstName.substring(0, 1).toUpperCase()
                 + firstName.substring(1);
@@ -52,7 +56,11 @@ public class User {
         return lastName;
     }
 
-    // TODO comment
+    /**
+     * This method gets the capitalised last name of the user.
+     *
+     * @return the last name of the user.
+     */
     public String getLastNameForDisplay() {
         return lastName.substring(0, 1).toUpperCase()
                 + lastName.substring(1);
@@ -67,7 +75,12 @@ public class User {
         return username;
     }
 
-    // TODO
+    /**
+     * This method gets the user id.
+     *
+     * @return - the id of the user.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public int getUserId() throws TextFileNotFoundException {
 
         try {

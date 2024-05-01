@@ -30,6 +30,9 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * This class loads the chef menu view.
+ */
 public class ChefMenuViewController {
 
     @FXML
@@ -57,7 +60,11 @@ public class ChefMenuViewController {
     private ObservableList<FoodDrink> data =
             FXCollections.observableArrayList();
 
-    // TODO comment
+    /**
+     * This initializes the controller for the fxml.
+     *
+     * @throws URISyntaxException - if the image uri did not work.
+     */
     public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
@@ -221,7 +228,7 @@ public class ChefMenuViewController {
         });
     }
 
-    // TODO comment
+    // Refreshes the menu table.
     private void refreshMenuItemList() {
 
         // TODO comment

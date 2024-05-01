@@ -28,6 +28,9 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This class enables the customer to make any edits to the item quantity.
+ */
 public class CustomerOrderDetailsViewController {
 
     @FXML
@@ -74,12 +77,23 @@ public class CustomerOrderDetailsViewController {
     private ObservableList<FoodDrink> data =
             FXCollections.observableArrayList();
 
+    /**
+     * This loads up the customer current order made.
+     *
+     * @param orderList - the list of items put in cart.
+     * @param newOrder  - the current order being viewed.
+     */
     public CustomerOrderDetailsViewController(List<FoodDrink> orderList,
                                               List<Order> newOrder) {
         this.orderList = orderList;
         this.newOrder = newOrder;
     }
 
+    /**
+     * This initializes the controller for the fxml.
+     *
+     * @throws URISyntaxException // TODO
+     */
     public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
@@ -174,7 +188,7 @@ public class CustomerOrderDetailsViewController {
 
                     Stage editStage = new Stage();
                     editStage.setScene(editScene);
-                    // TODO Should final variable this
+
                     editStage.setTitle("Edit Order Item");
 
                     editStage.initModality(Modality.APPLICATION_MODAL);
@@ -221,7 +235,7 @@ public class CustomerOrderDetailsViewController {
             OrderDetailsController.presenter.goToOrderConfirmation();
         });
 
-        // TODO cancel button returns to menu with orderlist erased
+        // Cancel order and returns customer to menu with orderlist erased.
         cancelButton.setOnMousePressed(e -> {
 
             Optional<ButtonType> userChoice = promptForUserAcknowledgement();
@@ -237,7 +251,6 @@ public class CustomerOrderDetailsViewController {
 
     }
 
-    // TODO comment
     private void refreshOrderList() {
         orderDetailsTable.getItems().clear();
         data.clear();
@@ -245,7 +258,11 @@ public class CustomerOrderDetailsViewController {
         orderDetailsTable.setItems(data);
     }
 
-    // TODO
+    /**
+     * This method creates an order once customer confirms the current order.
+     *
+     * @return the confirmed order to proceed to the next confirmation page.
+     */
     public Order createNewOrder() {
 
         try {
@@ -271,14 +288,14 @@ public class CustomerOrderDetailsViewController {
         return null;
     }
 
-    public Optional<ButtonType> promptForUserAcknowledgement() {
+    private Optional<ButtonType> promptForUserAcknowledgement() {
         return AlertPopUpWindow.displayConfirmationWindow(
                 "Cancel Order Request",
                 "Do you want to cancel this order?"
         );
     }
 
-    public void cancelConfirmationAndGoBackToMenu() {
+    private void cancelConfirmationAndGoBackToMenu() {
         OrderDetailsController.presenter.returnToMenu();
         MenuController.orderList.clear();
     }

@@ -12,6 +12,9 @@ import org.group.project.exceptions.TextFileNotFoundException;
 
 import java.util.List;
 
+/**
+ * This class loads up the counter of pending deliveries for specific driver.
+ */
 public class DriverPendingDeliveryNavbarCounter {
 
     private int userId;
@@ -25,6 +28,9 @@ public class DriverPendingDeliveryNavbarCounter {
     @FXML
     private Label pendingDeliveryCounter2;
 
+    /**
+     * This method gets the driver user id currently logged in.
+     */
     private void getUserId() {
         try {
             User user = Main.getCurrentUser();
@@ -38,6 +44,9 @@ public class DriverPendingDeliveryNavbarCounter {
         }
     }
 
+    /**
+     * This method refreshes the pending delivery counter.
+     */
     public void refreshPendingDeliveryCounter() {
 
         int newCounter = 0;

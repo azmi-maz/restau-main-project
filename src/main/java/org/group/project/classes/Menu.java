@@ -36,11 +36,14 @@ public class Menu {
             ));
 
     /**
-     * The constructor that sets up an empty menu list.
+     * The constructor sets up the menu and updates its data
+     * from the database.
+     *
+     * @throws TextFileNotFoundException - if text file is non-existent.
      */
     public Menu() throws TextFileNotFoundException {
 
-        menuOfItems = new ArrayList<FoodDrink>();
+        menuOfItems = new ArrayList<>();
 
         try {
             menuOfItems = getFoodDrinkFromDatabase();
@@ -78,7 +81,8 @@ public class Menu {
      */
     public boolean selectItemAsDailySpecial(FoodDrink selectedItem) {
         for (FoodDrink item : menuOfItems) {
-            if (item.getItemName().equalsIgnoreCase(selectedItem.getItemName())) {
+            if (item.getItemName().equalsIgnoreCase(
+                    selectedItem.getItemName())) {
                 item.setItemDailySpecial(true);
             }
         }
@@ -93,7 +97,8 @@ public class Menu {
      */
     public boolean deselectItemAsDailySpecial(FoodDrink selectedItem) {
         for (FoodDrink item : menuOfItems) {
-            if (item.getItemName().equalsIgnoreCase(selectedItem.getItemName()) &&
+            if (item.getItemName().equalsIgnoreCase(
+                    selectedItem.getItemName()) &&
                     item.isItemDailySpecial()) {
                 item.setItemDailySpecial(false);
             }
@@ -101,7 +106,12 @@ public class Menu {
         return true;
     }
 
-    // TODO
+    /**
+     * This method gets the menu items from the database.
+     *
+     * @return the list of all menu items in the restaurant.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public List<FoodDrink> getFoodDrinkFromDatabase()
             throws TextFileNotFoundException {
 
@@ -123,7 +133,12 @@ public class Menu {
         }
     }
 
-    // TODO
+    /**
+     * This method gets the food/drink item from a string.
+     *
+     * @param item - the string of food/drink item.
+     * @return the food/drink object.
+     */
     public FoodDrink getFoodDrinkFromString(
             String item
     ) {
@@ -150,7 +165,12 @@ public class Menu {
         );
     }
 
-    // TODO
+    /**
+     * This method finds the type of item based on its name.
+     *
+     * @param name - the name of the item.
+     * @return the type of the item.
+     */
     public String findTypeByItemName(String name) {
         for (FoodDrink item : menuOfItems) {
             if (item.getItemName().equalsIgnoreCase(name)) {
@@ -160,7 +180,11 @@ public class Menu {
         return null;
     }
 
-    // TODO comment
+    /**
+     * This method populates a table view list with the menu data.
+     *
+     * @param data - the table view list to be updated.
+     */
     public void getMenuData(
             ObservableList<FoodDrink> data
     ) {
@@ -171,7 +195,13 @@ public class Menu {
         }
     }
 
-    // TODO
+    /**
+     * This method populates the grid pane of the customer menu.
+     *
+     * @param gridPane - the grid pane to be updated.
+     * @throws URISyntaxException        - if the image uri does not work.
+     * @throws TextFileNotFoundException - if the text file is non-existent.
+     */
     public void populateCustomerMenuFromDatabase(
             GridPane gridPane
     ) throws URISyntaxException, TextFileNotFoundException {
@@ -180,8 +210,9 @@ public class Menu {
             List<String> imageDataList = DataManager
                     .allDataFromFile("MENU");
 
-            Image dailySpecial = new Image(Main.class.getResource("images" +
-                    "/icons/daily-special-stamp.png").toURI().toString());
+            Image dailySpecial = new Image(Main.class
+                    .getResource("images" +
+                            "/icons/daily-special-stamp.png").toURI().toString());
 
             for (String imageData : imageDataList) {
                 getImageStackFromString(
@@ -197,7 +228,14 @@ public class Menu {
         }
     }
 
-    // TODO
+    /**
+     * This method prepares an image of a single food/drink item from a string.
+     *
+     * @param gridPane     - the grid pane to be updated.
+     * @param dailySpecial - if the image needs to be tagged as daily special.
+     * @param imageData    - the string that contains all the data for that item.
+     * @throws URISyntaxException - if the image uri does not work.
+     */
     public void getImageStackFromString(
             GridPane gridPane,
             Image dailySpecial,
@@ -299,7 +337,11 @@ public class Menu {
         imageViewSecondStack.setMaxWidth(maxWidth);
     }
 
-    // TODO
+    /**
+     * This method populates a choice box with menu items for dine-in order.
+     *
+     * @param comboItemName - the choice box to be updated.
+     */
     public void updateDineinMenuChoiceBox(
             ComboBox<String> comboItemName
     ) {
@@ -321,7 +363,13 @@ public class Menu {
         }
     }
 
-    // TODO
+    /**
+     * This method gets a preset item to add to the menu.
+     *
+     * @param itemName - the name of the preset item.
+     * @return the list of string containing the preset item info.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public List<String> getPresetMenuItem(
             String itemName
     ) throws TextFileNotFoundException {
@@ -349,7 +397,14 @@ public class Menu {
         }
     }
 
-    // TODO
+    /**
+     * This method gets a fixed preset item based on user input. Default is
+     * pizza.
+     *
+     * @param itemName - the name of the item.
+     * @return - the list of string of the preset item.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public List<String> getPresetItem(String itemName)
             throws TextFileNotFoundException {
 
@@ -376,7 +431,13 @@ public class Menu {
         }
     }
 
-    // TODO
+    /**
+     * This method adds a new item to the database.
+     *
+     * @param newItem - the new item string to be added.
+     * @return true if the database was updated successfully.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public boolean addNewItemToDatabase(
             List<String> newItem
     ) throws TextFileNotFoundException {
@@ -394,14 +455,22 @@ public class Menu {
         }
     }
 
-    // TODO
+    /**
+     * This method edits an existing item as daily special.
+     *
+     * @param itemName  - the selected item name.
+     * @param newStatus - the new status of that item.
+     * @return true if the update was made successfully.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public boolean editItemDailySpecialStatus(
             String itemName,
             String newStatus
     ) throws TextFileNotFoundException {
         boolean isSuccessful = false;
         try {
-            isSuccessful = DataManager.editColumnDataByUniqueId("MENU",
+            isSuccessful = DataManager.editColumnDataByUniqueId(
+                    "MENU",
                     itemName, "isDailySpecial",
                     newStatus);
         } catch (TextFileNotFoundException e) {
@@ -414,7 +483,12 @@ public class Menu {
         return false;
     }
 
-    // TODO
+    /**
+     * This method populates a choice box with item types for users to
+     * select from.
+     *
+     * @param choiceBox - the choice box to be updated.
+     */
     public void updateItemTypeChoiceBox(
             ChoiceBox<String> choiceBox
     ) {

@@ -32,6 +32,7 @@ public class LoginController {
     @FXML
     private Label resultLabel;
 
+    // This handles the login event if user is already registered.
     @FXML
     protected void onLoginButtonClick() {
 
@@ -135,6 +136,7 @@ public class LoginController {
         }
     }
 
+    // This opens up the new user registration form.
     @FXML
     protected void onNewFoodieClick() {
 

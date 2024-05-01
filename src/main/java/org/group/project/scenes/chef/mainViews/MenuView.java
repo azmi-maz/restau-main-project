@@ -9,15 +9,29 @@ import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
 
+/**
+ * This class prepares the chef menu view scene.
+ */
 public class MenuView implements ViewMaker {
 
     private Stage stage;
 
+    /**
+     * This constructor sets up the stage from the main one.
+     *
+     * @param stage - the main stage.
+     */
     public MenuView(Stage stage) {
 
         this.stage = stage;
     }
 
+    /**
+     * This method gets the menu view scene.
+     *
+     * @return the menu view scene.
+     * @throws IOException // TODO
+     */
     @Override
     public Scene getScene() throws IOException {
 

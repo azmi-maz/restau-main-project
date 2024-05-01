@@ -14,6 +14,7 @@ public interface NotifyAction {
      *
      * @param customer            - The customer to be notified.
      * @param isSuccessfulRequest - successful request or not.
+     * @throws TextFileNotFoundException - if text file is non-existent.
      */
     public default void notifyCustomer(
             Customer customer,

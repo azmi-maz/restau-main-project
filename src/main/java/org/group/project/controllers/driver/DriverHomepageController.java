@@ -8,6 +8,9 @@ import org.group.project.Main;
 
 import java.net.URISyntaxException;
 
+/**
+ * This class loads up the driver home page.
+ */
 public class DriverHomepageController {
 
     @FXML
@@ -16,6 +19,11 @@ public class DriverHomepageController {
     @FXML
     private Label mainTitle;
 
+    /**
+     * This initializes the controller for the fxml.
+     *
+     * @throws URISyntaxException // TODO
+     */
     public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
@@ -34,6 +42,9 @@ public class DriverHomepageController {
 
     }
 
+    /**
+     * This method changes the greeting message for the current driver.
+     */
     public void welcomeDriver() {
         mainTitle.setText(
                 "Welcome, "

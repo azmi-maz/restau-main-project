@@ -18,7 +18,8 @@
             fx:controller="org.group.project.controllers.customer.CustomerMenuOrderAddItemController"
 >
     <center>
-        <VBox stylesheets="@../css/image-in-medium-windows.css" styleClass="imageBox">
+        <VBox stylesheets="@../css/image-in-medium-windows.css"
+              styleClass="imageBox">
             <ImageView fx:id="menuImage" fitHeight="450.0" fitWidth="400.0"
                        pickOnBounds="true" preserveRatio="true"
                        styleClass="menuImage"/>
@@ -36,7 +37,6 @@
                 <TextField fx:id="quantityTextField"
                            styleClass="quantityTextField"
                            text="1"
-                           onKeyReleased="#onChange"
                 />
             </VBox>
         </VBox>

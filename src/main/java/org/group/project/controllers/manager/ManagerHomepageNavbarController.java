@@ -14,6 +14,9 @@ import org.group.project.scenes.manager.ManagerScenesMap;
 
 import java.net.URISyntaxException;
 
+/**
+ * This class loads up the manager home page navigation bar.
+ */
 public class ManagerHomepageNavbarController {
 
     @FXML
@@ -31,6 +34,10 @@ public class ManagerHomepageNavbarController {
     @FXML
     private Button logOffButton;
 
+    /**
+     * This initializes the controller for the fxml.
+     * @throws URISyntaxException // TODO
+     */
     public void initialize() throws URISyntaxException {
 
         ImageLoader.setUpGraphicButton(managementButton,

@@ -9,6 +9,10 @@ import org.group.project.classes.UserManagement;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.exceptions.TextFileNotFoundException;
 
+/**
+ * This class loads up the notification counter of unread notifications by
+ * specific customer.
+ */
 public class CustomerNotificationNavbarCounter {
 
     private int userId;
@@ -22,6 +26,7 @@ public class CustomerNotificationNavbarCounter {
     @FXML
     private Label notificationCounter2;
 
+    // This gets the current customer user id.
     private void getUserId() {
 
         try {
@@ -39,6 +44,9 @@ public class CustomerNotificationNavbarCounter {
         }
     }
 
+    /**
+     * This method refreshes the counter.
+     */
     public void refreshNotificationCounter() {
 
         int newCounter = 0;

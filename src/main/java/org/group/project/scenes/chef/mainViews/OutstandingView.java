@@ -11,17 +11,30 @@ import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
 
+/**
+ * This class prepares the chef outstanding orders view scene.
+ */
 public class OutstandingView implements ViewMaker {
 
+    public static ChefOutstandingOrdersViewController controller;
     private Stage stage;
 
-    public static ChefOutstandingOrdersViewController controller;
-
+    /**
+     * This constructor sets up the stage from the main one.
+     *
+     * @param stage - the main stage.
+     */
     public OutstandingView(Stage stage) {
 
         this.stage = stage;
     }
 
+    /**
+     * This method gets the chef outstanding order scene.
+     *
+     * @return the scene.
+     * @throws IOException // TODO
+     */
     @Override
     public Scene getScene() throws IOException {
 

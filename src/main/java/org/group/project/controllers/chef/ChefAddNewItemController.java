@@ -14,6 +14,9 @@ import org.group.project.exceptions.TextFileNotFoundException;
 
 import java.util.List;
 
+/**
+ * This class allows chef to add a new item to the menu.
+ */
 public class ChefAddNewItemController {
 
     @FXML
@@ -33,6 +36,9 @@ public class ChefAddNewItemController {
 
     private List<String> menuItemList;
 
+    /**
+     * This initializes the controller for the fxml.
+     */
     public void initialize() {
 
         try {
@@ -94,6 +100,11 @@ public class ChefAddNewItemController {
         });
     }
 
+    /**
+     * This method sets up the item list.
+     *
+     * @param menuItemList - the item list from the main page.
+     */
     public void setItemList(List<String> menuItemList) {
         this.menuItemList = menuItemList;
     }

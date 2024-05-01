@@ -13,6 +13,9 @@ import org.group.project.exceptions.TextFileNotFoundException;
 
 import java.util.List;
 
+/**
+ * This class enables the waiter to add a dine-in order.
+ */
 public class WaiterDineinAddOrderController {
 
     @FXML
@@ -32,6 +35,9 @@ public class WaiterDineinAddOrderController {
 
     private List<FoodDrink> orderList;
 
+    /**
+     * This initializes the controller for the fxml.
+     */
     public void initialize() {
 
         quantityTextField.setOnAction(e -> {
@@ -66,13 +72,29 @@ public class WaiterDineinAddOrderController {
 
             if (
                     !comboItemName.getValue().equals("Choose Item")
-                            && Integer.parseInt(quantityTextField.getText()) > 0
+                            && Integer.parseInt(
+                            quantityTextField.getText()) > 0
             ) {
 
                 String selectedItemName = comboItemName.getValue().toString();
-                // TODo get food type from database
-                String selectedItemType = "food";
-                int enteredQuantity = Integer.parseInt(quantityTextField.getText());
+
+                String selectedItemType = "";
+                try {
+
+                    Menu menu = new Menu();
+                    selectedItemType = menu
+                            .findTypeByItemName(selectedItemName);
+
+                } catch (TextFileNotFoundException ex) {
+                    AlertPopUpWindow.displayErrorWindow(
+                            "Error",
+                            ex.getMessage()
+                    );
+                    ex.printStackTrace();
+                }
+
+                int enteredQuantity = Integer.parseInt(
+                        quantityTextField.getText());
 
                 orderList.add(new FoodDrink(
                         selectedItemName,
@@ -98,6 +120,11 @@ public class WaiterDineinAddOrderController {
 
     }
 
+    /**
+     * This gets the current order list made by the waiter.
+     *
+     * @param orderList - the current order list.
+     */
     public void getCurrentOrderList(
             List<FoodDrink> orderList
     ) {
@@ -105,7 +132,7 @@ public class WaiterDineinAddOrderController {
 
     }
 
-    public void closeWindow() {
+    private void closeWindow() {
         Stage stage = (Stage) vbox.getScene().getWindow();
         stage.close();
     }

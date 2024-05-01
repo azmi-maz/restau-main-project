@@ -11,22 +11,36 @@ import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
 
+/**
+ * This class prepares the customer order view scene.
+ */
 public class OrdersView implements ViewMaker {
 
+    public static CustomerOrderHistoryViewController controller;
     private Stage stage;
 
-    public static CustomerOrderHistoryViewController controller;
-
+    /**
+     * This constructor sets up the stage from the main one.
+     *
+     * @param stage - the main stage.
+     */
     public OrdersView(Stage stage) {
 
         this.stage = stage;
     }
 
+    /**
+     * This method gets the customer order view scene.
+     *
+     * @return the customer order view scene.
+     * @throws IOException // TODO
+     */
     @Override
     public Scene getScene() throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
-                "customerscenes/mapscenes/customer-vieworders.fxml"));
+                "customerscenes/mapscenes/" +
+                        "customer-vieworders.fxml"));
 
         VBox vbox = fxmlLoader.load();
 

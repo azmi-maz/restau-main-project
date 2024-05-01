@@ -9,11 +9,19 @@ import org.group.project.scenes.main.ChefView;
 
 import java.net.URISyntaxException;
 
+/**
+ * This class loads up the navigation bar used to return back to chef home page.
+ */
 public class ChefReturnHomeNavbarController {
 
     @FXML
     private Button homeButton;
 
+    /**
+     * This initializes the controller for the fxml.
+     *
+     * @throws URISyntaxException - the image uri did not work.
+     */
     public void initialize() throws URISyntaxException {
 
         ImageLoader.setUpGraphicButton(homeButton,
@@ -27,6 +35,5 @@ public class ChefReturnHomeNavbarController {
         });
 
     }
-
 
 }

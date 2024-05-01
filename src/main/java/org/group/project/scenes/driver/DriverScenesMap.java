@@ -9,16 +9,23 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class handles all the driver main scenes.
+ */
 public class DriverScenesMap {
 
     private static Stage stage;
 
-    /**
-     * Holds the various scenes to switch between
-     */
+    // Holds the various scenes to switch between.
     private static Map<DriverMapsMain, Scene> driverScenes =
             new HashMap<>();
 
+    /**
+     * The constructor that sets up the driver main scenes.
+     *
+     * @param stage - the main stage from main.
+     * @throws IOException // TODO
+     */
     public DriverScenesMap(Stage stage) throws IOException {
 
         DriverScenesMap.stage = stage;
@@ -31,14 +38,30 @@ public class DriverScenesMap {
 
     }
 
+    /**
+     * This method gets the Map of customer main scenes.
+     *
+     * @return the map of all customer scenes.
+     */
     public static Map<DriverMapsMain, Scene> getScenes() {
         return driverScenes;
     }
 
+    /**
+     * This method gets the driver home page scene.
+     *
+     * @return the driver home page scene.
+     * @throws IOException // TODO
+     */
     public Scene getScene() throws IOException {
         return driverScenes.get(DriverMapsMain.HOME);
     }
 
+    /**
+     * This method gets the driver main stage.
+     *
+     * @return the driver main stage.
+     */
     public static Stage getDriverStage() {
         return stage;
     }

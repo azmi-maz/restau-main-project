@@ -8,6 +8,9 @@ import org.group.project.Main;
 
 import java.net.URISyntaxException;
 
+/**
+ * This class loads up the customer home page.
+ */
 public class CustomerHomepageController {
 
     @FXML
@@ -16,6 +19,11 @@ public class CustomerHomepageController {
     @FXML
     private Label mainTitle;
 
+    /**
+     * This initializes the controller for the fxml.
+     *
+     * @throws URISyntaxException - the image uri did not work.
+     */
     public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
@@ -34,11 +42,14 @@ public class CustomerHomepageController {
 
     }
 
+    /**
+     * This method changes the greeting message to welcome the customer.
+     */
     public void welcomeCustomer() {
         mainTitle.setText(
                 "Welcome, "
-                + Main.getCurrentUser().getFirstNameForDisplay()
-                + "!"
+                        + Main.getCurrentUser().getFirstNameForDisplay()
+                        + "!"
         );
     }
 

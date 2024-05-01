@@ -11,11 +11,11 @@ import java.time.format.DateTimeFormatter;
  */
 public class Notification {
 
-    private int notificationId;
-    private int userId;
-    private LocalDate notificationDate;
-    private LocalTime notificationTime;
-    private String notificationType;
+    private final int notificationId;
+    private final int userId;
+    private final LocalDate notificationDate;
+    private final LocalTime notificationTime;
+    private final String notificationType;
     private boolean readStatus;
     private String messageBody;
 
@@ -45,7 +45,18 @@ public class Notification {
         readStatus = false;
     }
 
-    // TODO comment
+    /**
+     * This constructor creates a notification based on updated data from the
+     * database.
+     *
+     * @param notificationId   - the unique id of the notification.
+     * @param userId           - the user id of the notification.
+     * @param notificationDate - the date of notification was created.
+     * @param notificationTime - the time of notification was created.
+     * @param notificationType - the type of notification.
+     * @param messageBody      - the body of the notification.
+     * @param readStatus       - the read status of the notification.
+     */
     public Notification(int notificationId,
                         int userId,
                         LocalDate notificationDate,
@@ -62,7 +73,13 @@ public class Notification {
         this.readStatus = readStatus;
     }
 
-    // TODO
+    /**
+     * This constructor creates a notification with basic info.
+     *
+     * @param notificationId   - the unique id of the notification.
+     * @param userId           - the user id of the notification.
+     * @param notificationType - the type of notification.
+     */
     public Notification(int notificationId,
                         int userId,
                         String notificationType) {
@@ -82,41 +99,69 @@ public class Notification {
         return notificationDate;
     }
 
-    // TODO comment
+    /**
+     * This method gets the notification date in dd/mm/yyyy format.
+     *
+     * @return the string of the notification date in the desired format.
+     */
     public String getNotificationDateInFormat() {
         return getNotificationDate()
                 .format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
-    // TODO comment
+    /**
+     * This method gets the notification date in database compatible format.
+     *
+     * @return the string of the notification date in the desired format.
+     */
     public String getNotificationDateForDatabase() {
         return getNotificationDate()
                 .format(DateTimeFormatter.ofPattern("yyyy-M-d"));
     }
 
-    // TODO comment
+    /**
+     * This method gets the notification time in hh:mm a format.
+     *
+     * @return the string of the notification time in the desired format.
+     */
     public String getNotificationTimeInFormat() {
         return getNotificationTime()
                 .format(DateTimeFormatter.ofPattern("hh:mm a"));
     }
 
-    // TODO comment
+    /**
+     * This method gets the notification time in database compatible format.
+     *
+     * @return the string of the notification time in the desired format.
+     */
     public String getNotificationTimeForDatabase() {
         return getNotificationTime()
                 .format(DateTimeFormatter.ofPattern("H-m"));
     }
 
-    // TODO comment
+    /**
+     * This method gets the user id of a notification.
+     *
+     * @return the user id.
+     */
     public int getUserId() {
         return userId;
     }
 
-    // TODO comment
+    /**
+     * This method gets the read status of a notification.
+     *
+     * @return the read status.
+     */
     public boolean getReadStatus() {
         return readStatus;
     }
 
-    // TODO comment
+    /**
+     * This method gets the notification id of a notification.
+     *
+     * @return the id of a notification.
+     */
     public int getNotificationId() {
         return notificationId;
     }
@@ -139,7 +184,11 @@ public class Notification {
         return messageBody;
     }
 
-    // TODO
+    /**
+     * Setter method to set the main message of a notification.
+     *
+     * @param messageBody - the main message.
+     */
     public void setMessageBody(
             String messageBody
     ) {

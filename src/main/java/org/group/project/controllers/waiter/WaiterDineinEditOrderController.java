@@ -11,6 +11,9 @@ import org.group.project.classes.auxiliary.AlertPopUpWindow;
 
 import java.util.List;
 
+/**
+ * This class allows the waiter to edit the current order.
+ */
 public class WaiterDineinEditOrderController {
 
     @FXML
@@ -30,7 +33,9 @@ public class WaiterDineinEditOrderController {
 
     private List<FoodDrink> orderList;
 
-    // TODO comment
+    /**
+     * This initializes the controller for the fxml.
+     */
     public void initialize() {
 
         quantityTextField.setOnAction(e -> {
@@ -78,7 +83,13 @@ public class WaiterDineinEditOrderController {
 
     }
 
-    // TODO comment
+    /**
+     * This populates the selected item details.
+     *
+     * @param itemName     - the name of the selected item.
+     * @param itemQuantity - the current quantity of the item.
+     * @param orderList    - the current order to be updated.
+     */
     public void setItemDetails(
             String itemName,
             String itemQuantity,
@@ -89,8 +100,7 @@ public class WaiterDineinEditOrderController {
         this.orderList = orderList;
     }
 
-    // TODO comment
-    public void setTextFieldToDisabled() {
+    private void setTextFieldToDisabled() {
         comboItemName.setOnMousePressed(e -> {
             comboItemName.setDisable(true);
         });
@@ -101,7 +111,7 @@ public class WaiterDineinEditOrderController {
 
     }
 
-    public void closeWindow() {
+    private void closeWindow() {
         Stage stage = (Stage) vbox.getScene().getWindow();
         stage.close();
     }

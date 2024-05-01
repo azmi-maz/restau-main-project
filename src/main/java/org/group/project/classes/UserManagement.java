@@ -25,7 +25,8 @@ public class UserManagement {
             ));
 
     /**
-     * This constructor is default without any parameters.
+     * This constructor sets up the user management and updates its data
+     * from the database.
      */
     public UserManagement() throws TextFileNotFoundException {
 
@@ -90,11 +91,15 @@ public class UserManagement {
      */
     public boolean editUserDetails(User searchUser, String attributeName,
                                    Object newValue) {
-        // To code
         return true;
     }
 
-    // TODO
+    /**
+     * This method gets all users from the database.
+     *
+     * @return the list of users.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public List<User> getUserDataFromDatabase()
             throws TextFileNotFoundException {
 
@@ -116,7 +121,12 @@ public class UserManagement {
         }
     }
 
-    // TODO
+    /**
+     * This method gets a user from the user data string.
+     *
+     * @param user - the user data string.
+     * @return - the user object with updated data.
+     */
     public User getUserFromString(
             String user
     ) {
@@ -180,7 +190,6 @@ public class UserManagement {
             );
         } else if (userType.equalsIgnoreCase("driver")) {
             return new Driver(
-                    userId,
                     firstName,
                     lastName,
                     username,
@@ -212,7 +221,12 @@ public class UserManagement {
         return null;
     }
 
-    // TODO
+    /**
+     * This method gets the user by its username.
+     *
+     * @param username - the username used to search users.
+     * @return the user if found.
+     */
     public User getUserByUsername(
             String username
     ) {
@@ -225,7 +239,13 @@ public class UserManagement {
         return null;
     }
 
-    // TODO
+    /**
+     * This method gets the user by its user id.
+     *
+     * @param userId - the unique id of the user.
+     * @return the user if found.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public User getUserByUserId(
             String userId
     ) throws TextFileNotFoundException {
@@ -243,7 +263,13 @@ public class UserManagement {
         }
     }
 
-    // TODO
+    /**
+     * This method gets the user id by its username.
+     *
+     * @param username - the username to search for.
+     * @return the unique id of the user.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public int getUserIdByUsername(
             String username
     ) throws TextFileNotFoundException {
@@ -273,18 +299,18 @@ public class UserManagement {
         }
     }
 
-    // TODO comment
+    /**
+     * This method populates the table view list with staff only.
+     *
+     * @param data - the table view to be updated.
+     */
     public void getStaffData(
             ObservableList<Staff> data
     ) {
 
-        // TODO to filter
         List<User> staffData = getUserList();
         for (User staff : staffData) {
-
             String userType = getStaffClass(staff);
-
-            // TODO
             if (!userType.equalsIgnoreCase("customer")
                     && !userType.equalsIgnoreCase("manager")) {
                 data.add((Staff) staff);
@@ -292,7 +318,13 @@ public class UserManagement {
         }
     }
 
-    // TODO
+    /**
+     * This method gets a customer by its user id.
+     *
+     * @param customerId - the customer id.
+     * @return the customer if found.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public Customer getCustomerById(
             int customerId
     ) throws TextFileNotFoundException {
@@ -312,7 +344,13 @@ public class UserManagement {
         }
     }
 
-    // TODO
+    /**
+     * This method gets the driver by its user id.
+     *
+     * @param driverId - the driver id to search for.
+     * @return the driver if found.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public Driver getDriverById(
             int driverId
     ) throws TextFileNotFoundException {
@@ -332,7 +370,12 @@ public class UserManagement {
         }
     }
 
-    // TODO
+    /**
+     * This method gets the class type of user.
+     *
+     * @param user - the user to be identified.
+     * @return the type of staff class.
+     */
     public String getStaffClass(User user) {
         Object classType = user.getClass();
         String objectType = List.of(
@@ -341,7 +384,12 @@ public class UserManagement {
         return objectType;
     }
 
-    // TODO
+    /**
+     * This method checks if a user is a customer class.
+     *
+     * @param user - the user to be checked.
+     * @return true if user class is a customer.
+     */
     public boolean isCustomer(User user) {
         if (getStaffClass(user)
                 .equalsIgnoreCase("customer")) {
@@ -350,7 +398,12 @@ public class UserManagement {
         return false;
     }
 
-    // TODO
+    /**
+     * This method checks if a user is a driver class.
+     *
+     * @param user - the user to be checked.
+     * @return true if user class is a driver.
+     */
     public boolean isDriver(User user) {
         if (getStaffClass(user)
                 .equalsIgnoreCase("driver")) {
@@ -359,7 +412,11 @@ public class UserManagement {
         return false;
     }
 
-    // TODO
+    /**
+     * This method populates a combobox with drivers for user to select from.
+     *
+     * @param drivers - the combobox to be updated.
+     */
     public void updateDriverList(
             ComboBox<Driver> drivers
     ) {
@@ -377,7 +434,12 @@ public class UserManagement {
         }
     }
 
-    // TODO
+    /**
+     * This method populates a list with registered customers for user to
+     * select from.
+     *
+     * @param customerList - the list to be updated.
+     */
     public void updateCustomerList(
             List<Customer> customerList
     ) {
@@ -402,6 +464,7 @@ public class UserManagement {
      * one.
      *
      * @return the new customer id for new customer.
+     * @throws TextFileNotFoundException - if text file is non-existent.
      */
     public int getNewUserId() throws TextFileNotFoundException {
 
@@ -422,7 +485,14 @@ public class UserManagement {
         }
     }
 
-    // TODO
+    /**
+     * This creates a new user with basic info.
+     *
+     * @param firstName - the first name of a user.
+     * @param lastName  - the last name of a user.
+     * @param username  - the username of a user.
+     * @return
+     */
     public User createNewUser(
             String firstName,
             String lastName,
@@ -435,7 +505,13 @@ public class UserManagement {
         );
     }
 
-    // TODO
+    /**
+     * This method adds a new customer to the database.
+     *
+     * @param newCustomer - the new customer.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     * @throws ClearFileFailedException  - if text file is non-existent.
+     */
     public void addNewCustomerToDatabase(
             Customer newCustomer
     ) throws TextFileNotFoundException, ClearFileFailedException {
@@ -460,16 +536,19 @@ public class UserManagement {
         try {
             DataManager.appendDataToFile("USERS", userDetails);
             persistActiveUserData(newCustomer);
-        } catch (TextFileNotFoundException e) {
-            e.printStackTrace();
-            throw e;
-        } catch (ClearFileFailedException e) {
+        } catch (TextFileNotFoundException | ClearFileFailedException e) {
             e.printStackTrace();
             throw e;
         }
     }
 
-    // TODO
+    /**
+     * This method adds a new staff to the database.
+     *
+     * @param newStaff - the new staff.
+     * @return true if the new staff was added successfully.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public boolean addNewStaffToDatabase(
             Staff newStaff
     ) throws TextFileNotFoundException {
@@ -519,7 +598,13 @@ public class UserManagement {
         }
     }
 
-    // TODO
+    /**
+     * This method persists an active user who is currently using the app.
+     *
+     * @param user - the current active user.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     * @throws ClearFileFailedException  - if text file is non-existent.
+     */
     public void persistActiveUserData(
             User user
     ) throws TextFileNotFoundException, ClearFileFailedException {
@@ -542,16 +627,22 @@ public class UserManagement {
             DataManager.clearFileData("ACTIVE_USER");
             DataManager.appendDataToFile("ACTIVE_USER", currentUser);
 
-        } catch (TextFileNotFoundException e) {
-            e.printStackTrace();
-            throw e;
-        } catch (ClearFileFailedException e) {
+        } catch (TextFileNotFoundException | ClearFileFailedException e) {
             e.printStackTrace();
             throw e;
         }
     }
 
-    // TODO
+    /**
+     * This method creates a new customer with basic info.
+     *
+     * @param firstName - the first name of the customer.
+     * @param lastName  - the last name of the customer.
+     * @param username  - the username of the customer.
+     * @param address   - the address of the customer.
+     * @return the new customer.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public Customer createNewCustomer(
             String firstName,
             String lastName,
@@ -571,7 +662,15 @@ public class UserManagement {
         }
     }
 
-    // TODO
+    /**
+     * This method creates a new staff based on staff type.
+     *
+     * @param firstName - the first name of the staff.
+     * @param lastName  - the last name of the staff.
+     * @param username  - the username of the staff.
+     * @param staffType - the class type of the staff.
+     * @return the new staff.
+     */
     public Staff createNewStaff(
             String firstName,
             String lastName,
@@ -603,7 +702,16 @@ public class UserManagement {
         }
     }
 
-    // TODO
+    /**
+     * This method edits the details of an existing user.
+     *
+     * @param userId    - the id of the staff.
+     * @param firstName - the edited first name of the user.
+     * @param lastName  - the edited last name of the user.
+     * @param username  - the edited username name of the user.
+     * @return true if the edit was made successfully.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public boolean editExistingUserProfile(
             int userId,
             String firstName,
@@ -650,7 +758,17 @@ public class UserManagement {
         return isUsernameExist;
     }
 
-    // TODO
+    /**
+     * This method edits the details of an existing customer.
+     *
+     * @param userId    - the id of the customer.
+     * @param firstName - the edited first name of the customer.
+     * @param lastName  - the edited last name of the customer.
+     * @param username  - the edited username name of the customer.
+     * @param address   - the edited address of the customer.
+     * @return true if the edit was made successfully.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public boolean editExistingUserProfile(
             int userId,
             String firstName,
@@ -685,7 +803,19 @@ public class UserManagement {
         return true;
     }
 
-    // TODO
+    /**
+     * This method edits the staff details.
+     *
+     * @param userId           - the id of the staff.
+     * @param firstName        - the edited first name of the staff.
+     * @param lastName         - the edited last name of the staff.
+     * @param username         - the edited username of the staff.
+     * @param hoursLeft        - the edited hours remaining of the staff.
+     * @param totalHoursWorked - the edited total hours worked of the staff.
+     * @param position         - the edited designation of the staff.
+     * @return true if edit was made successfully.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public boolean editExistingUserProfile(
             String userId,
             String firstName,
@@ -717,7 +847,7 @@ public class UserManagement {
     }
 
     /**
-     * This method formats address to transform any symbols incompatible for
+     * This method formats address to replace character incompatible for
      * data storage.
      *
      * @param address - the unformatted address taken from textfield.
@@ -727,7 +857,12 @@ public class UserManagement {
         return address.replaceAll(",", ";");
     }
 
-    // TODO
+    /**
+     * This method gets the active user who is currently active using the app.
+     *
+     * @return the current user.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public User getActiveUser()
             throws TextFileNotFoundException {
         try {
@@ -748,7 +883,12 @@ public class UserManagement {
         }
     }
 
-    // TODO
+    /**
+     * This method populates a choice box with staff type for user to
+     * select from.
+     *
+     * @param choiceBox - the choice box to be updated.
+     */
     public void updateStaffTypeChoiceBox(
             ChoiceBox<String> choiceBox
     ) {

@@ -22,7 +22,16 @@ public class Manager extends Staff {
         super(firstName, lastName, username, true);
     }
 
-    // TODO
+    /**
+     * This constructor creates a manager based on updated data from database.
+     *
+     * @param firstName             - the first name of the staff.
+     * @param lastName              - the last name of the staff.
+     * @param username              - the username chosen by the staff.
+     * @param hasAdminRight         - the right to admin access.
+     * @param numOfHoursToWork      - the number of work hours remaining.
+     * @param numOfTotalHoursWorked - the total number of hours worked.
+     */
     public Manager(String firstName, String lastName, String username,
                    boolean hasAdminRight, int numOfHoursToWork,
                    int numOfTotalHoursWorked) {
@@ -36,6 +45,7 @@ public class Manager extends Staff {
      * @param userManagement - contains the list of active users.
      * @param newStaff       - a new staff member.
      * @return true if the new user is added successfully.
+     * @throws TextFileNotFoundException - if text file is non-existent.
      */
     public boolean addNewStaffMember(
             UserManagement userManagement,
@@ -57,6 +67,7 @@ public class Manager extends Staff {
      *
      * @param userId - the user id of selected staff.
      * @return true if the removal was done successfully.
+     * @throws TextFileNotFoundException - if text file is non-existent.
      */
     public boolean removeStaffMember(int userId)
             throws TextFileNotFoundException {
@@ -79,10 +90,11 @@ public class Manager extends Staff {
      * @param lastName         - the new last name of the selected user.
      * @param username         - the new username of the selected user.
      * @param hoursLeft        - the updated hours left of the selected user.
-     * @param totalHoursWorked - the updated total hours worked of the selected user.
+     * @param totalHoursWorked - the updated total hours worked of the
+     *                         selected user.
      * @param position         - the new position of the selected user.
      * @return true if all the new fields are updated successfully.
-     * @throws TextFileNotFoundException
+     * @throws TextFileNotFoundException - if text file is non-existent.
      */
     public boolean editStaffMemberDetails(
             UserManagement userManagement,
@@ -119,7 +131,7 @@ public class Manager extends Staff {
      * @param currentUser      - the current manager who generates reports.
      * @param chosenReportType - the specific report type selected.
      * @param reportTextArea   - the textarea to display report.
-     * @throws TextFileNotFoundException
+     * @throws TextFileNotFoundException - if text file is non-existent.
      */
     public void viewReports(
             User currentUser,
@@ -207,7 +219,12 @@ public class Manager extends Staff {
         }
     }
 
-    // TODO
+    /**
+     * This method deletes a report by its id.
+     *
+     * @param reportId - the id of a generated report.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public void deleteReportFromList(
             int reportId
     ) throws TextFileNotFoundException {

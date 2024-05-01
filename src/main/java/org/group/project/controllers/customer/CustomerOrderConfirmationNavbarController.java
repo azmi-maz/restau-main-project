@@ -7,11 +7,18 @@ import org.group.project.scenes.customer.stackViews.OrderConfirmationController;
 
 import java.net.URISyntaxException;
 
+/**
+ * This class loads up the customer confirmation order navigation bar.
+ */
 public class CustomerOrderConfirmationNavbarController {
 
     @FXML
     private Button returnButton;
 
+    /**
+     * This initializes the controller for the fxml.
+     * @throws URISyntaxException // TODO
+     */
     public void initialize() throws URISyntaxException {
 
         ImageLoader.setUpGraphicButton(returnButton, 25,

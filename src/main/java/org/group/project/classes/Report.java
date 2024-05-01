@@ -23,7 +23,16 @@ public class Report {
     protected LocalDate generatedOnDate;
     protected LocalTime generatedOnTime;
 
-    // TODO
+    /**
+     * This constructor creates a report with updated data from database.
+     *
+     * @param reportId        - the unique report id.
+     * @param reportType      - the type of the report.
+     * @param reportData      - the main content of the report.
+     * @param generatedBy     - the user who generated the report.
+     * @param generatedOnDate - the date the report was generated.
+     * @param generatedOnTime - the time the report was generated.
+     */
     public Report(
             int reportId,
             String reportType,
@@ -58,7 +67,13 @@ public class Report {
         this.generatedOnTime = LocalTime.now();
     }
 
-    // TODO
+    /**
+     * This constructor creates a report with basic info.
+     *
+     * @param reportType - the type of the report.
+     * @param user       - the user who generated the report.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public Report(String reportType, User user)
             throws TextFileNotFoundException {
 
@@ -79,17 +94,17 @@ public class Report {
         return reportId;
     }
 
-    // TODO
-    public void setReportId(int reportId) {
-        this.reportId = reportId;
-    }
-
-    // TODO
+    /**
+     * This method gets a new unique id for a report.
+     *
+     * @return a new unique id.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public int getNewReportId() throws TextFileNotFoundException {
         try {
             List<String> listOfData = DataManager
                     .allDataFromFile("REPORTS");
-            int lastId = -1;
+            int lastId;
             String lastReport = listOfData.getLast();
             String[] reportDetails = lastReport.split(",");
             int reportIdIndex = DataFileStructure
@@ -134,14 +149,24 @@ public class Report {
         return generatedOnDate;
     }
 
-    // TODO
+    /**
+     * This method gets the report date in dd/mm/yyyy format.
+     *
+     * @return the report date in the desired format.
+     */
     public String getGeneratedOnDateInFormat() {
-        return getGeneratedOnDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        return getGeneratedOnDate().format(
+                DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
-    // TODO comment
+    /**
+     * This method gets the report date in database compatible format.
+     *
+     * @return the report date in the desired format.
+     */
     public String getGeneratedOnDateForDatabase() {
-        return getGeneratedOnDate().format(DateTimeFormatter.ofPattern("yyyy-M-d"));
+        return getGeneratedOnDate().format(
+                DateTimeFormatter.ofPattern("yyyy-M-d"));
     }
 
     /**
@@ -153,14 +178,24 @@ public class Report {
         return generatedOnTime;
     }
 
-    // TODO
+    /**
+     * This method gets the report time in hh:mm a format.
+     *
+     * @return the report time in the desired format.
+     */
     public String getGeneratedOnTimeInFormat() {
-        return getGeneratedOnTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
+        return getGeneratedOnTime().format(
+                DateTimeFormatter.ofPattern("hh:mm a"));
     }
 
-    // TODO comment
+    /**
+     * This method gets the report time in database compatible format.
+     *
+     * @return the report time in the desired format.
+     */
     public String getGeneratedOnTimeForDatabase() {
-        return getGeneratedOnTime().format(DateTimeFormatter.ofPattern("H-m"));
+        return getGeneratedOnTime().format(
+                DateTimeFormatter.ofPattern("H-m"));
     }
 
     /**
@@ -172,17 +207,29 @@ public class Report {
         return reportData;
     }
 
-    // TODO
+    /**
+     * Setter method to set the main message of the report.
+     *
+     * @param newReport - the main message.
+     */
     public void setReportData(String newReport) {
         this.reportData = newReport;
     }
 
-    // TODO
+    /**
+     * This method appends a report with another report.
+     *
+     * @param additionalReport - the additional report data.
+     */
     public void appendReportData(Report additionalReport) {
         this.reportData += " " + additionalReport.getReportData();
     }
 
-    // TODO
+    /**
+     * This method gets the report data in database compatible format.
+     *
+     * @return the report in the desired format.
+     */
     public String getReportDataForDatabase() {
         String compactedReportData = "";
         List<String> splitUp =
@@ -200,7 +247,12 @@ public class Report {
         return compactedReportData.replaceAll(",", "}");
     }
 
-    // TODO
+    /**
+     * This method formats the report to a readable format for user.
+     *
+     * @param compactedData - the data string taken from the database.
+     * @return the string in readable format.
+     */
     public String uncompactReportData(
             String compactedData
     ) {
@@ -235,6 +287,11 @@ public class Report {
         );
     }
 
+    /**
+     * This displays the report info when printed out.
+     *
+     * @return the report info string.
+     */
     @Override
     public String toString() {
         return String.format(

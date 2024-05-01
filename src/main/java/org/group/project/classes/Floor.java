@@ -20,12 +20,16 @@ public class Floor {
     protected HashMap<Table, List<Booking>> tableBookings;
 
     private static final int MAX_BOOKING_LENGTH = 5;
-    private static final LocalTime OPENING_TIME = LocalTime.of(10, 00);
-    private static final LocalTime LATEST_BOOKING_TIME = LocalTime.of(21, 00);
+    private static final LocalTime OPENING_TIME = LocalTime.of(
+            10, 00);
+    private static final LocalTime LATEST_BOOKING_TIME = LocalTime.of(
+            21, 00);
 
     /**
      * This constructor set up the restaurant floor and updates its data
      * from the database.
+     *
+     * @throws TextFileNotFoundException - if text file is non-existent.
      */
     public Floor() throws TextFileNotFoundException {
 
@@ -57,7 +61,8 @@ public class Floor {
                     .getTablePreference()
                     .getFirst()
                     .getTableName();
-            for (Map.Entry<Table, List<Booking>> entry : tableBookings.entrySet()) {
+            for (Map.Entry<Table, List<Booking>> entry :
+                    tableBookings.entrySet()) {
                 Table table = entry.getKey();
                 String tableName = table.getTableName();
                 List<Booking> bookings = entry.getValue();
@@ -87,7 +92,8 @@ public class Floor {
      */
     public List<String> getNamesOfTables() {
         List<String> tableNames = new ArrayList<>();
-        tableBookings.keySet().stream().forEach(table -> tableNames.add(table.getTableName()));
+        tableBookings.keySet().stream().forEach(
+                table -> tableNames.add(table.getTableName()));
         return tableNames;
     }
 
@@ -98,7 +104,8 @@ public class Floor {
      */
     public List<Boolean> getEachTableAvailability() {
         List<Boolean> tableAvailability = new ArrayList<>();
-        tableBookings.keySet().stream().forEach(table -> tableAvailability.add(table.isTableFullyBooked()));
+        tableBookings.keySet().stream().forEach(
+                table -> tableAvailability.add(table.isTableFullyBooked()));
         return tableAvailability;
     }
 
@@ -120,9 +127,11 @@ public class Floor {
      */
     public void addNewTable(List<Table> newTables) {
         for (Table table : newTables) {
-            Boolean tableMatches = tableBookings.keySet().stream().anyMatch(thisTable -> {
-                return thisTable.getTableName().equalsIgnoreCase(table.getTableName());
-            });
+            Boolean tableMatches = tableBookings.keySet()
+                    .stream().anyMatch(thisTable -> {
+                        return thisTable.getTableName()
+                                .equalsIgnoreCase(table.getTableName());
+                    });
             if (!tableMatches) {
                 tableBookings.put(table, new ArrayList<>());
             }
@@ -164,7 +173,8 @@ public class Floor {
             }
             return true;
         } else if (booking.getTablePreference().size() == 1) {
-            tableBookings.get(booking.getTablePreference().getFirst()).add(booking);
+            tableBookings.get(booking.getTablePreference()
+                    .getFirst()).add(booking);
         }
 
         return false;
@@ -237,9 +247,10 @@ public class Floor {
      * @param endTime    - the end time of the filter.
      * @return the list of bookings that matched all filter criteria.
      */
-    public List<Booking> getBookingsByDateAndTimeRange(LocalDate searchDate,
-                                                       LocalTime startTime,
-                                                       LocalTime endTime) {
+    public List<Booking> getBookingsByDateAndTimeRange(
+            LocalDate searchDate,
+            LocalTime startTime,
+            LocalTime endTime) {
 
         List<Booking> allUniqueBookings = getAllUniqueBookings();
         List<Booking> filteredBookings = new ArrayList<>();
@@ -281,11 +292,13 @@ public class Floor {
      * @return the list of bookings.
      * @throws TextFileNotFoundException - if the text file is non-existent.
      */
-    public List<Booking> getBookingDataFromDatabase() throws TextFileNotFoundException {
+    public List<Booking> getBookingDataFromDatabase()
+            throws TextFileNotFoundException {
 
         try {
             List<Booking> bookingList = new ArrayList<>();
-            List<String> tableReservations = DataManager.allDataFromFile("BOOKINGS");
+            List<String> tableReservations = DataManager
+                    .allDataFromFile("BOOKINGS");
             UserManagement userManagement = new UserManagement();
 
             for (String booking : tableReservations) {
@@ -394,7 +407,12 @@ public class Floor {
         }
     }
 
-    // TODO
+    /**
+     * This method change the date string to LocalDate.
+     *
+     * @param bookingDate - the date string.
+     * @return the LocalDate of that date string.
+     */
     public LocalDate getLocalDateFromString(
             String bookingDate
     ) {
@@ -405,7 +423,12 @@ public class Floor {
                 Integer.parseInt(bookingDateDetails.get(2)));
     }
 
-    // TODO
+    /**
+     * This method change the time string to LocalTime.
+     *
+     * @param bookingTime - the time string.
+     * @return the LocalTime of that time string.
+     */
     public LocalTime getLocalTimeFromString(
             String bookingTime
     ) {
@@ -415,7 +438,13 @@ public class Floor {
                 Integer.parseInt(bookingTimeDetails.get(1)));
     }
 
-    // TODO
+    /**
+     * This method adds an existing Table to the Table list for a booking.
+     *
+     * @param tablePreference - the list of tables in a booking.
+     * @param searchTableName - the name of the table to match with.
+     * @throws TextFileNotFoundException - if the text file is non-existent.
+     */
     public void getTablesFromString(
             List<Table> tablePreference,
             String searchTableName
@@ -437,7 +466,18 @@ public class Floor {
         }
     }
 
-    // TODO
+    /**
+     * This method creates a new booking created by a customer.
+     *
+     * @param customerId      - the id of the customer making the new booking.
+     * @param bookingDate     - the booking date.
+     * @param bookingTime     - the booking time.
+     * @param numOfGuests     - the number of guests for the booking.
+     * @param tablePreference - the table preference of the customer.
+     * @param bookingLength   - the length of booking time.
+     * @return a new booking based on the given information.
+     * @throws TextFileNotFoundException - if the text file is non-existent.
+     */
     public Booking createNewBooking(
             int customerId,
             LocalDate bookingDate,
@@ -465,7 +505,11 @@ public class Floor {
         }
     }
 
-    // TODO
+    /**
+     * This method gets a new booking id.
+     *
+     * @return a unique id for the new booking.
+     */
     public int getNewBookingId() {
 
         List<Booking> allUniqueBookings = getAllUniqueBookings();
@@ -484,7 +528,17 @@ public class Floor {
         return lastBookingId;
     }
 
-    // TODO
+    /**
+     * This method creates a booking from an existing data or an edited data.
+     *
+     * @param booking       - the current booking being selected.
+     * @param bookingDate   - the current/edited booking date.
+     * @param bookingTime   - the current/edited booking time.
+     * @param numOfGuests   - the current/edited number of guests.
+     * @param table         - the current/edited table preference.
+     * @param bookingLength - the current/edited booking length.
+     * @return a booking with the updated data.
+     */
     public Booking getCurrentBooking(
             Booking booking,
             LocalDate bookingDate,
@@ -512,7 +566,12 @@ public class Floor {
         );
     }
 
-    // TODO
+    /**
+     * This method adds a new booking to the database.
+     *
+     * @param newBooking - the booking that was created.
+     * @throws TextFileNotFoundException - if text file is non-existent
+     */
     public void addBookingToDatabase(
             Booking newBooking
     ) throws TextFileNotFoundException {
@@ -543,14 +602,20 @@ public class Floor {
         ));
 
         try {
-            DataManager.appendDataToFile("BOOKINGS", newBookingForDatabase);
+            DataManager.appendDataToFile(
+                    "BOOKINGS", newBookingForDatabase);
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
             throw e;
         }
     }
 
-    // TODO
+    /**
+     * This method edits booking details in the database.
+     *
+     * @param editedBooking - the booking with edited information.
+     * @throws TextFileNotFoundException - if the text file is non-existent.
+     */
     public void editBookingDataInDatabase(
             Booking editedBooking
     ) throws TextFileNotFoundException {
@@ -585,7 +650,11 @@ public class Floor {
         }
     }
 
-    // TODO comment
+    /**
+     * This method gets all the booking that are pending for approval.
+     *
+     * @param data - the table view list containing the bookings for display.
+     */
     public void getPendingBookingData(
             ObservableList<Booking> data
     ) {
@@ -593,7 +662,6 @@ public class Floor {
         List<Booking> bookingData = getAllUniqueBookings();
         for (Booking booking : bookingData) {
 
-            // TODO make sure pending-approval status is standardized
             if (booking
                     .getBookingStatus()
                     .equalsIgnoreCase("pending-approval")) {
@@ -602,7 +670,12 @@ public class Floor {
         }
     }
 
-    // TODO comment
+    /**
+     * This method gets all the booking data by customer id.
+     *
+     * @param data   - the table view list to display any bookings if found.
+     * @param userId - the customer id.
+     */
     public void getBookingDataByUserId(
             ObservableList<Booking> data,
             int userId
@@ -640,7 +713,12 @@ public class Floor {
         return false;
     }
 
-    // TODO
+    /**
+     * This method gets table data from the database.
+     *
+     * @return - the list of tables in the restaurant.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public List<Table> getTableDataFromDatabase()
             throws TextFileNotFoundException {
 
@@ -675,7 +753,11 @@ public class Floor {
         }
     }
 
-    // TODO
+    /**
+     * This method populates a table choice box for users to choose from.
+     *
+     * @param tableChoiceBox - the choice box to populate with tables.
+     */
     public void updateTableChoiceBox(
             ChoiceBox<Table> tableChoiceBox
     ) {
@@ -691,7 +773,12 @@ public class Floor {
         tableChoiceBox.getItems().addAll(unsortedTables);
     }
 
-    // TODO
+    /**
+     * This method updates the table choice box based on the number of guests.
+     *
+     * @param numOfGuests    - the number of guests selected.
+     * @param tableChoiceBox - the choice box to be updated.
+     */
     public void updateTablesBasedOnGuests(
             int numOfGuests,
             ChoiceBox<Table> tableChoiceBox
@@ -705,7 +792,12 @@ public class Floor {
         }
     }
 
-    // TODO
+    /**
+     * This method populates a choice box with numbers of guests for
+     * users to choose from.
+     *
+     * @param numOfGuestsChoiceBox - the choice box to be updated.
+     */
     public void updateNumOfGuestsChoiceBox(
             ChoiceBox<Integer> numOfGuestsChoiceBox
     ) {
@@ -727,7 +819,12 @@ public class Floor {
         }
     }
 
-    // TODO
+    /**
+     * This method populates a choice box with numbers of booking length
+     * for users to choose from.
+     *
+     * @param bookingLengthChoiceBox - the choice box to be updated.
+     */
     public void updateBookingLengthChoiceBox(
             ChoiceBox<Integer> bookingLengthChoiceBox
     ) {
@@ -737,7 +834,12 @@ public class Floor {
         }
     }
 
-    // TODO
+    /**
+     * This method populates a choice box with available reservation times
+     * of the restaurant.
+     *
+     * @param reservationTimeChoiceBox - the choice box to be updated.
+     */
     public void updateReservationTimeChoiceBox(
             ChoiceBox<LocalTime> reservationTimeChoiceBox
     ) {
@@ -753,8 +855,7 @@ public class Floor {
     }
 
     /**
-     * This method formats address to transform any symbols compatible for
-     * users to read.
+     * This method formats address for users to read.
      *
      * @param address - the formatted address taken from database.
      * @return an address with the correct format.

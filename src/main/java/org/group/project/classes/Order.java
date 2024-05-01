@@ -10,24 +10,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class stores order information made to the restaurant.
+ * This class stores order information made by customer or waiter.
  *
  * @author azmi_maz
  */
 public class Order implements NotifyAction {
-    private User user;
-    private int orderId;
-    private LocalDate orderDate;
-    private LocalTime orderTime;
-    private String orderType;
-    private String orderStatus;
-    private List<FoodDrink> orderedFoodDrinkLists;
+    private final User user;
+    private final int orderId;
+    private final LocalDate orderDate;
+    private final LocalTime orderTime;
+    private final String orderType;
+    private final String orderStatus;
+    private final List<FoodDrink> orderedFoodDrinkLists;
 
     /**
      * The constructor to initiate an order with empty basket.
      *
      * @param orderId     - the order unique id.
-     * @param user        - the customer or waiter making an order.
+     * @param user        - the customer making the order.
      * @param orderDate   - the date of the order.
      * @param orderTime   - the time of the order.
      * @param orderType   - the type of order.
@@ -42,10 +42,20 @@ public class Order implements NotifyAction {
         this.orderTime = orderTime;
         this.orderType = orderType;
         this.orderStatus = orderStatus;
-        this.orderedFoodDrinkLists = new ArrayList<FoodDrink>();
+        this.orderedFoodDrinkLists = new ArrayList<>();
     }
 
-    // TODO comment to get updated data
+    /**
+     * This constructor creates an order with updated data from database.
+     *
+     * @param orderId     - the order unique id.
+     * @param user        - the customer making the order.
+     * @param orderDate   - the date of the order.
+     * @param orderTime   - the time of the order.
+     * @param orderType   - the type of order.
+     * @param orderStatus - the status of order.
+     * @param orderList   - the list of items ordered.
+     */
     public Order(int orderId, User user, LocalDate orderDate,
                  LocalTime orderTime,
                  String orderType, String orderStatus,
@@ -60,7 +70,14 @@ public class Order implements NotifyAction {
         orderedFoodDrinkLists.addAll(orderList);
     }
 
-    // TODO
+    /**
+     * This constructor creates a new order made by a user.
+     *
+     * @param orderType  - the type of order.
+     * @param customerId - the customer making the order.
+     * @param orderList  - the list of items ordered.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public Order(String orderType,
                  int customerId,
                  List<FoodDrink> orderList)
@@ -87,27 +104,22 @@ public class Order implements NotifyAction {
         orderedFoodDrinkLists.addAll(orderList);
     }
 
-    // TODO comment
+    /**
+     * Getter method to get the order id.
+     *
+     * @return the id of the order.
+     */
     public int getOrderId() {
         return orderId;
     }
 
     /**
-     * Getter method to get the customer who made the order
+     * Getter method to get the customer who made the order.
      *
      * @return the customer.
      */
     public Customer getCustomer() {
         return (Customer) user;
-    }
-
-    /**
-     * Getter method to get the waiter who made the order
-     *
-     * @return the waiter.
-     */
-    public Waiter getWaiter() {
-        return (Waiter) user;
     }
 
     /**
@@ -119,7 +131,11 @@ public class Order implements NotifyAction {
         return orderDate;
     }
 
-    // TODO comment
+    /**
+     * This method gets the notification date in dd/mm/yyyy format.
+     *
+     * @return the notification date in the desired format.
+     */
     public String getOrderDateInFormat() {
         return orderDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
@@ -133,7 +149,11 @@ public class Order implements NotifyAction {
         return orderTime;
     }
 
-    // TODO comment
+    /**
+     * This method gets the notification time in hh:mm a format.
+     *
+     * @return the notification time in the desired format.
+     */
     public String getOrderTimeInFormat() {
         return orderTime.format(DateTimeFormatter.ofPattern("hh:mm a"));
     }
@@ -165,7 +185,11 @@ public class Order implements NotifyAction {
         return orderedFoodDrinkLists;
     }
 
-    // TODO comment
+    /**
+     * This method gets all the ordered items in an order.
+     *
+     * @return the list of item strings.
+     */
     public List<String> getListOfItemNamesInOrderList() {
         List<String> tempList = new ArrayList<>();
         for (FoodDrink item : orderedFoodDrinkLists) {
@@ -187,7 +211,11 @@ public class Order implements NotifyAction {
         return true;
     }
 
-    // TODO comment, this method may be used elsewhere to compile orderList, look for isNewItem
+    /**
+     * This method compile same items by updating the item quantity.
+     *
+     * @return the list of compile items with the quantity correctly updated.
+     */
     public List<FoodDrink> compiledOrderList() {
         List<FoodDrink> compiledList = new ArrayList<>();
         for (FoodDrink item : orderedFoodDrinkLists) {
@@ -205,7 +233,11 @@ public class Order implements NotifyAction {
         return compiledList;
     }
 
-    // TODO comment
+    /**
+     * This method displays the list of ordered item in table view format.
+     *
+     * @return the string format suitable for table view.
+     */
     public String getListOfItemsForDisplay() {
         String displayList = "";
         List<FoodDrink> compiledList = compiledOrderList();
@@ -218,20 +250,23 @@ public class Order implements NotifyAction {
         return displayList;
     }
 
-    // TODO comment
+    /**
+     * This method updates an order status based on the user.
+     *
+     * @return true if the status update was made successfully.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public boolean markOffOrderAsComplete() throws TextFileNotFoundException {
         try {
             if (orderType.equalsIgnoreCase("takeaway")
                     || orderType.equalsIgnoreCase("dinein")) {
-                boolean isSuccessful = DataManager.editColumnDataByUniqueId("ORDERS",
+                return DataManager.editColumnDataByUniqueId("ORDERS",
                         orderId, "orderStatus",
                         "completed");
-                return isSuccessful;
             } else if (orderType.equalsIgnoreCase("delivery")) {
-                boolean isSuccessful = DataManager.editColumnDataByUniqueId("ORDERS",
+                return DataManager.editColumnDataByUniqueId("ORDERS",
                         orderId, "orderStatus",
                         "pending-delivery");
-                return isSuccessful;
             }
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();

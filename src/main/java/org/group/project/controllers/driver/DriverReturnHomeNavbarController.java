@@ -9,11 +9,19 @@ import org.group.project.scenes.main.DriverView;
 
 import java.net.URISyntaxException;
 
+/**
+ * This class loads up the return to home navigation bar for driver.
+ */
 public class DriverReturnHomeNavbarController {
 
     @FXML
     private Button homeButton;
 
+    /**
+     * This initializes the controller for the fxml.
+     *
+     * @throws URISyntaxException // TODO
+     */
     public void initialize() throws URISyntaxException {
 
         ImageLoader.setUpGraphicButton(homeButton,

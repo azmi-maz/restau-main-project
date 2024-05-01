@@ -18,6 +18,9 @@ import org.group.project.exceptions.TextFileNotFoundException;
 import java.net.URISyntaxException;
 import java.util.Optional;
 
+/**
+ * This class allows manager to view reports.
+ */
 public class ManagerReportViewController {
 
     @FXML
@@ -34,6 +37,11 @@ public class ManagerReportViewController {
 
     private User currentUser;
 
+    /**
+     * This initializes the controller for the fxml.
+     *
+     * @throws URISyntaxException // TODO
+     */
     public void initialize() throws URISyntaxException {
 
         try {
@@ -111,7 +119,8 @@ public class ManagerReportViewController {
                         selectedReport.generateReport()
                 );
             } else {
-                // Delete selected
+
+                // Deletes selected report
                 Optional<ButtonType> userChoiceToDelete = AlertPopUpWindow
                         .displayConfirmationWindow(
                                 "Confirmation",
@@ -141,7 +150,6 @@ public class ManagerReportViewController {
 
     }
 
-    // TODO
     private void updateUserData() {
 
         if (Main.getCurrentUser() == null) {
@@ -152,7 +160,6 @@ public class ManagerReportViewController {
 
     }
 
-    // TODO
     private void refreshReportList() {
         generatedReportList.getItems().clear();
 

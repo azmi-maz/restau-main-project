@@ -11,18 +11,31 @@ import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
 
+/**
+ * This class prepares the manager home page view scene.
+ */
 public class ManagerView implements ViewMaker {
 
+    public static ManagerHomepageController controller;
     private Stage stage;
 
-    public static ManagerHomepageController controller;
-
-    public ManagerView(Stage stage) throws IOException {
+    /**
+     * This constructor sets up the stage from the main one.
+     *
+     * @param stage - the main stage.
+     */
+    public ManagerView(Stage stage) {
 
         this.stage = stage;
 
     }
 
+    /**
+     * This method gets the manager home page view scene.
+     *
+     * @return the manager home page view scene.
+     * @throws IOException // TODO
+     */
     @Override
     public Scene getScene() throws IOException {
 

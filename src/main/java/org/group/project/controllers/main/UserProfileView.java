@@ -11,8 +11,14 @@ import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
 
+/**
+ * This class enables users to view their profile.
+ */
 public class UserProfileView {
 
+    /**
+     * This opens up a window for users to view their profile.
+     */
     public void showWindow() {
         try {
             FXMLLoader fxmlLoader =
@@ -33,7 +39,7 @@ public class UserProfileView {
 
             Stage editStage = new Stage();
             editStage.setScene(editScene);
-            // TODO Should final variable this
+
             editStage.setTitle("View User Profile");
 
             editStage.initModality(Modality.APPLICATION_MODAL);

@@ -10,6 +10,9 @@ import org.group.project.scenes.waiter.mainViews.DeliveryView;
 
 import java.net.URISyntaxException;
 
+/**
+ * This class loads up the counter of pending delivery orders.
+ */
 public class WaiterPendingDeliveryNavbarController {
 
     @FXML
@@ -18,14 +21,18 @@ public class WaiterPendingDeliveryNavbarController {
     @FXML
     private Button pendingDeliveryButton;
 
+    /**
+     * This initializes the controller for the fxml.
+     *
+     * @throws URISyntaxException // TODO
+     */
     public void initialize() throws URISyntaxException {
 
-        ImageLoader.setUpGraphicButton(homeButton, 25, 25,
-                "undo");
+        ImageLoader.setUpGraphicButton(homeButton,
+                25, 25, "undo");
 
         ImageLoader.setUpGraphicButton(pendingDeliveryButton,
-                25, 25,
-                "delivery");
+                25, 25, "delivery");
 
         homeButton.setOnMousePressed(e -> {
             WaiterView.waiterMainCounterController.refreshMainCounter();
@@ -40,9 +47,5 @@ public class WaiterPendingDeliveryNavbarController {
             WaiterScenesMap.getWaiterStage().setScene(WaiterScenesMap
                     .getScenes().get(WaiterMapsMain.DELIVERY));
         });
-
-
     }
-
-
 }

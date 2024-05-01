@@ -17,24 +17,33 @@ public class TakeawayOrder extends Order implements NotifyAction {
      * The constructor to initiate a takeaway order with empty basket.
      *
      * @param orderId   - the unique id.
-     * @param customer  - the customer who is making the order.
+     * @param customer  - the customer who made the order.
      * @param orderDate - the date of the order.
      * @param orderTime - the time of the order.
      */
     public TakeawayOrder(int orderId, Customer customer, LocalDate orderDate,
                          LocalTime orderTime) {
-        super(orderId, customer, orderDate, orderTime, "takeaway", "pending-kitchen");
-        // TODO review this is needed or not
-        // Default 30 mins for now - restaurant policy to prepare within 30
-        // mins.
-//        estimatedPickupTime = orderTime.plusMinutes(30);
+        super(orderId, customer, orderDate, orderTime,
+                "takeaway", "pending-kitchen");
     }
 
-    // TODO comment to get updated data
+    /**
+     * This constructor creates a takeaway order with updated date from
+     * database.
+     *
+     * @param orderId             - the unique id.
+     * @param customer            - the customer who made the order.
+     * @param orderDate           - the date of the order.
+     * @param orderTime           - the time of the order.
+     * @param estimatedPickupTime - the estimated pickup time.
+     * @param orderStatus         - the order status.
+     * @param orderedList         - the list of items ordered.
+     */
     public TakeawayOrder(int orderId, Customer customer, LocalDate orderDate,
                          LocalTime orderTime, LocalTime estimatedPickupTime,
                          String orderStatus, List<FoodDrink> orderedList) {
-        super(orderId, customer, orderDate, orderTime, "takeaway", orderStatus, orderedList);
+        super(orderId, customer, orderDate, orderTime,
+                "takeaway", orderStatus, orderedList);
         this.estimatedPickupTime = estimatedPickupTime;
     }
 
@@ -84,7 +93,9 @@ public class TakeawayOrder extends Order implements NotifyAction {
         return LocalTime.now().plusMinutes(addTimeInMinutes);
     }
 
-    // TODO comment
+    /**
+     * This method sets the estimated time for the customer to pick-up.
+     */
     public void setEstimatedPickupTime() {
         estimatedPickupTime = newEstimatedPickupTime(30);
     }
@@ -98,12 +109,20 @@ public class TakeawayOrder extends Order implements NotifyAction {
         return estimatedPickupTime;
     }
 
-    // TODO comment
+    /**
+     * This method gets the pickup time in hh:mm a format.
+     *
+     * @return the pickup time in the desired format.
+     */
     public String getPickupTimeInFormat() {
         return estimatedPickupTime.format(DateTimeFormatter.ofPattern("hh:mm a"));
     }
 
-    // TODO comment
+    /**
+     * This method gets the order info for user to be notified.
+     *
+     * @return the string format of the order info.
+     */
     public String completeTakeawayOrderMessage() {
         return String.format(
                 "Your order no.%d is ready for pickup at %s.",
@@ -112,6 +131,13 @@ public class TakeawayOrder extends Order implements NotifyAction {
         );
     }
 
+    /**
+     * This method notifies the customer after an order status update.
+     *
+     * @param customer            - The customer to be notified.
+     * @param isSuccessfulRequest - successful request or not.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     @Override
     public void notifyCustomer(Customer customer,
                                boolean isSuccessfulRequest)

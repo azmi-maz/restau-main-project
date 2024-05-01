@@ -27,7 +27,10 @@ public class Kitchen {
             ));
 
     /**
-     * This constructor is default without any parameters.
+     * This constructor sets up the kitchen and updates its data
+     * from the database.
+     *
+     * @throws TextFileNotFoundException - if text file is non-existent
      */
     public Kitchen() throws TextFileNotFoundException {
 
@@ -60,7 +63,6 @@ public class Kitchen {
      * @return the list of pending orders.
      */
     public List<Order> getPendingOrderTickets() {
-        // To code
         return orderTickets;
     }
 
@@ -71,7 +73,6 @@ public class Kitchen {
      * @return true if the ticket was added successfully.
      */
     public boolean addNewOrderTicket(Order newOrder) {
-
         orderTickets.add(newOrder);
         return true;
     }
@@ -83,7 +84,6 @@ public class Kitchen {
      * @return the list of all orders made on that date.
      */
     public List<Order> getOrderListByDate(LocalDate searchDate) {
-        // to code
         return orderTickets;
     }
 
@@ -96,7 +96,6 @@ public class Kitchen {
      */
     public List<Order> getOrderListByDateRange(LocalDate dateFrom,
                                                LocalDate dateTo) {
-        // to code
         return orderTickets;
     }
 
@@ -109,10 +108,10 @@ public class Kitchen {
      * @return the list of orders made on a date and between two order time,
      * inclusive.
      */
-    public List<Order> getOrderListByDateAndTimeRange(LocalDate searchDate,
-                                                      LocalTime startTime,
-                                                      LocalTime endTime) {
-        // to code
+    public List<Order> getOrderListByDateAndTimeRange(
+            LocalDate searchDate,
+            LocalTime startTime,
+            LocalTime endTime) {
         return orderTickets;
     }
 
@@ -123,7 +122,6 @@ public class Kitchen {
      * @return - the list of orders matched by their status.
      */
     public List<Order> getOrderListByStatus(String searchStatus) {
-        // to code
         return orderTickets;
     }
 
@@ -134,7 +132,6 @@ public class Kitchen {
      * @return - the list of orders matched by their type.
      */
     public List<Order> getOrderListByOrderType(String searchType) {
-        // to code
         return orderTickets;
     }
 
@@ -145,8 +142,8 @@ public class Kitchen {
      * @param numberLimit - the number of items needed.
      * @return - the list of items most ordered in descending order.
      */
-    public List<FoodDrink> getDescendingListOfMostItemOrdered(int numberLimit) {
-        // to do
+    public List<FoodDrink> getDescendingListOfMostItemOrdered(
+            int numberLimit) {
         return null;
     }
 
@@ -157,8 +154,8 @@ public class Kitchen {
      * @param numberLimit - the number of items needed.
      * @return - the list of items least ordered in ascending order.
      */
-    public List<FoodDrink> getAscendingListOfLeastItemOrdered(int numberLimit) {
-        // to do
+    public List<FoodDrink> getAscendingListOfLeastItemOrdered(
+            int numberLimit) {
         return null;
     }
 
@@ -168,7 +165,6 @@ public class Kitchen {
      * @return the item the least popular ordered.
      */
     public FoodDrink getLeastPopularItemOrdered() {
-        // to do
         return null;
     }
 
@@ -179,7 +175,6 @@ public class Kitchen {
      * @return the most popular item ordered by its type.
      */
     public FoodDrink getMostPopularItemByType(String itemType) {
-        // to do
         return null;
     }
 
@@ -189,7 +184,6 @@ public class Kitchen {
      * @return the daily special item that was ordered the most.
      */
     public FoodDrink getItemAsTheMostDailySpecial() {
-        // to do
         return null;
     }
 
@@ -199,11 +193,18 @@ public class Kitchen {
      * @return the most active customer.
      */
     public Customer getTheMostActiveCustomer() {
-        // to do
         return null;
     }
 
-    // TODO
+    /**
+     * This method creates a new order made by a customer or waiter.
+     *
+     * @param orderType  - the type of order.
+     * @param customerId - the id of the customer.
+     * @param orderList  - the list of food/drink items in the order.
+     * @return the new order made.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public Order createNewOrder(
             String orderType,
             int customerId,
@@ -221,7 +222,11 @@ public class Kitchen {
         }
     }
 
-    // TODO
+    /**
+     * This method gets a unique id for a new order.
+     *
+     * @return - a unique id.
+     */
     public int getNewOrderId() {
 
         Order lastOrder = orderTickets.getLast();
@@ -230,7 +235,12 @@ public class Kitchen {
         return lastOrderId;
     }
 
-    // TODO
+    /**
+     * This method gets all order data from database.
+     *
+     * @return list of all the orders made.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public List<Order> getOrderDataFromDatabase()
             throws TextFileNotFoundException {
 
@@ -260,7 +270,16 @@ public class Kitchen {
 
     }
 
-    // TODO
+    /**
+     * This method gets an order from the data in string format.
+     *
+     * @param userManagement - the Class that handles customer information.
+     * @param menu           - the Class that gets the food/drink object
+     *                       from string.
+     * @param order          - the order data in string format.
+     * @return the order with updated data.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public Order getOrderFromString(
             UserManagement userManagement,
             Menu menu,
@@ -315,7 +334,8 @@ public class Kitchen {
             // orderedFoodDrinkLists
             String[] orderListArray =
                     orderDetails.get(DataFileStructure.getIndexByColName(
-                            "ORDERS", "orderedLists")).split(";");
+                                    "ORDERS", "orderedLists"))
+                            .split(";");
             List<FoodDrink> orderFoodDrinkList = new ArrayList<>();
             getMenuItemFromString(
                     menu,
@@ -360,7 +380,7 @@ public class Kitchen {
                 );
             }
 
-            // TODO
+            // Based on the order type, this creates different type accordingly.
             if (orderType.equalsIgnoreCase("delivery")) {
                 return new DeliveryOrder(
                         orderId,
@@ -403,7 +423,12 @@ public class Kitchen {
         }
     }
 
-    // TODO
+    /**
+     * This method gets the LocalDate from a given string.
+     *
+     * @param orderDate - the order date in string format.
+     * @return the LocalDate of that order date.
+     */
     public LocalDate getLocalDateFromString(
             String orderDate
     ) {
@@ -414,7 +439,12 @@ public class Kitchen {
                 Integer.parseInt(orderDateDetails.get(2)));
     }
 
-    // TODO
+    /**
+     * This method gets the LocalTime from a given string.
+     *
+     * @param orderTime - the order time in string format.
+     * @return the LocalTime of that order time.
+     */
     public LocalTime getLocalTimeFromString(
             String orderTime
     ) {
@@ -427,7 +457,13 @@ public class Kitchen {
         return null;
     }
 
-    // TODO
+    /**
+     * This method gets all the food/drink items from an array of strings.
+     *
+     * @param menu               - the Class that handles menu items.
+     * @param orderListArray     - the list of food/drink item strings.
+     * @param orderFoodDrinkList - the output list of food/drink items
+     */
     public void getMenuItemFromString(
             Menu menu,
             String[] orderListArray,
@@ -452,12 +488,19 @@ public class Kitchen {
         }
     }
 
-    // TODO
+    /**
+     * This method adds a new order to the database.
+     *
+     * @param newOrder - the new order made.
+     * @return true if the order was added successfully.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public boolean addOrderToDatabase(
             Order newOrder
     ) throws TextFileNotFoundException {
         String orderId = String.valueOf(newOrder.getOrderId());
-        String userId = String.valueOf(newOrder.getCustomer().getCustomerId());
+        String userId = String.valueOf(
+                newOrder.getCustomer().getCustomerId());
         String orderDate = newOrder.getOrderDate()
                 .format(DateTimeFormatter.ofPattern("yyyy-M-d"));
         String orderTime =
@@ -493,15 +536,16 @@ public class Kitchen {
         }
     }
 
-    // TODO comment
+    /**
+     * This method gets all the delivery orders pending for waiters approval.
+     *
+     * @param data - the table view list to be updated.
+     */
     public void getPendingApprovalOrderData(
             ObservableList<DeliveryOrder> data
     ) {
 
-        // TODO to filter
         for (Order order : orderTickets) {
-
-            // TODO
             if (isDeliveryOrderClass(order)
                     && order.getOrderStatus()
                     .equalsIgnoreCase("pending-approval")) {
@@ -510,7 +554,11 @@ public class Kitchen {
         }
     }
 
-    // TODO comment
+    /**
+     * This method gets all the pending orders for chef to cook and prepare.
+     *
+     * @param data - the table view list to be updated.
+     */
     public void getPendingKitchenOrderData(
             ObservableList<Order> data
     ) {
@@ -524,7 +572,13 @@ public class Kitchen {
 
     }
 
-    // TODO comment
+    /**
+     * This method gets all the pending delivery orders by driver id.
+     *
+     * @param userId - the id of the driver.
+     * @return all the pending delivery orders for the specific driver.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public List<DeliveryOrder> getPendingDeliveryDataByDriverId(
             int userId
     ) throws TextFileNotFoundException {
@@ -556,7 +610,14 @@ public class Kitchen {
         }
     }
 
-    // TODO comment
+    /**
+     * This method populates a table view list with all the pending delivery
+     * orders by driver id.
+     *
+     * @param data     - the table view list to be updated.
+     * @param driverId - the id of the driver.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public void getPendingDeliveryDataByDriverId(
             ObservableList<DeliveryOrder> data,
             int driverId
@@ -572,7 +633,8 @@ public class Kitchen {
                     if (driver != null) {
                         if (driver.getUserId() == driverId
                                 && deliveryOrder.getOrderStatus()
-                                .equalsIgnoreCase("pending-delivery")) {
+                                .equalsIgnoreCase(
+                                        "pending-delivery")) {
                             data.add(deliveryOrder);
                         }
                     }
@@ -585,17 +647,29 @@ public class Kitchen {
         }
     }
 
-    // TODO
+    /**
+     * This method checks if a class is a delivery order or not.
+     *
+     * @param order - the order being checked.
+     * @return true if the order is a delivery order.
+     */
     public boolean isDeliveryOrderClass(Order order) {
         Object classType = order.getClass();
-        String objectType = List.of(classType.toString().split("\\.")).getLast();
+        String objectType = List.of(classType.toString()
+                .split("\\.")).getLast();
         if (objectType.equalsIgnoreCase("deliveryorder")) {
             return true;
         }
         return false;
     }
 
-    // TODO comment
+    /**
+     * This method populates a table view list with all the orders made
+     * by a specific customer.
+     *
+     * @param data   - the table view list to be updated.
+     * @param userId - the id of the customer.
+     */
     public void getOrderDataByUserId(
             ObservableList<Order> data,
             int userId
@@ -610,7 +684,12 @@ public class Kitchen {
         }
     }
 
-    // TODO
+    /**
+     * This method populates a choice box with the order types for
+     * user to select from.
+     *
+     * @param choiceBox - the choice box to be updated.
+     */
     public void updateOrderTypeChoiceBox(
             ChoiceBox<String> choiceBox
     ) {
@@ -622,8 +701,7 @@ public class Kitchen {
     }
 
     /**
-     * This method formats address to transform any symbols compatible for
-     * users to read.
+     * This method formats address for users to read.
      *
      * @param address - the formatted address taken from database.
      * @return an address with the correct format.

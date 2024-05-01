@@ -7,11 +7,18 @@ import org.group.project.scenes.customer.stackViews.OrderDetailsController;
 
 import java.net.URISyntaxException;
 
+/**
+ * This class loads up the navigation bar in customer order details view.
+ */
 public class CustomerOrderDetailsNavbarController {
 
     @FXML
     private Button returnToMenuButton;
 
+    /**
+     * This initializes the controller for the fxml.
+     * @throws URISyntaxException // TODO
+     */
     public void initialize() throws URISyntaxException {
 
         ImageLoader.setUpGraphicButton(returnToMenuButton,

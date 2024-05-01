@@ -13,20 +13,33 @@ import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
 
+/**
+ * This class prepares the chef home page view scene.
+ */
 public class ChefView implements ViewMaker {
 
+    public static ChefHomepageController controller;
+    public static ChefOutstandingOrdersNavbarCounter
+            chefOutstandingOrdersNavbarCounterController;
     private Stage stage;
 
-    public static ChefHomepageController controller;
-
-    public static ChefOutstandingOrdersNavbarCounter chefOutstandingOrdersNavbarCounterController;
-
-    public ChefView(Stage stage) throws IOException {
+    /**
+     * This constructor sets up the stage from the main one.
+     *
+     * @param stage - the main stage.
+     */
+    public ChefView(Stage stage) {
 
         this.stage = stage;
 
     }
 
+    /**
+     * This method gets the chef home page view scene.
+     *
+     * @return the chef home page view scene.
+     * @throws IOException // TODO
+     */
     @Override
     public Scene getScene() throws IOException {
 
@@ -41,7 +54,8 @@ public class ChefView implements ViewMaker {
 
         VBox outstandingCounterBox = fxmlLoaderNavbar.load();
         borderPane.getChildren().add(outstandingCounterBox);
-        chefOutstandingOrdersNavbarCounterController = fxmlLoaderNavbar.getController();
+        chefOutstandingOrdersNavbarCounterController =
+                fxmlLoaderNavbar.getController();
 
         return new Scene(borderPane, WindowSize.MAIN.WIDTH,
                 WindowSize.MAIN.HEIGHT);

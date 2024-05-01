@@ -20,7 +20,7 @@
 20,1,2024-4-21,0-56,takeaway,false,Your order no.3 is ready for pickup at 01:26 AM.
 21,1,2024-4-21,0-57,delivery,false,Your order no.19 was delivered successfully. Enjoy your meal!
 22,1,2024-4-22,21-57,booking,false,Good news! Your table reservation for 12/02/2024 at 07:30 AM is now confirmed.
-23,1,2024-4-22,22-10,takeaway,false,Your order no.9 is ready for pickup at 10:40 PM.
+23,1,2024-4-22,22-10,takeaway,true,Your order no.9 is ready for pickup at 10:40 PM.
 24,2,2024-4-22,22-31,delivery,false,Your order no.2 was delivered successfully. Enjoy your meal!
 25,1,2024-4-22,22-31,delivery,false,Your order no.4 was delivered successfully. Enjoy your meal!
 26,1,2024-4-22,22-32,delivery,false,Your order no.8 was delivered successfully. Enjoy your meal!
@@ -68,3 +68,8 @@
 68,1,2024-4-28,21-50,delivery,false,Your order no.29 is on the way. Estimated time of delivery is 10:20 PM.
 69,1,2024-4-28,21-52,delivery,false,Your order no.30 is on the way. Estimated time of delivery is 10:22 PM.
 70,1,2024-4-29,23-34,takeaway,false,Your order no.3 is ready for pickup at 12:04 AM.
+71,10,2024-5-1,20-25,booking,false,Good news! Your table reservation for 19/04/2024 at 02:00 PM is now confirmed.
+72,1,2024-5-1,20-26,booking,false,We're terribly sorry! Unfortunately; your table reservation for 30/04/2024 at 10:30 AM is not successful.
+73,1,2024-5-1,20-26,delivery,false,Your order no.54 is on the way. Estimated time of delivery is 08:56 PM.
+74,1,2024-5-1,20-26,delivery,false,Your order no.53 is on the way. Estimated time of delivery is 08:56 PM.
+75,1,2024-5-1,20-27,delivery,false,Your order no.54 was delivered successfully. Enjoy your meal!

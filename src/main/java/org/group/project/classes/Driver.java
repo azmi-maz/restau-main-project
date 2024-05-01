@@ -9,22 +9,20 @@ import org.group.project.exceptions.TextFileNotFoundException;
  */
 public class Driver extends Staff {
 
-    private int driverId;
     private boolean isAvailable;
     private int maxDeliveries;
 
     /**
      * The constructor to create new driver
      *
-     * @param driverId  - the unique id.
      * @param firstName - the first name of the staff.
      * @param lastName  - the last name of the staff.
      * @param username  - the username chosen by the staff.
      */
-    public Driver(int driverId, String firstName, String lastName,
+    public Driver(String firstName,
+                  String lastName,
                   String username) {
         super(firstName, lastName, username, false);
-        this.driverId = driverId;
         this.isAvailable = true;
         this.maxDeliveries = 5;
     }
@@ -32,38 +30,23 @@ public class Driver extends Staff {
     /**
      * This constructor creates a driver from the database.
      *
-     * @param driverId              - the unique id.
      * @param firstName             - the first name of the staff.
      * @param lastName              - the last name of the staff.
      * @param username              - the username chosen by the staff.
      * @param hasAdminRight         - the right for admin access.
-     * @param numOfHoursToWork      - the number of hours remaining.
+     * @param numOfHoursToWork      - the number of work hours remaining.
      * @param numOfTotalHoursWorked - the total hours worked.
      * @param isAvailable           - the driver's availability.
      * @param maxDeliveries         - the max number of active deliveries.
      */
-    public Driver(int driverId, String firstName, String lastName,
+    public Driver(String firstName, String lastName,
                   String username, boolean hasAdminRight,
                   int numOfHoursToWork, int numOfTotalHoursWorked,
                   boolean isAvailable, int maxDeliveries) {
         super(firstName, lastName, username, hasAdminRight,
                 numOfHoursToWork, numOfTotalHoursWorked);
-        this.driverId = driverId;
         this.isAvailable = isAvailable;
         this.maxDeliveries = maxDeliveries;
-    }
-
-    /**
-     * This constructor creates a driver with basic info.
-     *
-     * @param firstName - the first name of the staff.
-     * @param lastName  - the last name of the staff.
-     * @param username  - the username chosen by the staff.
-     */
-    public Driver(String firstName, String lastName, String username) {
-        super(firstName, lastName, username, false);
-        this.isAvailable = true;
-        this.maxDeliveries = 5;
     }
 
     /**

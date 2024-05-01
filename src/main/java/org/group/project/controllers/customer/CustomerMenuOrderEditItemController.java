@@ -7,7 +7,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.group.project.Main;
 import org.group.project.classes.FoodDrink;
@@ -16,13 +15,13 @@ import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import java.net.URISyntaxException;
 import java.util.List;
 
+/**
+ * This class enables customer to edit the selected item in cart.
+ */
 public class CustomerMenuOrderEditItemController {
 
     @FXML
     private ImageView menuImage;
-
-    @FXML
-    private VBox imageBox;
 
     @FXML
     private Label itemNameLabel;
@@ -33,10 +32,6 @@ public class CustomerMenuOrderEditItemController {
     @FXML
     private BorderPane borderPane;
 
-    private String imageUrl;
-
-    private String itemName;
-
     @FXML
     private Button saveChangesButton;
 
@@ -46,6 +41,9 @@ public class CustomerMenuOrderEditItemController {
     @FXML
     private List<FoodDrink> mainList;
 
+    /**
+     * This initializes the controller for the fxml.
+     */
     public void initialize() {
 
         quantityTextField.setOnAction(e -> {
@@ -78,23 +76,39 @@ public class CustomerMenuOrderEditItemController {
 
     }
 
+    /**
+     * This method sets up the selected item details to be edited.
+     *
+     * @param imageUrl
+     * @param itemName
+     * @param mainList
+     * @throws URISyntaxException - if image uri did not work.
+     */
     public void setItemToEdit(String imageUrl, String itemName,
-                              List<FoodDrink> mainList) throws URISyntaxException {
-        menuImage.setImage(new Image(Main.class.getResource(imageUrl).toURI().toString()));
+                              List<FoodDrink> mainList)
+            throws URISyntaxException {
+        menuImage.setImage(new Image(Main.class.getResource(
+                imageUrl).toURI().toString()));
         // TODO fix the magic numbers
-        menuImage.fitHeightProperty().bind(borderPane.heightProperty().subtract(10).divide(1.5));
-        menuImage.fitWidthProperty().bind(borderPane.widthProperty().subtract(10).divide(1.5));
+        menuImage.fitHeightProperty().bind(borderPane.heightProperty()
+                .subtract(10).divide(1.5));
+        menuImage.fitWidthProperty().bind(borderPane.widthProperty()
+                .subtract(10).divide(1.5));
         menuImage.setPreserveRatio(true);
         itemNameLabel.setText(itemName);
         this.mainList = mainList;
         getCurrentQty(itemName);
     }
 
+    /**
+     * This method edits the selected item quantity.
+     *
+     * @param itemName - the selected item name.
+     */
     public void editItem(String itemName) {
 
         String menuItemName = itemName.toLowerCase();
 
-        // TODO handle not integer value and negative integer
         int itemQuantity = Integer.parseInt(quantityTextField.getText());
 
         FoodDrink tempItem = null;
@@ -115,15 +129,12 @@ public class CustomerMenuOrderEditItemController {
         closeWindow();
     }
 
-    /**
-     * Close the window.
-     */
     private void closeWindow() {
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.close();
     }
 
-    // TODO this updates the quantity field to the current value
+    // This updates the quantity field to the current quantity.
     private void getCurrentQty(String itemName) {
 
         for (FoodDrink foodItem : mainList) {

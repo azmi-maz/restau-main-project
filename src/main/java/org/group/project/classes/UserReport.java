@@ -44,11 +44,16 @@ public class UserReport extends Report {
         }
     }
 
-    // TODO
+    /**
+     * This method prepares the user report data.
+     *
+     * @return the main message of the report.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public String prepareReportData()
             throws TextFileNotFoundException {
 
-        UserManagement userManagement = null;
+        UserManagement userManagement;
         try {
             userManagement = new UserManagement();
         } catch (TextFileNotFoundException e) {
@@ -88,7 +93,8 @@ public class UserReport extends Report {
 
         String mostWorkedHoursStaffUsername = "";
         int numOfHoursWorked = 0;
-        for (Map.Entry<String, Integer> entry : staffHoursWorkedMap.entrySet()) {
+        for (Map.Entry<String, Integer> entry :
+                staffHoursWorkedMap.entrySet()) {
             String currentStaffUsername = entry.getKey();
             int currentStaffCummulativeHours = entry.getValue();
             if (numOfHoursWorked < currentStaffCummulativeHours) {
@@ -118,14 +124,23 @@ public class UserReport extends Report {
                 numOfHoursWorked
         );
 
-        String finalUserReport = addTheRemainingStaff(mostWorkedHoursStaffReport,
+        String finalUserReport = addTheRemainingStaff(
+                mostWorkedHoursStaffReport,
                 mostWorkedHoursStaffUsername,
                 staffList);
 
         return finalUserReport;
     }
 
-    // TODO
+    /**
+     * This method reports the remaining staff details to the main report.
+     *
+     * @param mainReport           - the report to be updated.
+     * @param excludeStaffUsername - the staff to exclude to prevent
+     *                             duplication.
+     * @param staffList            - the list of staff to search from.
+     * @return the string of modified report with all staff details added.
+     */
     public String addTheRemainingStaff(String mainReport,
                                        String excludeStaffUsername,
                                        List<Staff> staffList) {
@@ -147,8 +162,8 @@ public class UserReport extends Report {
                     && !staffPosition.equalsIgnoreCase("manager")) {
                 if (numOfHoursWorked > 30) {
                     String goodStaffWorkReport = String.format(
-                            "%s, %s, put in a solid %d hours of work this week. " +
-                                    "There are still %d hours left.",
+                            "%s, %s, put in a solid %d hours of work this " +
+                                    "week. There are still %d hours left.",
                             fullName, staffPosition,
                             numOfHoursWorked, numOfHoursToWork
                     );
@@ -163,9 +178,9 @@ public class UserReport extends Report {
                     mainReport += averageStaffWorkReport;
                 } else {
                     String underworkedStaffWorkReport = String.format(
-                            "%s, %s, only managed to work %d hours this week. " +
-                                    "You should probably check in on them " +
-                                    "and see how they're doing.",
+                            "%s, %s, only managed to work %d hours this " +
+                                    "week. You should probably check in on " +
+                                    "them and see how they're doing.",
                             fullName, staffPosition, numOfHoursWorked
                     );
                     mainReport += underworkedStaffWorkReport;

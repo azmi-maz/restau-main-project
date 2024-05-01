@@ -14,6 +14,9 @@ import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.ImageLoader;
 import org.group.project.exceptions.TextFileNotFoundException;
 
+/**
+ * This class allows the manager to view the selected staff details.
+ */
 public class ManagerStaffManagementDetailsController {
 
     @FXML
@@ -54,6 +57,9 @@ public class ManagerStaffManagementDetailsController {
     private static final int MAX_STAFF_HOURS = 44;
     private static final int MIN_STAFF_HOURS = 0;
 
+    /**
+     * This initializes the controller for the fxml.
+     */
     public void initialize() {
 
         setTextFieldToDisabled();
@@ -137,6 +143,12 @@ public class ManagerStaffManagementDetailsController {
 
     }
 
+    /**
+     * This method populates the selected staff details.
+     *
+     * @param userId - the selected staff user id.
+     * @param staff  - the selected staff.
+     */
     public void setStaffDetails(
             String userId,
             Staff staff
@@ -177,7 +189,7 @@ public class ManagerStaffManagementDetailsController {
         setButtonVisibility();
     }
 
-    public void incrementHoursLeft() {
+    private void incrementHoursLeft() {
         int currentHour = Integer.parseInt(hoursLeftTextField.getText());
         currentHour++;
         hoursLeftTextField.setText(String.valueOf(currentHour));
@@ -189,7 +201,7 @@ public class ManagerStaffManagementDetailsController {
                 currentTotalHoursWorked));
     }
 
-    public void decrementHoursLeft() {
+    private void decrementHoursLeft() {
         int currentHour = Integer.parseInt(hoursLeftTextField.getText());
         currentHour--;
         hoursLeftTextField.setText(String.valueOf(currentHour));
@@ -201,7 +213,7 @@ public class ManagerStaffManagementDetailsController {
                 currentTotalHoursWorked));
     }
 
-    public void setButtonVisibility() {
+    private void setButtonVisibility() {
         int currentHour = Integer.parseInt(hoursLeftTextField.getText());
         if (currentHour == MAX_STAFF_HOURS) {
             incrementHoursLeftButton.setVisible(false);
@@ -216,7 +228,7 @@ public class ManagerStaffManagementDetailsController {
         }
     }
 
-    public void setTextFieldToDisabled() {
+    private void setTextFieldToDisabled() {
         hoursLeftTextField.setOnMousePressed(e -> {
             hoursLeftTextField.setDisable(true);
         });

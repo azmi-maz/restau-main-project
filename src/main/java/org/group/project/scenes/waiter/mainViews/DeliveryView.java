@@ -13,19 +13,31 @@ import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
 
+/**
+ * This class prepares the waiter pending delivery orders view scene.
+ */
 public class DeliveryView implements ViewMaker {
 
+    public static WaiterApproveDeliveryViewController controller;
+    public static WaiterBookingNavbarCounter waiterBookingCounterController;
     private Stage stage;
 
-    public static WaiterApproveDeliveryViewController controller;
-
-    public static WaiterBookingNavbarCounter waiterBookingCounterController;
-
+    /**
+     * This constructor sets up the stage from the main one.
+     *
+     * @param stage - the main stage.
+     */
     public DeliveryView(Stage stage) {
 
         this.stage = stage;
     }
 
+    /**
+     * This method gets the waiter pending delivery orders view scene.
+     *
+     * @return the waiter pending delivery orders view scene.
+     * @throws IOException // TODO
+     */
     @Override
     public Scene getScene() throws IOException {
 

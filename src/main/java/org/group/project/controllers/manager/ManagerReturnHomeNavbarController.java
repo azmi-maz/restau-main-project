@@ -8,11 +8,18 @@ import org.group.project.scenes.manager.ManagerScenesMap;
 
 import java.net.URISyntaxException;
 
+/**
+ * This class loads up the return to home navigation bar for manager.
+ */
 public class ManagerReturnHomeNavbarController {
 
     @FXML
     private Button homeButton;
 
+    /**
+     * This initializes the controller for the fxml.
+     * @throws URISyntaxException // TODO
+     */
     public void initialize() throws URISyntaxException {
 
         ImageLoader.setUpGraphicButton(homeButton,

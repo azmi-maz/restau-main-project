@@ -29,6 +29,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Optional;
 
+/**
+ * This class allows the customer to view the booking history.
+ */
 public class CustomerBookingsHistoryViewController {
 
     @FXML
@@ -74,6 +77,11 @@ public class CustomerBookingsHistoryViewController {
 
     private int userId;
 
+    /**
+     * This initializes the controller for the fxml.
+     *
+     * @throws URISyntaxException - the image uri did not work.
+     */
     public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
@@ -190,7 +198,7 @@ public class CustomerBookingsHistoryViewController {
 
                     Stage editStage = new Stage();
                     editStage.setScene(editScene);
-                    // TODO Should final variable this
+
                     editStage.setTitle("Edit Table Reservation");
 
                     editStage.initModality(Modality.APPLICATION_MODAL);
@@ -219,7 +227,7 @@ public class CustomerBookingsHistoryViewController {
                     15, 15, "delete");
             Booking selectedBooking = cellData.getValue();
 
-            // TODO comment - delete the reservation and refresh list
+            // Deletes the selected reservation and refresh list.
             deleteButton.setOnMousePressed(e -> {
                 Customer customer = (Customer) Main.getCurrentUser();
 
@@ -287,7 +295,7 @@ public class CustomerBookingsHistoryViewController {
 
                 Stage editStage = new Stage();
                 editStage.setScene(editScene);
-                // TODO Should final variable this
+
                 editStage.setTitle("New Reservation Request");
 
                 editStage.initModality(Modality.APPLICATION_MODAL);
@@ -307,12 +315,14 @@ public class CustomerBookingsHistoryViewController {
 
     }
 
-    // TODO comment
+    /**
+     * This method refreshes the table list of table reservations.
+     */
     public void refreshReservationList() {
 
         updateUserId();
 
-        // TODO comment that this clears up the list everytime it refresh
+        // This clears up the list everytime it refreshes.
         reservationTable.getItems().clear();
         data.clear();
 
@@ -334,7 +344,7 @@ public class CustomerBookingsHistoryViewController {
 
     }
 
-    public Optional<ButtonType> promptForUserAcknowledgement() {
+    private Optional<ButtonType> promptForUserAcknowledgement() {
         return AlertPopUpWindow.displayConfirmationWindow(
                 "Cancel Table Reservation Request",
                 "Do you want to cancel this reservation?"

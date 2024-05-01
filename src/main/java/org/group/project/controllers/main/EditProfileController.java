@@ -15,6 +15,9 @@ import org.group.project.exceptions.ClearFileFailedException;
 import org.group.project.exceptions.TextFileNotFoundException;
 import org.group.project.scenes.MainScenes;
 
+/**
+ * This class allows users to edit their profile details.
+ */
 public class EditProfileController {
 
     @FXML
@@ -43,6 +46,9 @@ public class EditProfileController {
     @FXML
     private Button returnButton;
 
+    /**
+     * This initializes the controller for the fxml.
+     */
     public void initialize() {
 
 
@@ -138,6 +144,9 @@ public class EditProfileController {
 
     }
 
+    /**
+     * This method populates the current user details.
+     */
     public void populateUserDetails() {
 
         UserManagement userManagement = null;

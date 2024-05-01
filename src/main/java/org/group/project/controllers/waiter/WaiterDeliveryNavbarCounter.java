@@ -10,6 +10,9 @@ import org.group.project.exceptions.TextFileNotFoundException;
 
 import java.util.List;
 
+/**
+ * This class loads up the counter of pending delivery orders for approval.
+ */
 public class WaiterDeliveryNavbarCounter {
 
     @FXML
@@ -21,6 +24,9 @@ public class WaiterDeliveryNavbarCounter {
     @FXML
     private Label deliveryCounter2;
 
+    /**
+     * This refreshes the pending delivery order counter.
+     */
     public void refreshDeliveryCounter() {
 
         int newCounter = 0;

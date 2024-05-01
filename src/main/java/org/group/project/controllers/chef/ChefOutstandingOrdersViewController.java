@@ -19,6 +19,9 @@ import org.group.project.exceptions.TextFileNotFoundException;
 import java.net.URISyntaxException;
 import java.util.Optional;
 
+/**
+ * This class loads up the outstanding orders view for chef.
+ */
 public class ChefOutstandingOrdersViewController {
 
     @FXML
@@ -53,7 +56,11 @@ public class ChefOutstandingOrdersViewController {
     private ObservableList<Order> data =
             FXCollections.observableArrayList();
 
-    // TODO comment
+    /**
+     * This initializes the controller for the fxml.
+     *
+     * @throws URISyntaxException - the image uri did not work.
+     */
     public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
@@ -180,7 +187,9 @@ public class ChefOutstandingOrdersViewController {
         outstandingOrdersTable.setItems(data);
     }
 
-    // TODO comment
+    /**
+     * This method refreshes the outstanding orders list.
+     */
     public void refreshOutstandingOrdersList() {
 
         // TODO comment
@@ -201,8 +210,7 @@ public class ChefOutstandingOrdersViewController {
         }
     }
 
-    // TODO make this private or send it up to AlertType class
-    public Optional<ButtonType> promptForUserAcknowledgement(
+    private Optional<ButtonType> promptForUserAcknowledgement(
             String header,
             String message
     ) {

@@ -30,7 +30,12 @@ public class ReportManager {
                     "Staff worked hours"
             ));
 
-    // TODO
+    /**
+     * This constructor sets up the report manager and updates its data
+     * from the database.
+     *
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public ReportManager() throws TextFileNotFoundException {
 
         reportList = new ArrayList<>();
@@ -43,7 +48,12 @@ public class ReportManager {
         }
     }
 
-    // TODO
+    /**
+     * This method gets all the reports from the database.
+     *
+     * @return - the list of reports.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public List<Report> getReportDataFromDatabase()
             throws TextFileNotFoundException {
 
@@ -69,7 +79,14 @@ public class ReportManager {
         }
     }
 
-    // TODO
+    /**
+     * This method gets the report from report data string.
+     *
+     * @param userManagement - the Class to get the user info.
+     * @param report         - the report data string.
+     * @return the report object with updated data.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public Report getReportFromString(
             UserManagement userManagement,
             String report
@@ -129,7 +146,12 @@ public class ReportManager {
         }
     }
 
-    // TODO
+    /**
+     * This method gets LocalDate from a date string.
+     *
+     * @param reportDate - the report date string.
+     * @return the LocalDate of the report date.
+     */
     public LocalDate getLocalDateFromString(
             String reportDate
     ) {
@@ -140,7 +162,12 @@ public class ReportManager {
                 Integer.parseInt(reportDateDetails.get(2)));
     }
 
-    // TODO
+    /**
+     * This method gets LocalTime from a time string.
+     *
+     * @param reportTime - the report time string.
+     * @return the LocalTime of the report time.
+     */
     public LocalTime getLocalTimeFromString(
             String reportTime
     ) {
@@ -153,7 +180,12 @@ public class ReportManager {
         return null;
     }
 
-    // TODO
+    /**
+     * This method adds a new report to the database.
+     *
+     * @param newReport - the new report to be added.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public void addReportToDatabase(
             Report newReport
     ) throws TextFileNotFoundException {
@@ -186,7 +218,11 @@ public class ReportManager {
         }
     }
 
-    // TODO
+    /**
+     * This method populates a list view with all the generated reports.
+     *
+     * @param generatedReportList - the list view to be updated.
+     */
     public void updateReportList(
             ListView<Report> generatedReportList
     ) {
@@ -198,7 +234,13 @@ public class ReportManager {
         }
     }
 
-    // TODO
+    /**
+     * This method gets the most popular item kitchen report.
+     *
+     * @param currentUser - the user who generates the report.
+     * @return the kitchen report.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public KitchenReport getMostPopularItemReport(
             User currentUser
     ) throws TextFileNotFoundException {
@@ -216,6 +258,13 @@ public class ReportManager {
         }
     }
 
+    /**
+     * This method gets the busiest period floor report.
+     *
+     * @param currentUser - the user who generates the report.
+     * @return the floor report.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public FloorReport getBusiestPeriodReport(
             User currentUser
     ) throws TextFileNotFoundException {
@@ -233,14 +282,20 @@ public class ReportManager {
         }
     }
 
+    /**
+     * This method gets the most active customer floor report.
+     *
+     * @param currentUser - the use who generates the report.
+     * @return the combined report.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public Report getMostActiveCustomerReport(
             User currentUser
     ) throws TextFileNotFoundException {
 
         try {
 
-            FloorReport mostActive = null;
-            mostActive = new FloorReport(
+            FloorReport mostActive = new FloorReport(
                     "Most active customer",
                     currentUser
             );
@@ -259,6 +314,13 @@ public class ReportManager {
         }
     }
 
+    /**
+     * This method gets the staff worked hours user report.
+     *
+     * @param currentUser - the user who generates the report.
+     * @return the user report.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public UserReport getStaffWorkedHoursReport(
             User currentUser
     ) throws TextFileNotFoundException {
@@ -275,6 +337,13 @@ public class ReportManager {
         }
     }
 
+    /**
+     * This method gets the outstanding order kitchen report.
+     *
+     * @param currentUser - the user who generates the report.
+     * @return the kitchen report.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public KitchenReport getOutstandingOrdersReport(
             User currentUser
     ) throws TextFileNotFoundException {
@@ -292,7 +361,12 @@ public class ReportManager {
         }
     }
 
-    // TODO
+    /**
+     * This method populates a choice box with report types for user to select
+     * from.
+     *
+     * @param choiceBox - the choice box to be updated.
+     */
     public void updateReportTypeChoiceBox(
             ChoiceBox<String> choiceBox
     ) {

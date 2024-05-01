@@ -25,6 +25,9 @@ import org.group.project.scenes.WindowSize;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+/**
+ * This class enables the driver to view their pending delivery orders.
+ */
 public class DriverPendingDeliveryViewController {
 
     @FXML
@@ -52,6 +55,11 @@ public class DriverPendingDeliveryViewController {
     private ObservableList<DeliveryOrder> data =
             FXCollections.observableArrayList();
 
+    /**
+     * This initializes the controller for the fxml.
+     *
+     * @throws URISyntaxException // TODO
+     */
     public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
@@ -106,7 +114,6 @@ public class DriverPendingDeliveryViewController {
         actionButtonColumn.setStyle("-fx-alignment: CENTER;");
         actionButtonColumn.setCellValueFactory(cellData -> {
             Button viewButton = new Button();
-            // TODO use tool tips for other buttons, where necessary
             viewButton.setTooltip(new Tooltip("View details"));
             ImageLoader.setUpGraphicButton(viewButton,
                     15, 15, "view-details");
@@ -136,7 +143,7 @@ public class DriverPendingDeliveryViewController {
 
                     Stage editStage = new Stage();
                     editStage.setScene(editScene);
-                    // TODO Should final variable this
+
                     editStage.setTitle("View Order Details");
 
                     editStage.initModality(Modality.APPLICATION_MODAL);
@@ -162,12 +169,13 @@ public class DriverPendingDeliveryViewController {
 
     }
 
-    // TODO comment
+    /**
+     * This method refreshes the table of pending delivery orders.
+     */
     public void refreshPendingDeliveryList() {
 
         updateUserId();
 
-        // TODO comment
         pendingDeliveryTable.getItems().clear();
         data.clear();
 

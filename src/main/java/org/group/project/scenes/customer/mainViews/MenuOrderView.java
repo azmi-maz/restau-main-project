@@ -15,6 +15,11 @@ public class MenuOrderView implements ViewMaker {
     private MenuPresenter menuPresenter;
 
 
+    /**
+     * This constructor sets up the stage from the main one.
+     *
+     * @param stage - the main stage.
+     */
     public MenuOrderView(Stage stage) {
 
         manager = new StackManager(stage);

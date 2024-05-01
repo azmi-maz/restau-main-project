@@ -22,7 +22,16 @@ public class Waiter extends Staff {
         super(firstName, lastName, username, false);
     }
 
-    // TODO
+    /**
+     * This constructor creates a waiter with updated data from database.
+     *
+     * @param firstName             - the first name of the staff.
+     * @param lastName              - the last name of the staff.
+     * @param username              - the username chosen by the staff.
+     * @param hasAdminRight         - the right to admin access.
+     * @param numOfHoursToWork      - the number of work hours remaining.
+     * @param numOfTotalHoursWorked - the total number of hours worked.
+     */
     public Waiter(String firstName, String lastName, String username,
                   boolean hasAdminRight, int numOfHoursToWork,
                   int numOfTotalHoursWorked) {
@@ -55,7 +64,14 @@ public class Waiter extends Staff {
         }
     }
 
-    // TODO
+    /**
+     * This method cancels a table reservation made by customer.
+     *
+     * @param booking  - the selected table reservation to be cancelled.
+     * @param customer - the customer who made the booking.
+     * @return true if the cancellation was done successfully.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public boolean cancelTableReservation(
             Booking booking,
             Customer customer) throws TextFileNotFoundException {
@@ -137,7 +153,13 @@ public class Waiter extends Staff {
         }
     }
 
-    // TODO
+    /**
+     * This method cancels a delivery order.
+     *
+     * @param deliveryOrder - the selected delivery order to cancel.
+     * @return true if the cancellation was made successfully.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public boolean cancelDeliveryOrder(
             DeliveryOrder deliveryOrder)
             throws TextFileNotFoundException {

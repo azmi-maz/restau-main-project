@@ -10,11 +10,16 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.group.project.Main;
 import org.group.project.classes.FoodDrink;
+import org.group.project.classes.Menu;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.exceptions.TextFileNotFoundException;
 
 import java.net.URISyntaxException;
 import java.util.List;
 
+/**
+ * This class enables the customer to add item to their cart.
+ */
 public class CustomerMenuOrderAddItemController {
 
     @FXML
@@ -29,10 +34,6 @@ public class CustomerMenuOrderAddItemController {
     @FXML
     private BorderPane borderPane;
 
-    private String imageUrl;
-
-    private String itemName;
-
     @FXML
     private Button addItemButton;
 
@@ -42,6 +43,9 @@ public class CustomerMenuOrderAddItemController {
     @FXML
     private List<FoodDrink> mainList;
 
+    /**
+     * This initializes the controller for the fxml.
+     */
     public void initialize() {
 
         quantityTextField.setOnAction(e -> {
@@ -74,25 +78,53 @@ public class CustomerMenuOrderAddItemController {
 
     }
 
+    /**
+     * This sets up the item details to be added to cart.
+     *
+     * @param imageUrl - the image file name of the selected item.
+     * @param itemName - the selected item name.
+     * @param mainList - the list of food/drink items ordered.
+     * @throws URISyntaxException - the image uri did not work.
+     */
     public void setItemToEdit(String imageUrl, String itemName,
-                              List<FoodDrink> mainList) throws URISyntaxException {
-        menuImage.setImage(new Image(Main.class.getResource(imageUrl).toURI().toString()));
-        // TODO fix the magic numbers
-        menuImage.fitHeightProperty().bind(borderPane.heightProperty().subtract(10).divide(1.5));
-        menuImage.fitWidthProperty().bind(borderPane.widthProperty().subtract(10).divide(1.5));
+                              List<FoodDrink> mainList)
+            throws URISyntaxException {
+        menuImage.setImage(new Image(Main.class.getResource(
+                imageUrl).toURI().toString()));
+
+        menuImage.fitHeightProperty().bind(borderPane.heightProperty()
+                .subtract(10).divide(1.5));
+        menuImage.fitWidthProperty().bind(borderPane.widthProperty()
+                .subtract(10).divide(1.5));
         menuImage.setPreserveRatio(true);
         itemNameLabel.setText(itemName);
         this.mainList = mainList;
     }
 
+    /**
+     * This method is used to add item to the customer cart.
+     *
+     * @param itemName - the item name to be added.
+     */
     public void addNewItem(String itemName) {
 
         String menuItemName = itemName.toLowerCase();
-        // TODO need to retrieve type from database
-        String itemType = "food";
-        int itemQuantity = Integer.parseInt(quantityTextField.getText());
 
-        // TODO handle not integer value and negative integer
+        String itemType = "";
+        try {
+
+            Menu menu = new Menu();
+            itemType = menu.findTypeByItemName(menuItemName);
+
+        } catch (TextFileNotFoundException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
+
+        int itemQuantity = Integer.parseInt(quantityTextField.getText());
 
         boolean isNewItem = true;
         for (FoodDrink foodItem : mainList) {
@@ -105,7 +137,8 @@ public class CustomerMenuOrderAddItemController {
         }
 
         if (isNewItem) {
-            FoodDrink newItem = new FoodDrink(menuItemName, itemType, 1);
+            FoodDrink newItem = new FoodDrink(menuItemName,
+                    itemType, 1);
             if (itemQuantity > 1) {
                 for (int i = 1; i < itemQuantity; i++) {
                     newItem.incrementQuantity();
@@ -117,18 +150,9 @@ public class CustomerMenuOrderAddItemController {
         closeWindow();
     }
 
-    /**
-     * Close the window.
-     */
     private void closeWindow() {
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.close();
-    }
-
-    public void onChange() {
-        // TODO do the error check here for wrong numberformaterror add Alert
-        //  here
-//        System.out.println("Quantity Field changed to " + quantityTextField.getText());
     }
 
 

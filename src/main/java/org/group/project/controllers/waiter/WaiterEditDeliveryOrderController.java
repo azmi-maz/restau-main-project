@@ -11,6 +11,9 @@ import org.group.project.classes.*;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.exceptions.TextFileNotFoundException;
 
+/**
+ * This class enables the waiter to assign driver and approve a delivery order.
+ */
 public class WaiterEditDeliveryOrderController {
 
     @FXML
@@ -45,11 +48,13 @@ public class WaiterEditDeliveryOrderController {
 
     private DeliveryOrder currentOrder;
 
+    /**
+     * This initializes the controller for the fxml.
+     */
     public void initialize() {
 
         setTextFieldToDisabled();
 
-        // TODO comment
         try {
 
             UserManagement userManagement = new UserManagement();
@@ -104,6 +109,11 @@ public class WaiterEditDeliveryOrderController {
 
     }
 
+    /**
+     * This method populates the selected delivery order details.
+     *
+     * @param deliveryOrder - the selected delivery order.
+     */
     public void populateOrderDetails(
             DeliveryOrder deliveryOrder
     ) {
@@ -124,7 +134,8 @@ public class WaiterEditDeliveryOrderController {
         orderStatusTextField.setText(currentOrder.getOrderStatus());
 
         if (currentOrder.getDeliveryTime() != null) {
-            deliveryTimeTextField.setText(currentOrder.getDeliveryTimeInFormat());
+            deliveryTimeTextField.setText(
+                    currentOrder.getDeliveryTimeInFormat());
         } else {
             deliveryTimeTextField.setText("");
         }
@@ -132,9 +143,8 @@ public class WaiterEditDeliveryOrderController {
         assignedDriverComboBox.setPromptText("Select driver");
     }
 
-
-    // TODO comment
-    public void setTextFieldToDisabled() {
+    // This disables the text fields so waiter does not edit them.
+    private void setTextFieldToDisabled() {
         customerIdTextField.setOnMousePressed(e -> {
             customerIdTextField.setDisable(true);
         });
@@ -185,7 +195,7 @@ public class WaiterEditDeliveryOrderController {
 
     }
 
-    public void closeWindow() {
+    private void closeWindow() {
         Stage stage = (Stage) vbox.getScene().getWindow();
         stage.close();
     }

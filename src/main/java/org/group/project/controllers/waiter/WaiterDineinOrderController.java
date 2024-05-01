@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This class enables the waiter to serve a dine-in customer.
+ */
 public class WaiterDineinOrderController {
 
     @FXML
@@ -77,6 +80,11 @@ public class WaiterDineinOrderController {
     private ObservableList<FoodDrink> data =
             FXCollections.observableArrayList();
 
+    /**
+     * This initializes the controller for the fxml.
+     *
+     * @throws URISyntaxException // TODO
+     */
     public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
@@ -84,7 +92,8 @@ public class WaiterDineinOrderController {
                 ".jpg").toURI().toString());
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,
-                BackgroundSize.AUTO, false, false, true, true);
+                BackgroundSize.AUTO, false,
+                false, true, true);
 
         borderPane.setBackground(new Background(new BackgroundImage(bgImage,
                 BackgroundRepeat.NO_REPEAT,
@@ -111,7 +120,8 @@ public class WaiterDineinOrderController {
 
         updateCustomerChoiceBox();
 
-        ImageLoader.setUpGraphicButton(newItemButton, 15, 15, "circle-plus");
+        ImageLoader.setUpGraphicButton(newItemButton,
+                15, 15, "circle-plus");
 
         newItemButton.setOnAction(e -> {
 
@@ -123,7 +133,8 @@ public class WaiterDineinOrderController {
                 try {
                     FXMLLoader fxmlLoader =
                             new FXMLLoader(Main.class.getResource(
-                                    "smallwindows/add-dineinorder-item" +
+                                    "smallwindows/" +
+                                            "add-dineinorder-item" +
                                             ".fxml"));
 
                     VBox vbox = fxmlLoader.load();
@@ -141,7 +152,7 @@ public class WaiterDineinOrderController {
 
                     Stage editStage = new Stage();
                     editStage.setScene(editScene);
-                    // TODO Should final variable this
+
                     editStage.setTitle("Add Order Item");
 
                     editStage.initModality(Modality.APPLICATION_MODAL);
@@ -224,7 +235,8 @@ public class WaiterDineinOrderController {
         noColumn.setStyle("-fx-alignment: CENTER;");
         noColumn.setCellValueFactory(cellData -> {
             int index =
-                    cellData.getTableView().getItems().indexOf(cellData.getValue());
+                    cellData.getTableView().getItems().indexOf(
+                            cellData.getValue());
             index++;
             return new SimpleObjectProperty<>(index).asString();
         });
@@ -255,16 +267,20 @@ public class WaiterDineinOrderController {
         actionButtonColumn1.setStyle("-fx-alignment: CENTER;");
         actionButtonColumn1.setCellValueFactory(cellData -> {
             Button editButton = new Button();
-            ImageLoader.setUpGraphicButton(editButton, 15, 15, "edit");
-            String itemName = cellData.getValue().getItemNameForDisplay();
-            String itemQuantity = String.valueOf(cellData.getValue().getQuantity());
+            ImageLoader.setUpGraphicButton(editButton,
+                    15, 15, "edit");
+            String itemName = cellData.getValue()
+                    .getItemNameForDisplay();
+            String itemQuantity = String.valueOf(
+                    cellData.getValue().getQuantity());
 
             editButton.setOnAction(e -> {
 
                 try {
                     FXMLLoader fxmlLoader =
                             new FXMLLoader(Main.class.getResource(
-                                    "smallwindows/edit-dineinorder-item" +
+                                    "smallwindows/" +
+                                            "edit-dineinorder-item" +
                                             ".fxml"));
 
                     VBox vbox = fxmlLoader.load();
@@ -284,7 +300,7 @@ public class WaiterDineinOrderController {
 
                     Stage editStage = new Stage();
                     editStage.setScene(editScene);
-                    // TODO Should final variable this
+
                     editStage.setTitle("Edit Order Item");
 
                     editStage.initModality(Modality.APPLICATION_MODAL);
@@ -310,7 +326,8 @@ public class WaiterDineinOrderController {
         actionButtonColumn2.setStyle("-fx-alignment: CENTER;");
         actionButtonColumn2.setCellValueFactory(cellData -> {
             Button deleteButton = new Button();
-            ImageLoader.setUpGraphicButton(deleteButton, 15, 15, "delete");
+            ImageLoader.setUpGraphicButton(deleteButton,
+                    15, 15, "delete");
             String selectedItemName = cellData.getValue().getItemName();
             FoodDrink selectedItem = cellData.getValue();
 
@@ -318,7 +335,8 @@ public class WaiterDineinOrderController {
 
                 Optional<ButtonType> userChoice = promptForUserAcknowledgement(
                         "Delete Item",
-                        "Do you want to delete " + selectedItemName + "?"
+                        "Do you want to delete "
+                                + selectedItemName + "?"
                 );
 
                 if (userChoice.get()
@@ -342,7 +360,9 @@ public class WaiterDineinOrderController {
         orderDetailsTable.setItems(data);
     }
 
-    // TODO comment
+    /**
+     * This refreshes the table of items in the current order.
+     */
     public void refreshCustomerList() {
 
         try {
@@ -366,7 +386,6 @@ public class WaiterDineinOrderController {
         }
     }
 
-    // TODO comment
     private void updateCustomerChoiceBox() {
         if (customerList != null && !customerList.isEmpty()) {
             customerChoiceBox.getItems().clear();
@@ -376,7 +395,7 @@ public class WaiterDineinOrderController {
         }
     }
 
-    public Optional<ButtonType> promptForUserAcknowledgement(
+    private Optional<ButtonType> promptForUserAcknowledgement(
             String header,
             String message
     ) {
@@ -386,7 +405,7 @@ public class WaiterDineinOrderController {
         );
     }
 
-    public void promptOrderSuccessful() {
+    private void promptOrderSuccessful() {
         AlertPopUpWindow.displayInformationWindow(
                 "Order Successful",
                 "Thank you! Your request is being processed now.",
@@ -394,7 +413,7 @@ public class WaiterDineinOrderController {
         );
     }
 
-    public void deleteAllOrder() {
+    private void deleteAllOrder() {
 
         Optional<ButtonType> userChoice = promptForUserAcknowledgement(
                 "Cancel Order Request",

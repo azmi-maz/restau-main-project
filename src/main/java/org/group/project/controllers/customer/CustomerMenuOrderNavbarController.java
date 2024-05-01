@@ -8,6 +8,9 @@ import org.group.project.scenes.customer.CustomerMapsMain;
 import org.group.project.scenes.customer.CustomerScenesMap;
 import org.group.project.scenes.customer.stackViews.MenuController;
 
+/**
+ * This class loads up the customer navigation bar in menu page.
+ */
 public class CustomerMenuOrderNavbarController {
 
     @FXML
@@ -16,6 +19,9 @@ public class CustomerMenuOrderNavbarController {
     @FXML
     private Button cartButton;
 
+    /**
+     * This initializes the controller for the fxml.
+     */
     public void initialize() {
 
         ImageLoader.setUpGraphicButton(homeButton, 25, 25, "home");
@@ -36,7 +42,8 @@ public class CustomerMenuOrderNavbarController {
 
     }
 
-    public void promptOrderlistEmpty() {
+    // To inform the user that there are no items in the cart.
+    private void promptOrderlistEmpty() {
         AlertPopUpWindow.displayInformationWindow(
                 "Order Request",
                 "Your cart is empty. Please select at least one item.",

@@ -19,6 +19,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * This class allows the customer to add new booking.
+ */
 public class CustomerAddBookingController {
 
     @FXML
@@ -48,6 +51,9 @@ public class CustomerAddBookingController {
     @FXML
     private int userId;
 
+    /**
+     * This initializes the controller for the fxml.
+     */
     public void initialize() {
 
         reservationDatePicker.setOnAction(e -> {
@@ -104,7 +110,11 @@ public class CustomerAddBookingController {
         });
 
 
-        // TODO cite https://stackoverflow.com/questions/26831978/javafx-datepicker-getvalue-in-a-specific-format
+        /*
+         * To reformat the date picker to be in dd/mm/yyyy format
+         * Source: https://stackoverflow.com/questions/26831978/
+         * javafx-datepicker-getvalue-in-a-specific-format (April 2024)
+         */
         reservationDatePicker.setConverter(
                 new StringConverter<>() {
                     final DateTimeFormatter dateFormatter = DateTimeFormatter
@@ -124,7 +134,6 @@ public class CustomerAddBookingController {
                 });
 
         confirmButton.setOnAction(e -> {
-            // TODO set new value
 
             Customer customer = (Customer) Main.getCurrentUser();
 
@@ -189,11 +198,14 @@ public class CustomerAddBookingController {
         });
     }
 
-    // TODO checks and comment
+    /**
+     * This method sets up the user id of the customer.
+     *
+     * @param userId
+     */
     public void prepareNewBooking(int userId) {
         this.userId = userId;
     }
-
 
     private void closeWindow() {
         Stage stage = (Stage) vbox.getScene().getWindow();

@@ -15,6 +15,9 @@ import org.group.project.scenes.driver.mainViews.DeliveryView;
 
 import java.net.URISyntaxException;
 
+/**
+ * This class loads up the navigation bar for driver home page.
+ */
 public class DriverHomepageNavbarController {
 
     @FXML
@@ -29,6 +32,10 @@ public class DriverHomepageNavbarController {
     @FXML
     private Button logOffButton;
 
+    /**
+     * This initializes the controller for the fxml.
+     * @throws URISyntaxException // TODO
+     */
     public void initialize() throws URISyntaxException {
 
         ImageLoader.setUpGraphicButton(pendingDeliveriesButton,

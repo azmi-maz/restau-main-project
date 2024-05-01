@@ -9,8 +9,8 @@ import java.util.List;
  * @author azmi_maz
  */
 public class Table {
-    private String tableName;
-    private List<Seat> seats;
+    private final String tableName;
+    private final List<Seat> seats;
 
     /**
      * This constructor creates a table with a specified number of seats.
@@ -20,7 +20,7 @@ public class Table {
      */
     public Table(String tableName, int numOfSeats) {
         this.tableName = tableName;
-        this.seats = new ArrayList<Seat>();
+        this.seats = new ArrayList<>();
         for (int i = 0; i < numOfSeats; i++) {
             seats.add(new Seat());
         }
@@ -55,7 +55,7 @@ public class Table {
         if (seatsToBook == 0) {
             return false;
         }
-        int counter = 0;
+        int counter;
         if (seatsToBook >= seats.size()) {
             counter = seats.size();
         } else {
@@ -84,12 +84,10 @@ public class Table {
     public boolean isTableFullyBooked() {
         int seatsBooked = getNumberOfSeats();
         for (Seat seat : seats) {
-//            System.out.println("Is this seat available? " + seat.isAvailable());
             if (!seat.isAvailable()) {
                 seatsBooked--;
             }
         }
-//        System.out.println("seatsBooked: " + seatsBooked);
         if (seatsBooked == 0) {
             return true;
         }

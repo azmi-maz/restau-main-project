@@ -10,6 +10,9 @@ import org.group.project.exceptions.TextFileNotFoundException;
 
 import java.util.List;
 
+/**
+ * This class loads up the pending orders count for chef.
+ */
 public class ChefOutstandingOrdersNavbarCounter {
 
     @FXML
@@ -21,6 +24,9 @@ public class ChefOutstandingOrdersNavbarCounter {
     @FXML
     private Label outstandingCounter2;
 
+    /**
+     * This refreshes the counter when chef updates any outstanding orders.
+     */
     public void refreshOutstandingCounter() {
 
         int newCounter = 0;

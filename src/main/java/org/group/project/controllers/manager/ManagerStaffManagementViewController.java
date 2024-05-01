@@ -29,6 +29,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Optional;
 
+/**
+ * This class allows the manager to view staff list.
+ */
 public class ManagerStaffManagementViewController {
 
     @FXML
@@ -66,6 +69,11 @@ public class ManagerStaffManagementViewController {
     @FXML
     private Button addStaffButton;
 
+    /**
+     * This initializes the controller for the fxml.
+     *
+     * @throws URISyntaxException // TODO
+     */
     public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
@@ -166,7 +174,8 @@ public class ManagerStaffManagementViewController {
                     try {
                         FXMLLoader fxmlLoader =
                                 new FXMLLoader(Main.class.getResource(
-                                        "smallwindows/manager-edit-user" +
+                                        "smallwindows/" +
+                                                "manager-edit-user" +
                                                 ".fxml"));
 
                         VBox vbox = fxmlLoader.load();
@@ -185,7 +194,7 @@ public class ManagerStaffManagementViewController {
 
                         Stage editStage = new Stage();
                         editStage.setScene(editScene);
-                        // TODO Should final variable this
+
                         editStage.setTitle("Edit Details");
 
                         editStage.initModality(Modality.APPLICATION_MODAL);
@@ -243,7 +252,6 @@ public class ManagerStaffManagementViewController {
                 );
             }
 
-            // TODO comment
             int selectedUserId = searchUserId;
             deleteButton.setOnAction(e -> {
                 Manager manager = (Manager) Main.getCurrentUser();
@@ -301,7 +309,7 @@ public class ManagerStaffManagementViewController {
 
                 Stage editStage = new Stage();
                 editStage.setScene(editScene);
-                // TODO Should final variable this
+
                 editStage.setTitle("Add Staff");
 
                 editStage.initModality(Modality.APPLICATION_MODAL);
@@ -323,7 +331,7 @@ public class ManagerStaffManagementViewController {
 
     private void refreshStaffList() {
 
-        // TODO comment that this clears up the list everytime it refresh
+        // This clears up the list everytime it refreshes.
         staffListTable.getItems().clear();
         data.clear();
 
@@ -342,7 +350,7 @@ public class ManagerStaffManagementViewController {
 
     }
 
-    public Optional<ButtonType> promptForUserAcknowledgement(String user) {
+    private Optional<ButtonType> promptForUserAcknowledgement(String user) {
         return AlertPopUpWindow.displayConfirmationWindow(
                 "Delete User Request",
                 "Do you want to delete " + user + "?"

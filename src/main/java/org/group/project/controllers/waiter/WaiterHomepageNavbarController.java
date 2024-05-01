@@ -16,6 +16,9 @@ import org.group.project.scenes.waiter.mainViews.DineInView;
 
 import java.net.URISyntaxException;
 
+/**
+ * This class loads up the home page navigation bar for waiter.
+ */
 public class WaiterHomepageNavbarController {
 
     @FXML
@@ -33,29 +36,40 @@ public class WaiterHomepageNavbarController {
     @FXML
     private Button logOffButton;
 
+    /**
+     * This initializes the controller for the fxml.
+     *
+     * @throws URISyntaxException // TODO
+     */
     public void initialize() throws URISyntaxException {
 
-        ImageLoader.setUpGraphicButton(dineInOrderButton, 25, 25,
-                "menu");
+        ImageLoader.setUpGraphicButton(dineInOrderButton,
+                25, 25, "menu");
 
-        ImageLoader.setUpGraphicButton(pendingApprovalButton, 25, 25,
-                "pending");
+        ImageLoader.setUpGraphicButton(pendingApprovalButton,
+                25, 25, "pending");
 
-        ImageLoader.setUpGraphicButton(orderHistoryButton, 25, 25, "history");
+        ImageLoader.setUpGraphicButton(orderHistoryButton,
+                25, 25, "history");
 
-        ImageLoader.setUpGraphicButton(userButton, 25, 25, "user");
+        ImageLoader.setUpGraphicButton(userButton,
+                25, 25, "user");
 
-        ImageLoader.setUpGraphicButton(logOffButton, 25, 25, "power");
+        ImageLoader.setUpGraphicButton(logOffButton,
+                25, 25, "power");
 
         dineInOrderButton.setOnMousePressed(e -> {
             DineInView.controller.refreshCustomerList();
-            WaiterScenesMap.getWaiterStage().setScene(WaiterScenesMap.getScenes().get(WaiterMapsMain.DINEIN));
+            WaiterScenesMap.getWaiterStage().setScene(
+                    WaiterScenesMap.getScenes().get(WaiterMapsMain.DINEIN));
         });
 
         pendingApprovalButton.setOnMousePressed(e -> {
             BookingView.controller.refreshReservationList();
-            BookingView.waiterDeliveryCounterController.refreshDeliveryCounter();
-            WaiterScenesMap.getWaiterStage().setScene(WaiterScenesMap.getScenes().get(WaiterMapsMain.BOOKING));
+            BookingView.waiterDeliveryCounterController
+                    .refreshDeliveryCounter();
+            WaiterScenesMap.getWaiterStage().setScene(
+                    WaiterScenesMap.getScenes().get(WaiterMapsMain.BOOKING));
         });
 
         orderHistoryButton.setOnMousePressed(e -> {
@@ -82,6 +96,4 @@ public class WaiterHomepageNavbarController {
         });
 
     }
-
-
 }

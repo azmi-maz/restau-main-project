@@ -197,8 +197,7 @@ public class Customer extends User {
     }
 
     /**
-     * This method formats address to transform any symbols incompatible for
-     * data storage.
+t
      *
      * @param address - the unformatted address taken from textfield.
      * @return an address with the correct format.

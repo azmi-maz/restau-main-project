@@ -27,6 +27,9 @@ import org.group.project.scenes.WindowSize;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+/**
+ * This class enables the customer to view table of previous orders made.
+ */
 public class CustomerOrderHistoryViewController {
 
     @FXML
@@ -57,6 +60,11 @@ public class CustomerOrderHistoryViewController {
     private ObservableList<Order> data =
             FXCollections.observableArrayList();
 
+    /**
+     * This initializes the controller for the fxml.
+     *
+     * @throws URISyntaxException // TODO
+     */
     public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
@@ -115,7 +123,6 @@ public class CustomerOrderHistoryViewController {
         actionButtonColumn.setStyle("-fx-alignment: CENTER;");
         actionButtonColumn.setCellValueFactory(cellData -> {
             Button viewButton = new Button();
-            // TODO use tool tips for other buttons, where necessary
             viewButton.setTooltip(new Tooltip("View details"));
             ImageLoader.setUpGraphicButton(viewButton,
                     15, 15, "view-details");
@@ -145,7 +152,7 @@ public class CustomerOrderHistoryViewController {
 
                     Stage editStage = new Stage();
                     editStage.setScene(editScene);
-                    // TODO Should final variable this
+
                     editStage.setTitle("View Order Details");
 
                     editStage.initModality(Modality.APPLICATION_MODAL);
@@ -169,12 +176,13 @@ public class CustomerOrderHistoryViewController {
 
     }
 
-    // TODO comment
+    /**
+     * This method refreshes the table to get the updated data.
+     */
     public void refreshOrderHistoryList() {
 
         updateUserId();
 
-        // TODO comment
         orderHistoryTable.getItems().clear();
         data.clear();
 

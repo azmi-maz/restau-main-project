@@ -15,28 +15,47 @@ import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.exceptions.TextFileNotFoundException;
 import org.group.project.scenes.WindowSize;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * This class enables the user to view the restaurant menu.
+ */
 public class CustomerMenuOrderViewController {
 
     @FXML
     private GridPane gridPane;
 
-    private List<FoodDrink> orderList;
+    private final List<FoodDrink> orderList;
 
+    /**
+     * This sets up the menu list.
+     *
+     * @param orderList - the list of available food/drink items.
+     */
     public CustomerMenuOrderViewController(List<FoodDrink> orderList) {
         this.orderList = orderList;
     }
 
-    public void initialize() throws URISyntaxException, FileNotFoundException {
+    /**
+     * This initializes the controller for the fxml.
+     */
+    public void initialize() {
 
-        Image bgImage = new Image(Main.class.getResource("images" +
-                "/background/white-floor" +
-                ".jpg").toURI().toString());
+        Image bgImage = null;
+        try {
+            bgImage = new Image(Main.class.getResource("images" +
+                    "/background/white-floor" +
+                    ".jpg").toURI().toString());
+        } catch (URISyntaxException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
 
         BackgroundSize bSize = new BackgroundSize(2000,
                 1500, false, false
@@ -55,7 +74,7 @@ public class CustomerMenuOrderViewController {
                     gridPane
             );
 
-        } catch (TextFileNotFoundException e) {
+        } catch (TextFileNotFoundException | URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
                     "Error",
                     e.getMessage()
@@ -68,10 +87,14 @@ public class CustomerMenuOrderViewController {
             boolean isImageViewSelected = e.getTarget() instanceof ImageView;
 
             if (isImageViewSelected) {
-                String currentImageUrl = ((ImageView) e.getTarget()).getImage().getUrl();
-                boolean isFavouriteTag = List.of(currentImageUrl.split("/")).getLast().equalsIgnoreCase("daily-special-stamp.png");
+                String currentImageUrl = ((ImageView) e.getTarget())
+                        .getImage().getUrl();
+                boolean isFavouriteTag = List.of(currentImageUrl
+                                .split("/")).getLast()
+                        .equalsIgnoreCase(
+                                "daily-special-stamp.png");
 
-                // TODO needed to handle if tag was clicked
+                // This tags any daily special item marked by chef.
                 if (isFavouriteTag) {
                     return;
                 }
@@ -111,17 +134,18 @@ public class CustomerMenuOrderViewController {
 
                     Stage editStage = new Stage();
                     editStage.setScene(editScene);
-                    // TODO Should final variable this
+
                     editStage.setTitle("Add Order Item");
 
                     editStage.initModality(Modality.APPLICATION_MODAL);
 
                     editStage.showAndWait();
-                } catch (IOException ex) {
-                    // TODO catch error
-                    throw new RuntimeException(ex);
-                } catch (URISyntaxException ex) {
-                    throw new RuntimeException(ex);
+                } catch (IOException | URISyntaxException ex) {
+                    AlertPopUpWindow.displayErrorWindow(
+                            "Error",
+                            ex.getMessage()
+                    );
+                    ex.printStackTrace();
                 }
             }
 

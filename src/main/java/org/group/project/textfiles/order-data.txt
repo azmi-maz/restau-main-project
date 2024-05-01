@@ -50,4 +50,6 @@
 50,1,2024-4-28,22-22,dinein,pending-kitchen,,,,pear tarte tatin
 51,1,2024-4-28,23-51,delivery,pending-approval,,,,bloody mary;bloody mary;bloody mary;bloody mary;bloody mary;coq au vin;coq au vin
 52,1,2024-4-28,23-51,takeaway,pending-kitchen,,,,chocolate souffle;chocolate souffle
-53,1,2024-4-29,23-32,delivery,pending-approval,,,,chocolate souffle
+53,1,2024-4-29,23-32,delivery,pending-kitchen,,4,20-56,chocolate souffle
+54,1,2024-5-1,20-25,delivery,completed,,4,20-56,chocolate souffle;chocolate souffle;bloody mary;bloody mary;bloody mary;lobster thermidor;lobster thermidor
+55,9,2024-5-1,20-26,dinein,completed,,,,Classic creme brulee

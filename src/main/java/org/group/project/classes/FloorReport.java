@@ -27,9 +27,11 @@ public class FloorReport extends Report {
 
         super(reportType, user);
 
-        if (reportType.equalsIgnoreCase("busiest periods")) {
+        if (reportType.equalsIgnoreCase(
+                "busiest periods")) {
             super.setReportData(getBusiestPeriodReport());
-        } else if (reportType.equalsIgnoreCase("most active customer")) {
+        } else if (reportType.equalsIgnoreCase(
+                "most active customer")) {
             super.setReportData(getMostActiveCustomerReport());
         }
 
@@ -65,7 +67,13 @@ public class FloorReport extends Report {
         }
     }
 
-    // TODO
+    /**
+     * This method generates a report based on report type. The report is based
+     * on table reservations data.
+     *
+     * @return either busiest period or most active customer report.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public String prepareReportData() throws TextFileNotFoundException {
 
         Floor floor = null;
@@ -90,11 +98,14 @@ public class FloorReport extends Report {
                 dateRangeMap.put(currentDate, 1);
             }
             int currentCustomerId = booking.getCustomerId();
-            if (booking.getBookingStatus().equalsIgnoreCase("approved")) {
+            if (booking.getBookingStatus().equalsIgnoreCase(
+                    "approved")) {
                 if (customerCountMap.containsKey(currentCustomerId)) {
-                    int currentCustomerScore = customerCountMap.get(currentCustomerId);
+                    int currentCustomerScore = customerCountMap
+                            .get(currentCustomerId);
                     currentCustomerScore++;
-                    customerCountMap.put(currentCustomerId, currentCustomerScore);
+                    customerCountMap.put(currentCustomerId,
+                            currentCustomerScore);
                 } else {
                     // TODO magic number
                     customerCountMap.put(currentCustomerId, 1);
@@ -169,7 +180,8 @@ public class FloorReport extends Report {
 
         String busiestPeriodReport = String.format(
                 "According to previous records, the %s stood " +
-                        "out as the most bustling day, with a total of %d table " +
+                        "out as the most bustling day, with a total " +
+                        "of %d table " +
                         "reservations."
                         + System.lineSeparator() + System.lineSeparator() +
                         "Based on upcoming reservations, it seems that " +
@@ -180,28 +192,41 @@ public class FloorReport extends Report {
                         + System.lineSeparator() +
                         "It would be wise to plan ahead.",
                 pastDateWithMaxNum
-                        .format(DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy")),
+                        .format(DateTimeFormatter.ofPattern(
+                                "EEEE, dd MMMM yyyy")),
                 pastMaxNumTableReservations,
                 futureDateWithMaxNum
-                        .format(DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy")),
+                        .format(DateTimeFormatter.ofPattern(
+                                "EEEE, dd MMMM yyyy")),
                 futureMaxNumTableReservations,
                 finalFutureBookings
         );
 
         String mostActiveCustomerReport = String.format(
-                "The most active customer is %s with %d table reservations approved.",
+                "The most active customer is %s with %d table " +
+                        "reservations approved.",
                 mostActiveCustomer,
                 maxNumBookings
         );
 
-        if (getReportType().equalsIgnoreCase("busiest periods")) {
+        if (getReportType().equalsIgnoreCase(
+                "busiest periods")) {
             return busiestPeriodReport;
-        } else if (getReportType().equalsIgnoreCase("most active customer")) {
+        } else if (getReportType().equalsIgnoreCase(
+                "most active customer")) {
             return mostActiveCustomerReport;
         }
         return null;
     }
 
+    /**
+     * This method provides remark on any pending table reservation approvals,
+     * if there are any.
+     *
+     * @param numOfPendings - the number of pending approvals.
+     * @param numOfApproved - the number of approved bookings.
+     * @return the remark on the status of pending bookings.
+     */
     private String handleBookingStatusReport(
             int numOfPendings,
             int numOfApproved

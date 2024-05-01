@@ -11,6 +11,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * This class allows the customer to view notification details.
+ */
 public class CustomerNotificationDetailsController {
 
     @FXML
@@ -28,6 +31,9 @@ public class CustomerNotificationDetailsController {
     @FXML
     private Button returnButton;
 
+    /**
+     * This initializes the controller for the fxml.
+     */
     public void initialize() {
 
         returnButton.setOnAction(e -> {
@@ -36,6 +42,14 @@ public class CustomerNotificationDetailsController {
 
     }
 
+    /**
+     * This method is used to populate the selected notification details.
+     *
+     * @param notificationDate - the date of the notification.
+     * @param notificationTime - the time of the notification.
+     * @param notificationType - the type of notification.
+     * @param messageBody      - the main message.
+     */
     public void populateNotificationDetails(
             LocalDate notificationDate,
             LocalTime notificationTime,
@@ -43,8 +57,10 @@ public class CustomerNotificationDetailsController {
             String messageBody
     ) {
         dateStampLabel.setText(
-                "Date: " + notificationDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-                        + " " + notificationTime.format(DateTimeFormatter.ofPattern("hh:mm a"))
+                "Date: " + notificationDate.format(
+                        DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                        + " " + notificationTime.format(
+                        DateTimeFormatter.ofPattern("hh:mm a"))
         );
 
         subjectLabel.setText(
@@ -55,7 +71,7 @@ public class CustomerNotificationDetailsController {
         notificationTextArea.setWrapText(true);
     }
 
-    public void closeWindow() {
+    private void closeWindow() {
         Stage stage = (Stage) vbox.getScene().getWindow();
         stage.close();
     }

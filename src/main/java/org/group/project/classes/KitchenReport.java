@@ -66,7 +66,12 @@ public class KitchenReport extends Report {
         }
     }
 
-    // TODO
+    /**
+     * This method generates the most active customer report.
+     *
+     * @return the report for the most active customer.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public String getMostActiveCustomerReport()
             throws TextFileNotFoundException {
         try {
@@ -77,7 +82,13 @@ public class KitchenReport extends Report {
         }
     }
 
-    // TODO
+    /**
+     * This method prepares the kitchen report based on report type.
+     *
+     * @param reportChoice - the type of report that is selected.
+     * @return - the specific report based on selected type.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public String prepareReportData(
             String reportChoice
     ) throws TextFileNotFoundException {
@@ -140,7 +151,8 @@ public class KitchenReport extends Report {
                     }
 
                     if (takeAwayOrderItemMap.containsKey(itemName)
-                            && orderType.equalsIgnoreCase("takeaway")) {
+                            && orderType.equalsIgnoreCase(
+                            "takeaway")) {
                         int getFoodCount = takeAwayOrderItemMap.get(itemName);
                         getFoodCount += item.getQuantity();
                         takeAwayOrderItemMap.put(itemName, getFoodCount);
@@ -149,7 +161,8 @@ public class KitchenReport extends Report {
                     }
 
                     if (deliveryOrderItemMap.containsKey(itemName)
-                            && orderType.equalsIgnoreCase("delivery")) {
+                            && orderType.equalsIgnoreCase(
+                            "delivery")) {
                         int getFoodCount = deliveryOrderItemMap.get(itemName);
                         getFoodCount += item.getQuantity();
                         deliveryOrderItemMap.put(itemName, getFoodCount);
@@ -158,7 +171,8 @@ public class KitchenReport extends Report {
                     }
 
                     if (dineOrderItemMap.containsKey(itemName)
-                            && orderType.equalsIgnoreCase("dinein")) {
+                            && orderType.equalsIgnoreCase(
+                            "dinein")) {
                         int getFoodCount = dineOrderItemMap.get(itemName);
                         getFoodCount += item.getQuantity();
                         dineOrderItemMap.put(itemName, getFoodCount);
@@ -177,7 +191,8 @@ public class KitchenReport extends Report {
                     customerCountMap.put(customerId, 1);
                 }
 
-                if (order.getOrderStatus().equalsIgnoreCase("pending-kitchen")) {
+                if (order.getOrderStatus().equalsIgnoreCase(
+                        "pending-kitchen")) {
                     if (outstandingOrderMap.containsKey(orderType)) {
                         int currentCount = outstandingOrderMap.get(orderType);
                         currentCount++;
@@ -206,7 +221,8 @@ public class KitchenReport extends Report {
 
             int mostActiveCustomerId = 0;
             int mostActiveCustomerCounter = 0;
-            for (Map.Entry<Integer, Integer> entry : customerCountMap.entrySet()) {
+            for (Map.Entry<Integer, Integer> entry :
+                    customerCountMap.entrySet()) {
                 int currentId = entry.getKey();
                 int currentCounter = entry.getValue();
                 if (mostActiveCustomerCounter < currentCounter) {
@@ -227,7 +243,8 @@ public class KitchenReport extends Report {
                         String itemName = item.getItemName();
                         int itemQty = item.getQuantity();
                         if (mostActiveCustomerMap.containsKey(itemName)) {
-                            int currentQty = mostActiveCustomerMap.get(itemName);
+                            int currentQty = mostActiveCustomerMap
+                                    .get(itemName);
                             currentQty += itemQty;
                             mostActiveCustomerMap.put(itemName, currentQty);
                         } else {
@@ -241,7 +258,8 @@ public class KitchenReport extends Report {
 
             String mostActiveCustomerFavouriteItem = "";
             int mostActiveCustomerFavItemCounter = 0;
-            for (Map.Entry<String, Integer> entry : mostActiveCustomerMap.entrySet()) {
+            for (Map.Entry<String, Integer> entry :
+                    mostActiveCustomerMap.entrySet()) {
                 String itemName = entry.getKey();
                 int itemQty = entry.getValue();
                 if (mostActiveCustomerFavItemCounter < itemQty) {
@@ -287,7 +305,8 @@ public class KitchenReport extends Report {
 
             String mostOrderedTakeawayItem = "";
             int mostOrderedTakeawayItemCounter = 0;
-            for (Map.Entry<String, Integer> entry : takeAwayOrderItemMap.entrySet()) {
+            for (Map.Entry<String, Integer> entry :
+                    takeAwayOrderItemMap.entrySet()) {
                 String currentItem = entry.getKey();
                 int currentCounter = entry.getValue();
                 numOfTakeawayOrders++;
@@ -302,7 +321,8 @@ public class KitchenReport extends Report {
 
             String mostOrderedDeliveryItem = "";
             int mostOrderedDeliveryItemCounter = 0;
-            for (Map.Entry<String, Integer> entry : deliveryOrderItemMap.entrySet()) {
+            for (Map.Entry<String, Integer> entry :
+                    deliveryOrderItemMap.entrySet()) {
                 String currentItem = entry.getKey();
                 int currentCounter = entry.getValue();
                 numOfDeliveryOrders++;
@@ -317,7 +337,8 @@ public class KitchenReport extends Report {
 
             String mostOrderedDineinItem = "";
             int mostOrderedDineinItemCounter = 0;
-            for (Map.Entry<String, Integer> entry : dineOrderItemMap.entrySet()) {
+            for (Map.Entry<String, Integer> entry :
+                    dineOrderItemMap.entrySet()) {
                 String currentItem = entry.getKey();
                 int currentCounter = entry.getValue();
                 numOfDineinOrders++;
@@ -338,12 +359,14 @@ public class KitchenReport extends Report {
             int numOfOutstandingDinein = 0;
             int numOfOutstandingTakeaway = 0;
             int numOfOutstandingDelivery = 0;
-            for (Map.Entry<String, Integer> entry : outstandingOrderMap.entrySet()) {
+            for (Map.Entry<String, Integer> entry :
+                    outstandingOrderMap.entrySet()) {
                 String currentItemType = entry.getKey();
                 int currentCounter = entry.getValue();
                 if (currentItemType.equalsIgnoreCase("dinein")) {
                     numOfOutstandingDinein = currentCounter;
-                } else if (currentItemType.equalsIgnoreCase("takeaway")) {
+                } else if (currentItemType.equalsIgnoreCase(
+                        "takeaway")) {
                     numOfOutstandingTakeaway = currentCounter;
                 } else {
                     numOfOutstandingDelivery = currentCounter;
@@ -357,7 +380,8 @@ public class KitchenReport extends Report {
             Menu menu = new Menu();
             String typeOfPopularItem = menu.findTypeByItemName(mostPopularItem);
             String mostPopularItemReport = String.format(
-                    "The %s is a highly sought-after %s, with a remarkable %d orders." +
+                    "The %s is a highly sought-after %s, with a remarkable " +
+                            "%d orders." +
                             System.lineSeparator(),
                     mostPopularItem,
                     typeOfPopularItem.equalsIgnoreCase("food") ?
@@ -375,35 +399,36 @@ public class KitchenReport extends Report {
                     .getDataForListDisplay();
 
             String mostActiveCustomerReport = String.format(
-                    "%s is a loyal customer who has placed a total of %d orders." +
-                            "They have a deep appreciation for the culinary " +
-                            "arts, especially when it comes to indulging in " +
-                            "delectable treats like %s.",
+                    "%s is a loyal customer who has placed a total of %d " +
+                            "orders. They have a deep appreciation for the " +
+                            "culinary arts, especially when it comes to " +
+                            "indulging in delectable treats like %s.",
                     mostActiveCustomerName,
                     mostActiveCustomerCounter,
                     mostActiveCustomerFavouriteItem
             );
 
             String mostOrderedFoodReport = String.format(
-                    "The restaurant's most popular dish is %s, while the bar's top " +
-                            "choice during happy hours is the %s."
+                    "The restaurant's most popular dish is %s, while the " +
+                            "bar's top choice during happy hours is the %s."
                             + System.lineSeparator(),
                     mostOrderedFoodItem,
                     mostOrderedDrinkItem
             );
 
             String analysisOnOrderTypeReport = String.format(
-                    "The total number of orders is %d. Customers in the area have " +
-                            "been placing a large number of " +
-                            "takeaway orders, with a total of %d orders so far, " +
-                            "and %s is the top choice. During " +
-                            "the evenings, the number of delivery orders reaches " +
-                            "a total of %d, and it seems that %s is a popular " +
-                            "option among customers. On weekends, our customers " +
-                            "who have a passion for food love to come in and " +
-                            "savour a delicious meal with us. We usually get " +
-                            "about %d dine-in orders, and it appears that %s" +
-                            " is the preferred choice among our customers.",
+                    "The total number of orders is %d. Customers in the area " +
+                            "have been placing a large number of " +
+                            "takeaway orders, with a total of %d orders so " +
+                            "far, and %s is the top choice. During " +
+                            "the evenings, the number of delivery orders " +
+                            "reaches a total of %d, and it seems that %s is " +
+                            "a popular option among customers. On weekends, " +
+                            "our customers who have a passion for food love " +
+                            "to come in and savour a delicious meal with us. " +
+                            "We usually get about %d dine-in orders, and it " +
+                            "appears that %s is the preferred choice among " +
+                            "our customers.",
                     numOfTotalOrders,
                     numOfTakeawayOrders,
                     mostOrderedTakeawayItem,
@@ -416,23 +441,27 @@ public class KitchenReport extends Report {
             String outstandingOrdersByType = String.format(
                     "The kitchen is bustling, with %d tickets to fulfil. " +
                             "Let's make sure the kitchen doesn't experience " +
-                            "burnout. Give priority to %d dine-in orders, as " +
-                            "they are our top sellers, followed by %d takeaways, " +
-                            "particularly during lunch. Lastly, focus " +
-                            "on increasing our sales through %d deliveries.",
+                            "burnout. Give priority to %d dine-in orders, " +
+                            "as they are our top sellers, followed by %d " +
+                            "takeaways, particularly during lunch. Lastly," +
+                            " focus on increasing our sales through %d " +
+                            "deliveries.",
                     totalNumOfOutstandingOrders,
                     numOfOutstandingDinein,
                     numOfOutstandingTakeaway,
                     numOfOutstandingDelivery
             );
 
-            if (reportChoice.equalsIgnoreCase("most popular item")) {
+            if (reportChoice.equalsIgnoreCase(
+                    "most popular item")) {
                 return mostPopularItemReport
                         + mostOrderedFoodReport
                         + analysisOnOrderTypeReport;
-            } else if (reportChoice.equalsIgnoreCase("outstanding orders")) {
+            } else if (reportChoice.equalsIgnoreCase(
+                    "outstanding orders")) {
                 return outstandingOrdersByType;
-            } else if (reportChoice.equalsIgnoreCase("most active customer")) {
+            } else if (reportChoice.equalsIgnoreCase(
+                    "most active customer")) {
                 return mostActiveCustomerReport;
             }
             return null;

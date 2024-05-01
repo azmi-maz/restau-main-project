@@ -11,17 +11,30 @@ import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
 
+/**
+ * This class prepares the waiter dine-in order view scene.
+ */
 public class DineInView implements ViewMaker {
 
+    public static WaiterDineinOrderController controller;
     private Stage stage;
 
-    public static WaiterDineinOrderController controller;
-
+    /**
+     * This constructor sets up the stage from the main one.
+     *
+     * @param stage - the main stage.
+     */
     public DineInView(Stage stage) {
 
         this.stage = stage;
     }
 
+    /**
+     * This method gets the waiter dine-in order view scene.
+     *
+     * @return the waiter dine-in order view scene.
+     * @throws IOException // TODO
+     */
     @Override
     public Scene getScene() throws IOException {
 

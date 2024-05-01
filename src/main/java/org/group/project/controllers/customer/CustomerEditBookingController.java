@@ -19,6 +19,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * This class enables the customer to edit a selected table reservation.
+ */
 public class CustomerEditBookingController {
 
     @FXML
@@ -47,6 +50,9 @@ public class CustomerEditBookingController {
 
     private Booking currentBooking;
 
+    /**
+     * This initializes the controller for the fxml.
+     */
     public void initialize() {
 
         reservationDatePicker.setOnAction(e -> {
@@ -82,7 +88,6 @@ public class CustomerEditBookingController {
             e.printStackTrace();
         }
 
-        // TODO get from database
         numOfGuestsChoiceBox.setOnAction(e -> {
 
             try {
@@ -106,7 +111,11 @@ public class CustomerEditBookingController {
 
         });
 
-        // TODO cite https://stackoverflow.com/questions/26831978/javafx-datepicker-getvalue-in-a-specific-format
+        /*
+         * This fixes the datepicker to be in dd/mm/yyyy format.
+         * Source: https://stackoverflow.com/questions/26831978/
+         * javafx-datepicker-getvalue-in-a-specific-format (April 2024)
+         */
         reservationDatePicker.setConverter(
                 new StringConverter<>() {
                     final DateTimeFormatter dateFormatter =
@@ -126,7 +135,6 @@ public class CustomerEditBookingController {
                 });
 
         saveChangesButton.setOnAction(e -> {
-            // TODO set new value
 
             Customer customer = (Customer) Main.getCurrentUser();
 
@@ -193,6 +201,11 @@ public class CustomerEditBookingController {
 
     }
 
+    /**
+     * This method populates the selected table reservation details.
+     *
+     * @param booking - the selected table reservation.
+     */
     public void setBookingToView(Booking booking) {
         currentBooking = booking;
         reservationDatePicker.setValue(booking.getBookingDate());

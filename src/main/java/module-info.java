@@ -5,7 +5,6 @@ module org.group.project {
     opens org.group.project to javafx.fxml;
     exports org.group.project;
     exports org.group.project.classes;
-    exports org.group.project.test.generators;
     exports org.group.project.scenes;
     exports org.group.project.classes.auxiliary;
     exports org.group.project.exceptions;

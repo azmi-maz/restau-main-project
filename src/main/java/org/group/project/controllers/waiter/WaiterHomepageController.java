@@ -8,6 +8,9 @@ import org.group.project.Main;
 
 import java.net.URISyntaxException;
 
+/**
+ * This class loads up the waiter home page.
+ */
 public class WaiterHomepageController {
 
     @FXML
@@ -16,6 +19,10 @@ public class WaiterHomepageController {
     @FXML
     private Label mainTitle;
 
+    /**
+     * This initializes the controller for the fxml.
+     * @throws URISyntaxException // TODO
+     */
     public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
@@ -34,6 +41,9 @@ public class WaiterHomepageController {
 
     }
 
+    /**
+     * This method changes the greeting message to welcome the waiter.
+     */
     public void welcomeWaiter() {
         mainTitle.setText(
                 "Welcome, "

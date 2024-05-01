@@ -47,10 +47,28 @@ public class CustomerRegistrationController {
     @FXML
     private VBox newCustomerWindow;
 
+    /**
+     * This initializes the controller for the fxml.
+     */
+    @FXML
+    public void initialize() {
+
+        // Resets error label
+        errorUsernameLabel.setVisible(false);
+        errorUsernameLabel.setStyle("-fx-font-size: 1");
+
+
+        confirmButton.setOnMousePressed(e -> confirmButtonClick());
+        cancelButton.setOnMousePressed(e -> closeWindow());
+
+    }
+
+    // This method handles user registration confirmation.
     @FXML
     protected void confirmButtonClick() {
 
         try {
+
             // Clean up any error label.
             errorUsernameLabel.setText(null);
             errorUsernameLabel.setVisible(false);
@@ -138,18 +156,5 @@ public class CustomerRegistrationController {
     protected void closeWindow() {
         Stage stage = (Stage) newCustomerWindow.getScene().getWindow();
         stage.close();
-    }
-
-    @FXML
-    public void initialize() {
-
-        // Reset error label
-        errorUsernameLabel.setVisible(false);
-        errorUsernameLabel.setStyle("-fx-font-size: 1");
-
-
-        confirmButton.setOnMousePressed(e -> confirmButtonClick());
-        cancelButton.setOnMousePressed(e -> closeWindow());
-
     }
 }

@@ -15,6 +15,9 @@ import org.group.project.scenes.chef.mainViews.OutstandingView;
 
 import java.net.URISyntaxException;
 
+/**
+ * This class is to load the navigation bar in chef home page.
+ */
 public class ChefHomepageNavbarController {
 
     @FXML
@@ -32,6 +35,10 @@ public class ChefHomepageNavbarController {
     @FXML
     private Button logOffButton;
 
+    /**
+     * This initializes the controller for the fxml.
+     * @throws URISyntaxException - if the image uri did not load properly.
+     */
     public void initialize() throws URISyntaxException {
 
         ImageLoader.setUpGraphicButton(outstandingOrderButton,

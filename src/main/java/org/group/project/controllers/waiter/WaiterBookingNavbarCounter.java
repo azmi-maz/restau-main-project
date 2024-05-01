@@ -10,6 +10,9 @@ import org.group.project.exceptions.TextFileNotFoundException;
 
 import java.util.List;
 
+/**
+ * This class loads up the counter of pending table reservations.
+ */
 public class WaiterBookingNavbarCounter {
 
     @FXML
@@ -21,6 +24,9 @@ public class WaiterBookingNavbarCounter {
     @FXML
     private Label bookingCounter2;
 
+    /**
+     * This method refreshes the pending table reservation counter.
+     */
     public void refreshBookingCounter() {
 
         int newCounter = 0;
@@ -36,7 +42,8 @@ public class WaiterBookingNavbarCounter {
                 String bookingStatus = booking.getBookingStatus();
 
                 // TODO filter
-                if (bookingStatus.equalsIgnoreCase("pending-approval")) {
+                if (bookingStatus.equalsIgnoreCase(
+                        "pending-approval")) {
                     newCounter++;
                 }
             }

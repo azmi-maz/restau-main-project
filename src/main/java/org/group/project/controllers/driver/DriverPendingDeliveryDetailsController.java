@@ -13,6 +13,9 @@ import org.group.project.classes.Order;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.exceptions.TextFileNotFoundException;
 
+/**
+ * This class enables the driver to view a delivery order details.
+ */
 public class DriverPendingDeliveryDetailsController {
 
     @FXML
@@ -38,6 +41,9 @@ public class DriverPendingDeliveryDetailsController {
 
     private DeliveryOrder currentOrder;
 
+    /**
+     * This initializes the controller for the fxml.
+     */
     public void initialize() {
 
         deliveryCompletedButton.setOnAction(e -> {
@@ -70,6 +76,11 @@ public class DriverPendingDeliveryDetailsController {
 
     }
 
+    /**
+     * This method sets up the selected order details.
+     *
+     * @param currentOrder - the selected order.
+     */
     public void setOrderDetails(
             Order currentOrder
     ) {
@@ -81,7 +92,7 @@ public class DriverPendingDeliveryDetailsController {
         this.currentOrder = (DeliveryOrder) currentOrder;
     }
 
-    public void promptDeliverySuccessful(
+    private void promptDeliverySuccessful(
             DeliveryOrder currentOrder) {
         AlertPopUpWindow.displayInformationWindow(
                 "Order Delivery",

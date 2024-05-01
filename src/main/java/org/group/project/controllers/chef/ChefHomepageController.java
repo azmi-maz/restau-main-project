@@ -8,6 +8,9 @@ import org.group.project.Main;
 
 import java.net.URISyntaxException;
 
+/**
+ * This class allows the chef home page to load up.
+ */
 public class ChefHomepageController {
 
     @FXML
@@ -16,6 +19,11 @@ public class ChefHomepageController {
     @FXML
     private Label mainTitle;
 
+    /**
+     * This initializes the controller for the fxml.
+     *
+     * @throws URISyntaxException - if image uri did not load properly.
+     */
     public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
@@ -34,6 +42,9 @@ public class ChefHomepageController {
 
     }
 
+    /**
+     * This method updates the greeting message to welcome the user.
+     */
     public void welcomeChef() {
         mainTitle.setText(
                 "Welcome, "

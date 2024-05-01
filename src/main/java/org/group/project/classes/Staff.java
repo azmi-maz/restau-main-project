@@ -6,12 +6,12 @@ package org.group.project.classes;
  * @author azmi_maz
  */
 public class Staff extends User {
+    private static final int MAX_STAFF_HOURS = 44;
+    private static final int MIN_STAFF_HOURS = 0;
     protected int numOfHoursToWork;
     protected int numOfTotalHoursWorked;
     protected boolean hasAdminRight;
 
-    // TODO MAX_STAFF_HOURS = 44, also in ManagerStaffManagementDetailsController
-    // TODO MIN_STAFF_HOURS = 0, also in ManagerStaffManagementDetailsController
 
     /**
      * The constructor to create new staff and provide admin rights for
@@ -25,11 +25,21 @@ public class Staff extends User {
     public Staff(String firstName, String lastName, String username,
                  boolean hasAdminRight) {
         super(firstName, lastName, username);
-        this.numOfHoursToWork = 44;
+        this.numOfHoursToWork = MAX_STAFF_HOURS;
         this.hasAdminRight = hasAdminRight;
     }
 
-    // TODO comment
+    /**
+     * This constructor creates a staff with updated data from database.
+     *
+     * @param firstName             - the first name of the staff.
+     * @param lastName              - the last name of the staff.
+     * @param username              - the username chosen by the staff.
+     * @param hasAdminRight         - the right to access the system as an
+     *                              admin.
+     * @param numOfHoursToWork      - the number of work hours remaining.
+     * @param numOfTotalHoursWorked - the total number of hours worked.
+     */
     public Staff(String firstName, String lastName, String username,
                  boolean hasAdminRight, int numOfHoursToWork,
                  int numOfTotalHoursWorked) {
@@ -39,14 +49,20 @@ public class Staff extends User {
         this.numOfTotalHoursWorked = numOfTotalHoursWorked;
     }
 
-    // TODO
+    /**
+     * This constructor creates a staff with basic info.
+     *
+     * @param firstName - the first name of the staff.
+     * @param lastName  - the last name of the staff.
+     * @param username  - the username chosen by the staff.
+     */
     public Staff(
             String firstName, String lastName, String username
     ) {
         super(firstName, lastName, username);
         hasAdminRight = false;
-        numOfHoursToWork = 44;
-        numOfTotalHoursWorked = 0;
+        numOfHoursToWork = MAX_STAFF_HOURS;
+        numOfTotalHoursWorked = MIN_STAFF_HOURS;
     }
 
     /**
@@ -89,7 +105,11 @@ public class Staff extends User {
         return numOfTotalHoursWorked;
     }
 
-    // TODO comment
+    /**
+     * Getter method to get the user admin right.
+     *
+     * @return true if user has admin right.
+     */
     public boolean getHasAdminRight() {
         return hasAdminRight;
     }

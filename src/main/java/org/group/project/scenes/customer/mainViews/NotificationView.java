@@ -11,22 +11,36 @@ import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
 
+/**
+ * This class prepares the customer notification view scene.
+ */
 public class NotificationView implements ViewMaker {
 
+    public static CustomerNotificationViewController controller;
     private Stage stage;
 
-    public static CustomerNotificationViewController controller;
-
+    /**
+     * This constructor sets up the stage from the main one.
+     *
+     * @param stage - the main stage.
+     */
     public NotificationView(Stage stage) {
 
         this.stage = stage;
     }
 
+    /**
+     * This method gets the customer notification view scene.
+     *
+     * @return the customer notification view scene.
+     * @throws IOException // TODO
+     */
     @Override
     public Scene getScene() throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
-                "customerscenes/mapscenes/customer-viewnotifications.fxml"));
+                "customerscenes/mapscenes/" +
+                        "customer-viewnotifications.fxml"));
 
         VBox vbox = fxmlLoader.load();
 

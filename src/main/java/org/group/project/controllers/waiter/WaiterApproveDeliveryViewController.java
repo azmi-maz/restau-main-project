@@ -25,6 +25,10 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Optional;
 
+/**
+ * This class enables the waiter to view pending delivery orders for
+ * approval and driver assignment.
+ */
 public class WaiterApproveDeliveryViewController {
 
     @FXML
@@ -62,6 +66,11 @@ public class WaiterApproveDeliveryViewController {
     private ObservableList<DeliveryOrder> data =
             FXCollections.observableArrayList();
 
+    /**
+     * This initializes the controller for the fxml.
+     *
+     * @throws URISyntaxException // TODO
+     */
     public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
@@ -69,7 +78,8 @@ public class WaiterApproveDeliveryViewController {
                 ".jpg").toURI().toString());
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,
-                BackgroundSize.AUTO, false, false, true, true);
+                BackgroundSize.AUTO, false,
+                false, true, true);
 
         borderPane.setBackground(new Background(new BackgroundImage(bgImage,
                 BackgroundRepeat.NO_REPEAT,
@@ -128,9 +138,9 @@ public class WaiterApproveDeliveryViewController {
         actionButtonColumn1.setStyle("-fx-alignment: CENTER;");
         actionButtonColumn1.setCellValueFactory(cellData -> {
             Button viewButton = new Button();
-            // TODO use tool tips for other buttons, where necessary
             viewButton.setTooltip(new Tooltip("View details"));
-            ImageLoader.setUpGraphicButton(viewButton, 15, 15, "view-details");
+            ImageLoader.setUpGraphicButton(viewButton,
+                    15, 15, "view-details");
             DeliveryOrder selectedOrder = cellData.getValue();
 
             viewButton.setOnAction(e -> {
@@ -138,7 +148,8 @@ public class WaiterApproveDeliveryViewController {
                 try {
                     FXMLLoader fxmlLoader =
                             new FXMLLoader(Main.class.getResource(
-                                    "smallwindows/waiter-editdeliveryorder" +
+                                    "smallwindows/" +
+                                            "waiter-editdeliveryorder" +
                                             ".fxml"));
 
                     VBox vbox = fxmlLoader.load();
@@ -155,7 +166,7 @@ public class WaiterApproveDeliveryViewController {
 
                     Stage editStage = new Stage();
                     editStage.setScene(editScene);
-                    // TODO Should final variable this
+
                     editStage.setTitle("Edit Delivery Order");
 
                     editStage.initModality(Modality.APPLICATION_MODAL);
@@ -183,7 +194,8 @@ public class WaiterApproveDeliveryViewController {
             Button cancelButton = new Button();
             // TODO use tool tips for other buttons, where necessary
             cancelButton.setTooltip(new Tooltip("Cancel"));
-            ImageLoader.setUpGraphicButton(cancelButton, 15, 15, "cancel");
+            ImageLoader.setUpGraphicButton(cancelButton,
+                    15, 15, "cancel");
             DeliveryOrder selectedOrder = cellData.getValue();
 
             cancelButton.setOnAction(e -> {
@@ -233,10 +245,11 @@ public class WaiterApproveDeliveryViewController {
 
     }
 
-    // TODO comment
+    /**
+     * This method refreshes the table of pending delivery orders.
+     */
     public void refreshPendingDeliveryList() {
 
-        // TODO comment
         pendingDeliveryTable.getItems().clear();
         data.clear();
 
@@ -256,7 +269,7 @@ public class WaiterApproveDeliveryViewController {
 
     }
 
-    public Optional<ButtonType> promptForUserAcknowledgement(
+    private Optional<ButtonType> promptForUserAcknowledgement(
             String header,
             String message
     ) {

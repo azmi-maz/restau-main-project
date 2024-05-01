@@ -9,20 +9,35 @@ import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
 
+/**
+ * This class prepares the manager user management view scene.
+ */
 public class ManagementView implements ViewMaker {
 
     private Stage stage;
 
+    /**
+     * This constructor sets up the stage from the main one.
+     *
+     * @param stage - the main stage.
+     */
     public ManagementView(Stage stage) {
 
         this.stage = stage;
     }
 
+    /**
+     * This method gets the manager user management view scene.
+     *
+     * @return the manager user management view scene.
+     * @throws IOException // TODO
+     */
     @Override
     public Scene getScene() throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
-                "managerscenes/mapscenes/manager-staffmanagement.fxml"));
+                "managerscenes/mapscenes/" +
+                        "manager-staffmanagement.fxml"));
         return new Scene(fxmlLoader.load(), WindowSize.MAIN.WIDTH,
                 WindowSize.MAIN.HEIGHT);
     }

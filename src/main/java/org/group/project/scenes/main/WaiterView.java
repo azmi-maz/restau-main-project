@@ -14,20 +14,32 @@ import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
 
+/**
+ * This class prepares the waiter home page view scene.
+ */
 public class WaiterView implements ViewMaker {
 
+    public static WaiterHomepageController controller;
+    public static WaiterMainNavbarCounter waiterMainCounterController;
     private Stage stage;
 
-    public static WaiterHomepageController controller;
-
-    public static WaiterMainNavbarCounter waiterMainCounterController;
-
-    public WaiterView(Stage stage) throws IOException {
+    /**
+     * This constructor sets up the stage from the main one.
+     *
+     * @param stage - the main stage.
+     */
+    public WaiterView(Stage stage) {
 
         this.stage = stage;
 
     }
 
+    /**
+     * This method gets the waiter home page view scene.
+     *
+     * @return the waiter home page view scene.
+     * @throws IOException // TODO
+     */
     @Override
     public Scene getScene() throws IOException {
 

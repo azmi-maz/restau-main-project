@@ -30,6 +30,9 @@ import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * This class enables the customer to view their list of notifications.
+ */
 public class CustomerNotificationViewController {
 
     @FXML
@@ -57,6 +60,10 @@ public class CustomerNotificationViewController {
     private ObservableList<Notification> data =
             FXCollections.observableArrayList();
 
+    /**
+     * This initializes the controller for the fxml.
+     * @throws URISyntaxException // TODO
+     */
     public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
@@ -110,7 +117,6 @@ public class CustomerNotificationViewController {
         actionButtonColumn.setStyle("-fx-alignment: CENTER;");
         actionButtonColumn.setCellValueFactory(cellData -> {
             Button viewButton = new Button();
-            // TODO use tool tips for other buttons, where necessary
             viewButton.setTooltip(new Tooltip("View details"));
             boolean readStatus = cellData.getValue().getReadStatus();
             if (readStatus) {
@@ -157,7 +163,7 @@ public class CustomerNotificationViewController {
 
                     Stage editStage = new Stage();
                     editStage.setScene(editScene);
-                    // TODO Should final variable this
+
                     editStage.setTitle("View Notification Details");
 
                     editStage.initModality(Modality.APPLICATION_MODAL);
@@ -190,12 +196,13 @@ public class CustomerNotificationViewController {
 
     }
 
-    // TODO comment
+    /**
+     * This refreshes the notification table after any changes.
+     */
     public void refreshNotificationList() {
 
         updateUserId();
 
-        // TODO comment
         notificationTable.getItems().clear();
         data.clear();
 

@@ -10,14 +10,23 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class handles all the manager main scenes.
+ */
 public class ManagerScenesMap {
 
     private static Stage stage;
 
-    // Holds the various scenes to switch between
+    // Holds the various scenes to switch between.
     private static Map<ManagerMapsMain, Scene> managerScenes =
             new HashMap<>();
 
+    /**
+     * The constructor that sets up the manager main scenes.
+     *
+     * @param stage - the main stage from main.
+     * @throws IOException // TODO
+     */
     public ManagerScenesMap(Stage stage) throws IOException {
 
         ManagerScenesMap.stage = stage;
@@ -32,14 +41,30 @@ public class ManagerScenesMap {
 
     }
 
+    /**
+     * This method gets the Map of manager main scenes.
+     *
+     * @return the map of all manager scenes.
+     */
     public static Map<ManagerMapsMain, Scene> getScenes() {
         return managerScenes;
     }
 
+    /**
+     * This method gets the manager home page scene.
+     *
+     * @return the manager home page scene.
+     * @throws IOException // TODO
+     */
     public Scene getScene() throws IOException {
         return managerScenes.get(ManagerMapsMain.HOME);
     }
 
+    /**
+     * This method gets the manager main stage.
+     *
+     * @return the manager main stage.
+     */
     public static Stage getManagerStage() {
         return stage;
     }

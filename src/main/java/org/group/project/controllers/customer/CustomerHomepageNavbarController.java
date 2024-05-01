@@ -17,6 +17,9 @@ import org.group.project.scenes.customer.mainViews.OrdersView;
 
 import java.net.URISyntaxException;
 
+/**
+ * This class loads up the customer home page navigation bar.
+ */
 public class CustomerHomepageNavbarController {
 
     @FXML
@@ -43,7 +46,10 @@ public class CustomerHomepageNavbarController {
     @FXML
     private Button logOffButton;
 
-
+    /**
+     * This initializes the controller for the fxml.
+     * @throws URISyntaxException - the image uri did not work.
+     */
     public void initialize() throws URISyntaxException {
 
         ImageLoader.setUpGraphicButton(menuButton,

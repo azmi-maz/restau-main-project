@@ -21,6 +21,9 @@ import java.net.URISyntaxException;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
+/**
+ * This class enables the waiter to view pending table reservations.
+ */
 public class WaiterApproveBookingsViewController {
 
     @FXML
@@ -61,6 +64,11 @@ public class WaiterApproveBookingsViewController {
     @FXML
     private BorderPane borderPane;
 
+    /**
+     * This initializes the controller for the fxml.
+     *
+     * @throws URISyntaxException // TODO
+     */
     public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
@@ -68,7 +76,8 @@ public class WaiterApproveBookingsViewController {
                 ".jpg").toURI().toString());
 
         BackgroundSize bSize = new BackgroundSize(BackgroundSize.AUTO,
-                BackgroundSize.AUTO, false, false, true, true);
+                BackgroundSize.AUTO, false,
+                false, true, true);
 
         borderPane.setBackground(new Background(new BackgroundImage(bgImage,
                 BackgroundRepeat.NO_REPEAT,
@@ -139,7 +148,8 @@ public class WaiterApproveBookingsViewController {
         actionButtonColumn1.setCellValueFactory(cellData -> {
             Button confirmButton = new Button();
             confirmButton.setTooltip(new Tooltip("Approve"));
-            ImageLoader.setUpGraphicButton(confirmButton, 15, 15, "confirm");
+            ImageLoader.setUpGraphicButton(confirmButton,
+                    15, 15, "confirm");
             Booking selectedBooking = cellData.getValue();
             Customer selectedCustomer = cellData.getValue().getCustomer();
 
@@ -190,11 +200,12 @@ public class WaiterApproveBookingsViewController {
         actionButtonColumn2.setCellValueFactory(cellData -> {
             Button cancelButton = new Button();
             cancelButton.setTooltip(new Tooltip("Cancel"));
-            ImageLoader.setUpGraphicButton(cancelButton, 15, 15, "cancel");
+            ImageLoader.setUpGraphicButton(cancelButton,
+                    15, 15, "cancel");
             Booking selectedBooking = cellData.getValue();
             Customer selectedCustomer = cellData.getValue().getCustomer();
 
-            // TODO Dont delete the booking, change status to failed
+            // This changes the booking status to failed
             cancelButton.setOnAction(e -> {
                 Waiter waiter = (Waiter) Main.getCurrentUser();
 
@@ -243,9 +254,13 @@ public class WaiterApproveBookingsViewController {
 
     }
 
+    /**
+     * This method refreshes the table of reservations pending for
+     * approvals.
+     */
     public void refreshReservationList() {
 
-        // TODO comment that this clears up the list everytime it refresh
+        // This clears up the list everytime it refreshes.
         pendingApprovalsTable.getItems().clear();
         data.clear();
 
@@ -265,8 +280,7 @@ public class WaiterApproveBookingsViewController {
 
     }
 
-    // TODO used these a lot, prolly send it up to AlertPopUpWindow
-    public Optional<ButtonType> promptForUserAcknowledgement(
+    private Optional<ButtonType> promptForUserAcknowledgement(
             String header,
             String message
     ) {

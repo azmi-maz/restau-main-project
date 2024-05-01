@@ -2,24 +2,43 @@ package org.group.project.scenes.presenter;
 
 import javafx.application.Platform;
 import javafx.stage.Stage;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.scenes.ControllerView;
 
 import java.util.Stack;
 
+/**
+ * This class handles the stack of presenters used for handling switching
+ * between scenes put in a stack.
+ * <p>
+ * Modified code cited from:
+ * https://github.com/R0land013/multiple-scenes-javafx
+ */
 public class StackManager {
 
     private Stack<Presenter> stack;
     private Stage stage;
 
+    /**
+     * This constructor sets up the stack manager with the main stage.
+     *
+     * @param stage - the main stage.
+     */
     public StackManager(Stage stage) {
         stack = new Stack<>();
         this.stage = stage;
     }
 
+    /**
+     * This method push a presenter to the stack.
+     */
     public void pushDerivedPresenter() {
 
-        if(stack.isEmpty()) {
-            throw new RuntimeException("There are not presenters.");
+        if (stack.isEmpty()) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    "There are no more presenters."
+            );
         }
 
         Presenter topPresenter = stack.peek();
@@ -31,38 +50,46 @@ public class StackManager {
         stack.add(derivedPresenter);
     }
 
-
+    /**
+     * This method sets the presenter and display it to the user.
+     *
+     * @param presenter - the initial presenter that starts the stack.
+     */
     public void setInitialPresenter(Presenter presenter) {
-        if(stack.size() != 0) {
-            throw new RuntimeException("There is already an initial presenter.");
+        if (stack.size() != 0) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    "There is already an initial presenter."
+            );
         }
         stack.add(presenter);
         stage.setScene(presenter.getPresenterView().getViewScene());
     }
 
+    /**
+     * This method pops up a presenter from the stack and display the
+     * previous presenter in the stack.
+     */
     public void popPresenter() {
-        if(stack.isEmpty()) {
-            throw new RuntimeException("There are not presenters.");
+        if (stack.isEmpty()) {
+            AlertPopUpWindow.displayErrorWindow(
+                    "Error",
+                    "There are no more presenters."
+            );
         }
 
         stack.pop();
 
-        if(stack.isEmpty()) {
+        if (stack.isEmpty()) {
             Platform.exit();
             System.exit(0);
         }
 
         Presenter currentTopPresenter = stack.peek();
-        ControllerView currentTopView = currentTopPresenter.getPresenterView();
+        ControllerView currentTopView = currentTopPresenter
+                .getPresenterView();
 
         stage.setScene(currentTopView.getViewScene());
 
-    }
-
-    public void show() {
-        if(stack.isEmpty()) {
-            throw new RuntimeException("There are not presenters.");
-        }
-        stage.show();
     }
 }

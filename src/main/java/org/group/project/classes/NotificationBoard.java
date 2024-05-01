@@ -22,7 +22,12 @@ public class NotificationBoard {
 
     private List<Notification> notificationList;
 
-    // TODO
+    /**
+     * This constructor sets up the notification board and updates its data
+     * from the database.
+     *
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public NotificationBoard() throws TextFileNotFoundException {
 
         notificationList = new ArrayList<>();
@@ -36,13 +41,22 @@ public class NotificationBoard {
 
     }
 
-    // TODO
+    /**
+     * This method get the list of notifications.
+     *
+     * @return the list of the notifications.
+     */
     public List<Notification> getNotificationList() {
         return notificationList;
     }
 
 
-    // TODO
+    /**
+     * This method gets all the notifications from the database.
+     *
+     * @return the list of notifications.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public List<Notification> getNotificationsFromDatabase()
             throws TextFileNotFoundException {
 
@@ -64,7 +78,12 @@ public class NotificationBoard {
         }
     }
 
-    // TODO
+    /**
+     * This method gets a notification from a string.
+     *
+     * @param notification the string that contains the notification data.
+     * @return the notification with the updated data.
+     */
     public Notification getNotificationFromString(
             String notification
     ) {
@@ -114,7 +133,7 @@ public class NotificationBoard {
                         "messageBody"));
 
         if (notificationType.equalsIgnoreCase("booking")) {
-            // TODO this is needed to replace the ; to ,
+            // This is needed to replace all ; to ,
             messageBody = formatMessageToRead(messageBody);
         }
 
@@ -129,7 +148,12 @@ public class NotificationBoard {
         );
     }
 
-    // TODO
+    /**
+     * This method gets the LocalDate from a given string.
+     *
+     * @param notificationDate - the notification date in string format.
+     * @return the LocalDate of the notification date.
+     */
     public LocalDate getLocalDateFromString(
             String notificationDate
     ) {
@@ -140,7 +164,12 @@ public class NotificationBoard {
                 Integer.parseInt(notificationDateDetails.get(2)));
     }
 
-    // TODO
+    /**
+     * This method gets the LocalTime from a given string.
+     *
+     * @param notificationTime - the notification time in string format.
+     * @return the LocalTime of the notification time.
+     */
     public LocalTime getLocalTimeFromString(
             String notificationTime
     ) {
@@ -150,7 +179,13 @@ public class NotificationBoard {
                 Integer.parseInt(notificationTimeDetails.get(1)));
     }
 
-    // TODO comment
+    /**
+     * This method populates table view list with all the notifications
+     * by user id.
+     *
+     * @param data   - the table view list to be updated.
+     * @param userId - the specific user id.
+     */
     public void getNotificationDataByUserId(
             ObservableList<Notification> data,
             int userId
@@ -166,14 +201,18 @@ public class NotificationBoard {
         }
     }
 
-    // TODO comment
+    /**
+     * This method gets number of notifications unread by user id.
+     *
+     * @param userId - the specific user id.
+     * @return the number of unread notifications.
+     */
     public int getUnreadNotificationByUserId(
             int userId
     ) {
 
         int numOfUnreadNotification = 0;
 
-        // TODO to filter
         List<Notification> notificationData = getNotificationList();
         for (Notification notification : notificationData) {
 
@@ -186,7 +225,14 @@ public class NotificationBoard {
         return numOfUnreadNotification;
     }
 
-    // TODO
+    /**
+     * This method updates the notification counter of unread notifications.
+     *
+     * @param numOfUnreadNotification - the number of unread notifications.
+     * @param firstDigit              - the first digit of the number.
+     * @param secondDigit             - the second digit of the number.
+     * @param counterBox              - the HBox that contains the counter.
+     */
     public void updatesNavbarCounter(
             int numOfUnreadNotification,
             Label firstDigit,
@@ -213,7 +259,11 @@ public class NotificationBoard {
         }
     }
 
-    // TODO
+    /**
+     * This method gets a new unique id for a notification.
+     *
+     * @return a unique id.
+     */
     public int getNewNotificationId() {
 
         Notification lastNotification = notificationList.getLast();
@@ -223,7 +273,13 @@ public class NotificationBoard {
 
     }
 
-    // TODO
+    /**
+     * This method creates a new notification.
+     *
+     * @param customerId       - the user id.
+     * @param notificationType - the type of notification.
+     * @return the new notification.
+     */
     public Notification createNewNotification(
             int customerId,
             String notificationType
@@ -235,7 +291,12 @@ public class NotificationBoard {
         );
     }
 
-    // TODO
+    /**
+     * This method adds a new notification to the database.
+     *
+     * @param newNotification - the new notification.
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
     public void addNotificationToDatabase(
             Notification newNotification
     ) throws TextFileNotFoundException {
@@ -255,15 +316,16 @@ public class NotificationBoard {
         String messageBody = newNotification
                 .getMessageBody();
 
-        List<String> newNotificationForDatabase = new ArrayList<>(Arrays.asList(
-                notificationId,
-                customerId,
-                notificationDate,
-                notificationTime,
-                notificationType,
-                readStatus,
-                messageBody
-        ));
+        List<String> newNotificationForDatabase = new ArrayList<>(
+                Arrays.asList(
+                        notificationId,
+                        customerId,
+                        notificationDate,
+                        notificationTime,
+                        notificationType,
+                        readStatus,
+                        messageBody
+                ));
 
         try {
             DataManager.appendDataToFile("NOTIFICATION",
@@ -275,7 +337,7 @@ public class NotificationBoard {
     }
 
     /**
-     * This method formats messsage to transform any symbols compatible for
+     * This method formats message to transform any symbols compatible for
      * users to read.
      *
      * @param message - the formatted message taken from database.

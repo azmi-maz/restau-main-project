@@ -13,6 +13,9 @@ import org.group.project.classes.UserManagement;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.exceptions.TextFileNotFoundException;
 
+/**
+ * This class allows manager to add new staff.
+ */
 public class ManagerAddNewStaffController {
 
     @FXML
@@ -36,6 +39,9 @@ public class ManagerAddNewStaffController {
     @FXML
     private Button cancelButton;
 
+    /**
+     * This initializes the controller for the fxml.
+     */
     public void initialize() {
 
         try {
@@ -56,10 +62,13 @@ public class ManagerAddNewStaffController {
                                 positionChoiceBox.getValue() != null
                 ) {
 
-                    String firstName = firstNameTextField.getText().toLowerCase();
-                    String lastName = lastNameTextField.getText().toLowerCase();
+                    String firstName = firstNameTextField
+                            .getText().toLowerCase();
+                    String lastName = lastNameTextField
+                            .getText().toLowerCase();
                     String username = usernameTextField.getText();
-                    String userType = positionChoiceBox.getValue().toLowerCase();
+                    String userType = positionChoiceBox
+                            .getValue().toLowerCase();
 
                     Staff newStaff = userManagement.createNewStaff(
                             firstName,

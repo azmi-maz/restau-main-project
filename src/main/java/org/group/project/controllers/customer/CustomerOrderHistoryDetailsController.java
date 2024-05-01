@@ -19,6 +19,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class enables the customer to view their order history details.
+ */
 public class CustomerOrderHistoryDetailsController {
 
     @FXML
@@ -58,7 +61,9 @@ public class CustomerOrderHistoryDetailsController {
     private LocalTime deliveryTime;
     private LocalTime estimatedPickupTime;
 
-    // TODO comment
+    /**
+     * This initializes the controller for the fxml.
+     */
     public void initialize() {
 
         noColumn.setText("No.");
@@ -100,7 +105,11 @@ public class CustomerOrderHistoryDetailsController {
 
     }
 
-    // TODO comment
+    /**
+     * This method populates the selected order details.
+     *
+     * @param selectedOrder - the selected order.
+     */
     public void populateOrderDetails(
             Order selectedOrder
     ) {
@@ -122,7 +131,6 @@ public class CustomerOrderHistoryDetailsController {
         refreshList();
     }
 
-    // TODO comment
     private void refreshList() {
         orderHistoryTable.getItems().clear();
         data.clear();
@@ -133,7 +141,7 @@ public class CustomerOrderHistoryDetailsController {
 
         if (orderDate != null) {
 
-            // delivery order
+            // Delivery order
             String deliveryOrderTemplate =
                     "Order no. " +
                             orderId + System.lineSeparator() +
@@ -154,7 +162,7 @@ public class CustomerOrderHistoryDetailsController {
                         + System.lineSeparator();
             }
 
-            // takeaway order
+            // Takeaway order
             String takeawayOrderTemplate =
                     "Order no. " +
                             orderId + System.lineSeparator() +
@@ -170,10 +178,10 @@ public class CustomerOrderHistoryDetailsController {
             if (estimatedPickupTime != null) {
                 takeawayOrderTemplate += estimatedPickupTime.format(
                         DateTimeFormatter.ofPattern("hh:mm " +
-                        "a")) + System.lineSeparator();
+                                "a")) + System.lineSeparator();
             }
 
-            // dinein order
+            // Dinein order
             String dineinOrderTemplate =
                     "Order date: " +
                             orderDate.format(DateTimeFormatter.ofPattern(
@@ -193,7 +201,6 @@ public class CustomerOrderHistoryDetailsController {
         }
     }
 
-    // TODO comment
     private void closeWindow() {
         Stage stage = (Stage) vbox.getScene().getWindow();
         stage.close();

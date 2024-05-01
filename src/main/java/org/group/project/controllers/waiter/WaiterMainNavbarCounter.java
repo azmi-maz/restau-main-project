@@ -12,6 +12,10 @@ import org.group.project.exceptions.TextFileNotFoundException;
 
 import java.util.List;
 
+/**
+ * This class loads up the counter of pending table reservations and
+ * pending delivery orders for waiters approval.
+ */
 public class WaiterMainNavbarCounter {
 
     @FXML
@@ -23,6 +27,9 @@ public class WaiterMainNavbarCounter {
     @FXML
     private Label mainCounter2;
 
+    /**
+     * This method refreshes the counter of the combined pending items.
+     */
     public void refreshMainCounter() {
 
         int newCounter = 0;
@@ -37,7 +44,8 @@ public class WaiterMainNavbarCounter {
                 // booking status
                 String bookingStatus = booking.getBookingStatus();
 
-                if (bookingStatus.equalsIgnoreCase("pending-approval")) {
+                if (bookingStatus.equalsIgnoreCase(
+                        "pending-approval")) {
                     newCounter++;
                 }
             }

@@ -8,6 +8,9 @@ import org.group.project.Main;
 
 import java.net.URISyntaxException;
 
+/**
+ * This class loads up the manager home page.
+ */
 public class ManagerHomepageController {
 
     @FXML
@@ -16,6 +19,11 @@ public class ManagerHomepageController {
     @FXML
     private Label mainTitle;
 
+    /**
+     * This initializes the controller for the fxml.
+     *
+     * @throws URISyntaxException // TODO
+     */
     public void initialize() throws URISyntaxException {
 
         Image bgImage = new Image(Main.class.getResource("images" +
@@ -34,6 +42,9 @@ public class ManagerHomepageController {
 
     }
 
+    /**
+     * This method changes the greeting message to welcome the manager.
+     */
     public void welcomeManager() {
         mainTitle.setText(
                 "Welcome, "
