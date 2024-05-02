@@ -10,7 +10,10 @@ import java.time.format.DateTimeFormatter;
  * @author azmi_maz
  */
 public class Notification {
-
+    private static final String DATE_FORMAT = "dd/MM/yyyy";
+    private static final String DATE_FORMAT_DATABASE = "yyyy-M-d";
+    private static final String TIME_FORMAT = "hh:mm a";
+    private static final String TIME_FORMAT_DATABASE = "H-m";
     private int notificationId;
     private int userId;
     private LocalDate notificationDate;
@@ -106,7 +109,7 @@ public class Notification {
      */
     public String getNotificationDateInFormat() {
         return getNotificationDate()
-                .format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                .format(DateTimeFormatter.ofPattern(DATE_FORMAT));
     }
 
     /**
@@ -116,7 +119,7 @@ public class Notification {
      */
     public String getNotificationDateForDatabase() {
         return getNotificationDate()
-                .format(DateTimeFormatter.ofPattern("yyyy-M-d"));
+                .format(DateTimeFormatter.ofPattern(DATE_FORMAT_DATABASE));
     }
 
     /**
@@ -126,7 +129,7 @@ public class Notification {
      */
     public String getNotificationTimeInFormat() {
         return getNotificationTime()
-                .format(DateTimeFormatter.ofPattern("hh:mm a"));
+                .format(DateTimeFormatter.ofPattern(TIME_FORMAT));
     }
 
     /**
@@ -136,7 +139,7 @@ public class Notification {
      */
     public String getNotificationTimeForDatabase() {
         return getNotificationTime()
-                .format(DateTimeFormatter.ofPattern("H-m"));
+                .format(DateTimeFormatter.ofPattern(TIME_FORMAT_DATABASE));
     }
 
     /**

@@ -70,7 +70,6 @@ public class ChefOutstandingOrdersViewController {
                     ".jpg").toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -170,7 +169,6 @@ public class ChefOutstandingOrdersViewController {
                         isSuccessful = chef.updateOrderStatus(selectedOrder);
                     } catch (TextFileNotFoundException ex) {
                         AlertPopUpWindow.displayErrorWindow(
-                                "Error",
                                 ex.getMessage()
                         );
                         ex.printStackTrace();
@@ -201,7 +199,6 @@ public class ChefOutstandingOrdersViewController {
      */
     public void refreshOutstandingOrdersList() {
 
-        // TODO comment
         outstandingOrdersTable.getItems().clear();
         data.clear();
 
@@ -212,7 +209,6 @@ public class ChefOutstandingOrdersViewController {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();

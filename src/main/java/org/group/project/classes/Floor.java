@@ -17,13 +17,27 @@ import java.util.*;
  * @author azmi_maz
  */
 public class Floor {
-    protected HashMap<Table, List<Booking>> tableBookings;
-
+    private static final String BOOKING_FILE = "BOOKINGS";
+    private static final String TABLE_FILE = "TABLES";
+    private static final String USER_ID_COLUMN = "userId";
+    private static final String TABLE_NAME_COLUMN = "tableName";
+    private static final String NUM_SEATS_COLUMN = "numOfSeats";
+    private static final String BOOKING_DATE_COLUMN = "bookingDate";
+    private static final String BOOKING_TIME_COLUMN = "bookingTime";
+    private static final String BOOKING_STATUS_COLUMN = "bookingStatus";
+    private static final String NUM_GUESTS_COLUMN = "numOfGuests";
+    private static final String BOOKING_LENGTH_COLUMN = "bookingLength";
+    private static final String TABLE_PREFERENCE_COLUMN = "tablePreference";
+    private static final String PENDING_STATUS = "pending-approval";
+    private static final String DATE_FORMAT_DATABASE = "yyyy-M-d";
+    private static final String TIME_FORMAT_DATABASE = "H-m";
+    private static final int HALF_HOUR_INTERVAL = 30;
     private static final int MAX_BOOKING_LENGTH = 5;
     private static final LocalTime OPENING_TIME = LocalTime.of(
             10, 00);
     private static final LocalTime LATEST_BOOKING_TIME = LocalTime.of(
             21, 00);
+    protected HashMap<Table, List<Booking>> tableBookings;
 
     /**
      * This constructor set up the restaurant floor and updates its data
@@ -127,7 +141,7 @@ public class Floor {
      */
     public void addNewTable(List<Table> newTables) {
         for (Table table : newTables) {
-            Boolean tableMatches = tableBookings.keySet()
+            boolean tableMatches = tableBookings.keySet()
                     .stream().anyMatch(thisTable -> {
                         return thisTable.getTableName()
                                 .equalsIgnoreCase(table.getTableName());
@@ -298,7 +312,7 @@ public class Floor {
         try {
             List<Booking> bookingList = new ArrayList<>();
             List<String> tableReservations = DataManager
-                    .allDataFromFile("BOOKINGS");
+                    .allDataFromFile(BOOKING_FILE);
             UserManagement userManagement = new UserManagement();
 
             for (String booking : tableReservations) {
@@ -334,12 +348,12 @@ public class Floor {
             List<String> bookingDetails = List.of(booking.split(","));
             int bookingId = Integer.parseInt(bookingDetails.get(
                     DataFileStructure.getIndexColOfUniqueId(
-                            "BOOKINGS"
+                            BOOKING_FILE
                     )
             ));
             int customerId = Integer.parseInt(bookingDetails.get(
                     DataFileStructure.getIndexByColName(
-                            "BOOKINGS", "userId")));
+                            BOOKING_FILE, USER_ID_COLUMN)));
             Customer customer = userManagement.getCustomerById(
                     customerId
             );
@@ -347,43 +361,43 @@ public class Floor {
             LocalDate bookingDate = getLocalDateFromString(
                     bookingDetails.get(DataFileStructure
                             .getIndexByColName(
-                                    "BOOKINGS",
-                                    "bookingDate"
+                                    BOOKING_FILE,
+                                    BOOKING_DATE_COLUMN
                             ))
             );
             LocalTime bookingTime = getLocalTimeFromString(
                     bookingDetails.get(DataFileStructure
                             .getIndexByColName(
-                                    "BOOKINGS",
-                                    "bookingTime"
+                                    BOOKING_FILE,
+                                    BOOKING_TIME_COLUMN
                             ))
             );
             int numOfGuests = Integer.parseInt(bookingDetails.get(
                     DataFileStructure
                             .getIndexByColName(
-                                    "BOOKINGS",
-                                    "numOfGuests"
+                                    BOOKING_FILE,
+                                    NUM_GUESTS_COLUMN
                             )
             ));
             int bookingLength = Integer.parseInt(bookingDetails.get(
                     DataFileStructure
                             .getIndexByColName(
-                                    "BOOKINGS",
-                                    "bookingLength"
+                                    BOOKING_FILE,
+                                    BOOKING_LENGTH_COLUMN
                             )
             ));
             String bookingTable = bookingDetails.get(
                     DataFileStructure
                             .getIndexByColName(
-                                    "BOOKINGS",
-                                    "tablePreference"
+                                    BOOKING_FILE,
+                                    TABLE_PREFERENCE_COLUMN
                             )
             );
             String bookingStatus = bookingDetails.get(
                     DataFileStructure
                             .getIndexByColName(
-                                    "BOOKINGS",
-                                    "bookingStatus"
+                                    BOOKING_FILE,
+                                    BOOKING_STATUS_COLUMN
                             )
             );
             List<Table> tablePreference = new ArrayList<>();
@@ -579,10 +593,10 @@ public class Floor {
         String customerId = String.valueOf(newBooking.getCustomerId());
         String bookingDate = newBooking
                 .getBookingDate()
-                .format(DateTimeFormatter.ofPattern("yyyy-M-d"));
+                .format(DateTimeFormatter.ofPattern(DATE_FORMAT_DATABASE));
         String bookingTime = newBooking
                 .getBookingTime()
-                .format(DateTimeFormatter.ofPattern("H-m"));
+                .format(DateTimeFormatter.ofPattern(TIME_FORMAT_DATABASE));
         String numOfGuests = String.valueOf(newBooking.getNumOfGuests());
         String bookingLength =
                 String.valueOf(newBooking.getBookingLengthInHour());
@@ -603,7 +617,7 @@ public class Floor {
 
         try {
             DataManager.appendDataToFile(
-                    "BOOKINGS", newBookingForDatabase);
+                    BOOKING_FILE, newBookingForDatabase);
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
             throw e;
@@ -622,10 +636,10 @@ public class Floor {
         int bookingId = editedBooking.getBookingId();
         String bookingDate = editedBooking
                 .getBookingDate()
-                .format(DateTimeFormatter.ofPattern("yyyy-M-d"));
+                .format(DateTimeFormatter.ofPattern(DATE_FORMAT_DATABASE));
         String bookingTime = editedBooking
                 .getBookingTime()
-                .format(DateTimeFormatter.ofPattern("H-m"));
+                .format(DateTimeFormatter.ofPattern(TIME_FORMAT_DATABASE));
         String numOfGuests = String.valueOf(editedBooking
                 .getNumOfGuests());
         String tablePreference = String.valueOf(editedBooking
@@ -634,16 +648,16 @@ public class Floor {
                 .getBookingLengthInHour());
 
         try {
-            DataManager.editColumnDataByUniqueId("BOOKINGS", bookingId,
-                    "bookingDate", bookingDate);
-            DataManager.editColumnDataByUniqueId("BOOKINGS", bookingId,
-                    "bookingTime", bookingTime);
-            DataManager.editColumnDataByUniqueId("BOOKINGS", bookingId,
-                    "numOfGuests", numOfGuests);
-            DataManager.editColumnDataByUniqueId("BOOKINGS", bookingId,
-                    "tablePreference", tablePreference);
-            DataManager.editColumnDataByUniqueId("BOOKINGS", bookingId,
-                    "bookingLength", bookingLength);
+            DataManager.editColumnDataByUniqueId(BOOKING_FILE, bookingId,
+                    BOOKING_DATE_COLUMN, bookingDate);
+            DataManager.editColumnDataByUniqueId(BOOKING_FILE, bookingId,
+                    BOOKING_TIME_COLUMN, bookingTime);
+            DataManager.editColumnDataByUniqueId(BOOKING_FILE, bookingId,
+                    NUM_GUESTS_COLUMN, numOfGuests);
+            DataManager.editColumnDataByUniqueId(BOOKING_FILE, bookingId,
+                    TABLE_PREFERENCE_COLUMN, tablePreference);
+            DataManager.editColumnDataByUniqueId(BOOKING_FILE, bookingId,
+                    BOOKING_LENGTH_COLUMN, bookingLength);
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
             throw e;
@@ -664,7 +678,7 @@ public class Floor {
 
             if (booking
                     .getBookingStatus()
-                    .equalsIgnoreCase("pending-approval")) {
+                    .equalsIgnoreCase(PENDING_STATUS)) {
                 data.add(booking);
             }
         }
@@ -725,19 +739,19 @@ public class Floor {
         try {
             List<Table> tableList = new ArrayList<>();
             List<String> tableData = null;
-            tableData = DataManager.allDataFromFile("TABLES");
+            tableData = DataManager.allDataFromFile(TABLE_FILE);
             for (String table : tableData) {
                 List<String> tableDetails = List.of(table.split(","));
                 String tableName = tableDetails.get(
                         DataFileStructure.getIndexByColName(
-                                "TABLES",
-                                "tableName"
+                                TABLE_FILE,
+                                TABLE_NAME_COLUMN
                         )
                 );
                 int numOfSeats = Integer.parseInt(tableDetails.get(
                         DataFileStructure.getIndexByColName(
-                                "TABLES",
-                                "numOfSeats"
+                                TABLE_FILE,
+                                NUM_SEATS_COLUMN
                         )
                 ));
                 tableList.add(new Table(
@@ -843,11 +857,11 @@ public class Floor {
     public void updateReservationTimeChoiceBox(
             ChoiceBox<LocalTime> reservationTimeChoiceBox
     ) {
-        // TODO magic
+
         reservationTimeChoiceBox.getItems().clear();
         for (LocalTime startTime = OPENING_TIME;
              startTime.compareTo(LATEST_BOOKING_TIME) <= 0;
-             startTime = startTime.plusMinutes(30)) {
+             startTime = startTime.plusMinutes(HALF_HOUR_INTERVAL)) {
             reservationTimeChoiceBox
                     .getItems()
                     .add(startTime);

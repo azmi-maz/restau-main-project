@@ -11,6 +11,8 @@ import java.util.List;
  */
 public class Chef extends Staff {
 
+    private static final String TAKEAWAY_ORDER = "takeaway";
+
     /**
      * The constructor to create new chef with basic info.
      *
@@ -107,7 +109,7 @@ public class Chef extends Staff {
         try {
 
             if (selectedOrder.getOrderType().equalsIgnoreCase(
-                    "takeaway")) {
+                    TAKEAWAY_ORDER)) {
                 TakeawayOrder takeawayOrder = (TakeawayOrder) selectedOrder;
                 takeawayOrder.setEstimatedPickupTime();
                 takeawayOrder.notifyCustomer(

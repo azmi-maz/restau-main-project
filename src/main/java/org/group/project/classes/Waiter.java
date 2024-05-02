@@ -10,6 +10,7 @@ import java.util.List;
  * @author azmi_maz
  */
 public class Waiter extends Staff {
+    private static final String DINEIN_TYPE = "dinein";
 
     /**
      * The constructor to create new waiter.
@@ -105,7 +106,7 @@ public class Waiter extends Staff {
             Kitchen kitchen = new Kitchen();
 
             Order newOrder = kitchen.createNewOrder(
-                    "dinein",
+                    DINEIN_TYPE,
                     customerId,
                     orderList
             );

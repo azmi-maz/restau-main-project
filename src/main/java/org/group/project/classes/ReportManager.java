@@ -19,15 +19,26 @@ import java.util.List;
  * @author azmi_maz
  */
 public class ReportManager {
-
+    private static final String REPORT_FILE = "REPORTS";
+    private static final String TYPE_COLUMN = "reportType";
+    private static final String DATA_COLUMN = "reportData";
+    private static final String BY_COLUMN = "generatedBy";
+    private static final String DATE_COLUMN = "generatedOnDate";
+    private static final String TIME_COLUMN = "generatedOnTime";
+    private static final String MOST_POPULAR_ITEM = "Most popular item";
+    private static final String BUSIEST_PERIOD = "Busiest periods";
+    private static final String MOST_ACTIVE_CUSTOMER = "Most active customer";
+    private static final String STAFF_HOURS = "Staff worked hours";
+    private static final String OUTSTANDING_ORDERS = "Outstanding orders";
+    private static final String CHOOSE_REPORT = "Choose report type";
     private List<Report> reportList;
     private static final List<String> reportTypes =
             new ArrayList<>(Arrays.asList(
-                    "Busiest periods",
-                    "Most active customer",
-                    "Most popular item",
-                    "Outstanding orders",
-                    "Staff worked hours"
+                    BUSIEST_PERIOD,
+                    MOST_ACTIVE_CUSTOMER,
+                    MOST_POPULAR_ITEM,
+                    OUTSTANDING_ORDERS,
+                    STAFF_HOURS
             ));
 
     /**
@@ -60,7 +71,7 @@ public class ReportManager {
         try {
             List<Report> reportList = new ArrayList<>();
             List<String> allReportsFromDatabase = DataManager
-                    .allDataFromFile("REPORTS");
+                    .allDataFromFile(REPORT_FILE);
             UserManagement userManagement = new UserManagement();
 
             for (String report : allReportsFromDatabase) {
@@ -97,23 +108,23 @@ public class ReportManager {
 
             int reportId = Integer.parseInt(reportDetails
                     .get(DataFileStructure.getIndexColOfUniqueId(
-                            "REPORTS"
+                            REPORT_FILE
                     )));
 
             String reportType = reportDetails
                     .get(DataFileStructure.getIndexByColName(
-                            "REPORTS",
-                            "reportType"
+                            REPORT_FILE,
+                            TYPE_COLUMN
                     ));
             String reportData = reportDetails
                     .get(DataFileStructure.getIndexByColName(
-                            "REPORTS",
-                            "reportData"
+                            REPORT_FILE,
+                            DATA_COLUMN
                     ));
             String generatedById = reportDetails
                     .get(DataFileStructure.getIndexByColName(
-                            "REPORTS",
-                            "generatedBy"
+                            REPORT_FILE,
+                            BY_COLUMN
                     ));
             String generatedBy = userManagement
                     .getUserByUserId(generatedById)
@@ -121,14 +132,14 @@ public class ReportManager {
             LocalDate generatedOnDate = getLocalDateFromString(
                     reportDetails
                             .get(DataFileStructure.getIndexByColName(
-                                    "REPORTS",
-                                    "generatedOnDate"
+                                    REPORT_FILE,
+                                    DATE_COLUMN
                             )));
             LocalTime generatedOnTime = getLocalTimeFromString(
                     reportDetails
                             .get(DataFileStructure.getIndexByColName(
-                                    "REPORTS",
-                                    "generatedOnTime"
+                                    REPORT_FILE,
+                                    TIME_COLUMN
                             )));
 
             return new Report(
@@ -209,7 +220,7 @@ public class ReportManager {
 
         try {
             DataManager.appendDataToFile(
-                    "REPORTS",
+                    REPORT_FILE,
                     reportFormat
             );
         } catch (TextFileNotFoundException e) {
@@ -248,7 +259,7 @@ public class ReportManager {
         try {
 
             return new KitchenReport(
-                    "Most popular item",
+                    MOST_POPULAR_ITEM,
                     currentUser
             );
 
@@ -272,7 +283,7 @@ public class ReportManager {
         try {
 
             return new FloorReport(
-                    "Busiest periods",
+                    BUSIEST_PERIOD,
                     currentUser
             );
 
@@ -296,11 +307,11 @@ public class ReportManager {
         try {
 
             FloorReport mostActive = new FloorReport(
-                    "Most active customer",
+                    MOST_ACTIVE_CUSTOMER,
                     currentUser
             );
             KitchenReport mostLoyal = new KitchenReport(
-                    "Most active customer",
+                    MOST_ACTIVE_CUSTOMER,
                     currentUser
             );
             mostActive.appendReportData(
@@ -327,7 +338,7 @@ public class ReportManager {
         try {
 
             return new UserReport(
-                    "Staff worked hours",
+                    STAFF_HOURS,
                     currentUser
             );
 
@@ -351,7 +362,7 @@ public class ReportManager {
         try {
 
             return new KitchenReport(
-                    "Outstanding orders",
+                    OUTSTANDING_ORDERS,
                     currentUser
             );
 
@@ -374,6 +385,6 @@ public class ReportManager {
             choiceBox.getItems()
                     .add(reportType);
         }
-        choiceBox.setValue("Choose report type");
+        choiceBox.setValue(CHOOSE_REPORT);
     }
 }

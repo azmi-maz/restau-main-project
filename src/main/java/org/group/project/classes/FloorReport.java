@@ -14,6 +14,33 @@ import java.util.Map;
  * @author azmi_maz
  */
 public class FloorReport extends Report {
+    private static final String BUSIEST_PERIOD = "busiest periods";
+    private static final String MOST_ACTIVE_CUSTOMER = "most active customer";
+    private static final String APPROVED_STATUS = "approved";
+    private static final String PENDING_STATUS = "pending-approval";
+    private static final String LONG_DATE_FORMAT = "EEEE, dd MMMM yyyy";
+    private static final String BUSIEST_PERIOD_REPORT = "According to " +
+            "previous records, the %s stood " +
+            "out as the most bustling day, with a total " +
+            "of %d table " +
+            "reservations."
+            + System.lineSeparator() + System.lineSeparator() +
+            "Based on upcoming reservations, it seems that " +
+            "%s will be a particularly busy day, with a " +
+            "total of %d table reservations."
+            + System.lineSeparator() +
+            "%s"
+            + System.lineSeparator() +
+            "It would be wise to plan ahead.";
+    private static final String ALL_TABLES_CONFIRMED = "On that day, all " +
+            "table reservations are confirmed.";
+    private static final String FEW_TABLES_PENDING = "On that day, there " +
+            "are %d confirmed table reservations"
+            + System.lineSeparator() +
+            "with %d reservations pending for approval.";
+    private static final String MOST_ACTIVE_CUSTOMER_REPORT = "The most " +
+            "active customer is %s with %d table " +
+            "reservations approved.";
 
     /**
      * This constructor creates a new report with timestamp.
@@ -28,10 +55,10 @@ public class FloorReport extends Report {
         super(reportType, user);
 
         if (reportType.equalsIgnoreCase(
-                "busiest periods")) {
+                BUSIEST_PERIOD)) {
             super.setReportData(getBusiestPeriodReport());
         } else if (reportType.equalsIgnoreCase(
-                "most active customer")) {
+                MOST_ACTIVE_CUSTOMER)) {
             super.setReportData(getMostActiveCustomerReport());
         }
 
@@ -94,12 +121,11 @@ public class FloorReport extends Report {
                 currentCount++;
                 dateRangeMap.put(currentDate, currentCount);
             } else {
-                // TODO magic number
                 dateRangeMap.put(currentDate, 1);
             }
             int currentCustomerId = booking.getCustomerId();
             if (booking.getBookingStatus().equalsIgnoreCase(
-                    "approved")) {
+                    APPROVED_STATUS)) {
                 if (customerCountMap.containsKey(currentCustomerId)) {
                     int currentCustomerScore = customerCountMap
                             .get(currentCustomerId);
@@ -107,13 +133,11 @@ public class FloorReport extends Report {
                     customerCountMap.put(currentCustomerId,
                             currentCustomerScore);
                 } else {
-                    // TODO magic number
                     customerCountMap.put(currentCustomerId, 1);
                 }
             }
         }
 
-        // TODO magic numbers
         int pastMaxNumTableReservations = 0;
         LocalDate pastDateWithMaxNum = null;
         int futureMaxNumTableReservations = 0;
@@ -164,10 +188,10 @@ public class FloorReport extends Report {
             if (futureDateWithMaxNum != null
                     && booking.getBookingDate().isEqual(futureDateWithMaxNum)) {
                 if (booking.getBookingStatus()
-                        .equalsIgnoreCase("pending-approval")) {
+                        .equalsIgnoreCase(PENDING_STATUS)) {
                     numOfPendingBookings++;
                 } else if (booking.getBookingStatus()
-                        .equalsIgnoreCase("approved")) {
+                        .equalsIgnoreCase(APPROVED_STATUS)) {
                     numOfApprovedBookings++;
                 }
             }
@@ -179,41 +203,29 @@ public class FloorReport extends Report {
         );
 
         String busiestPeriodReport = String.format(
-                "According to previous records, the %s stood " +
-                        "out as the most bustling day, with a total " +
-                        "of %d table " +
-                        "reservations."
-                        + System.lineSeparator() + System.lineSeparator() +
-                        "Based on upcoming reservations, it seems that " +
-                        "%s will be a particularly busy day, with a " +
-                        "total of %d table reservations."
-                        + System.lineSeparator() +
-                        "%s"
-                        + System.lineSeparator() +
-                        "It would be wise to plan ahead.",
+                BUSIEST_PERIOD_REPORT,
                 pastDateWithMaxNum
                         .format(DateTimeFormatter.ofPattern(
-                                "EEEE, dd MMMM yyyy")),
+                                LONG_DATE_FORMAT)),
                 pastMaxNumTableReservations,
                 futureDateWithMaxNum
                         .format(DateTimeFormatter.ofPattern(
-                                "EEEE, dd MMMM yyyy")),
+                                LONG_DATE_FORMAT)),
                 futureMaxNumTableReservations,
                 finalFutureBookings
         );
 
         String mostActiveCustomerReport = String.format(
-                "The most active customer is %s with %d table " +
-                        "reservations approved.",
+                MOST_ACTIVE_CUSTOMER_REPORT,
                 mostActiveCustomer,
                 maxNumBookings
         );
 
         if (getReportType().equalsIgnoreCase(
-                "busiest periods")) {
+                BUSIEST_PERIOD)) {
             return busiestPeriodReport;
         } else if (getReportType().equalsIgnoreCase(
-                "most active customer")) {
+                MOST_ACTIVE_CUSTOMER)) {
             return mostActiveCustomerReport;
         }
         return null;
@@ -231,17 +243,15 @@ public class FloorReport extends Report {
             int numOfPendings,
             int numOfApproved
     ) {
-        // TODO magic
+
         if (numOfPendings == 0) {
             return String.format(
-                    "On that day, all table reservations are confirmed.",
+                    ALL_TABLES_CONFIRMED,
                     numOfApproved
             );
         } else {
             return String.format(
-                    "On that day, there are %d confirmed table reservations"
-                            + System.lineSeparator() +
-                            "with %d reservations pending for approval.",
+                    FEW_TABLES_PENDING,
                     numOfApproved,
                     numOfPendings
             );

@@ -9,6 +9,7 @@ import org.group.project.exceptions.TextFileNotFoundException;
  */
 public class Driver extends Staff {
 
+    private static final int MAX_DELIVERIES = 5;
     private boolean isAvailable;
     private int maxDeliveries;
 
@@ -24,7 +25,7 @@ public class Driver extends Staff {
                   String username) {
         super(firstName, lastName, username, false);
         this.isAvailable = true;
-        this.maxDeliveries = 5;
+        this.maxDeliveries = MAX_DELIVERIES;
     }
 
     /**

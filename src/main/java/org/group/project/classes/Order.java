@@ -15,6 +15,21 @@ import java.util.List;
  * @author azmi_maz
  */
 public class Order implements NotifyAction {
+    private static final String ORDER_FILE = "ORDERS";
+    private static final String DELIVERY_ORDER = "delivery order";
+    private static final String TAKEAWAY_ORDER = "takeaway order";
+    private static final String DELIVERY_TYPE = "delivery";
+    private static final String TAKEAWAY_TYPE = "takeaway";
+    private static final String DINEIN_TYPE = "dinein";
+    private static final String STATUS_COLUMN = "orderStatus";
+    private static final String PENDING_STATUS = "pending-approval";
+    private static final String PENDING_KITCHEN = "pending-kitchen";
+    private static final String PENDING_DELIVERY = "pending-delivery";
+    private static final String COMPLETED_STATUS = "completed";
+    private static final String ITEM_DISPLAY_FORMAT = "%dx %s"
+            + System.lineSeparator();
+    private static final String DATE_FORMAT = "dd/MM/yyyy";
+    private static final String TIME_FORMAT = "hh:mm a";
     private User user;
     private int orderId;
     private LocalDate orderDate;
@@ -89,16 +104,16 @@ public class Order implements NotifyAction {
         user = userManagement.getCustomerById(customerId);
         orderDate = LocalDate.now();
         orderTime = LocalTime.now();
-        if (orderType.equalsIgnoreCase("delivery order")) {
-            this.orderType = "delivery";
-            this.orderStatus = "pending-approval";
+        if (orderType.equalsIgnoreCase(DELIVERY_ORDER)) {
+            this.orderType = DELIVERY_TYPE;
+            this.orderStatus = PENDING_STATUS;
         } else if (orderType
-                .equalsIgnoreCase("takeaway order")) {
-            this.orderType = "takeaway";
-            this.orderStatus = "pending-kitchen";
+                .equalsIgnoreCase(TAKEAWAY_ORDER)) {
+            this.orderType = TAKEAWAY_TYPE;
+            this.orderStatus = PENDING_KITCHEN;
         } else {
-            this.orderType = "dinein";
-            this.orderStatus = "pending-kitchen";
+            this.orderType = DINEIN_TYPE;
+            this.orderStatus = PENDING_KITCHEN;
         }
         this.orderedFoodDrinkLists = new ArrayList<>();
         orderedFoodDrinkLists.addAll(orderList);
@@ -137,7 +152,7 @@ public class Order implements NotifyAction {
      * @return the notification date in the desired format.
      */
     public String getOrderDateInFormat() {
-        return orderDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        return orderDate.format(DateTimeFormatter.ofPattern(DATE_FORMAT));
     }
 
     /**
@@ -155,7 +170,7 @@ public class Order implements NotifyAction {
      * @return the notification time in the desired format.
      */
     public String getOrderTimeInFormat() {
-        return orderTime.format(DateTimeFormatter.ofPattern("hh:mm a"));
+        return orderTime.format(DateTimeFormatter.ofPattern(TIME_FORMAT));
     }
 
     /**
@@ -221,7 +236,8 @@ public class Order implements NotifyAction {
         for (FoodDrink item : orderedFoodDrinkLists) {
             boolean isNewItem = true;
             for (FoodDrink itemInList : compiledList) {
-                if (itemInList.getItemName().equalsIgnoreCase(item.getItemName())) {
+                if (itemInList.getItemName().equalsIgnoreCase(
+                        item.getItemName())) {
                     itemInList.incrementQuantity();
                     isNewItem = false;
                 }
@@ -242,10 +258,11 @@ public class Order implements NotifyAction {
         String displayList = "";
         List<FoodDrink> compiledList = compiledOrderList();
         for (FoodDrink item : compiledList) {
-            displayList += item.getQuantity()
-                    + "x "
-                    + item.getItemNameForDisplay()
-                    + System.lineSeparator();
+            displayList += String.format(
+                    ITEM_DISPLAY_FORMAT,
+                    item.getQuantity(),
+                    item.getItemNameForDisplay()
+            );
         }
         return displayList;
     }
@@ -256,17 +273,18 @@ public class Order implements NotifyAction {
      * @return true if the status update was made successfully.
      * @throws TextFileNotFoundException - if text file is non-existent.
      */
-    public boolean markOffOrderAsComplete() throws TextFileNotFoundException {
+    public boolean markOffOrderAsComplete()
+            throws TextFileNotFoundException {
         try {
-            if (orderType.equalsIgnoreCase("takeaway")
-                    || orderType.equalsIgnoreCase("dinein")) {
-                return DataManager.editColumnDataByUniqueId("ORDERS",
-                        orderId, "orderStatus",
-                        "completed");
-            } else if (orderType.equalsIgnoreCase("delivery")) {
-                return DataManager.editColumnDataByUniqueId("ORDERS",
-                        orderId, "orderStatus",
-                        "pending-delivery");
+            if (orderType.equalsIgnoreCase(TAKEAWAY_TYPE)
+                    || orderType.equalsIgnoreCase(DINEIN_TYPE)) {
+                return DataManager.editColumnDataByUniqueId(ORDER_FILE,
+                        orderId, STATUS_COLUMN,
+                        COMPLETED_STATUS);
+            } else if (orderType.equalsIgnoreCase(DELIVERY_TYPE)) {
+                return DataManager.editColumnDataByUniqueId(ORDER_FILE,
+                        orderId, STATUS_COLUMN,
+                        PENDING_DELIVERY);
             }
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();

@@ -11,6 +11,11 @@ import java.util.List;
  * @author azmi_maz
  */
 public class User {
+    private static final String USER_FILE = "USERS";
+    private static final String FIRST_NAME = "firstName";
+    private static final String LAST_NAME = "lastName";
+    private static final String USERNAME = "username";
+    private static final String DISPLAY_USER_INFO = "%s%s %s%s";
     protected String firstName;
     protected String lastName;
     protected String username;
@@ -101,7 +106,7 @@ public class User {
      */
     public static User convertStringToUser(String rawData) {
 
-        List<String> userColumns = DataFileStructure.getValues("USERS");
+        List<String> userColumns = DataFileStructure.getValues(USER_FILE);
         String[] rawDataArr = rawData.split(",");
         String firstName = null;
         String lastName = null;
@@ -110,13 +115,13 @@ public class User {
             String colName = userColumns.get(i);
             String dataVal = rawDataArr[i];
             switch (colName) {
-                case "firstName":
+                case FIRST_NAME:
                     firstName = dataVal;
                     break;
-                case "lastName":
+                case LAST_NAME:
                     lastName = dataVal;
                     break;
-                case "username":
+                case USERNAME:
                     username = dataVal;
                     break;
             }
@@ -130,7 +135,7 @@ public class User {
      * @return A user data.
      */
     public String getDataForListDisplay() {
-        return String.format("%s%s %s%s",
+        return String.format(DISPLAY_USER_INFO,
                 firstName.substring(0, 1).toUpperCase(),
                 firstName.substring(1),
                 lastName.substring(0, 1).toUpperCase(),

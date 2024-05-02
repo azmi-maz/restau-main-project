@@ -25,7 +25,32 @@ import java.util.List;
  * @author azmi_maz
  */
 public class Menu {
-
+    private static final String MENU_FILE = "MENU";
+    private static final String ITEM_NAME_COLUMN = "itemName";
+    private static final String ITEM_TYPE_COLUMN = "itemType";
+    private static final String DAILY_SPECIAL_COLUMN = "isDailySpecial";
+    private static final String IMAGE_URI_COLUMN = "imageurl";
+    private static final String HEIGHT_SUB_COLUMN = "height-sub";
+    private static final String HEIGHT_DIV_COLUMN = "height-div";
+    private static final String WIDTH_SUB_COLUMN = "width-sub";
+    private static final String WIDTH_DIV_COLUMN = "width-div";
+    private static final String COL_IDX_COLUMN = "colIdx";
+    private static final String ROW_IDX_COLUMN = "rowIdx";
+    private static final String COLSPAN_COLUMN = "colSpan";
+    private static final String ROWSPAN_COLUMN = "rowSpan";
+    private static final String IMG_ALIGN_COLUMN = "imgAlign";
+    private static final String TAG_ALIGN_COLUMN = "tagAlign";
+    private static final String STACK_ALIGN_COLUMN = "stackAlign";
+    private static final String MAX_HEIGHT_COLUMN = "maxHeight";
+    private static final String MAX_WIDTH_COLUMN = "maxWidth";
+    private static final String PRESET_ITEM_FILE = "PRESET_ITEMS";
+    private static final String PIZZA = "pizza";
+    private static final String PEPSI = "pepsi";
+    private static final String COKE = "coke";
+    private static final String SPAGHETTI = "spaghetti";
+    private static final String SOUP = "soup";
+    private static final String DAILY_SPECIAL_TAG = "images" +
+            "/icons/daily-special-stamp.png";
     private static final int DAILY_SPECIAL_TAG_HEIGHT = 55;
     private static final int DAILY_SPECIAL_TAG_WIDTH = 55;
     private static final List<String> foodTypes =
@@ -118,7 +143,7 @@ public class Menu {
         try {
             List<FoodDrink> foodDrinkList = new ArrayList<>();
             List<String> allMenuItemsFromDatabase = DataManager
-                    .allDataFromFile("MENU");
+                    .allDataFromFile(MENU_FILE);
 
             for (String item : allMenuItemsFromDatabase) {
                 foodDrinkList.add(
@@ -145,19 +170,19 @@ public class Menu {
         List<String> itemDetails = List.of(item.split(","));
         String itemName = itemDetails.get(
                 DataFileStructure.getIndexByColName(
-                        "MENU",
-                        "itemName"
+                        MENU_FILE,
+                        ITEM_NAME_COLUMN
                 ));
         String itemType = itemDetails.get(
                 DataFileStructure.getIndexByColName(
-                        "MENU",
-                        "itemType"
+                        MENU_FILE,
+                        ITEM_TYPE_COLUMN
                 ));
         boolean isDailySpecial = Boolean
                 .parseBoolean(itemDetails
                         .get(DataFileStructure
-                                .getIndexByColName("MENU",
-                                        "isDailySpecial")));
+                                .getIndexByColName(MENU_FILE,
+                                        DAILY_SPECIAL_COLUMN)));
         return new FoodDrink(
                 itemName,
                 itemType,
@@ -208,11 +233,10 @@ public class Menu {
 
         try {
             List<String> imageDataList = DataManager
-                    .allDataFromFile("MENU");
+                    .allDataFromFile(MENU_FILE);
 
             Image dailySpecial = new Image(Main.class
-                    .getResource("images" +
-                            "/icons/daily-special-stamp.png").toURI().toString());
+                    .getResource(DAILY_SPECIAL_TAG).toURI().toString());
 
             for (String imageData : imageDataList) {
                 getImageStackFromString(
@@ -245,60 +269,60 @@ public class Menu {
                 imageData.split(","));
         boolean isDailySpecial = Boolean.parseBoolean(
                 imageDataDetails.get(DataFileStructure
-                        .getIndexByColName("MENU",
-                                "isDailySpecial")));
+                        .getIndexByColName(MENU_FILE,
+                                DAILY_SPECIAL_COLUMN)));
         String url = imageDataDetails.get(
-                DataFileStructure.getIndexByColName("MENU",
-                        "imageurl"));
+                DataFileStructure.getIndexByColName(MENU_FILE,
+                        IMAGE_URI_COLUMN));
         double heightSub = Double.parseDouble(
                 imageDataDetails.get(DataFileStructure
-                        .getIndexByColName("MENU",
-                                "height-sub")));
+                        .getIndexByColName(MENU_FILE,
+                                HEIGHT_SUB_COLUMN)));
         double heightDiv = Double.parseDouble(
                 imageDataDetails.get(DataFileStructure
-                        .getIndexByColName("MENU",
-                                "height-div")));
+                        .getIndexByColName(MENU_FILE,
+                                HEIGHT_DIV_COLUMN)));
         double widthSub = Double.parseDouble(
                 imageDataDetails.get(DataFileStructure
-                        .getIndexByColName("MENU",
-                                "width-sub")));
+                        .getIndexByColName(MENU_FILE,
+                                WIDTH_SUB_COLUMN)));
         double widthDiv = Double.parseDouble(
                 imageDataDetails.get(DataFileStructure
-                        .getIndexByColName("MENU",
-                                "width-div")));
+                        .getIndexByColName(MENU_FILE,
+                                WIDTH_DIV_COLUMN)));
         int colIdx = Integer.parseInt(
                 imageDataDetails.get(DataFileStructure
-                        .getIndexByColName("MENU",
-                                "colIdx")));
+                        .getIndexByColName(MENU_FILE,
+                                COL_IDX_COLUMN)));
         int rowIdx = Integer.parseInt(
                 imageDataDetails.get(DataFileStructure
-                        .getIndexByColName("MENU",
-                                "rowIdx")));
+                        .getIndexByColName(MENU_FILE,
+                                ROW_IDX_COLUMN)));
         int colSpan = Integer.parseInt(
                 imageDataDetails.get(DataFileStructure
-                        .getIndexByColName("MENU",
-                                "colSpan")));
+                        .getIndexByColName(MENU_FILE,
+                                COLSPAN_COLUMN)));
         int rowSpan = Integer.parseInt(
                 imageDataDetails.get(DataFileStructure
-                        .getIndexByColName("MENU",
-                                "rowSpan")));
+                        .getIndexByColName(MENU_FILE,
+                                ROWSPAN_COLUMN)));
         String imgAlign = imageDataDetails.get(
-                DataFileStructure.getIndexByColName("MENU",
-                        "imgAlign"));
+                DataFileStructure.getIndexByColName(MENU_FILE,
+                        IMG_ALIGN_COLUMN));
         String tagAlign = imageDataDetails.get(
-                DataFileStructure.getIndexByColName("MENU",
-                        "tagAlign"));
+                DataFileStructure.getIndexByColName(MENU_FILE,
+                        TAG_ALIGN_COLUMN));
         String stackAlign = imageDataDetails.get(
-                DataFileStructure.getIndexByColName("MENU",
-                        "stackAlign"));
+                DataFileStructure.getIndexByColName(MENU_FILE,
+                        STACK_ALIGN_COLUMN));
         double maxHeight = Double.parseDouble(
                 imageDataDetails.get(
-                        DataFileStructure.getIndexByColName("MENU",
-                                "maxHeight")));
+                        DataFileStructure.getIndexByColName(MENU_FILE,
+                                MAX_HEIGHT_COLUMN)));
         double maxWidth = Double.parseDouble(
                 imageDataDetails.get(
-                        DataFileStructure.getIndexByColName("MENU",
-                                "maxWidth")));
+                        DataFileStructure.getIndexByColName(MENU_FILE,
+                                MAX_WIDTH_COLUMN)));
 
         Image image = new Image(Main.class.getResource(url)
                 .toURI().toString());
@@ -375,13 +399,13 @@ public class Menu {
     ) throws TextFileNotFoundException {
         try {
             List<String> presetMenuList = DataManager
-                    .allDataFromFile("PRESET_ITEMS");
+                    .allDataFromFile(PRESET_ITEM_FILE);
             for (String item : presetMenuList) {
                 List<String> itemDetails = List.of(item.split(","));
                 String currentItemName = itemDetails.get(
                         DataFileStructure
                                 .getIndexColOfUniqueId(
-                                        "PRESET_ITEMS"
+                                        PRESET_ITEM_FILE
                                 )
                 );
                 if (currentItemName
@@ -412,14 +436,14 @@ public class Menu {
 
             List<String> presetItem = new ArrayList<>();
             switch (itemName) {
-                case "pizza", "pepsi", "coke", "spaghetti", "soup":
+                case PIZZA, PEPSI, COKE, SPAGHETTI, SOUP:
                     presetItem = getPresetMenuItem(
                             itemName
                     );
                     break;
                 default:
                     presetItem = getPresetMenuItem(
-                            "pizza"
+                            PIZZA
                     );
                     break;
             }
@@ -443,7 +467,7 @@ public class Menu {
     ) throws TextFileNotFoundException {
         try {
             boolean isSuccessful = DataManager
-                    .appendDataToFile("MENU", newItem);
+                    .appendDataToFile(MENU_FILE, newItem);
             if (isSuccessful) {
                 return true;
             }
@@ -470,8 +494,8 @@ public class Menu {
         boolean isSuccessful = false;
         try {
             isSuccessful = DataManager.editColumnDataByUniqueId(
-                    "MENU",
-                    itemName, "isDailySpecial",
+                    MENU_FILE,
+                    itemName, DAILY_SPECIAL_COLUMN,
                     newStatus);
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();

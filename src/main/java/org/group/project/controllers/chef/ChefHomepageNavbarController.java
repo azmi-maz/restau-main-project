@@ -19,7 +19,14 @@ import org.group.project.scenes.chef.mainViews.OutstandingView;
  * @author azmi_maz
  */
 public class ChefHomepageNavbarController {
-
+    private static final String PENDING_BUTTON = "pending";
+    private static final String HISTORY_BUTTON = "history";
+    private static final String MENU_BUTTON = "menu";
+    private static final String USER_BUTTON = "user";
+    private static final String POWER_BUTTON = "power";
+    private static final int BUTTON_WIDTH = 25;
+    private static final int BUTTON_HEIGHT = 25;
+    private static final String ACTIVE_USER_FILE = "ACTIVE_USER";
     @FXML
     private Button outstandingOrderButton;
 
@@ -41,20 +48,20 @@ public class ChefHomepageNavbarController {
     public void initialize() {
 
         ImageLoader.setUpGraphicButton(outstandingOrderButton,
-                25, 25,
-                "pending");
+                BUTTON_WIDTH, BUTTON_HEIGHT,
+                PENDING_BUTTON);
 
         ImageLoader.setUpGraphicButton(orderHistoryButton,
-                25, 25, "history");
+                BUTTON_WIDTH, BUTTON_HEIGHT, HISTORY_BUTTON);
 
         ImageLoader.setUpGraphicButton(menuButton,
-                25, 25, "menu");
+                BUTTON_WIDTH, BUTTON_HEIGHT, MENU_BUTTON);
 
         ImageLoader.setUpGraphicButton(userButton,
-                25, 25, "user");
+                BUTTON_WIDTH, BUTTON_HEIGHT, USER_BUTTON);
 
         ImageLoader.setUpGraphicButton(logOffButton,
-                25, 25, "power");
+                BUTTON_WIDTH, BUTTON_HEIGHT, POWER_BUTTON);
 
         outstandingOrderButton.setOnMousePressed(e -> {
             OutstandingView.controller.refreshOutstandingOrdersList();
@@ -79,7 +86,7 @@ public class ChefHomepageNavbarController {
         logOffButton.setOnMousePressed(e -> {
             // Log off by removing active user info
             try {
-                DataManager.clearFileData("ACTIVE_USER");
+                DataManager.clearFileData(ACTIVE_USER_FILE);
             } catch (ClearFileFailedException ex) {
                 AlertPopUpWindow.displayErrorWindow(
                         ex.getMessage()
@@ -91,6 +98,4 @@ public class ChefHomepageNavbarController {
         });
 
     }
-
-
 }

@@ -15,7 +15,10 @@ import java.net.URISyntaxException;
  * @author azmi_maz
  */
 public class ChefHomepageController {
-
+    private static final String BG_IMAGE = "images" +
+            "/background/chef-main" +
+            ".jpg";
+    private static final String WELCOME = "Welcome, %s!";
     @FXML
     private BorderPane borderPane;
 
@@ -29,9 +32,8 @@ public class ChefHomepageController {
 
         Image bgImage = null;
         try {
-            bgImage = new Image(Main.class.getResource("images" +
-                    "/background/chef-main" +
-                    ".jpg").toURI().toString());
+            bgImage = new Image(Main.class
+                    .getResource(BG_IMAGE).toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
                     e.getMessage()
@@ -56,9 +58,10 @@ public class ChefHomepageController {
      */
     public void welcomeChef() {
         mainTitle.setText(
-                "Welcome, "
-                        + Main.getCurrentUser().getFirstNameForDisplay()
-                        + "!"
+                String.format(
+                        WELCOME,
+                        Main.getCurrentUser().getFirstNameForDisplay()
+                )
         );
     }
 }

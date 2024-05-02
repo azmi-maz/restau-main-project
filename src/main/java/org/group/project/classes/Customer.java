@@ -10,6 +10,11 @@ import org.group.project.exceptions.TextFileNotFoundException;
  * @author azmi_maz
  */
 public class Customer extends User {
+
+    private static final String BOOKING_FILE = "BOOKINGS";
+    private static final String NOTIFICATION_FILE = "NOTIFICATION";
+    private static final String READ_STATUS_COLUMN = "readStatus";
+    private static final String IS_READ = "true";
     private final int customerId;
     private String deliveryAddress;
 
@@ -144,7 +149,7 @@ public class Customer extends User {
         int bookingId = booking.getBookingId();
         try {
             return DataManager.deleteUniqueIdFromFile(
-                    "BOOKINGS",
+                    BOOKING_FILE,
                     bookingId);
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
@@ -186,10 +191,10 @@ public class Customer extends User {
     ) throws TextFileNotFoundException {
         try {
             DataManager.editColumnDataByUniqueId(
-                    "NOTIFICATION",
+                    NOTIFICATION_FILE,
                     notificationId,
-                    "readStatus",
-                    "true");
+                    READ_STATUS_COLUMN,
+                    IS_READ);
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
             throw e;
@@ -197,7 +202,7 @@ public class Customer extends User {
     }
 
     /**
-t
+     * t
      *
      * @param address - the unformatted address taken from textfield.
      * @return an address with the correct format.

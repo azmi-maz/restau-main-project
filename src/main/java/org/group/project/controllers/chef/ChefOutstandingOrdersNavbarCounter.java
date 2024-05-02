@@ -38,7 +38,6 @@ public class ChefOutstandingOrdersNavbarCounter {
             kitchen = new Kitchen();
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();

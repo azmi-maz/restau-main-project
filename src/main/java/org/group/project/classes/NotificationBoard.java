@@ -19,7 +19,17 @@ import java.util.List;
  * @author azmi_maz
  */
 public class NotificationBoard {
-
+    private static final String NOTIFICATION_FILE = "NOTIFICATION";
+    private static final String USER_ID_COLUMN = "userId";
+    private static final String DATE_COLUMN = "notificationDate";
+    private static final String TIME_COLUMN = "notificationTime";
+    private static final String TYPE_COLUMN = "notificationType";
+    private static final String READ_COLUMN = "readStatus";
+    private static final String MESSAGE_BODY_COLUMN = "messageBody";
+    private static final String BOOKING_TYPE = "booking";
+    private static final String COUNTER_BOX_STYLE = "counterBox";
+    private static final int LESS_THAN_TEN = 9;
+    private static final int LESS_THAN_HUNDRED = 99;
     private List<Notification> notificationList;
 
     /**
@@ -63,7 +73,7 @@ public class NotificationBoard {
         try {
             List<Notification> notificationList = new ArrayList<>();
             List<String> allNotificationsFromDatabase = DataManager
-                    .allDataFromFile("NOTIFICATION");
+                    .allDataFromFile(NOTIFICATION_FILE);
 
             for (String notification : allNotificationsFromDatabase) {
                 notificationList.add(
@@ -93,46 +103,46 @@ public class NotificationBoard {
         // userId
         int currentUserId = Integer.parseInt(
                 notificationDetails.get(DataFileStructure
-                        .getIndexByColName("NOTIFICATION",
-                                "userId")));
+                        .getIndexByColName(NOTIFICATION_FILE,
+                                USER_ID_COLUMN)));
 
         // notification id
         int notifcationid = Integer.parseInt(
                 notificationDetails.get(DataFileStructure
-                        .getIndexColOfUniqueId("NOTIFICATION")));
+                        .getIndexColOfUniqueId(NOTIFICATION_FILE)));
 
 
         // notificationDate
         LocalDate notificationDate = getLocalDateFromString(
                 notificationDetails.get(DataFileStructure
-                        .getIndexByColName("NOTIFICATION",
-                                "notificationDate")
+                        .getIndexByColName(NOTIFICATION_FILE,
+                                DATE_COLUMN)
                 ));
 
         // notificationTime
         LocalTime notificationTime = getLocalTimeFromString(
                 notificationDetails.get(DataFileStructure
-                        .getIndexByColName("NOTIFICATION",
-                                "notificationTime")
+                        .getIndexByColName(NOTIFICATION_FILE,
+                                TIME_COLUMN)
                 ));
 
         // notificationType
         String notificationType = notificationDetails.get(
-                DataFileStructure.getIndexByColName("NOTIFICATION",
-                        "notificationType"));
+                DataFileStructure.getIndexByColName(NOTIFICATION_FILE,
+                        TYPE_COLUMN));
 
         // readStatus
         boolean readStatus = Boolean.parseBoolean(
                 notificationDetails.get(DataFileStructure
-                        .getIndexByColName("NOTIFICATION",
-                                "readStatus")));
+                        .getIndexByColName(NOTIFICATION_FILE,
+                                READ_COLUMN)));
 
         // messageBody
         String messageBody = notificationDetails.get(
-                DataFileStructure.getIndexByColName("NOTIFICATION",
-                        "messageBody"));
+                DataFileStructure.getIndexByColName(NOTIFICATION_FILE,
+                        MESSAGE_BODY_COLUMN));
 
-        if (notificationType.equalsIgnoreCase("booking")) {
+        if (notificationType.equalsIgnoreCase(BOOKING_TYPE)) {
             // This is needed to replace all ; to ,
             messageBody = formatMessageToRead(messageBody);
         }
@@ -244,18 +254,18 @@ public class NotificationBoard {
             secondDigit.setText("");
             counterBox.getStyleClass().clear();
         } else if (numOfUnreadNotification > 0
-                && numOfUnreadNotification <= 9) {
+                && numOfUnreadNotification <= LESS_THAN_TEN) {
             firstDigit.setText(String.valueOf(numOfUnreadNotification));
             secondDigit.setText("");
             counterBox.getStyleClass().clear();
-            counterBox.getStyleClass().add("counterBox");
-        } else if (numOfUnreadNotification > 9
-                && numOfUnreadNotification <= 99) {
+            counterBox.getStyleClass().add(COUNTER_BOX_STYLE);
+        } else if (numOfUnreadNotification > LESS_THAN_TEN
+                && numOfUnreadNotification <= LESS_THAN_HUNDRED) {
             String count = String.valueOf(numOfUnreadNotification);
             firstDigit.setText(String.valueOf(count.charAt(0)));
             secondDigit.setText(String.valueOf(count.charAt(1)));
             counterBox.getStyleClass().clear();
-            counterBox.getStyleClass().add("counterBox");
+            counterBox.getStyleClass().add(COUNTER_BOX_STYLE);
         }
     }
 
@@ -328,7 +338,7 @@ public class NotificationBoard {
                 ));
 
         try {
-            DataManager.appendDataToFile("NOTIFICATION",
+            DataManager.appendDataToFile(NOTIFICATION_FILE,
                     newNotificationForDatabase);
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();

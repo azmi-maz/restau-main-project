@@ -15,6 +15,23 @@ import java.util.List;
  * @author azmi_maz
  */
 public class Booking implements NotifyAction {
+
+    private static final String PENDING_APPROVAL = "pending-approval";
+    private static final String DATE_FORMAT = "dd/MM/yyyy";
+    private static final String TIME_FORMAT = "hh:mm a";
+    private static final String SUCCESS_MESSAGE = "Good news! " +
+            "Your table reservation "
+            + "for %s at %s "
+            + "is now confirmed.";
+    private static final String FAILURE_MESSAGE = "We're terribly sorry! " +
+            "Unfortunately; your table reservation "
+            + "for %s at %s is not successful.";
+    private static final String BOOKING_FILE = "BOOKINGS";
+    private static final String BOOKING_TYPE = "booking";
+    private static final String BOOKING_STATUS_COLUMN = "bookingStatus";
+    private static final String APPROVED_STATUS = "approved";
+    private static final String FAILED_STATUS = "approved";
+
     private int bookingId;
     private Customer customer;
     private LocalDate bookingDate;
@@ -130,7 +147,7 @@ public class Booking implements NotifyAction {
             this.numOfGuests = numOfGuests;
             this.tablePreference.add(tablePreference);
             this.bookingLengthInHour = bookingLength;
-            bookingStatus = "pending-approval";
+            bookingStatus = PENDING_APPROVAL;
 
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
@@ -181,7 +198,7 @@ public class Booking implements NotifyAction {
      * @return - the booking date in the desired format.
      */
     public String getBookingDateInFormat() {
-        return bookingDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        return bookingDate.format(DateTimeFormatter.ofPattern(DATE_FORMAT));
     }
 
     /**
@@ -199,7 +216,7 @@ public class Booking implements NotifyAction {
      * @return - the booking time in the desired format.
      */
     public String getBookingTimeInFormat() {
-        return bookingTime.format(DateTimeFormatter.ofPattern("hh:mm a"));
+        return bookingTime.format(DateTimeFormatter.ofPattern(TIME_FORMAT));
     }
 
     /**
@@ -235,7 +252,9 @@ public class Booking implements NotifyAction {
      * @return the list of table preferences.
      */
     public String getTableNames() {
-        return getTablePreference().toString().replace("[", "").replace("]", "");
+        return getTablePreference().toString()
+                .replace("[", "")
+                .replace("]", "");
     }
 
     /**
@@ -286,7 +305,7 @@ public class Booking implements NotifyAction {
     public String getEndBookingTime() {
         return bookingTime
                 .plusHours(bookingLengthInHour)
-                .format(DateTimeFormatter.ofPattern("hh:mm a"));
+                .format(DateTimeFormatter.ofPattern(TIME_FORMAT));
     }
 
     /**
@@ -295,7 +314,7 @@ public class Booking implements NotifyAction {
      * @return the time period of a booking.
      */
     public String getTimePeriodOfBooking() {
-        return bookingTime.format(DateTimeFormatter.ofPattern("hh:mm a"))
+        return bookingTime.format(DateTimeFormatter.ofPattern(TIME_FORMAT))
                 + " - "
                 + getEndBookingTime();
     }
@@ -308,9 +327,7 @@ public class Booking implements NotifyAction {
      */
     public String successfulBookingMessage() {
         return String.format(
-                "Good news! Your table reservation "
-                        + "for %s at %s "
-                        + "is now confirmed.",
+                SUCCESS_MESSAGE,
                 getBookingDateInFormat(),
                 getBookingTimeInFormat()
         );
@@ -324,8 +341,7 @@ public class Booking implements NotifyAction {
      */
     public String failedBookingMessage() {
         return String.format(
-                "We're terribly sorry! Unfortunately; your table reservation "
-                        + "for %s at %s is not successful.",
+                FAILURE_MESSAGE,
                 getBookingDateInFormat(),
                 getBookingTimeInFormat()
         );
@@ -340,9 +356,9 @@ public class Booking implements NotifyAction {
     public void approveBooking() throws TextFileNotFoundException {
 
         try {
-            DataManager.editColumnDataByUniqueId("BOOKINGS",
-                    bookingId, "bookingStatus",
-                    "approved");
+            DataManager.editColumnDataByUniqueId(BOOKING_FILE,
+                    bookingId, BOOKING_STATUS_COLUMN,
+                    APPROVED_STATUS);
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
             throw e;
@@ -358,9 +374,9 @@ public class Booking implements NotifyAction {
      */
     public void cancelBooking() throws TextFileNotFoundException {
         try {
-            DataManager.editColumnDataByUniqueId("BOOKINGS",
-                    bookingId, "bookingStatus",
-                    "failed");
+            DataManager.editColumnDataByUniqueId(BOOKING_FILE,
+                    bookingId, BOOKING_STATUS_COLUMN,
+                    FAILED_STATUS);
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
             throw e;
@@ -375,7 +391,7 @@ public class Booking implements NotifyAction {
      */
     public void deleteBooking() throws TextFileNotFoundException {
         try {
-            DataManager.deleteUniqueIdFromFile("BOOKINGS",
+            DataManager.deleteUniqueIdFromFile(BOOKING_FILE,
                     bookingId);
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
@@ -399,7 +415,7 @@ public class Booking implements NotifyAction {
         try {
 
             NotificationBoard notificationBoard = new NotificationBoard();
-            String notificationType = "booking";
+            String notificationType = BOOKING_TYPE;
             Notification newNotification = notificationBoard
                     .createNewNotification(
                             customer.getCustomerId(),

@@ -12,6 +12,50 @@ import java.util.Map;
  * @author azmi_maz
  */
 public class KitchenReport extends Report {
+    private static final String MOST_POPULAR_ITEM = "most popular item";
+    private static final String OUTSTANDING_ORDERS = "outstanding orders";
+    private static final String MOST_ACTIVE_CUSTOMER = "most active customer";
+    private static final String FOOD_TYPE = "food";
+    private static final String DRINK_TYPE = "drink";
+    private static final String TAKEAWAY_TYPE = "takeaway";
+    private static final String DELIVERY_TYPE = "delivery";
+    private static final String DINEIN_TYPE = "dinein";
+    private static final String PENDING_KITCHEN = "pending-kitchen";
+    private static final String DISH_REMARK = "dish";
+    private static final String COCKTAIL_REMARK = "cocktail";
+    private static final String MOST_ORDERED_FOOD_REPORT = "The restaurant's " +
+            "most popular dish is %s, while the " +
+            "bar's top choice during happy hours is the %s."
+            + System.lineSeparator();
+    private static final String MOST_ACTIVE_CUSTOMER_REPORT = "%s is a " +
+            "loyal customer who has placed a total of %d " +
+            "orders. They have a deep appreciation for the " +
+            "culinary arts, especially when it comes to " +
+            "indulging in delectable treats like %s.";
+    private static final String MOST_POPULAR_ITEM_REPORT = "The %s is a " +
+            "highly sought-after %s, with a remarkable " +
+            "%d orders." + System.lineSeparator();
+    private static final String OUTSTANDING_ORDERS_REPORT = "The kitchen " +
+            "is bustling, with %d tickets to fulfil. " +
+            "Let's make sure the kitchen doesn't experience " +
+            "burnout. Give priority to %d dine-in orders, " +
+            "as they are our top sellers, followed by %d " +
+            "takeaways, particularly during lunch. Lastly," +
+            " focus on increasing our sales through %d " +
+            "deliveries.";
+    private static final String ANALYSIS_ON_ORDER_TYPES = "The total number " +
+            "of orders is %d. Customers in the area " +
+            "have been placing a large number of " +
+            "takeaway orders, with a total of %d orders so " +
+            "far, and %s is the top choice. During " +
+            "the evenings, the number of delivery orders " +
+            "reaches a total of %d, and it seems that %s is " +
+            "a popular option among customers. On weekends, " +
+            "our customers who have a passion for food love " +
+            "to come in and savour a delicious meal with us. " +
+            "We usually get about %d dine-in orders, and it " +
+            "appears that %s is the preferred choice among " +
+            "our customers.";
 
     /**
      * This constructor creates a new report with timestamp.
@@ -24,13 +68,13 @@ public class KitchenReport extends Report {
 
         super(reportType, user);
         if (reportType.equalsIgnoreCase(
-                "most popular item")) {
+                MOST_POPULAR_ITEM)) {
             super.setReportData(getMostPopularMenuItemsReport());
         } else if (reportType.equalsIgnoreCase(
-                "outstanding orders")) {
+                OUTSTANDING_ORDERS)) {
             super.setReportData(getOutstandingOrdersReport());
         } else if (reportType.equalsIgnoreCase(
-                "most active customer")) {
+                MOST_ACTIVE_CUSTOMER)) {
             super.setReportData(getMostActiveCustomerReport());
         }
 
@@ -44,7 +88,7 @@ public class KitchenReport extends Report {
     public String getMostPopularMenuItemsReport()
             throws TextFileNotFoundException {
         try {
-            return prepareReportData("most popular item");
+            return prepareReportData(MOST_POPULAR_ITEM);
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
             throw e;
@@ -59,7 +103,7 @@ public class KitchenReport extends Report {
     public String getOutstandingOrdersReport()
             throws TextFileNotFoundException {
         try {
-            return prepareReportData("outstanding orders");
+            return prepareReportData(OUTSTANDING_ORDERS);
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
             throw e;
@@ -75,7 +119,7 @@ public class KitchenReport extends Report {
     public String getMostActiveCustomerReport()
             throws TextFileNotFoundException {
         try {
-            return prepareReportData("most active customer");
+            return prepareReportData(MOST_ACTIVE_CUSTOMER);
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
             throw e;
@@ -133,7 +177,7 @@ public class KitchenReport extends Report {
 
                     String itemType = item.getItemType();
                     if (foodOnlyMap.containsKey(itemName)
-                            && itemType.equalsIgnoreCase("food")) {
+                            && itemType.equalsIgnoreCase(FOOD_TYPE)) {
                         int getFoodCount = foodOnlyMap.get(itemName);
                         getFoodCount += item.getQuantity();
                         foodOnlyMap.put(itemName, getFoodCount);
@@ -142,7 +186,7 @@ public class KitchenReport extends Report {
                     }
 
                     if (drinkOnlyMap.containsKey(itemName)
-                            && itemType.equalsIgnoreCase("drink")) {
+                            && itemType.equalsIgnoreCase(DRINK_TYPE)) {
                         int getFoodCount = foodOnlyMap.get(itemName);
                         getFoodCount += item.getQuantity();
                         drinkOnlyMap.put(itemName, getFoodCount);
@@ -152,7 +196,7 @@ public class KitchenReport extends Report {
 
                     if (takeAwayOrderItemMap.containsKey(itemName)
                             && orderType.equalsIgnoreCase(
-                            "takeaway")) {
+                            TAKEAWAY_TYPE)) {
                         int getFoodCount = takeAwayOrderItemMap.get(itemName);
                         getFoodCount += item.getQuantity();
                         takeAwayOrderItemMap.put(itemName, getFoodCount);
@@ -162,7 +206,7 @@ public class KitchenReport extends Report {
 
                     if (deliveryOrderItemMap.containsKey(itemName)
                             && orderType.equalsIgnoreCase(
-                            "delivery")) {
+                            DELIVERY_TYPE)) {
                         int getFoodCount = deliveryOrderItemMap.get(itemName);
                         getFoodCount += item.getQuantity();
                         deliveryOrderItemMap.put(itemName, getFoodCount);
@@ -172,7 +216,7 @@ public class KitchenReport extends Report {
 
                     if (dineOrderItemMap.containsKey(itemName)
                             && orderType.equalsIgnoreCase(
-                            "dinein")) {
+                            DINEIN_TYPE)) {
                         int getFoodCount = dineOrderItemMap.get(itemName);
                         getFoodCount += item.getQuantity();
                         dineOrderItemMap.put(itemName, getFoodCount);
@@ -187,18 +231,16 @@ public class KitchenReport extends Report {
                     currentCustomerCount++;
                     customerCountMap.put(customerId, currentCustomerCount);
                 } else {
-                    // TODO magic
                     customerCountMap.put(customerId, 1);
                 }
 
                 if (order.getOrderStatus().equalsIgnoreCase(
-                        "pending-kitchen")) {
+                        PENDING_KITCHEN)) {
                     if (outstandingOrderMap.containsKey(orderType)) {
                         int currentCount = outstandingOrderMap.get(orderType);
                         currentCount++;
                         outstandingOrderMap.put(orderType, currentCount);
                     } else {
-                        // TODO magic
                         outstandingOrderMap.put(orderType, 1);
                     }
                 }
@@ -363,10 +405,10 @@ public class KitchenReport extends Report {
                     outstandingOrderMap.entrySet()) {
                 String currentItemType = entry.getKey();
                 int currentCounter = entry.getValue();
-                if (currentItemType.equalsIgnoreCase("dinein")) {
+                if (currentItemType.equalsIgnoreCase(DINEIN_TYPE)) {
                     numOfOutstandingDinein = currentCounter;
                 } else if (currentItemType.equalsIgnoreCase(
-                        "takeaway")) {
+                        TAKEAWAY_TYPE)) {
                     numOfOutstandingTakeaway = currentCounter;
                 } else {
                     numOfOutstandingDelivery = currentCounter;
@@ -380,12 +422,10 @@ public class KitchenReport extends Report {
             Menu menu = new Menu();
             String typeOfPopularItem = menu.findTypeByItemName(mostPopularItem);
             String mostPopularItemReport = String.format(
-                    "The %s is a highly sought-after %s, with a remarkable " +
-                            "%d orders." +
-                            System.lineSeparator(),
+                    MOST_POPULAR_ITEM_REPORT,
                     mostPopularItem,
-                    typeOfPopularItem.equalsIgnoreCase("food") ?
-                            "dish" : "cocktail",
+                    typeOfPopularItem.equalsIgnoreCase(FOOD_TYPE) ?
+                            DISH_REMARK : COCKTAIL_REMARK,
                     numOfMostPopularItem
             );
 
@@ -399,36 +439,20 @@ public class KitchenReport extends Report {
                     .getDataForListDisplay();
 
             String mostActiveCustomerReport = String.format(
-                    "%s is a loyal customer who has placed a total of %d " +
-                            "orders. They have a deep appreciation for the " +
-                            "culinary arts, especially when it comes to " +
-                            "indulging in delectable treats like %s.",
+                    MOST_ACTIVE_CUSTOMER_REPORT,
                     mostActiveCustomerName,
                     mostActiveCustomerCounter,
                     mostActiveCustomerFavouriteItem
             );
 
             String mostOrderedFoodReport = String.format(
-                    "The restaurant's most popular dish is %s, while the " +
-                            "bar's top choice during happy hours is the %s."
-                            + System.lineSeparator(),
+                    MOST_ORDERED_FOOD_REPORT,
                     mostOrderedFoodItem,
                     mostOrderedDrinkItem
             );
 
             String analysisOnOrderTypeReport = String.format(
-                    "The total number of orders is %d. Customers in the area " +
-                            "have been placing a large number of " +
-                            "takeaway orders, with a total of %d orders so " +
-                            "far, and %s is the top choice. During " +
-                            "the evenings, the number of delivery orders " +
-                            "reaches a total of %d, and it seems that %s is " +
-                            "a popular option among customers. On weekends, " +
-                            "our customers who have a passion for food love " +
-                            "to come in and savour a delicious meal with us. " +
-                            "We usually get about %d dine-in orders, and it " +
-                            "appears that %s is the preferred choice among " +
-                            "our customers.",
+                    ANALYSIS_ON_ORDER_TYPES,
                     numOfTotalOrders,
                     numOfTakeawayOrders,
                     mostOrderedTakeawayItem,
@@ -439,13 +463,7 @@ public class KitchenReport extends Report {
             );
 
             String outstandingOrdersByType = String.format(
-                    "The kitchen is bustling, with %d tickets to fulfil. " +
-                            "Let's make sure the kitchen doesn't experience " +
-                            "burnout. Give priority to %d dine-in orders, " +
-                            "as they are our top sellers, followed by %d " +
-                            "takeaways, particularly during lunch. Lastly," +
-                            " focus on increasing our sales through %d " +
-                            "deliveries.",
+                    OUTSTANDING_ORDERS_REPORT,
                     totalNumOfOutstandingOrders,
                     numOfOutstandingDinein,
                     numOfOutstandingTakeaway,
@@ -453,15 +471,15 @@ public class KitchenReport extends Report {
             );
 
             if (reportChoice.equalsIgnoreCase(
-                    "most popular item")) {
+                    MOST_POPULAR_ITEM)) {
                 return mostPopularItemReport
                         + mostOrderedFoodReport
                         + analysisOnOrderTypeReport;
             } else if (reportChoice.equalsIgnoreCase(
-                    "outstanding orders")) {
+                    OUTSTANDING_ORDERS)) {
                 return outstandingOrdersByType;
             } else if (reportChoice.equalsIgnoreCase(
-                    "most active customer")) {
+                    MOST_ACTIVE_CUSTOMER)) {
                 return mostActiveCustomerReport;
             }
             return null;

@@ -16,13 +16,33 @@ import java.util.*;
  * @author azmi_maz
  */
 public class UserManagement {
-    private List<User> userList;
+    private static final String USER_FILE = "USERS";
+    private static final String USER_ID_COLUMN = "userId";
+    private static final String FIRST_NAME_COLUMN = "firstName";
+    private static final String LAST_NAME_COLUMN = "lastName";
+    private static final String USERNAME_COLUMN = "username";
+    private static final String TYPE_COLUMN = "userType";
+    private static final String ADDRESS_COLUMN = "address";
+    private static final String NUM_TO_WORK_COLUMN = "numOfHoursToWork";
+    private static final String TOTAL_WORK_HOURS_COLUMN =
+            "numOfTotalHoursWorked";
+    private static final String ADMIN_RIGHT_COLUMN = "hasAdminRight";
+    private static final String AVAILABLE_COLUMN = "isAvailable";
+    private static final String MAX_DELIVERIES_COLUMN = "maxDeliveries";
+    private static final String CUSTOMER = "customer";
+    private static final String CHEF = "chef";
+    private static final String DRIVER = "driver";
+    private static final String MANAGER = "manager";
+    private static final String WAITER = "waiter";
+    private static final String ACTIVE_USER_FILE = "ACTIVE_USER";
+    private static final String FALSE_BY_DEFAULT = "false";
     private static final List<String> staffTypes =
             new ArrayList<>(Arrays.asList(
                     "Chef",
                     "Driver",
                     "Waiter"
             ));
+    private List<User> userList;
 
     /**
      * This constructor sets up the user management and updates its data
@@ -106,7 +126,7 @@ public class UserManagement {
         try {
             List<User> userList = new ArrayList<>();
             List<String> rawUserList = DataManager
-                    .allDataFromFile("USERS");
+                    .allDataFromFile(USER_FILE);
 
             for (String user : rawUserList) {
                 userList.add(
@@ -133,45 +153,45 @@ public class UserManagement {
         List<String> userDetails = List.of(user.split(","));
         int userId = Integer.parseInt(
                 userDetails.get(DataFileStructure
-                        .getIndexByColName("USERS",
-                                "userId")));
+                        .getIndexByColName(USER_FILE,
+                                USER_ID_COLUMN)));
         String firstName = userDetails.get(
-                DataFileStructure.getIndexByColName("USERS",
-                        "firstName"));
+                DataFileStructure.getIndexByColName(USER_FILE,
+                        FIRST_NAME_COLUMN));
         String lastName = userDetails.get(
-                DataFileStructure.getIndexByColName("USERS",
-                        "lastName"));
+                DataFileStructure.getIndexByColName(USER_FILE,
+                        LAST_NAME_COLUMN));
         String username = userDetails.get(
-                DataFileStructure.getIndexByColName("USERS",
-                        "username"));
+                DataFileStructure.getIndexByColName(USER_FILE,
+                        USERNAME_COLUMN));
         String userType = userDetails.get(
-                DataFileStructure.getIndexByColName("USERS",
-                        "userType"));
+                DataFileStructure.getIndexByColName(USER_FILE,
+                        TYPE_COLUMN));
         String address = userDetails.get(
-                DataFileStructure.getIndexByColName("USERS",
-                        "address"));
+                DataFileStructure.getIndexByColName(USER_FILE,
+                        ADDRESS_COLUMN));
         int numOfHoursToWork = Integer.parseInt(
                 userDetails.get(DataFileStructure
-                        .getIndexByColName("USERS",
-                                "numOfHoursToWork")));
+                        .getIndexByColName(USER_FILE,
+                                NUM_TO_WORK_COLUMN)));
         int numOfTotalHoursWorked = Integer.parseInt(
                 userDetails.get(DataFileStructure
-                        .getIndexByColName("USERS",
-                                "numOfTotalHoursWorked")));
+                        .getIndexByColName(USER_FILE,
+                                TOTAL_WORK_HOURS_COLUMN)));
         boolean hasAdminRight = Boolean.parseBoolean(
                 userDetails.get(DataFileStructure
-                        .getIndexByColName("USERS",
-                                "hasAdminRight")));
+                        .getIndexByColName(USER_FILE,
+                                ADMIN_RIGHT_COLUMN)));
         boolean isAvailable = Boolean.parseBoolean(
                 userDetails.get(DataFileStructure
-                        .getIndexByColName("USERS",
-                                "isAvailable")));
+                        .getIndexByColName(USER_FILE,
+                                AVAILABLE_COLUMN)));
         int maxDeliveries = Integer.parseInt(
                 userDetails.get(DataFileStructure
-                        .getIndexByColName("USERS",
-                                "maxDeliveries")));
+                        .getIndexByColName(USER_FILE,
+                                MAX_DELIVERIES_COLUMN)));
 
-        if (userType.equalsIgnoreCase("customer")) {
+        if (userType.equalsIgnoreCase(CUSTOMER)) {
             return new Customer(
                     firstName,
                     lastName,
@@ -179,7 +199,7 @@ public class UserManagement {
                     userId,
                     address
             );
-        } else if (userType.equalsIgnoreCase("chef")) {
+        } else if (userType.equalsIgnoreCase(CHEF)) {
             return new Chef(
                     firstName,
                     lastName,
@@ -188,7 +208,7 @@ public class UserManagement {
                     numOfHoursToWork,
                     numOfTotalHoursWorked
             );
-        } else if (userType.equalsIgnoreCase("driver")) {
+        } else if (userType.equalsIgnoreCase(DRIVER)) {
             return new Driver(
                     firstName,
                     lastName,
@@ -199,7 +219,7 @@ public class UserManagement {
                     isAvailable,
                     maxDeliveries
             );
-        } else if (userType.equalsIgnoreCase("manager")) {
+        } else if (userType.equalsIgnoreCase(MANAGER)) {
             return new Manager(
                     firstName,
                     lastName,
@@ -208,7 +228,7 @@ public class UserManagement {
                     numOfHoursToWork,
                     numOfTotalHoursWorked
             );
-        } else if (userType.equalsIgnoreCase("waiter")) {
+        } else if (userType.equalsIgnoreCase(WAITER)) {
             return new Waiter(
                     firstName,
                     lastName,
@@ -275,16 +295,16 @@ public class UserManagement {
     ) throws TextFileNotFoundException {
         try {
             List<String> listOfUsers = DataManager
-                    .allDataFromFile("USERS");
+                    .allDataFromFile(USER_FILE);
             int searchUserId = -1;
             for (String user : listOfUsers) {
                 String[] userDetails = user.split(",");
                 int userIdIndex = DataFileStructure.getIndexByColName(
-                        "USERS",
-                        "userId");
+                        USER_FILE,
+                        USER_ID_COLUMN);
                 int usernameIndex = DataFileStructure.getIndexByColName(
-                        "USERS",
-                        "username");
+                        USER_FILE,
+                        USERNAME_COLUMN);
                 if (userDetails[usernameIndex].equalsIgnoreCase(username)) {
                     searchUserId = Integer.parseInt(userDetails[userIdIndex]);
                 }
@@ -311,8 +331,8 @@ public class UserManagement {
         List<User> staffData = getUserList();
         for (User staff : staffData) {
             String userType = getStaffClass(staff);
-            if (!userType.equalsIgnoreCase("customer")
-                    && !userType.equalsIgnoreCase("manager")) {
+            if (!userType.equalsIgnoreCase(CUSTOMER)
+                    && !userType.equalsIgnoreCase(MANAGER)) {
                 data.add((Staff) staff);
             }
         }
@@ -392,7 +412,7 @@ public class UserManagement {
      */
     public boolean isCustomer(User user) {
         if (getStaffClass(user)
-                .equalsIgnoreCase("customer")) {
+                .equalsIgnoreCase(CUSTOMER)) {
             return true;
         }
         return false;
@@ -406,7 +426,7 @@ public class UserManagement {
      */
     public boolean isDriver(User user) {
         if (getStaffClass(user)
-                .equalsIgnoreCase("driver")) {
+                .equalsIgnoreCase(DRIVER)) {
             return true;
         }
         return false;
@@ -426,7 +446,7 @@ public class UserManagement {
 
             String userType = getStaffClass(staff);
 
-            if (userType.equalsIgnoreCase("driver")) {
+            if (userType.equalsIgnoreCase(DRIVER)) {
                 drivers.getItems().add(
                         (Driver) staff
                 );
@@ -521,7 +541,7 @@ public class UserManagement {
         String firstName = newCustomer.getFirstName();
         String lastName = newCustomer.getLastName();
         String username = newCustomer.getUsername();
-        String userType = "customer";
+        String userType = CUSTOMER;
         String address = newCustomer.getDeliveryAddress();
         userDetails.addAll(Arrays.asList(
                 customerId,
@@ -530,11 +550,11 @@ public class UserManagement {
                 username,
                 userType,
                 address,
-                "0", "0", "false", "false",
+                "0", "0", FALSE_BY_DEFAULT, FALSE_BY_DEFAULT,
                 "0"
         ));
         try {
-            DataManager.appendDataToFile("USERS", userDetails);
+            DataManager.appendDataToFile(USER_FILE, userDetails);
             persistActiveUserData(newCustomer);
         } catch (TextFileNotFoundException | ClearFileFailedException e) {
             e.printStackTrace();
@@ -569,12 +589,12 @@ public class UserManagement {
         String isAvailable = "";
         String maxDeliveries = "";
         if (staffType
-                .equalsIgnoreCase("driver")) {
+                .equalsIgnoreCase(DRIVER)) {
             Driver driver = (Driver) newStaff;
             isAvailable = String.valueOf(driver.getIsAvailable());
             maxDeliveries = String.valueOf(driver.getMaxDeliveries());
         } else {
-            isAvailable = "false";
+            isAvailable = FALSE_BY_DEFAULT;
             maxDeliveries = "0";
         }
         userDetails.addAll(Arrays.asList(
@@ -591,7 +611,7 @@ public class UserManagement {
                 maxDeliveries
         ));
         try {
-            return DataManager.appendDataToFile("USERS", userDetails);
+            return DataManager.appendDataToFile(USER_FILE, userDetails);
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
             throw e;
@@ -624,8 +644,8 @@ public class UserManagement {
                     userType
             ));
 
-            DataManager.clearFileData("ACTIVE_USER");
-            DataManager.appendDataToFile("ACTIVE_USER", currentUser);
+            DataManager.clearFileData(ACTIVE_USER_FILE);
+            DataManager.appendDataToFile(ACTIVE_USER_FILE, currentUser);
 
         } catch (TextFileNotFoundException | ClearFileFailedException e) {
             e.printStackTrace();
@@ -678,7 +698,7 @@ public class UserManagement {
             String staffType
     ) {
         if (staffType.equalsIgnoreCase(
-                "chef"
+                CHEF
         )) {
             return new Chef(
                     firstName,
@@ -686,7 +706,7 @@ public class UserManagement {
                     username
             );
         } else if (staffType.equalsIgnoreCase(
-                "waiter"
+                WAITER
         )) {
             return new Waiter(
                     firstName,
@@ -721,16 +741,16 @@ public class UserManagement {
 
         try {
             DataManager.editColumnDataByUniqueId(
-                    "USERS", userId,
-                    "firstName", firstName
+                    USER_FILE, userId,
+                    FIRST_NAME_COLUMN, firstName
             );
             DataManager.editColumnDataByUniqueId(
-                    "USERS", userId,
-                    "lastName", lastName
+                    USER_FILE, userId,
+                    LAST_NAME_COLUMN, lastName
             );
             DataManager.editColumnDataByUniqueId(
-                    "USERS", userId,
-                    "username", username
+                    USER_FILE, userId,
+                    USERNAME_COLUMN, username
             );
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
@@ -779,22 +799,22 @@ public class UserManagement {
 
         try {
             DataManager.editColumnDataByUniqueId(
-                    "USERS", userId,
-                    "firstName", firstName
+                    USER_FILE, userId,
+                    FIRST_NAME_COLUMN, firstName
             );
             DataManager.editColumnDataByUniqueId(
-                    "USERS", userId,
-                    "lastName", lastName
+                    USER_FILE, userId,
+                    LAST_NAME_COLUMN, lastName
             );
             DataManager.editColumnDataByUniqueId(
-                    "USERS", userId,
-                    "username", username
+                    USER_FILE, userId,
+                    USERNAME_COLUMN, username
             );
 
             String formattedAddress = formatAddressToWrite(address);
             DataManager.editColumnDataByUniqueId(
-                    "USERS", userId,
-                    "address", formattedAddress
+                    USER_FILE, userId,
+                    ADDRESS_COLUMN, formattedAddress
             );
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
@@ -827,18 +847,18 @@ public class UserManagement {
     ) throws TextFileNotFoundException {
 
         try {
-            DataManager.editColumnDataByUniqueId("USERS", userId,
-                    "firstName", firstName);
-            DataManager.editColumnDataByUniqueId("USERS", userId,
-                    "lastName", lastName);
-            DataManager.editColumnDataByUniqueId("USERS", userId,
-                    "username", username);
-            DataManager.editColumnDataByUniqueId("USERS", userId,
-                    "numOfHoursToWork", hoursLeft);
-            DataManager.editColumnDataByUniqueId("USERS", userId,
-                    "numOfTotalHoursWorked", totalHoursWorked);
-            DataManager.editColumnDataByUniqueId("USERS", userId,
-                    "userType", position);
+            DataManager.editColumnDataByUniqueId(USER_FILE, userId,
+                    FIRST_NAME_COLUMN, firstName);
+            DataManager.editColumnDataByUniqueId(USER_FILE, userId,
+                    LAST_NAME_COLUMN, lastName);
+            DataManager.editColumnDataByUniqueId(USER_FILE, userId,
+                    USERNAME_COLUMN, username);
+            DataManager.editColumnDataByUniqueId(USER_FILE, userId,
+                    NUM_TO_WORK_COLUMN, hoursLeft);
+            DataManager.editColumnDataByUniqueId(USER_FILE, userId,
+                    TOTAL_WORK_HOURS_COLUMN, totalHoursWorked);
+            DataManager.editColumnDataByUniqueId(USER_FILE, userId,
+                    TYPE_COLUMN, position);
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
             throw e;
@@ -867,13 +887,13 @@ public class UserManagement {
             throws TextFileNotFoundException {
         try {
             List<String> data = DataManager
-                    .allDataFromFile("ACTIVE_USER");
+                    .allDataFromFile(ACTIVE_USER_FILE);
             if (!data.isEmpty()) {
                 List<String> activeUserDetails = List.of(
                         data.get(0).split(","));
                 String userId = activeUserDetails
                         .get(DataFileStructure
-                                .getIndexColOfUniqueId("ACTIVE_USER"));
+                                .getIndexColOfUniqueId(ACTIVE_USER_FILE));
                 return getUserByUserId(userId);
             }
             return null;

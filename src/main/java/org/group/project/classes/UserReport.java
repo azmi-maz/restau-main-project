@@ -13,6 +13,23 @@ import java.util.Map;
  * @author azmi_maz
  */
 public class UserReport extends Report {
+    private static final String STAFF_HOURS_REPORT = "%s, is an exceptional " +
+            "%s, having dedicated %d hours to " +
+            "their work.";
+    private static final String GOOD_STAFF_REPORT = "%s, %s, put in a " +
+            "solid %d hours of work this " +
+            "week. There are still %d hours left.";
+    private static final String AVERAGE_STAFF_REPORT = "%s is a %s who " +
+            "has put in %d hours this " +
+            "week. You should motivate them to " +
+            "take on additional shifts.";
+    private static final String UNDERPERFORMED_STAFF_REPORT = "%s, %s, " +
+            "only managed to work %d hours this " +
+            "week. You should probably check in on " +
+            "them and see how they're doing.";
+    private static final String MANAGER = "manager";
+    private static final int GOOD_STAFF_HOUR = 30;
+    private static final int AVERAGE_STAFF_HOUR = 20;
 
     /**
      * This constructor creates a new report with timestamp.
@@ -117,8 +134,7 @@ public class UserReport extends Report {
                 staffWithTheMostWorkedHours).toLowerCase();
 
         String mostWorkedHoursStaffReport = String.format(
-                "%s, is an exceptional %s, having dedicated %d hours to " +
-                        "their work.",
+                STAFF_HOURS_REPORT,
                 staffWithFullName,
                 staffPosition,
                 numOfHoursWorked
@@ -159,28 +175,23 @@ public class UserReport extends Report {
                     .toLowerCase();
 
             if (!username.equalsIgnoreCase(excludeStaffUsername)
-                    && !staffPosition.equalsIgnoreCase("manager")) {
-                if (numOfHoursWorked > 30) {
+                    && !staffPosition.equalsIgnoreCase(MANAGER)) {
+                if (numOfHoursWorked > GOOD_STAFF_HOUR) {
                     String goodStaffWorkReport = String.format(
-                            "%s, %s, put in a solid %d hours of work this " +
-                                    "week. There are still %d hours left.",
+                            GOOD_STAFF_REPORT,
                             fullName, staffPosition,
                             numOfHoursWorked, numOfHoursToWork
                     );
                     mainReport += goodStaffWorkReport;
-                } else if (numOfHoursWorked > 20) {
+                } else if (numOfHoursWorked > AVERAGE_STAFF_HOUR) {
                     String averageStaffWorkReport = String.format(
-                            "%s is a %s who has put in %d hours this " +
-                                    "week. You should motivate them to " +
-                                    "take on additional shifts.",
+                            AVERAGE_STAFF_REPORT,
                             fullName, staffPosition, numOfHoursWorked
                     );
                     mainReport += averageStaffWorkReport;
                 } else {
                     String underworkedStaffWorkReport = String.format(
-                            "%s, %s, only managed to work %d hours this " +
-                                    "week. You should probably check in on " +
-                                    "them and see how they're doing.",
+                            UNDERPERFORMED_STAFF_REPORT,
                             fullName, staffPosition, numOfHoursWorked
                     );
                     mainReport += underworkedStaffWorkReport;

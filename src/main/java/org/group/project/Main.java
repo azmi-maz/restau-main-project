@@ -30,6 +30,11 @@ public class Main extends Application {
 
     private static final String restaurantName =
             "Cafe94 Restaurant";
+    private static final String OK = "OK_DONE";
+    private static final String ACTIVE_USER_FILE = "ACTIVE_USER";
+    private static final String EXIT = "Exit";
+    private static final String CONFIRM_EXIT = "Do you want to exit " +
+            "the program?";
     private static Map<MainScenes, Scene> scenes = new HashMap<>();
 
     private static Stage stage;
@@ -74,10 +79,10 @@ public class Main extends Application {
 
             if (userChoice.get()
                     .getButtonData().toString()
-                    .equalsIgnoreCase("OK_DONE")) {
+                    .equalsIgnoreCase(OK)) {
 
                 try {
-                    DataManager.clearFileData("ACTIVE_USER");
+                    DataManager.clearFileData(ACTIVE_USER_FILE);
                 } catch (ClearFileFailedException ex) {
                     AlertPopUpWindow.displayErrorWindow(
                             ex.getMessage()
@@ -133,8 +138,8 @@ public class Main extends Application {
 
     private Optional<ButtonType> promptForUserAcknowledgement() {
         return AlertPopUpWindow.displayConfirmationWindow(
-                "Exit",
-                "Do you want to exit the program?"
+                EXIT,
+                CONFIRM_EXIT
         );
     }
 

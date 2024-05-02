@@ -10,6 +10,14 @@ import org.group.project.exceptions.TextFileNotFoundException;
  * @author azmi_maz
  */
 public class Manager extends Staff {
+    private static final String USER_FILE = "USERS";
+    private static final String REPORT_FILE = "REPORTS";
+    private static final String MOST_POPULAR_ITEM = "Most popular item";
+    private static final String BUSIEST_PERIOD = "Busiest periods";
+    private static final String MOST_ACTIVE_CUSTOMER = "Most active customer";
+    private static final String STAFF_HOURS = "Staff worked hours";
+    private static final String OUTSTANDING_ORDERS = "Outstanding orders";
+    private static final String NO_REPORT_CHOSEN = "No report chosen.";
 
     /**
      * The constructor to create a manager.
@@ -72,7 +80,7 @@ public class Manager extends Staff {
     public boolean removeStaffMember(int userId)
             throws TextFileNotFoundException {
         try {
-            return DataManager.deleteUniqueIdFromFile("USERS",
+            return DataManager.deleteUniqueIdFromFile(USER_FILE,
                     userId);
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
@@ -143,73 +151,53 @@ public class Manager extends Staff {
             ReportManager reportManager = new ReportManager();
 
             switch (chosenReportType) {
-                case "Most popular item":
+                case MOST_POPULAR_ITEM:
                     KitchenReport mostPopularItem = reportManager
-                            .getMostPopularItemReport(
-                                    currentUser
-                            );
+                            .getMostPopularItemReport(currentUser);
                     reportTextArea.setText(
                             mostPopularItem.generateReport()
                     );
-                    reportManager.addReportToDatabase(
-                            mostPopularItem
-                    );
+                    reportManager.addReportToDatabase(mostPopularItem);
                     break;
 
-                case "Busiest periods":
+                case BUSIEST_PERIOD:
                     FloorReport busiestPeriod = reportManager
-                            .getBusiestPeriodReport(
-                                    currentUser
-                            );
+                            .getBusiestPeriodReport(currentUser);
                     reportTextArea.setText(
                             busiestPeriod.generateReport()
                     );
-                    reportManager.addReportToDatabase(
-                            busiestPeriod
-                    );
+                    reportManager.addReportToDatabase(busiestPeriod);
                     break;
 
-                case "Most active customer":
+                case MOST_ACTIVE_CUSTOMER:
                     Report mostActiveCustomer = reportManager
-                            .getMostActiveCustomerReport(
-                                    currentUser
-                            );
+                            .getMostActiveCustomerReport(currentUser);
                     reportTextArea.setText(
                             mostActiveCustomer.generateReport()
                     );
-                    reportManager.addReportToDatabase(
-                            mostActiveCustomer
-                    );
+                    reportManager.addReportToDatabase(mostActiveCustomer);
                     break;
 
-                case "Staff worked hours":
+                case STAFF_HOURS:
                     UserReport staffReport = reportManager
-                            .getStaffWorkedHoursReport(
-                                    currentUser
-                            );
+                            .getStaffWorkedHoursReport(currentUser);
                     reportTextArea.setText(
                             staffReport.generateReport()
                     );
-                    reportManager.addReportToDatabase(
-                            staffReport
-                    );
+                    reportManager.addReportToDatabase(staffReport);
                     break;
 
-                case "Outstanding orders":
+                case OUTSTANDING_ORDERS:
                     KitchenReport outstandingOrders = reportManager
-                            .getOutstandingOrdersReport(
-                                    currentUser
-                            );
+                            .getOutstandingOrdersReport(currentUser);
                     reportTextArea.setText(
                             outstandingOrders.generateReport()
                     );
-                    reportManager.addReportToDatabase(
-                            outstandingOrders
-                    );
+                    reportManager.addReportToDatabase(outstandingOrders);
                     break;
 
                 default:
-                    reportTextArea.setText("No report chosen.");
+                    reportTextArea.setText(NO_REPORT_CHOSEN);
                     break;
             }
 
@@ -230,7 +218,7 @@ public class Manager extends Staff {
     ) throws TextFileNotFoundException {
         try {
             DataManager.deleteUniqueIdFromFile(
-                    "REPORTS",
+                    REPORT_FILE,
                     reportId
             );
         } catch (TextFileNotFoundException e) {

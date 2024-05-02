@@ -6,6 +6,8 @@ package org.group.project.classes;
  * @author azmi_maz
  */
 public class FoodDrink {
+
+    private static final String ITEM_DETAILS = "%s (%s) quantity: %d";
     private String itemName;
     private String itemType;
 
@@ -41,7 +43,13 @@ public class FoodDrink {
         this.isDailySpecial = false;
     }
 
-    // TODO comment
+    /**
+     * This constructor creates a new item with updated data from database.
+     *
+     * @param itemName       - the name of the food or drink.
+     * @param itemType       - the type of the item, either food or drink.
+     * @param isDailySpecial - the daily special status of the item.
+     */
     public FoodDrink(
             String itemName,
             String itemType,
@@ -139,8 +147,12 @@ public class FoodDrink {
      */
     @Override
     public String toString() {
-        return getItemName() + " (" + getItemType()
-                + ") quantity: " + getQuantity();
+        return String.format(
+                ITEM_DETAILS,
+                getItemName(),
+                getItemType(),
+                getQuantity()
+        );
     }
 
 }

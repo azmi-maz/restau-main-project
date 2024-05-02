@@ -13,6 +13,12 @@ import java.util.List;
  * @author azmi_maz
  */
 public class TakeawayOrder extends Order implements NotifyAction {
+    private static final String TAKEAWAY_TYPE = "takeaway";
+    private static final String PENDING_KITCHEN = "pending-kitchen";
+    private static final int HALF_HOUR = 30;
+    private static final String TIME_FORMAT = "hh:mm a";
+    private static final String PICKUP_UPDATE_MESSAGE = "Your order no.%d " +
+            "is ready for pickup at %s.";
     private LocalTime estimatedPickupTime;
 
     /**
@@ -26,7 +32,7 @@ public class TakeawayOrder extends Order implements NotifyAction {
     public TakeawayOrder(int orderId, Customer customer, LocalDate orderDate,
                          LocalTime orderTime) {
         super(orderId, customer, orderDate, orderTime,
-                "takeaway", "pending-kitchen");
+                TAKEAWAY_TYPE, PENDING_KITCHEN);
     }
 
     /**
@@ -45,7 +51,7 @@ public class TakeawayOrder extends Order implements NotifyAction {
                          LocalTime orderTime, LocalTime estimatedPickupTime,
                          String orderStatus, List<FoodDrink> orderedList) {
         super(orderId, customer, orderDate, orderTime,
-                "takeaway", orderStatus, orderedList);
+                TAKEAWAY_TYPE, orderStatus, orderedList);
         this.estimatedPickupTime = estimatedPickupTime;
     }
 
@@ -99,7 +105,7 @@ public class TakeawayOrder extends Order implements NotifyAction {
      * This method sets the estimated time for the customer to pick-up.
      */
     public void setEstimatedPickupTime() {
-        estimatedPickupTime = newEstimatedPickupTime(30);
+        estimatedPickupTime = newEstimatedPickupTime(HALF_HOUR);
     }
 
     /**
@@ -117,7 +123,8 @@ public class TakeawayOrder extends Order implements NotifyAction {
      * @return the pickup time in the desired format.
      */
     public String getPickupTimeInFormat() {
-        return estimatedPickupTime.format(DateTimeFormatter.ofPattern("hh:mm a"));
+        return estimatedPickupTime.format(
+                DateTimeFormatter.ofPattern(TIME_FORMAT));
     }
 
     /**
@@ -127,7 +134,7 @@ public class TakeawayOrder extends Order implements NotifyAction {
      */
     public String completeTakeawayOrderMessage() {
         return String.format(
-                "Your order no.%d is ready for pickup at %s.",
+                PICKUP_UPDATE_MESSAGE,
                 super.getOrderId(),
                 getPickupTimeInFormat()
         );
@@ -148,11 +155,12 @@ public class TakeawayOrder extends Order implements NotifyAction {
         try {
 
             NotificationBoard notificationBoard = new NotificationBoard();
-            String notificationType = "takeaway";
-            Notification newNotification = notificationBoard.createNewNotification(
-                    customer.getCustomerId(),
-                    notificationType
-            );
+            String notificationType = TAKEAWAY_TYPE;
+            Notification newNotification = notificationBoard
+                    .createNewNotification(
+                            customer.getCustomerId(),
+                            notificationType
+                    );
 
             if (isSuccessfulRequest) {
                 newNotification.setMessageBody(

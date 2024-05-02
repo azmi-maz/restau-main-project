@@ -21,6 +21,14 @@ import java.util.List;
  */
 public class ChefAddNewItemController {
 
+    private static final String CHOOSE_TYPE = "Choose type";
+    private static final String COMPLETE_FORM = "Please complete the form.";
+    private static final String NEW_ITEM = "New Item";
+    private static final String CREATION_SUCCESS = "Your new creation " +
+            "was added successfully!";
+    private static final String OK = "Ok";
+    private static final String TRY_AGAIN = "Something went wrong. " +
+            "Please do it again.";
     @FXML
     private VBox vbox;
 
@@ -63,7 +71,7 @@ public class ChefAddNewItemController {
             if (
                     !itemNameTextField.getText().isBlank()
                             && !itemTypeChoiceBox.getValue()
-                            .equals("Choose type")
+                            .equals(CHOOSE_TYPE)
             ) {
 
                 String itemName = itemNameTextField.getText().toLowerCase();
@@ -88,7 +96,7 @@ public class ChefAddNewItemController {
 
             } else {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Please complete the form."
+                        COMPLETE_FORM
                 );
             }
 
@@ -110,15 +118,15 @@ public class ChefAddNewItemController {
 
     private void promptItemAddedSuccessfully() {
         AlertPopUpWindow.displayInformationWindow(
-                "New Item",
-                "Your new creation was added successfully!",
-                "Ok"
+                NEW_ITEM,
+                CREATION_SUCCESS,
+                OK
         );
     }
 
     private void promptItemAddFailed() {
         AlertPopUpWindow.displayErrorWindow(
-                "Something went wrong. Please do it again."
+                TRY_AGAIN
         );
     }
 

@@ -19,12 +19,30 @@ import java.util.List;
  * @author azmi_maz
  */
 public class Kitchen {
-    private List<Order> orderTickets;
+    private static final String ORDER_FILE = "ORDERS";
+    private static final String USER_ID_COLUMN = "userId";
+    private static final String ORDER_DATE_COLUMN = "orderDate";
+    private static final String ORDER_TIME_COLUMN = "orderTime";
+    private static final String ORDER_TYPE_COLUMN = "orderType";
+    private static final String ORDER_STATUS_COLUMN = "orderStatus";
+    private static final String ORDER_LISTS_COLUMN = "orderedLists";
+    private static final String DELIVERY_TYPE = "delivery";
+    private static final String DELIVERY_TIME_COLUMN = "deliveryTime";
+    private static final String ASSIGNED_DRIVER_COLUMN = "assignedDriver";
+    private static final String TAKEAWAY_TYPE = "takeaway";
+    private static final String PICKUP_TIME_COLUMN = "estimatedPickupTime";
+    private static final String DATE_FORMAT_DATABASE = "yyyy-M-d";
+    private static final String TIME_FORMAT_DATABASE = "H-m";
+    private static final String PENDING_STATUS = "pending-approval";
+    private static final String PENDING_KITCHEN = "pending-kitchen";
+    private static final String PENDING_DELIVERY = "pending-delivery";
+    private static final String DELIVERY_ORDER_CLASS = "deliveryorder";
     private static final List<String> orderTypes =
             new ArrayList<>(Arrays.asList(
                     "Delivery Order",
                     "Takeaway Order"
             ));
+    private List<Order> orderTickets;
 
     /**
      * This constructor sets up the kitchen and updates its data
@@ -248,7 +266,7 @@ public class Kitchen {
 
             List<Order> orderList = new ArrayList<>();
             List<String> allOrdersFromDatabase = DataManager
-                    .allDataFromFile("ORDERS");
+                    .allDataFromFile(ORDER_FILE);
             UserManagement userManagement = new UserManagement();
             Menu menu = new Menu();
 
@@ -292,13 +310,13 @@ public class Kitchen {
             // orderId
             int orderId = Integer.parseInt(orderDetails
                     .get(DataFileStructure.getIndexColOfUniqueId(
-                            "ORDERS"
+                            ORDER_FILE
                     )));
 
             // user
             int customerId = Integer.parseInt(orderDetails.get(
                     DataFileStructure.getIndexByColName(
-                            "ORDERS", "userId")));
+                            ORDER_FILE, USER_ID_COLUMN)));
             Customer customer = userManagement.getCustomerById(
                     customerId
             );
@@ -307,8 +325,8 @@ public class Kitchen {
             LocalDate orderDate = getLocalDateFromString(
                     orderDetails.get(DataFileStructure
                             .getIndexByColName(
-                                    "ORDERS",
-                                    "orderDate"
+                                    ORDER_FILE,
+                                    ORDER_DATE_COLUMN
                             ))
             );
 
@@ -316,25 +334,25 @@ public class Kitchen {
             LocalTime orderTime = getLocalTimeFromString(
                     orderDetails.get(DataFileStructure
                             .getIndexByColName(
-                                    "ORDERS",
-                                    "orderTime"
+                                    ORDER_FILE,
+                                    ORDER_TIME_COLUMN
                             ))
             );
 
             // orderType
             String orderType =
                     orderDetails.get(DataFileStructure.getIndexByColName(
-                            "ORDERS", "orderType"));
+                            ORDER_FILE, ORDER_TYPE_COLUMN));
 
             // orderStatus
             String orderStatus =
                     orderDetails.get(DataFileStructure.getIndexByColName(
-                            "ORDERS", "orderStatus"));
+                            ORDER_FILE, ORDER_STATUS_COLUMN));
 
             // orderedFoodDrinkLists
             String[] orderListArray =
                     orderDetails.get(DataFileStructure.getIndexByColName(
-                                    "ORDERS", "orderedLists"))
+                                    ORDER_FILE, ORDER_LISTS_COLUMN))
                             .split(";");
             List<FoodDrink> orderFoodDrinkList = new ArrayList<>();
             getMenuItemFromString(
@@ -347,19 +365,19 @@ public class Kitchen {
             LocalTime deliveryTime = null;
             Driver assignedDriver = null;
 
-            if (orderType.equalsIgnoreCase("delivery")) {
+            if (orderType.equalsIgnoreCase(DELIVERY_TYPE)) {
 
                 deliveryTime = getLocalTimeFromString(
                         orderDetails.get(DataFileStructure
                                 .getIndexByColName(
-                                        "ORDERS",
-                                        "deliveryTime"
+                                        ORDER_FILE,
+                                        DELIVERY_TIME_COLUMN
                                 ))
                 );
 
                 String driverId = orderDetails.get(
                         DataFileStructure.getIndexByColName(
-                                "ORDERS", "assignedDriver"));
+                                ORDER_FILE, ASSIGNED_DRIVER_COLUMN));
                 if (!driverId.isBlank()) {
                     assignedDriver = userManagement.getDriverById(
                             Integer.parseInt(driverId)
@@ -370,18 +388,18 @@ public class Kitchen {
             // estimatedPickupTime
             LocalTime pickupTime = null;
 
-            if (orderType.equalsIgnoreCase("takeaway")) {
+            if (orderType.equalsIgnoreCase(TAKEAWAY_TYPE)) {
                 pickupTime = getLocalTimeFromString(
                         orderDetails.get(DataFileStructure
                                 .getIndexByColName(
-                                        "ORDERS",
-                                        "estimatedPickupTime"
+                                        ORDER_FILE,
+                                        PICKUP_TIME_COLUMN
                                 ))
                 );
             }
 
             // Based on the order type, this creates different type accordingly.
-            if (orderType.equalsIgnoreCase("delivery")) {
+            if (orderType.equalsIgnoreCase(DELIVERY_TYPE)) {
                 return new DeliveryOrder(
                         orderId,
                         customer,
@@ -393,7 +411,7 @@ public class Kitchen {
                         orderFoodDrinkList
                 );
 
-            } else if (orderType.equalsIgnoreCase("takeaway")) {
+            } else if (orderType.equalsIgnoreCase(TAKEAWAY_TYPE)) {
                 return new TakeawayOrder(
                         orderId,
                         customer,
@@ -502,10 +520,11 @@ public class Kitchen {
         String userId = String.valueOf(
                 newOrder.getCustomer().getCustomerId());
         String orderDate = newOrder.getOrderDate()
-                .format(DateTimeFormatter.ofPattern("yyyy-M-d"));
+                .format(DateTimeFormatter.ofPattern(DATE_FORMAT_DATABASE));
         String orderTime =
                 newOrder.getOrderTime()
-                        .format(DateTimeFormatter.ofPattern("H-m"));
+                        .format(DateTimeFormatter
+                                .ofPattern(TIME_FORMAT_DATABASE));
         String orderType = newOrder.getOrderType();
         String orderStatus = newOrder.getOrderStatus();
         String estimatedPickupTime = "";
@@ -528,7 +547,7 @@ public class Kitchen {
         ));
 
         try {
-            return DataManager.appendDataToFile("ORDERS",
+            return DataManager.appendDataToFile(ORDER_FILE,
                     newOrderForDatabase);
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
@@ -548,7 +567,7 @@ public class Kitchen {
         for (Order order : orderTickets) {
             if (isDeliveryOrderClass(order)
                     && order.getOrderStatus()
-                    .equalsIgnoreCase("pending-approval")) {
+                    .equalsIgnoreCase(PENDING_STATUS)) {
                 data.add((DeliveryOrder) order);
             }
         }
@@ -565,7 +584,7 @@ public class Kitchen {
 
         for (Order order : orderTickets) {
             if (order.getOrderStatus()
-                    .equalsIgnoreCase("pending-kitchen")) {
+                    .equalsIgnoreCase(PENDING_KITCHEN)) {
                 data.add(order);
             }
         }
@@ -592,7 +611,7 @@ public class Kitchen {
                     DeliveryOrder deliveryOrder = (DeliveryOrder) order;
 
                     if (deliveryOrder.getOrderStatus()
-                            .equalsIgnoreCase("pending-delivery")) {
+                            .equalsIgnoreCase(PENDING_DELIVERY)) {
                         int driverId = 0;
                         driverId = deliveryOrder
                                 .getDriver().getUserId();
@@ -634,7 +653,7 @@ public class Kitchen {
                         if (driver.getUserId() == driverId
                                 && deliveryOrder.getOrderStatus()
                                 .equalsIgnoreCase(
-                                        "pending-delivery")) {
+                                        PENDING_DELIVERY)) {
                             data.add(deliveryOrder);
                         }
                     }
@@ -657,7 +676,7 @@ public class Kitchen {
         Object classType = order.getClass();
         String objectType = List.of(classType.toString()
                 .split("\\.")).getLast();
-        if (objectType.equalsIgnoreCase("deliveryorder")) {
+        if (objectType.equalsIgnoreCase(DELIVERY_ORDER_CLASS)) {
             return true;
         }
         return false;

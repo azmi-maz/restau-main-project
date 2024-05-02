@@ -14,6 +14,27 @@ import java.util.List;
  * @author azmi_maz
  */
 public class DeliveryOrder extends Order implements NotifyAction {
+    private static final String ORDER_FILE = "ORDERS";
+    private static final String DELIVERY_TYPE = "delivery";
+    private static final String ORDER_STATUS_COLUMN = "orderStatus";
+    private static final String ASSIGNED_DRIVER_COLUMN = "assignedDriver";
+    private static final String DELIVERY_TIME_COLUMN = "deliveryTime";
+    private static final String PENDING_STATUS = "pending-approval";
+    private static final String FAILED_STATUS = "failed";
+    private static final String COMPLETED_STATUS = "completed";
+    private static final String PENDING_KITCHEN_STATUS = "pending-kitchen";
+    private static final String TIME_FORMAT = "hh:mm a";
+    private static final String TIME_FORMAT_DATABASE = "H-m";
+    private static final String CONFIRM_DELIVERY_MESSAGE = "Your order no.%d " +
+            "was delivered successfully. " +
+            "Enjoy your meal!";
+    private static final String CANCEL_DELIVERY_MESSAGE = "We're sorry. " +
+            "Your delivery order no.%d was cancelled " +
+            "due to heavy demand in delivery orders. " +
+            "Please try again later.";
+    private static final String APPROVE_DELIVERY_MESSAGE = "Your order no.%d " +
+            "is on the way. Estimated time of delivery is %s.";
+    private static final int DELIVERY_TIME_ESTIMATE = 30;
     private Driver assignedDriver;
     private String customerAddress;
     private LocalTime deliveryTime;
@@ -29,7 +50,7 @@ public class DeliveryOrder extends Order implements NotifyAction {
     public DeliveryOrder(int orderId, Customer customer, LocalDate orderDate,
                          LocalTime orderTime) {
         super(orderId, customer, orderDate,
-                orderTime, "delivery", "pending-approval");
+                orderTime, DELIVERY_TYPE, PENDING_STATUS);
         customerAddress = customer.getDeliveryAddress();
     }
 
@@ -50,7 +71,7 @@ public class DeliveryOrder extends Order implements NotifyAction {
                          String orderStatus, Driver assignedDriver,
                          List<FoodDrink> orderedList) {
         super(orderId, customer, orderDate, orderTime,
-                "delivery", orderStatus, orderedList);
+                DELIVERY_TYPE, orderStatus, orderedList);
         customerAddress = customer.getDeliveryAddress();
         this.deliveryTime = deliveryTime;
         this.assignedDriver = assignedDriver;
@@ -147,7 +168,7 @@ public class DeliveryOrder extends Order implements NotifyAction {
      * @return the delivery time in the desired format.
      */
     public String getDeliveryTimeInFormat() {
-        return deliveryTime.format(DateTimeFormatter.ofPattern("hh:mm a"));
+        return deliveryTime.format(DateTimeFormatter.ofPattern(TIME_FORMAT));
     }
 
     /**
@@ -157,13 +178,14 @@ public class DeliveryOrder extends Order implements NotifyAction {
      * @return - the estimated delivery time in the desired format.
      */
     public String getEstimatedDeliveryTimeForDatabase() {
-        // TODO final variable for added time 30 minutes
+
         LocalTime timeOfApproval = LocalTime.now();
-        LocalTime estimatedDeliveryTime = timeOfApproval.plusMinutes(30);
+        LocalTime estimatedDeliveryTime =
+                timeOfApproval.plusMinutes(DELIVERY_TIME_ESTIMATE);
         deliveryTime = estimatedDeliveryTime;
-        // TODO note H-m if it can be applied elsewhere
+
         return estimatedDeliveryTime
-                .format(DateTimeFormatter.ofPattern("H-m"));
+                .format(DateTimeFormatter.ofPattern(TIME_FORMAT_DATABASE));
     }
 
     /**
@@ -174,9 +196,9 @@ public class DeliveryOrder extends Order implements NotifyAction {
     public void cancelDeliveryOrder() throws TextFileNotFoundException {
         int orderId = super.getOrderId();
         try {
-            DataManager.editColumnDataByUniqueId("ORDERS",
-                    orderId, "orderStatus",
-                    "failed");
+            DataManager.editColumnDataByUniqueId(ORDER_FILE,
+                    orderId, ORDER_STATUS_COLUMN,
+                    FAILED_STATUS);
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
             throw e;
@@ -195,14 +217,14 @@ public class DeliveryOrder extends Order implements NotifyAction {
     ) throws TextFileNotFoundException {
         int orderId = super.getOrderId();
         try {
-            DataManager.editColumnDataByUniqueId("ORDERS",
-                    orderId, "orderStatus",
-                    "pending-kitchen");
-            DataManager.editColumnDataByUniqueId("ORDERS",
-                    orderId, "assignedDriver",
+            DataManager.editColumnDataByUniqueId(ORDER_FILE,
+                    orderId, ORDER_STATUS_COLUMN,
+                    PENDING_KITCHEN_STATUS);
+            DataManager.editColumnDataByUniqueId(ORDER_FILE,
+                    orderId, ASSIGNED_DRIVER_COLUMN,
                     String.valueOf(driverId));
-            DataManager.editColumnDataByUniqueId("ORDERS",
-                    orderId, "deliveryTime",
+            DataManager.editColumnDataByUniqueId(ORDER_FILE,
+                    orderId, DELIVERY_TIME_COLUMN,
                     getEstimatedDeliveryTimeForDatabase());
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
@@ -221,9 +243,9 @@ public class DeliveryOrder extends Order implements NotifyAction {
             throws TextFileNotFoundException {
         int orderId = super.getOrderId();
         try {
-            return DataManager.editColumnDataByUniqueId("ORDERS",
-                    orderId, "orderStatus",
-                    "completed");
+            return DataManager.editColumnDataByUniqueId(ORDER_FILE,
+                    orderId, ORDER_STATUS_COLUMN,
+                    COMPLETED_STATUS);
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
             throw e;
@@ -237,8 +259,7 @@ public class DeliveryOrder extends Order implements NotifyAction {
      */
     public String approveDeliveryMessage() {
         return String.format(
-                "Your order no.%d is on the way. Estimated time of delivery" +
-                        " is %s.",
+                APPROVE_DELIVERY_MESSAGE,
                 super.getOrderId(),
                 getDeliveryTimeInFormat()
         );
@@ -252,9 +273,7 @@ public class DeliveryOrder extends Order implements NotifyAction {
      */
     public String cancelDeliveryMessage() {
         return String.format(
-                "We're sorry. Your delivery order no.%d was cancelled " +
-                        "due to heavy demand in delivery orders. " +
-                        "Please try again later.",
+                CANCEL_DELIVERY_MESSAGE,
                 super.getOrderId()
         );
     }
@@ -267,8 +286,7 @@ public class DeliveryOrder extends Order implements NotifyAction {
      */
     public String confirmDeliveryMessage() {
         return String.format(
-                "Your order no.%d was delivered successfully. " +
-                        "Enjoy your meal!",
+                CONFIRM_DELIVERY_MESSAGE,
                 super.getOrderId()
         );
     }
@@ -290,13 +308,15 @@ public class DeliveryOrder extends Order implements NotifyAction {
 
             NotificationBoard notificationBoard = new NotificationBoard();
             String notificationType = "delivery";
-            Notification newNotification = notificationBoard.createNewNotification(
-                    customer.getCustomerId(),
-                    notificationType
-            );
+            Notification newNotification = notificationBoard
+                    .createNewNotification(
+                            customer.getCustomerId(),
+                            notificationType
+                    );
 
             if (isSuccessfulRequest) {
-                if (super.getOrderStatus().equalsIgnoreCase("pending-approval")) {
+                if (super.getOrderStatus().equalsIgnoreCase(
+                        PENDING_STATUS)) {
                     newNotification.setMessageBody(
                             approveDeliveryMessage()
                     );
