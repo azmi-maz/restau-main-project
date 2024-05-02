@@ -32,6 +32,8 @@ import java.util.Objects;
 
 /**
  * This class loads the chef menu view.
+ *
+ * @author azmi_maz
  */
 public class ChefMenuViewController {
 
@@ -72,7 +74,6 @@ public class ChefMenuViewController {
                     ".jpg").toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -180,7 +181,6 @@ public class ChefMenuViewController {
 
                 } catch (TextFileNotFoundException ex) {
                     AlertPopUpWindow.displayErrorWindow(
-                            "Error",
                             ex.getMessage()
                     );
                     ex.printStackTrace();
@@ -226,7 +226,6 @@ public class ChefMenuViewController {
 
             } catch (IOException ex) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         ex.getMessage()
                 );
                 ex.printStackTrace();
@@ -249,7 +248,6 @@ public class ChefMenuViewController {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();

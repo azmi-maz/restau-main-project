@@ -2,18 +2,18 @@ package org.group.project.scenes.waiter;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.scenes.main.WaiterView;
 import org.group.project.scenes.waiter.mainViews.BookingView;
 import org.group.project.scenes.waiter.mainViews.DeliveryView;
 import org.group.project.scenes.waiter.mainViews.DineInView;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * This class handles all the waiter main scenes.
+ *
+ * @author azmi_maz
  */
 public class WaiterScenesMap {
 
@@ -32,25 +32,15 @@ public class WaiterScenesMap {
 
         WaiterScenesMap.stage = stage;
 
-        try {
-
-            // Create and store all scenes up front
-            waiterScenes.put(WaiterMapsMain.HOME,
-                    new WaiterView(stage).getScene());
-            waiterScenes.put(WaiterMapsMain.DELIVERY,
-                    new DeliveryView(stage).getScene());
-            waiterScenes.put(WaiterMapsMain.BOOKING,
-                    new BookingView(stage).getScene());
-            waiterScenes.put(WaiterMapsMain.DINEIN,
-                    new DineInView(stage).getScene());
-
-        } catch (IOException e) {
-            AlertPopUpWindow.displayErrorWindow(
-                    "Error",
-                    e.getMessage()
-            );
-            e.printStackTrace();
-        }
+        // Create and store all scenes up front
+        waiterScenes.put(WaiterMapsMain.HOME,
+                new WaiterView(stage).getScene());
+        waiterScenes.put(WaiterMapsMain.DELIVERY,
+                new DeliveryView(stage).getScene());
+        waiterScenes.put(WaiterMapsMain.BOOKING,
+                new BookingView(stage).getScene());
+        waiterScenes.put(WaiterMapsMain.DINEIN,
+                new DineInView(stage).getScene());
 
     }
 
@@ -67,9 +57,8 @@ public class WaiterScenesMap {
      * This method gets the waiter home page scene.
      *
      * @return the waiter home page scene.
-     * @throws IOException // TODO
      */
-    public Scene getScene() throws IOException {
+    public Scene getScene() {
         return waiterScenes.get(WaiterMapsMain.HOME);
     }
 

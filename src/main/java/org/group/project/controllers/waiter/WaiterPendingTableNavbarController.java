@@ -10,6 +10,8 @@ import org.group.project.scenes.waiter.mainViews.BookingView;
 
 /**
  * This class loads up the pending table reservation navigation bar for waiter.
+ *
+ * @author azmi_maz
  */
 public class WaiterPendingTableNavbarController {
 

@@ -15,6 +15,8 @@ import org.group.project.scenes.driver.mainViews.DeliveryView;
 
 /**
  * This class loads up the navigation bar for driver home page.
+ *
+ * @author azmi_maz
  */
 public class DriverHomepageNavbarController {
 
@@ -71,7 +73,6 @@ public class DriverHomepageNavbarController {
                 DataManager.clearFileData("ACTIVE_USER");
             } catch (ClearFileFailedException ex) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         ex.getMessage()
                 );
                 ex.printStackTrace();

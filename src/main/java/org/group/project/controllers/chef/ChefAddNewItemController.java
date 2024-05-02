@@ -16,6 +16,8 @@ import java.util.List;
 
 /**
  * This class allows chef to add a new item to the menu.
+ *
+ * @author azmi_maz
  */
 public class ChefAddNewItemController {
 
@@ -50,7 +52,6 @@ public class ChefAddNewItemController {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -78,7 +79,6 @@ public class ChefAddNewItemController {
                     }
                 } catch (TextFileNotFoundException ex) {
                     AlertPopUpWindow.displayErrorWindow(
-                            "Error",
                             ex.getMessage()
                     );
                     ex.printStackTrace();
@@ -88,7 +88,6 @@ public class ChefAddNewItemController {
 
             } else {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         "Please complete the form."
                 );
             }
@@ -119,7 +118,6 @@ public class ChefAddNewItemController {
 
     private void promptItemAddFailed() {
         AlertPopUpWindow.displayErrorWindow(
-                "Error",
                 "Something went wrong. Please do it again."
         );
     }

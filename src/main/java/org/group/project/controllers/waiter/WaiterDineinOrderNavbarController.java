@@ -9,6 +9,8 @@ import org.group.project.scenes.waiter.WaiterScenesMap;
 
 /**
  * This class loads up the navigation bar in the dine-in view for waiter.
+ *
+ * @author azmi_maz
  */
 public class WaiterDineinOrderNavbarController {
 

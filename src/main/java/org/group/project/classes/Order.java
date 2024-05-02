@@ -15,13 +15,13 @@ import java.util.List;
  * @author azmi_maz
  */
 public class Order implements NotifyAction {
-    private final User user;
-    private final int orderId;
-    private final LocalDate orderDate;
-    private final LocalTime orderTime;
-    private final String orderType;
-    private final String orderStatus;
-    private final List<FoodDrink> orderedFoodDrinkLists;
+    private User user;
+    private int orderId;
+    private LocalDate orderDate;
+    private LocalTime orderTime;
+    private String orderType;
+    private String orderStatus;
+    private List<FoodDrink> orderedFoodDrinkLists;
 
     /**
      * The constructor to initiate an order with empty basket.

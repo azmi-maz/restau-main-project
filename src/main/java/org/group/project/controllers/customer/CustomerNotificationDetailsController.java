@@ -13,6 +13,8 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * This class allows the customer to view notification details.
+ *
+ * @author azmi_maz
  */
 public class CustomerNotificationDetailsController {
 

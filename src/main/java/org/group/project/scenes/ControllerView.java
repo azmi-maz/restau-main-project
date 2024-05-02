@@ -5,6 +5,8 @@ import javafx.scene.Scene;
 /**
  * This class ensures all controllers involved in a stack implements the
  * given method.
+ *
+ * @author azmi_maz
  */
 public interface ControllerView {
 

@@ -19,6 +19,8 @@ import java.util.List;
 
 /**
  * This class enables the customer to add item to their cart.
+ *
+ * @author azmi_maz
  */
 public class CustomerMenuOrderAddItemController {
 
@@ -52,7 +54,6 @@ public class CustomerMenuOrderAddItemController {
             int quantityValue = Integer.parseInt(quantityTextField.getText());
             if (quantityValue < 0) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         "Quantity cannot be less than 0"
                 );
                 quantityTextField.setText("1");
@@ -63,7 +64,6 @@ public class CustomerMenuOrderAddItemController {
             int quantityValue = Integer.parseInt(quantityTextField.getText());
             if (quantityValue < 0) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         "Quantity cannot be less than 0"
                 );
                 quantityTextField.setText("1");
@@ -118,7 +118,6 @@ public class CustomerMenuOrderAddItemController {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();

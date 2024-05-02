@@ -12,6 +12,8 @@ import java.util.List;
 
 /**
  * This class loads up the counter of pending delivery orders for approval.
+ *
+ * @author azmi_maz
  */
 public class WaiterDeliveryNavbarCounter {
 
@@ -48,7 +50,6 @@ public class WaiterDeliveryNavbarCounter {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();

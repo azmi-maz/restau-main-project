@@ -8,6 +8,8 @@ import org.group.project.scenes.ControllerView;
 /**
  * This allows the customer to go back and forth from this order
  * confirmation page and the previous order details page.
+ *
+ * @author azmi_maz
  */
 public class OrderConfirmationPresenter extends Presenter {
     private OrderConfirmationController view;

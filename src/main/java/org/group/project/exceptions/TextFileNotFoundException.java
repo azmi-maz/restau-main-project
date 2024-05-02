@@ -5,6 +5,8 @@ import java.io.IOException;
 /**
  * This class is used to inform the user a specific text file is not
  * available or that it does not exist.
+ *
+ * @author azmi_maz
  */
 public class TextFileNotFoundException extends IOException {
 

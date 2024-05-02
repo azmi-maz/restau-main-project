@@ -9,8 +9,8 @@ import java.util.List;
  * @author azmi_maz
  */
 public class Table {
-    private final String tableName;
-    private final List<Seat> seats;
+    private String tableName;
+    private List<Seat> seats;
 
     /**
      * This constructor creates a table with a specified number of seats.

@@ -8,6 +8,8 @@ import org.group.project.scenes.manager.ManagerScenesMap;
 
 /**
  * This class loads up the return to home navigation bar for manager.
+ *
+ * @author azmi_maz
  */
 public class ManagerReturnHomeNavbarController {
 

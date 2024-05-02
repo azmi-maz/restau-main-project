@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.group.project.Main;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.controllers.customer.CustomerBookingsHistoryViewController;
 import org.group.project.scenes.ViewMaker;
 import org.group.project.scenes.WindowSize;
@@ -13,6 +14,8 @@ import java.io.IOException;
 
 /**
  * This class prepares the customer table reservation view scene.
+ *
+ * @author azmi_maz
  */
 public class BookingsView implements ViewMaker {
 
@@ -33,16 +36,23 @@ public class BookingsView implements ViewMaker {
      * This method gets the customer table reservation view scene.
      *
      * @return the customer table reservation view scene.
-     * @throws IOException // TODO
      */
     @Override
-    public Scene getScene() throws IOException {
+    public Scene getScene() {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
                 "customerscenes/mapscenes/" +
                         "customer-viewbookings.fxml"));
 
-        VBox vbox = fxmlLoader.load();
+        VBox vbox = null;
+        try {
+            vbox = fxmlLoader.load();
+        } catch (IOException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
 
         controller = fxmlLoader.getController();
 

@@ -19,6 +19,8 @@ import java.util.Scanner;
  */
 public abstract class DataManager {
 
+    private static final String TEMP_FILE = "myTempFile.txt";
+
     /**
      * This method gets all the data from a file.
      *
@@ -148,7 +150,7 @@ public abstract class DataManager {
         try {
 
             File inputFile = new File(FileNames.DATA.getDataFile(fileType));
-            File tempFile = new File("myTempFile.txt");
+            File tempFile = new File(TEMP_FILE);
 
             FileWriter fileWriter = new FileWriter(tempFile, true);
 
@@ -156,13 +158,16 @@ public abstract class DataManager {
             while (fileReader.hasNextLine()) {
                 String data = fileReader.nextLine();
                 String[] dataDetails = data.split(",");
-                int uniqueIdIndex = DataFileStructure.getIndexColOfUniqueId(
-                        fileType);
+                int uniqueIdIndex = DataFileStructure
+                        .getIndexColOfUniqueId(fileType);
                 if (uniqueId instanceof Integer) {
-                    int getUniqueId = Integer.parseInt(dataDetails[uniqueIdIndex]);
-                    int deleteUniqueId = Integer.parseInt(String.valueOf(uniqueId));
+                    int getUniqueId = Integer.parseInt(
+                            dataDetails[uniqueIdIndex]);
+                    int deleteUniqueId = Integer.parseInt(
+                            String.valueOf(uniqueId));
                     if (getUniqueId != deleteUniqueId) {
-                        fileWriter.write(data + System.lineSeparator());
+                        fileWriter.write(data
+                                + System.lineSeparator());
                     }
                 } else if (uniqueId instanceof String) {
                     String getUniqueId = dataDetails[uniqueIdIndex];
@@ -204,7 +209,7 @@ public abstract class DataManager {
         try {
 
             File inputFile = new File(FileNames.DATA.getDataFile(fileType));
-            File tempFile = new File("myTempFile.txt");
+            File tempFile = new File(TEMP_FILE);
 
             FileWriter fileWriter = new FileWriter(tempFile, true);
             Scanner fileReader = new Scanner(inputFile);
@@ -213,18 +218,23 @@ public abstract class DataManager {
                 String data = fileReader.nextLine();
                 String[] dataDetails = data.split(",");
                 int columnIndexToEdit =
-                        DataFileStructure.getIndexByColName(fileType, columnName);
-                int uniqueIdIndex = DataFileStructure.getIndexColOfUniqueId(
-                        fileType);
+                        DataFileStructure.getIndexByColName(
+                                fileType, columnName);
+                int uniqueIdIndex = DataFileStructure
+                        .getIndexColOfUniqueId(fileType);
                 if (uniqueId instanceof Integer) {
-                    int getUniqueId = Integer.parseInt(dataDetails[uniqueIdIndex]);
-                    int uniqueIdToEdit = Integer.parseInt(String.valueOf(uniqueId));
+                    int getUniqueId = Integer.parseInt(
+                            dataDetails[uniqueIdIndex]);
+                    int uniqueIdToEdit = Integer.parseInt(
+                            String.valueOf(uniqueId));
                     if (getUniqueId != uniqueIdToEdit) {
-                        fileWriter.write(data + System.lineSeparator());
+                        fileWriter.write(
+                                data + System.lineSeparator());
                     } else {
                         dataDetails[columnIndexToEdit] = newData;
                         String editedDate = formatArrayToString(dataDetails);
-                        fileWriter.write(editedDate + System.lineSeparator());
+                        fileWriter.write(editedDate
+                                + System.lineSeparator());
                     }
                 } else if (uniqueId instanceof String) {
                     String getUniqueId = dataDetails[uniqueIdIndex];
@@ -234,7 +244,8 @@ public abstract class DataManager {
                     } else {
                         dataDetails[columnIndexToEdit] = newData;
                         String editedDate = formatArrayToString(dataDetails);
-                        fileWriter.write(editedDate + System.lineSeparator());
+                        fileWriter.write(editedDate
+                                + System.lineSeparator());
                     }
                 }
             }
@@ -261,7 +272,7 @@ public abstract class DataManager {
         try {
 
             File inputFile = new File(FileNames.DATA.getDataFile(fileType));
-            File tempFile = new File("myTempFile.txt");
+            File tempFile = new File(TEMP_FILE);
             FileWriter fileWriter = new FileWriter(tempFile, true);
             fileWriter.write("");
             fileWriter.close();

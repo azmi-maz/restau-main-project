@@ -9,6 +9,8 @@ import org.group.project.scenes.main.CustomerView;
 
 /**
  * This class loads up the customer return to home page navigation bar.
+ *
+ * @author azmi_maz
  */
 public class CustomerReturnHomeNavbarController {
 

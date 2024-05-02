@@ -29,13 +29,10 @@ import java.net.URISyntaxException;
 
 /**
  * This class enables the customer to view table of previous orders made.
+ *
+ * @author azmi_maz
  */
 public class CustomerOrderHistoryViewController {
-
-    @FXML
-    private final TableView<Order> orderHistoryTable = new TableView<>();
-    private final ObservableList<Order> data =
-            FXCollections.observableArrayList();
 
     @FXML
     private TableColumn<Order, String> orderNoColumn;
@@ -60,6 +57,11 @@ public class CustomerOrderHistoryViewController {
 
     private int userId;
 
+    @FXML
+    private TableView<Order> orderHistoryTable = new TableView<>();
+    private ObservableList<Order> data =
+            FXCollections.observableArrayList();
+
     /**
      * This initializes the controller for the fxml.
      */
@@ -72,7 +74,6 @@ public class CustomerOrderHistoryViewController {
                     ".jpg").toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -170,7 +171,6 @@ public class CustomerOrderHistoryViewController {
 
                 } catch (IOException ex) {
                     AlertPopUpWindow.displayErrorWindow(
-                            "Error",
                             ex.getMessage()
                     );
                     ex.printStackTrace();
@@ -201,7 +201,6 @@ public class CustomerOrderHistoryViewController {
             );
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -221,7 +220,6 @@ public class CustomerOrderHistoryViewController {
                     Main.getCurrentUser().getUsername());
         } catch (TextFileNotFoundException ex) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     ex.getMessage()
             );
             ex.printStackTrace();

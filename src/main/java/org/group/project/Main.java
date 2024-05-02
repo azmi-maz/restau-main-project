@@ -17,11 +17,15 @@ import org.group.project.scenes.main.LoginView;
 import org.group.project.scenes.manager.ManagerScenesMap;
 import org.group.project.scenes.waiter.WaiterScenesMap;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * This is main class that starts the application.
+ *
+ * @author azmi_maz
+ */
 public class Main extends Application {
 
     private static final String restaurantName =
@@ -33,7 +37,7 @@ public class Main extends Application {
     private static User currentUser;
 
     /**
-     * This is the start method.
+     * This method starts the application.
      *
      * @param stage the primary stage for this application, onto which
      *              the application scene can be set.
@@ -43,23 +47,20 @@ public class Main extends Application {
 
         Main.stage = stage;
 
-        try {
+        // Holds the various user scenes to switch between.
+        scenes.put(MainScenes.LOGIN,
+                new LoginView(stage).getScene());
+        scenes.put(MainScenes.CUSTOMER,
+                new CustomerScenesMap(stage).getScene());
+        scenes.put(MainScenes.MANAGER,
+                new ManagerScenesMap(stage).getScene());
+        scenes.put(MainScenes.WAITER,
+                new WaiterScenesMap(stage).getScene());
+        scenes.put(MainScenes.CHEF,
+                new ChefScenesMap(stage).getScene());
+        scenes.put(MainScenes.DRIVER,
+                new DriverScenesMap(stage).getScene());
 
-            // Holds the various user scenes to switch between.
-            scenes.put(MainScenes.LOGIN, new LoginView(stage).getScene());
-            scenes.put(MainScenes.CUSTOMER, new CustomerScenesMap(stage).getScene());
-            scenes.put(MainScenes.MANAGER, new ManagerScenesMap(stage).getScene());
-            scenes.put(MainScenes.WAITER, new WaiterScenesMap(stage).getScene());
-            scenes.put(MainScenes.CHEF, new ChefScenesMap(stage).getScene());
-            scenes.put(MainScenes.DRIVER, new DriverScenesMap(stage).getScene());
-
-        } catch (IOException e) {
-            AlertPopUpWindow.displayErrorWindow(
-                    "Error",
-                    e.getMessage()
-            );
-            e.printStackTrace();
-        }
 
         // Starts with user log in.
         stage.setScene(scenes.get(MainScenes.LOGIN));
@@ -79,7 +80,6 @@ public class Main extends Application {
                     DataManager.clearFileData("ACTIVE_USER");
                 } catch (ClearFileFailedException ex) {
                     AlertPopUpWindow.displayErrorWindow(
-                            "Error",
                             ex.getMessage()
                     );
                     ex.printStackTrace();

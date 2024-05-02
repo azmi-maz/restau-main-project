@@ -31,6 +31,8 @@ import java.util.Optional;
 
 /**
  * This class allows the manager to view staff list.
+ *
+ * @author azmi_maz
  */
 public class ManagerStaffManagementViewController {
 
@@ -81,7 +83,6 @@ public class ManagerStaffManagementViewController {
                     ".jpg").toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -137,7 +138,6 @@ public class ManagerStaffManagementViewController {
                 userManagement = new UserManagement();
             } catch (TextFileNotFoundException e) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         e.getMessage()
                 );
                 e.printStackTrace();
@@ -212,7 +212,6 @@ public class ManagerStaffManagementViewController {
 
                     } catch (IOException ex) {
                         AlertPopUpWindow.displayErrorWindow(
-                                "Error",
                                 ex.getMessage()
                         );
                         ex.printStackTrace();
@@ -222,7 +221,6 @@ public class ManagerStaffManagementViewController {
 
             } catch (TextFileNotFoundException e) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         e.getMessage()
                 );
                 e.printStackTrace();
@@ -246,7 +244,6 @@ public class ManagerStaffManagementViewController {
                 searchUserId = currentUser.getUserId();
             } catch (TextFileNotFoundException e) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         e.getMessage()
                 );
                 e.printStackTrace();
@@ -254,7 +251,6 @@ public class ManagerStaffManagementViewController {
 
             if (searchUserId == -1) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         "This user does not exist."
                 );
             }
@@ -286,7 +282,6 @@ public class ManagerStaffManagementViewController {
                         refreshStaffList();
                     } catch (TextFileNotFoundException ex) {
                         AlertPopUpWindow.displayErrorWindow(
-                                "Error",
                                 ex.getMessage()
                         );
                         ex.printStackTrace();
@@ -327,7 +322,6 @@ public class ManagerStaffManagementViewController {
 
             } catch (IOException ex) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         ex.getMessage()
                 );
                 ex.printStackTrace();
@@ -349,7 +343,6 @@ public class ManagerStaffManagementViewController {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();

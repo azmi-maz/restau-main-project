@@ -27,19 +27,10 @@ import java.util.Optional;
 
 /**
  * This class enables the customer to confirm the order made.
+ *
+ * @author azmi_maz
  */
 public class CustomerOrderConfirmationViewController {
-
-    @FXML
-    private final TableView<FoodDrink> orderDetailsTable =
-            new TableView<>();
-
-    private final ObservableList<FoodDrink> data =
-            FXCollections.observableArrayList();
-
-    private final List<Order> newOrder;
-
-    private Order orderDetails;
 
     @FXML
     private Label orderTypeLabel;
@@ -71,6 +62,17 @@ public class CustomerOrderConfirmationViewController {
     @FXML
     private TableColumn<FoodDrink, String> quantityColumn;
 
+    @FXML
+    private TableView<FoodDrink> orderDetailsTable =
+            new TableView<>();
+
+    private ObservableList<FoodDrink> data =
+            FXCollections.observableArrayList();
+
+    private List<Order> newOrder;
+
+    private Order orderDetails;
+
     /**
      * This loads up the list of items the customer made.
      *
@@ -92,7 +94,6 @@ public class CustomerOrderConfirmationViewController {
                     ".jpg").toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -230,7 +231,6 @@ public class CustomerOrderConfirmationViewController {
             }
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();

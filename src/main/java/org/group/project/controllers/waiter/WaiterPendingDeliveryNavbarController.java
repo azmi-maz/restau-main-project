@@ -10,6 +10,8 @@ import org.group.project.scenes.waiter.mainViews.DeliveryView;
 
 /**
  * This class loads up the counter of pending delivery orders.
+ *
+ * @author azmi_maz
  */
 public class WaiterPendingDeliveryNavbarController {
 

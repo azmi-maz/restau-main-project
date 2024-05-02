@@ -32,6 +32,8 @@ import java.time.LocalTime;
 
 /**
  * This class enables the customer to view their list of notifications.
+ *
+ * @author azmi_maz
  */
 public class CustomerNotificationViewController {
 
@@ -72,7 +74,6 @@ public class CustomerNotificationViewController {
                     ".jpg").toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -188,7 +189,6 @@ public class CustomerNotificationViewController {
 
                 } catch (IOException ex) {
                     AlertPopUpWindow.displayErrorWindow(
-                            "Error",
                             ex.getMessage()
                     );
                     ex.printStackTrace();
@@ -224,7 +224,6 @@ public class CustomerNotificationViewController {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -243,7 +242,6 @@ public class CustomerNotificationViewController {
                     Main.getCurrentUser().getUsername());
         } catch (TextFileNotFoundException ex) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     ex.getMessage()
             );
             ex.printStackTrace();

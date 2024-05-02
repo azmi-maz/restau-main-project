@@ -11,6 +11,8 @@ import java.net.URISyntaxException;
 
 /**
  * This class loads up the customer home page.
+ *
+ * @author azmi_maz
  */
 public class CustomerHomepageController {
 
@@ -32,7 +34,6 @@ public class CustomerHomepageController {
                     ".jpg").toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();

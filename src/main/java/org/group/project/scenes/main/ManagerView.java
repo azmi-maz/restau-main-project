@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.group.project.Main;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.controllers.manager.ManagerHomepageController;
 import org.group.project.scenes.ViewMaker;
 import org.group.project.scenes.WindowSize;
@@ -13,6 +14,8 @@ import java.io.IOException;
 
 /**
  * This class prepares the manager home page view scene.
+ *
+ * @author azmi_maz
  */
 public class ManagerView implements ViewMaker {
 
@@ -34,15 +37,22 @@ public class ManagerView implements ViewMaker {
      * This method gets the manager home page view scene.
      *
      * @return the manager home page view scene.
-     * @throws IOException // TODO
      */
     @Override
-    public Scene getScene() throws IOException {
+    public Scene getScene() {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
                 "homepages/manager-homepage.fxml"));
 
-        BorderPane borderPane = fxmlLoader.load();
+        BorderPane borderPane = null;
+        try {
+            borderPane = fxmlLoader.load();
+        } catch (IOException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
 
         controller = fxmlLoader.getController();
 

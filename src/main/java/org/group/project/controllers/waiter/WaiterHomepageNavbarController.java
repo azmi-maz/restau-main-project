@@ -16,6 +16,8 @@ import org.group.project.scenes.waiter.mainViews.DineInView;
 
 /**
  * This class loads up the home page navigation bar for waiter.
+ *
+ * @author azmi_maz
  */
 public class WaiterHomepageNavbarController {
 
@@ -83,7 +85,6 @@ public class WaiterHomepageNavbarController {
                 DataManager.clearFileData("ACTIVE_USER");
             } catch (ClearFileFailedException ex) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         ex.getMessage()
                 );
                 ex.printStackTrace();

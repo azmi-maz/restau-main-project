@@ -13,6 +13,8 @@ import org.group.project.exceptions.TextFileNotFoundException;
 
 /**
  * This class enables the waiter to assign driver and approve a delivery order.
+ *
+ * @author azmi_maz
  */
 public class WaiterEditDeliveryOrderController {
 
@@ -62,7 +64,6 @@ public class WaiterEditDeliveryOrderController {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -94,7 +95,6 @@ public class WaiterEditDeliveryOrderController {
 
             } catch (TextFileNotFoundException ex) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         ex.getMessage()
                 );
                 ex.printStackTrace();

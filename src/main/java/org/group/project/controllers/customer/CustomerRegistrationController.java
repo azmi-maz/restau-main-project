@@ -127,7 +127,6 @@ public class CustomerRegistrationController {
             } else {
 
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         "Please complete the form."
                 );
 
@@ -136,7 +135,6 @@ public class CustomerRegistrationController {
         } catch (InvalidUsernameException error) {
             errorUsernameLabel.setText(error.getMessage());
             AlertPopUpWindow.displayErrorWindow(
-                    "Invalid Username",
                     error.getMessage()
             );
             errorUsernameLabel.setVisible(true);
@@ -145,7 +143,6 @@ public class CustomerRegistrationController {
             error.printStackTrace();
         } catch (TextFileNotFoundException | ClearFileFailedException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();

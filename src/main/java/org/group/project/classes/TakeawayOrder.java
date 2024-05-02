@@ -9,6 +9,8 @@ import java.util.List;
 
 /**
  * This class handles takeaway orders.
+ *
+ * @author azmi_maz
  */
 public class TakeawayOrder extends Order implements NotifyAction {
     private LocalTime estimatedPickupTime;

@@ -7,6 +7,8 @@ import org.group.project.scenes.ControllerView;
 /**
  * This allows the customer to go from this order details page,
  * order confirmation or return back to the menu.
+ *
+ * @author azmi_maz
  */
 public class OrderDetailsPresenter extends Presenter {
     private static final int GO_TO_ORDER_CONFIRMATION_BTN = 1;

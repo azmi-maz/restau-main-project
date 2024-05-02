@@ -21,6 +21,8 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * This class allows the customer to add new booking.
+ *
+ * @author azmi_maz
  */
 public class CustomerAddBookingController {
 
@@ -60,7 +62,6 @@ public class CustomerAddBookingController {
             if (reservationDatePicker.getValue().compareTo(
                     LocalDate.now()) < 0) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         "Reservation date cannot be less " +
                                 "than current date."
                 );
@@ -83,7 +84,6 @@ public class CustomerAddBookingController {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -101,7 +101,6 @@ public class CustomerAddBookingController {
                 );
             } catch (TextFileNotFoundException ex) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         ex.getMessage()
                 );
                 ex.printStackTrace();
@@ -175,7 +174,6 @@ public class CustomerAddBookingController {
                     }
                 } catch (TextFileNotFoundException ex) {
                     AlertPopUpWindow.displayErrorWindow(
-                            "Error",
                             ex.getMessage()
                     );
                     ex.printStackTrace();
@@ -186,7 +184,6 @@ public class CustomerAddBookingController {
             } else {
 
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         "Please complete the form."
                 );
             }

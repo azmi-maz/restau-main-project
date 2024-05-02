@@ -4,9 +4,12 @@ import org.group.project.scenes.ControllerView;
 
 /**
  * This class ensures each presenter used has the essential methods.
+ *
  * <p>
  * Modified code cited from:
  * https://github.com/R0land013/multiple-scenes-javafx
+ *
+ * @author azmi_maz
  */
 public abstract class Presenter {
 

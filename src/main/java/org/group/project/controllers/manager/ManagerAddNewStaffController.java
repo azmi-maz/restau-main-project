@@ -15,6 +15,8 @@ import org.group.project.exceptions.TextFileNotFoundException;
 
 /**
  * This class allows manager to add new staff.
+ *
+ * @author azmi_maz
  */
 public class ManagerAddNewStaffController {
 
@@ -88,7 +90,6 @@ public class ManagerAddNewStaffController {
 
                     } catch (TextFileNotFoundException ex) {
                         AlertPopUpWindow.displayErrorWindow(
-                                "Error",
                                 ex.getMessage()
                         );
                         ex.printStackTrace();
@@ -108,7 +109,6 @@ public class ManagerAddNewStaffController {
 
                 } else {
                     AlertPopUpWindow.displayErrorWindow(
-                            "Error",
                             "Please complete the form."
                     );
                 }
@@ -117,7 +117,6 @@ public class ManagerAddNewStaffController {
 
         } catch (TextFileNotFoundException ex) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     ex.getMessage()
             );
             ex.printStackTrace();

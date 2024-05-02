@@ -6,6 +6,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.group.project.Main;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.controllers.customer.CustomerHomepageController;
 import org.group.project.controllers.customer.CustomerNotificationNavbarCounter;
 import org.group.project.scenes.ViewMaker;
@@ -15,6 +16,8 @@ import java.io.IOException;
 
 /**
  * This class prepares the customer home page view scene.
+ *
+ * @author azmi_maz
  */
 public class CustomerView implements ViewMaker {
 
@@ -38,10 +41,9 @@ public class CustomerView implements ViewMaker {
      * This method gets the customer home page view scene.
      *
      * @return the customer home page view scene.
-     * @throws IOException // TODO
      */
     @Override
-    public Scene getScene() throws IOException {
+    public Scene getScene() {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
                 "homepages/customer-homepage.fxml"));
@@ -49,16 +51,25 @@ public class CustomerView implements ViewMaker {
         FXMLLoader fxmlLoaderNavbar = new FXMLLoader(Main.class.getResource(
                 "navbar/customer/customer-notificationCounter.fxml"));
 
-        BorderPane borderPane = fxmlLoader.load();
-        controller = fxmlLoader.getController();
+        try {
 
-        VBox notificationCounterVBox = fxmlLoaderNavbar.load();
-        borderPane.getChildren().add(notificationCounterVBox);
-        customerNotificationNavbarController =
-                fxmlLoaderNavbar.getController();
+            BorderPane borderPane = fxmlLoader.load();
+            controller = fxmlLoader.getController();
 
-        return new Scene(borderPane, WindowSize.MAIN.WIDTH,
-                WindowSize.MAIN.HEIGHT);
+            VBox notificationCounterVBox = fxmlLoaderNavbar.load();
+            borderPane.getChildren().add(notificationCounterVBox);
+            customerNotificationNavbarController =
+                    fxmlLoaderNavbar.getController();
+
+            return new Scene(borderPane, WindowSize.MAIN.WIDTH,
+                    WindowSize.MAIN.HEIGHT);
+
+        } catch (IOException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
+        return null;
     }
-
 }

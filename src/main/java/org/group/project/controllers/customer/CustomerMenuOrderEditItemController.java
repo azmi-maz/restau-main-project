@@ -17,6 +17,8 @@ import java.util.List;
 
 /**
  * This class enables customer to edit the selected item in cart.
+ *
+ * @author azmi_maz
  */
 public class CustomerMenuOrderEditItemController {
 
@@ -50,7 +52,6 @@ public class CustomerMenuOrderEditItemController {
             int quantityValue = Integer.parseInt(quantityTextField.getText());
             if (quantityValue < 0) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         "Quantity cannot be less than 0"
                 );
                 quantityTextField.setText("1");
@@ -61,7 +62,6 @@ public class CustomerMenuOrderEditItemController {
             int quantityValue = Integer.parseInt(quantityTextField.getText());
             if (quantityValue < 0) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         "Quantity cannot be less than 0"
                 );
                 quantityTextField.setText("1");
@@ -91,7 +91,6 @@ public class CustomerMenuOrderEditItemController {
                     imageUrl).toURI().toString()));
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();

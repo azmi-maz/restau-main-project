@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.group.project.Main;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.scenes.ViewMaker;
 import org.group.project.scenes.WindowSize;
 
@@ -11,6 +12,8 @@ import java.io.IOException;
 
 /**
  * This class prepares the login page view scene.
+ *
+ * @author azmi_maz
  */
 public class LoginView implements ViewMaker {
 
@@ -30,15 +33,22 @@ public class LoginView implements ViewMaker {
      * This method gets the login page view scene.
      *
      * @return the login page view scene.
-     * @throws IOException // TODO
      */
     @Override
-    public Scene getScene() throws IOException {
+    public Scene getScene() {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
                 "homepages/login-view.fxml"));
-        return new Scene(fxmlLoader.load(), WindowSize.MAIN.WIDTH,
-                WindowSize.MAIN.HEIGHT);
+        try {
+            return new Scene(fxmlLoader.load(), WindowSize.MAIN.WIDTH,
+                    WindowSize.MAIN.HEIGHT);
+        } catch (IOException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

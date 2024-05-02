@@ -13,6 +13,8 @@ import java.util.List;
 
 /**
  * This class allows the waiter to edit the current order.
+ *
+ * @author azmi_maz
  */
 public class WaiterDineinEditOrderController {
 
@@ -42,7 +44,6 @@ public class WaiterDineinEditOrderController {
             int quantityValue = Integer.parseInt(quantityTextField.getText());
             if (quantityValue < 0) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         "Quantity cannot be less than 0"
                 );
                 quantityTextField.setText("1");
@@ -70,7 +71,6 @@ public class WaiterDineinEditOrderController {
 
             } else {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         "Please enter valid number."
                 );
                 quantityTextField.setText("1");

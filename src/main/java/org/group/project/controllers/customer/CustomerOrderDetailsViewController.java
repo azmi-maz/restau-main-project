@@ -30,22 +30,10 @@ import java.util.Optional;
 
 /**
  * This class enables the customer to make any edits to the item quantity.
+ *
+ * @author azmi_maz
  */
 public class CustomerOrderDetailsViewController {
-
-    @FXML
-    private final ChoiceBox<String> choiceBox = new ChoiceBox<>();
-
-    @FXML
-    private final TableView<FoodDrink> orderDetailsTable =
-            new TableView<>();
-
-    private final ObservableList<FoodDrink> data =
-            FXCollections.observableArrayList();
-
-    private final List<FoodDrink> orderList;
-
-    private final List<Order> newOrder;
 
     @FXML
     private Button confirmButton;
@@ -77,6 +65,20 @@ public class CustomerOrderDetailsViewController {
     @FXML
     private TableColumn<FoodDrink, Button> actionButtonColumn2;
 
+    @FXML
+    private ChoiceBox<String> choiceBox = new ChoiceBox<>();
+
+    @FXML
+    private TableView<FoodDrink> orderDetailsTable =
+            new TableView<>();
+
+    private ObservableList<FoodDrink> data =
+            FXCollections.observableArrayList();
+
+    private List<FoodDrink> orderList;
+
+    private List<Order> newOrder;
+
 
     /**
      * This loads up the customer current order made.
@@ -102,7 +104,6 @@ public class CustomerOrderDetailsViewController {
                     ".jpg").toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -127,7 +128,6 @@ public class CustomerOrderDetailsViewController {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -207,7 +207,6 @@ public class CustomerOrderDetailsViewController {
 
                 } catch (IOException ex) {
                     AlertPopUpWindow.displayErrorWindow(
-                            "Error",
                             ex.getMessage()
                     );
                     ex.printStackTrace();
@@ -287,7 +286,6 @@ public class CustomerOrderDetailsViewController {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();

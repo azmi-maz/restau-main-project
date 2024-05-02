@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class DeliveryOrder extends Order implements NotifyAction {
     private Driver assignedDriver;
-    private final String customerAddress;
+    private String customerAddress;
     private LocalTime deliveryTime;
 
     /**

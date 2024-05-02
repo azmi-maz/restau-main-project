@@ -8,6 +8,8 @@ import org.group.project.scenes.ControllerView;
 /**
  * This class allows the customer to go back and forth from this first scene
  * to the cart scene.
+ *
+ * @author azmi_maz
  */
 public class MenuPresenter extends Presenter {
 

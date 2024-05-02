@@ -27,6 +27,8 @@ import java.util.Optional;
 
 /**
  * This class enables the waiter to serve a dine-in customer.
+ *
+ * @author azmi_maz
  */
 public class WaiterDineinOrderController {
 
@@ -92,7 +94,6 @@ public class WaiterDineinOrderController {
                     ".jpg").toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -117,7 +118,6 @@ public class WaiterDineinOrderController {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -170,7 +170,6 @@ public class WaiterDineinOrderController {
 
                 } catch (IOException ex) {
                     AlertPopUpWindow.displayErrorWindow(
-                            "Error",
                             ex.getMessage()
                     );
                     ex.printStackTrace();
@@ -178,7 +177,6 @@ public class WaiterDineinOrderController {
 
             } else {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         "Please complete table info."
                 );
             }
@@ -208,7 +206,6 @@ public class WaiterDineinOrderController {
 
                 } catch (TextFileNotFoundException ex) {
                     AlertPopUpWindow.displayErrorWindow(
-                            "Error",
                             ex.getMessage()
                     );
                     ex.printStackTrace();
@@ -226,7 +223,6 @@ public class WaiterDineinOrderController {
 
             } else {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         "Please select at least one item."
                 );
             }
@@ -318,7 +314,6 @@ public class WaiterDineinOrderController {
 
                 } catch (IOException ex) {
                     AlertPopUpWindow.displayErrorWindow(
-                            "Error",
                             ex.getMessage()
                     );
                     ex.printStackTrace();
@@ -386,7 +381,6 @@ public class WaiterDineinOrderController {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();

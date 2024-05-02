@@ -15,13 +15,13 @@ import java.util.List;
  * @author azmi_maz
  */
 public class Booking implements NotifyAction {
-    private final int bookingId;
-    private final Customer customer;
-    private final LocalDate bookingDate;
-    private final LocalTime bookingTime;
-    private final int numOfGuests;
-    private final int bookingLengthInHour;
-    private final List<Table> tablePreference = new ArrayList<>();
+    private int bookingId;
+    private Customer customer;
+    private LocalDate bookingDate;
+    private LocalTime bookingTime;
+    private int numOfGuests;
+    private int bookingLengthInHour;
+    private List<Table> tablePreference = new ArrayList<>();
     private String bookingStatus;
 
     /**

@@ -16,6 +16,8 @@ import org.group.project.exceptions.TextFileNotFoundException;
 
 /**
  * This class allows the manager to view the selected staff details.
+ *
+ * @author azmi_maz
  */
 public class ManagerStaffManagementDetailsController {
 
@@ -111,7 +113,6 @@ public class ManagerStaffManagementDetailsController {
                     );
                 } catch (TextFileNotFoundException ex) {
                     AlertPopUpWindow.displayErrorWindow(
-                            "Error",
                             ex.getMessage()
                     );
                     ex.printStackTrace();
@@ -131,7 +132,6 @@ public class ManagerStaffManagementDetailsController {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -175,7 +175,6 @@ public class ManagerStaffManagementDetailsController {
             userManagement = new UserManagement();
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();

@@ -2,17 +2,17 @@ package org.group.project.scenes.manager;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.scenes.main.ManagerView;
 import org.group.project.scenes.manager.mainViews.ManagementView;
 import org.group.project.scenes.manager.mainViews.ReportsView;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * This class handles all the manager main scenes.
+ *
+ * @author azmi_maz
  */
 public class ManagerScenesMap {
 
@@ -31,23 +31,13 @@ public class ManagerScenesMap {
 
         ManagerScenesMap.stage = stage;
 
-        try {
-
-            // Create and store all scenes up front
-            managerScenes.put(ManagerMapsMain.HOME,
-                    new ManagerView(stage).getScene());
-            managerScenes.put(ManagerMapsMain.MANAGEMENT,
-                    new ManagementView(stage).getScene());
-            managerScenes.put(ManagerMapsMain.REPORT,
-                    new ReportsView(stage).getScene());
-
-        } catch (IOException e) {
-            AlertPopUpWindow.displayErrorWindow(
-                    "Error",
-                    e.getMessage()
-            );
-            e.printStackTrace();
-        }
+        // Create and store all scenes up front
+        managerScenes.put(ManagerMapsMain.HOME,
+                new ManagerView(stage).getScene());
+        managerScenes.put(ManagerMapsMain.MANAGEMENT,
+                new ManagementView(stage).getScene());
+        managerScenes.put(ManagerMapsMain.REPORT,
+                new ReportsView(stage).getScene());
 
     }
 
@@ -64,9 +54,8 @@ public class ManagerScenesMap {
      * This method gets the manager home page scene.
      *
      * @return the manager home page scene.
-     * @throws IOException // TODO
      */
-    public Scene getScene() throws IOException {
+    public Scene getScene() {
         return managerScenes.get(ManagerMapsMain.HOME);
     }
 

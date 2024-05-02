@@ -6,8 +6,8 @@ package org.group.project.classes;
  * @author azmi_maz
  */
 public class FoodDrink {
-    private final String itemName;
-    private final String itemType;
+    private String itemName;
+    private String itemType;
 
     private int quantity;
 

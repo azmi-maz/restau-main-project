@@ -3,11 +3,14 @@ package org.group.project.scenes.customer.mainViews;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.group.project.scenes.ViewMaker;
-import org.group.project.scenes.presenter.StackManager;
 import org.group.project.scenes.customer.stackViews.MenuPresenter;
+import org.group.project.scenes.presenter.StackManager;
 
-import java.io.IOException;
-
+/**
+ * This class prepares the customer menu order view scene.
+ *
+ * @author azmi_maz
+ */
 public class MenuOrderView implements ViewMaker {
 
     private StackManager manager;
@@ -33,10 +36,9 @@ public class MenuOrderView implements ViewMaker {
      * This method gets the customer menu order view scene.
      *
      * @return the customer menu order view scene.
-     * @throws IOException // TODO
      */
     @Override
-    public Scene getScene() throws IOException {
+    public Scene getScene() {
 
         return menuPresenter.getPresenterView().getViewScene();
 

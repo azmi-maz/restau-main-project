@@ -14,6 +14,8 @@ import java.util.List;
 
 /**
  * This class loads up the counter of pending deliveries for specific driver.
+ *
+ * @author azmi_maz
  */
 public class DriverPendingDeliveryNavbarCounter {
 
@@ -37,7 +39,6 @@ public class DriverPendingDeliveryNavbarCounter {
             userId = user.getUserId();
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -64,7 +65,6 @@ public class DriverPendingDeliveryNavbarCounter {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();

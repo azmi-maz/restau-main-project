@@ -2,16 +2,16 @@ package org.group.project.scenes.driver;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.scenes.driver.mainViews.DeliveryView;
 import org.group.project.scenes.main.DriverView;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * This class handles all the driver main scenes.
+ *
+ * @author azmi_maz
  */
 public class DriverScenesMap {
 
@@ -30,21 +30,11 @@ public class DriverScenesMap {
 
         DriverScenesMap.stage = stage;
 
-        try {
-
-            // Create and store all scenes up front
-            driverScenes.put(DriverMapsMain.HOME,
-                    new DriverView(stage).getScene());
-            driverScenes.put(DriverMapsMain.DELIVERY,
-                    new DeliveryView(stage).getScene());
-
-        } catch (IOException e) {
-            AlertPopUpWindow.displayErrorWindow(
-                    "Error",
-                    e.getMessage()
-            );
-            e.printStackTrace();
-        }
+        // Create and store all scenes up front
+        driverScenes.put(DriverMapsMain.HOME,
+                new DriverView(stage).getScene());
+        driverScenes.put(DriverMapsMain.DELIVERY,
+                new DeliveryView(stage).getScene());
 
     }
 
@@ -61,9 +51,8 @@ public class DriverScenesMap {
      * This method gets the driver home page scene.
      *
      * @return the driver home page scene.
-     * @throws IOException // TODO
      */
-    public Scene getScene() throws IOException {
+    public Scene getScene() {
         return driverScenes.get(DriverMapsMain.HOME);
     }
 

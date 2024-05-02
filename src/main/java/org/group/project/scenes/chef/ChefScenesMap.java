@@ -2,17 +2,17 @@ package org.group.project.scenes.chef;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.scenes.chef.mainViews.MenuView;
 import org.group.project.scenes.chef.mainViews.OutstandingView;
 import org.group.project.scenes.main.ChefView;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * This class handles all the chef main scenes.
+ *
+ * @author azmi_maz
  */
 public class ChefScenesMap {
 
@@ -31,23 +31,13 @@ public class ChefScenesMap {
 
         ChefScenesMap.stage = stage;
 
-        try {
-
-            // Create and store all scenes up front
-            chefScenes.put(ChefMapsMain.HOME,
-                    new ChefView(stage).getScene());
-            chefScenes.put(ChefMapsMain.OUTSTANDING,
-                    new OutstandingView(stage).getScene());
-            chefScenes.put(ChefMapsMain.MENU,
-                    new MenuView(stage).getScene());
-
-        } catch (IOException e) {
-            AlertPopUpWindow.displayErrorWindow(
-                    "Error",
-                    e.getMessage()
-            );
-            e.printStackTrace();
-        }
+        // Create and store all scenes up front
+        chefScenes.put(ChefMapsMain.HOME,
+                new ChefView(stage).getScene());
+        chefScenes.put(ChefMapsMain.OUTSTANDING,
+                new OutstandingView(stage).getScene());
+        chefScenes.put(ChefMapsMain.MENU,
+                new MenuView(stage).getScene());
 
     }
 
@@ -64,9 +54,8 @@ public class ChefScenesMap {
      * This method gets the scene of chef home page.
      *
      * @return - the chef home page.
-     * @throws IOException // TODO
      */
-    public Scene getScene() throws IOException {
+    public Scene getScene() {
         return chefScenes.get(ChefMapsMain.HOME);
     }
 

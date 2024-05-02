@@ -15,6 +15,8 @@ import org.group.project.exceptions.TextFileNotFoundException;
 
 /**
  * This class enables the driver to view a delivery order details.
+ *
+ * @author azmi_maz
  */
 public class DriverPendingDeliveryDetailsController {
 
@@ -61,7 +63,6 @@ public class DriverPendingDeliveryDetailsController {
                 }
             } catch (TextFileNotFoundException ex) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         ex.getMessage()
                 );
                 ex.printStackTrace();

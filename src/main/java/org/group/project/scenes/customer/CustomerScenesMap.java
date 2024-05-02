@@ -2,19 +2,19 @@ package org.group.project.scenes.customer;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.scenes.customer.mainViews.BookingsView;
 import org.group.project.scenes.customer.mainViews.MenuOrderView;
 import org.group.project.scenes.customer.mainViews.NotificationView;
 import org.group.project.scenes.customer.mainViews.OrdersView;
 import org.group.project.scenes.main.CustomerView;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * This class handles all the customer main scenes.
+ *
+ * @author azmi_maz
  */
 public class CustomerScenesMap {
 
@@ -33,27 +33,17 @@ public class CustomerScenesMap {
 
         CustomerScenesMap.stage = stage;
 
-        try {
-
-            // Create and store all scenes up front
-            customerScenes.put(CustomerMapsMain.HOME,
-                    new CustomerView(stage).getScene());
-            customerScenes.put(CustomerMapsMain.BOOKING,
-                    new BookingsView(stage).getScene());
-            customerScenes.put(CustomerMapsMain.MENU,
-                    new MenuOrderView(stage).getScene());
-            customerScenes.put(CustomerMapsMain.ORDER,
-                    new OrdersView(stage).getScene());
-            customerScenes.put(CustomerMapsMain.NOTIFICATION,
-                    new NotificationView(stage).getScene());
-
-        } catch (IOException e) {
-            AlertPopUpWindow.displayErrorWindow(
-                    "Error",
-                    e.getMessage()
-            );
-            e.printStackTrace();
-        }
+        // Create and store all scenes up front
+        customerScenes.put(CustomerMapsMain.HOME,
+                new CustomerView(stage).getScene());
+        customerScenes.put(CustomerMapsMain.BOOKING,
+                new BookingsView(stage).getScene());
+        customerScenes.put(CustomerMapsMain.MENU,
+                new MenuOrderView(stage).getScene());
+        customerScenes.put(CustomerMapsMain.ORDER,
+                new OrdersView(stage).getScene());
+        customerScenes.put(CustomerMapsMain.NOTIFICATION,
+                new NotificationView(stage).getScene());
 
     }
 
@@ -70,9 +60,8 @@ public class CustomerScenesMap {
      * This method gets the customer home page scene.
      *
      * @return the customer home page scene.
-     * @throws IOException // TODO
      */
-    public Scene getScene() throws IOException {
+    public Scene getScene() {
         return customerScenes.get(CustomerMapsMain.HOME);
     }
 

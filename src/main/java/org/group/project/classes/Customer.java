@@ -11,7 +11,7 @@ import org.group.project.exceptions.TextFileNotFoundException;
  */
 public class Customer extends User {
     private final int customerId;
-    private final String deliveryAddress;
+    private String deliveryAddress;
 
     /**
      * This constructor creates a new customer.

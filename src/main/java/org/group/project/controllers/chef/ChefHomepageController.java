@@ -11,6 +11,8 @@ import java.net.URISyntaxException;
 
 /**
  * This class allows the chef home page to load up.
+ *
+ * @author azmi_maz
  */
 public class ChefHomepageController {
 
@@ -32,7 +34,6 @@ public class ChefHomepageController {
                     ".jpg").toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();

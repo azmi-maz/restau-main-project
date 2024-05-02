@@ -9,6 +9,8 @@ import org.group.project.scenes.main.DriverView;
 
 /**
  * This class loads up the return to home navigation bar for driver.
+ *
+ * @author azmi_maz
  */
 public class DriverReturnHomeNavbarController {
 

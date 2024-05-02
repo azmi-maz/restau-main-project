@@ -17,6 +17,8 @@ import org.group.project.scenes.customer.mainViews.OrdersView;
 
 /**
  * This class loads up the customer home page navigation bar.
+ *
+ * @author azmi_maz
  */
 public class CustomerHomepageNavbarController {
 
@@ -119,7 +121,6 @@ public class CustomerHomepageNavbarController {
                 DataManager.clearFileData("ACTIVE_USER");
             } catch (ClearFileFailedException ex) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         ex.getMessage()
                 );
                 ex.printStackTrace();

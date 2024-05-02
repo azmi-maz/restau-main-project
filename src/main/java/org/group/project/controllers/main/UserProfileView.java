@@ -13,6 +13,8 @@ import java.io.IOException;
 
 /**
  * This class enables users to view their profile.
+ *
+ * @author azmi_maz
  */
 public class UserProfileView {
 
@@ -48,7 +50,6 @@ public class UserProfileView {
 
         } catch (IOException ex) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     ex.getMessage()
             );
             ex.printStackTrace();

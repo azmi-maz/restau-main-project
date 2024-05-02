@@ -11,11 +11,11 @@ import java.time.format.DateTimeFormatter;
  */
 public class Notification {
 
-    private final int notificationId;
-    private final int userId;
-    private final LocalDate notificationDate;
-    private final LocalTime notificationTime;
-    private final String notificationType;
+    private int notificationId;
+    private int userId;
+    private LocalDate notificationDate;
+    private LocalTime notificationTime;
+    private String notificationType;
     private boolean readStatus;
     private String messageBody;
 

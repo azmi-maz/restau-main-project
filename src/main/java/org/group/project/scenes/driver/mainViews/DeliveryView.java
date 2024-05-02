@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.group.project.Main;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.controllers.driver.DriverPendingDeliveryViewController;
 import org.group.project.scenes.ViewMaker;
 import org.group.project.scenes.WindowSize;
@@ -13,6 +14,8 @@ import java.io.IOException;
 
 /**
  * This class prepares the driver pending delivery order view scene.
+ *
+ * @author azmi_maz
  */
 public class DeliveryView implements ViewMaker {
 
@@ -33,16 +36,23 @@ public class DeliveryView implements ViewMaker {
      * This method gets the driver pending delivery order view scene.
      *
      * @return the driver pending delivery order view scene.
-     * @throws IOException // TODO
      */
     @Override
-    public Scene getScene() throws IOException {
+    public Scene getScene() {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
                 "driverscenes/mapscenes/" +
                         "driver-pendingdeliveries.fxml"));
 
-        VBox vbox = fxmlLoader.load();
+        VBox vbox = null;
+        try {
+            vbox = fxmlLoader.load();
+        } catch (IOException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
 
         controller = fxmlLoader.getController();
 

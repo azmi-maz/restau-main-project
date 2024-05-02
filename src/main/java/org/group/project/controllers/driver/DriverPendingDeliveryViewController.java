@@ -27,6 +27,8 @@ import java.net.URISyntaxException;
 
 /**
  * This class enables the driver to view their pending delivery orders.
+ *
+ * @author azmi_maz
  */
 public class DriverPendingDeliveryViewController {
 
@@ -67,7 +69,6 @@ public class DriverPendingDeliveryViewController {
                     ".jpg").toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -161,7 +162,6 @@ public class DriverPendingDeliveryViewController {
 
                 } catch (IOException ex) {
                     AlertPopUpWindow.displayErrorWindow(
-                            "Error",
                             ex.getMessage()
                     );
                     ex.printStackTrace();
@@ -196,7 +196,6 @@ public class DriverPendingDeliveryViewController {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -215,7 +214,6 @@ public class DriverPendingDeliveryViewController {
             userId = user.getUserId();
         } catch (TextFileNotFoundException ex) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     ex.getMessage()
             );
             ex.printStackTrace();

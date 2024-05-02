@@ -22,13 +22,26 @@ import java.util.List;
 
 /**
  * This class enables the user to view the restaurant menu.
+ *
+ * @author azmi_maz
  */
 public class CustomerMenuOrderViewController {
+
+    private static final String MENU_IMAGE_FILEPATH = "images/menu/%s";
+    private static final String DAILY_SPECIAL_TAG = "daily-special-stamp.png";
+    private static final String ADD_ORDER_WINDOW = "smallwindows/" +
+            "add-order-item.fxml";
+    private static final String ADD_ORDER_WINDOW_TITLE = "Add Order Item";
+    private static final String WHITE_FLOOR_BG = "images" +
+            "/background/white-floor" +
+            ".jpg";
+    private static final int BG_IMAGE_WIDTH = 2000;
+    private static final int BG_IMAGE_HEIGHT = 1500;
 
     @FXML
     private GridPane gridPane;
 
-    private final List<FoodDrink> orderList;
+    private List<FoodDrink> orderList;
 
     /**
      * This sets up the menu list.
@@ -46,19 +59,17 @@ public class CustomerMenuOrderViewController {
 
         Image bgImage = null;
         try {
-            bgImage = new Image(Main.class.getResource("images" +
-                    "/background/white-floor" +
-                    ".jpg").toURI().toString());
+            bgImage = new Image(Main.class
+                    .getResource(WHITE_FLOOR_BG).toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
         }
 
-        BackgroundSize bSize = new BackgroundSize(2000,
-                1500, false, false
+        BackgroundSize bSize = new BackgroundSize(BG_IMAGE_WIDTH,
+                BG_IMAGE_HEIGHT, false, false
                 , false, false);
 
         gridPane.setBackground(new Background(new BackgroundImage(bgImage,
@@ -76,7 +87,6 @@ public class CustomerMenuOrderViewController {
 
         } catch (TextFileNotFoundException | URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -92,7 +102,7 @@ public class CustomerMenuOrderViewController {
                 boolean isFavouriteTag = List.of(currentImageUrl
                                 .split("/")).getLast()
                         .equalsIgnoreCase(
-                                "daily-special-stamp.png");
+                                DAILY_SPECIAL_TAG);
 
                 // This tags any daily special item marked by chef.
                 if (isFavouriteTag) {
@@ -109,11 +119,11 @@ public class CustomerMenuOrderViewController {
                 try {
                     FXMLLoader fxmlLoader =
                             new FXMLLoader(Main.class.getResource(
-                                    "smallwindows/add-order-item" +
-                                            ".fxml"));
+                                    ADD_ORDER_WINDOW));
 
                     String labelName = "";
-                    String modifiedName = imageName.replace(".png", "");
+                    String modifiedName = imageName.replace(
+                            ".png", "");
                     String[] labelNameArray = modifiedName.split("-");
                     for (String string : labelNameArray) {
                         labelName += string.substring(0, 1).toUpperCase();
@@ -126,7 +136,10 @@ public class CustomerMenuOrderViewController {
                     CustomerMenuOrderAddItemController controller =
                             fxmlLoader.getController();
 
-                    controller.setItemToEdit("images/menu/" + imageName,
+                    controller.setItemToEdit(
+                            String.format(
+                                    MENU_IMAGE_FILEPATH,
+                                    imageName),
                             labelName, orderList);
                     Scene editScene = new Scene(borderPane,
                             WindowSize.MEDIUM.WIDTH,
@@ -135,14 +148,13 @@ public class CustomerMenuOrderViewController {
                     Stage editStage = new Stage();
                     editStage.setScene(editScene);
 
-                    editStage.setTitle("Add Order Item");
+                    editStage.setTitle(ADD_ORDER_WINDOW_TITLE);
 
                     editStage.initModality(Modality.APPLICATION_MODAL);
 
                     editStage.showAndWait();
                 } catch (IOException | URISyntaxException ex) {
                     AlertPopUpWindow.displayErrorWindow(
-                            "Error",
                             ex.getMessage()
                     );
                     ex.printStackTrace();

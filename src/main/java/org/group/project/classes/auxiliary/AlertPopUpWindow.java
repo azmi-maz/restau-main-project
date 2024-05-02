@@ -13,6 +13,12 @@ import java.util.Optional;
  */
 public class AlertPopUpWindow {
 
+    private static final String YES_BUTTON = "Yes";
+    private static final String NO_BUTTON = "No";
+    private static final String DISPLAY_BUTTON = "Display";
+    private static final String DELETE_BUTTON = "Delete";
+    private static final String ERROR = "Error";
+
     /**
      * This display information for users to acknowledge.
      *
@@ -20,8 +26,10 @@ public class AlertPopUpWindow {
      * @param content    - the main message.
      * @param buttonName - the button text, e.g. Ok
      */
-    public static void displayInformationWindow(String title, String content
-            , String buttonName) {
+    public static void displayInformationWindow(
+            String title,
+            String content,
+            String buttonName) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
@@ -39,16 +47,19 @@ public class AlertPopUpWindow {
      * @param content - the main message.
      * @return the selected response as button type.
      */
-    public static Optional<ButtonType> displayConfirmationWindow(String title,
-                                                                 String content) {
+    public static Optional<ButtonType> displayConfirmationWindow(
+            String title,
+            String content) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.getButtonTypes().set(0,
-                new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE));
+                new ButtonType(YES_BUTTON,
+                        ButtonBar.ButtonData.OK_DONE));
         alert.getButtonTypes().set(1,
-                new ButtonType("No", ButtonBar.ButtonData.NO));
+                new ButtonType(NO_BUTTON,
+                        ButtonBar.ButtonData.NO));
         return alert.showAndWait();
     }
 
@@ -59,29 +70,31 @@ public class AlertPopUpWindow {
      * @param content - the main message.
      * @return the selected response as button type.
      */
-    public static Optional<ButtonType> displayChoiceWindow(String title,
-                                                           String content) {
+    public static Optional<ButtonType> displayChoiceWindow(
+            String title,
+            String content) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.getButtonTypes().set(0,
-                new ButtonType("Display", ButtonBar.ButtonData.OK_DONE));
+                new ButtonType(DISPLAY_BUTTON,
+                        ButtonBar.ButtonData.OK_DONE));
         alert.getButtonTypes().set(1,
-                new ButtonType("Delete", ButtonBar.ButtonData.NO));
+                new ButtonType(DELETE_BUTTON,
+                        ButtonBar.ButtonData.NO));
         return alert.showAndWait();
     }
 
     /**
      * This display errors that was caught by the try-catch.
      *
-     * @param title   - the title of the alert.
      * @param content - the main message of the error.
      */
-    public static void displayErrorWindow(String title,
-                                          String content) {
+    public static void displayErrorWindow(
+            String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
+        alert.setTitle(ERROR);
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();

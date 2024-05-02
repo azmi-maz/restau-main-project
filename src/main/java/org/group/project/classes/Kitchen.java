@@ -470,7 +470,7 @@ public class Kitchen {
             List<FoodDrink> orderFoodDrinkList
     ) {
         for (String item : orderListArray) {
-            // TODO find item type by item name
+
             String itemType = menu.findTypeByItemName(
                     item
             );

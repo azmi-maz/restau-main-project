@@ -28,6 +28,8 @@ import java.util.Optional;
 /**
  * This class enables the waiter to view pending delivery orders for
  * approval and driver assignment.
+ *
+ * @author azmi_maz
  */
 public class WaiterApproveDeliveryViewController {
 
@@ -78,7 +80,6 @@ public class WaiterApproveDeliveryViewController {
                     ".jpg").toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -184,7 +185,6 @@ public class WaiterApproveDeliveryViewController {
 
                 } catch (IOException ex) {
                     AlertPopUpWindow.displayErrorWindow(
-                            "Error",
                             ex.getMessage()
                     );
                     ex.printStackTrace();
@@ -237,7 +237,6 @@ public class WaiterApproveDeliveryViewController {
 
                     } catch (TextFileNotFoundException ex) {
                         AlertPopUpWindow.displayErrorWindow(
-                                "Error",
                                 ex.getMessage()
                         );
                         ex.printStackTrace();
@@ -268,7 +267,6 @@ public class WaiterApproveDeliveryViewController {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();

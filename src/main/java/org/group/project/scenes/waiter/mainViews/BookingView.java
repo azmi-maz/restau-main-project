@@ -6,6 +6,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.group.project.Main;
+import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.controllers.waiter.WaiterApproveBookingsViewController;
 import org.group.project.controllers.waiter.WaiterDeliveryNavbarCounter;
 import org.group.project.scenes.ViewMaker;
@@ -15,6 +16,8 @@ import java.io.IOException;
 
 /**
  * This class prepares the waiter pending bookings view scene.
+ *
+ * @author azmi_maz
  */
 public class BookingView implements ViewMaker {
 
@@ -36,10 +39,9 @@ public class BookingView implements ViewMaker {
      * This method gets the waiter pending bookings view scene.
      *
      * @return the waiter pending bookings view scene.
-     * @throws IOException // TODO
      */
     @Override
-    public Scene getScene() throws IOException {
+    public Scene getScene() {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
                 "waiterscenes/mapscenes/waiter-approvebookings.fxml"));
@@ -47,14 +49,24 @@ public class BookingView implements ViewMaker {
         FXMLLoader fxmlLoaderNavbar = new FXMLLoader(Main.class.getResource(
                 "navbar/waiter/waiter-pendingdeliverycounter.fxml"));
 
-        BorderPane borderPane = fxmlLoader.load();
-        controller = fxmlLoader.getController();
+        try {
 
-        VBox deliveryCounterBox = fxmlLoaderNavbar.load();
-        borderPane.getChildren().add(deliveryCounterBox);
-        waiterDeliveryCounterController = fxmlLoaderNavbar.getController();
+            BorderPane borderPane = fxmlLoader.load();
+            controller = fxmlLoader.getController();
 
-        return new Scene(borderPane, WindowSize.MAIN.WIDTH,
-                WindowSize.MAIN.HEIGHT);
+            VBox deliveryCounterBox = fxmlLoaderNavbar.load();
+            borderPane.getChildren().add(deliveryCounterBox);
+            waiterDeliveryCounterController = fxmlLoaderNavbar.getController();
+
+            return new Scene(borderPane, WindowSize.MAIN.WIDTH,
+                    WindowSize.MAIN.HEIGHT);
+
+        } catch (IOException e) {
+            AlertPopUpWindow.displayErrorWindow(
+                    e.getMessage()
+            );
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -7,6 +7,8 @@ import org.group.project.scenes.customer.stackViews.OrderDetailsController;
 
 /**
  * This class loads up the navigation bar in customer order details view.
+ *
+ * @author azmi_maz
  */
 public class CustomerOrderDetailsNavbarController {
 

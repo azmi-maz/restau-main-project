@@ -14,6 +14,8 @@ import org.group.project.scenes.manager.ManagerScenesMap;
 
 /**
  * This class loads up the manager home page navigation bar.
+ *
+ * @author azmi_maz
  */
 public class ManagerHomepageNavbarController {
 
@@ -80,7 +82,6 @@ public class ManagerHomepageNavbarController {
                 DataManager.clearFileData("ACTIVE_USER");
             } catch (ClearFileFailedException ex) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         ex.getMessage()
                 );
                 ex.printStackTrace();

@@ -7,6 +7,8 @@ import org.group.project.scenes.customer.stackViews.OrderConfirmationController;
 
 /**
  * This class loads up the customer confirmation order navigation bar.
+ *
+ * @author azmi_maz
  */
 public class CustomerOrderConfirmationNavbarController {
 

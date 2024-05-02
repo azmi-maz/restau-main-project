@@ -20,6 +20,8 @@ import java.util.Optional;
 
 /**
  * This class allows manager to view reports.
+ *
+ * @author azmi_maz
  */
 public class ManagerReportViewController {
 
@@ -51,7 +53,6 @@ public class ManagerReportViewController {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -64,7 +65,6 @@ public class ManagerReportViewController {
                     ".jpg").toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -98,7 +98,6 @@ public class ManagerReportViewController {
                 );
             } catch (TextFileNotFoundException ex) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         ex.getMessage()
                 );
                 ex.printStackTrace();
@@ -145,7 +144,6 @@ public class ManagerReportViewController {
                         );
                     } catch (TextFileNotFoundException ex) {
                         AlertPopUpWindow.displayErrorWindow(
-                                "Error",
                                 ex.getMessage()
                         );
                         ex.printStackTrace();
@@ -177,7 +175,6 @@ public class ManagerReportViewController {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();

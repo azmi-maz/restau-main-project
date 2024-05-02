@@ -12,6 +12,8 @@ import java.util.List;
 
 /**
  * This class loads up the counter of pending table reservations.
+ *
+ * @author azmi_maz
  */
 public class WaiterBookingNavbarCounter {
 
@@ -50,7 +52,6 @@ public class WaiterBookingNavbarCounter {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();

@@ -16,6 +16,8 @@ import java.util.List;
 /**
  * This class enables the customer to view menu and proceeds to order details
  * page with the order data being persisted.
+ *
+ * @author azmi_maz
  */
 public class MenuController implements ControllerView {
 
@@ -46,7 +48,6 @@ public class MenuController implements ControllerView {
                     WindowSize.MAIN.HEIGHT);
         } catch (IOException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();

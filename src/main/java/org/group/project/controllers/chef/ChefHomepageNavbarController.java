@@ -15,6 +15,8 @@ import org.group.project.scenes.chef.mainViews.OutstandingView;
 
 /**
  * This class is to load the navigation bar in chef home page.
+ *
+ * @author azmi_maz
  */
 public class ChefHomepageNavbarController {
 
@@ -80,7 +82,6 @@ public class ChefHomepageNavbarController {
                 DataManager.clearFileData("ACTIVE_USER");
             } catch (ClearFileFailedException ex) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         ex.getMessage()
                 );
                 ex.printStackTrace();

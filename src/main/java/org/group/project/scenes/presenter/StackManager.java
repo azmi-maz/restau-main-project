@@ -13,6 +13,8 @@ import java.util.Stack;
  * <p>
  * Modified code cited from:
  * https://github.com/R0land013/multiple-scenes-javafx
+ *
+ * @author azmi_maz
  */
 public class StackManager {
 
@@ -36,7 +38,6 @@ public class StackManager {
 
         if (stack.isEmpty()) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     "There are no more presenters."
             );
         }
@@ -58,7 +59,6 @@ public class StackManager {
     public void setInitialPresenter(Presenter presenter) {
         if (stack.size() != 0) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     "There is already an initial presenter."
             );
         }
@@ -73,7 +73,6 @@ public class StackManager {
     public void popPresenter() {
         if (stack.isEmpty()) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     "There are no more presenters."
             );
         }

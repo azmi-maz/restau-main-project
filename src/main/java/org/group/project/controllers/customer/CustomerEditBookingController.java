@@ -21,6 +21,8 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * This class enables the customer to edit a selected table reservation.
+ *
+ * @author azmi_maz
  */
 public class CustomerEditBookingController {
 
@@ -59,7 +61,6 @@ public class CustomerEditBookingController {
             if (reservationDatePicker.getValue()
                     .compareTo(LocalDate.now()) < 0) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         "Reservation date cannot be " +
                                 "less than current date."
                 );
@@ -82,7 +83,6 @@ public class CustomerEditBookingController {
             );
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -103,7 +103,6 @@ public class CustomerEditBookingController {
                 );
             } catch (TextFileNotFoundException ex) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         ex.getMessage()
                 );
                 ex.printStackTrace();
@@ -177,7 +176,6 @@ public class CustomerEditBookingController {
 
                 } catch (TextFileNotFoundException ex) {
                     AlertPopUpWindow.displayErrorWindow(
-                            "Error",
                             ex.getMessage()
                     );
                     ex.printStackTrace();
@@ -186,7 +184,6 @@ public class CustomerEditBookingController {
             } else {
 
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         "Please complete the form."
                 );
             }

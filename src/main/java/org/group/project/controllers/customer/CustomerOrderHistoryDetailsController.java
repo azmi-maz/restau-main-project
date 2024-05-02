@@ -21,6 +21,8 @@ import java.util.List;
 
 /**
  * This class enables the customer to view their order history details.
+ *
+ * @author azmi_maz
  */
 public class CustomerOrderHistoryDetailsController {
 

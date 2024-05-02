@@ -9,6 +9,8 @@ import org.group.project.scenes.main.ChefView;
 
 /**
  * This class loads up the navigation bar used to return back to chef home page.
+ *
+ * @author azmi_maz
  */
 public class ChefReturnHomeNavbarController {
 

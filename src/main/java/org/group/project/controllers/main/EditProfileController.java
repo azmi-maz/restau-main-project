@@ -17,6 +17,8 @@ import org.group.project.scenes.MainScenes;
 
 /**
  * This class allows users to edit their profile details.
+ *
+ * @author azmi_maz
  */
 public class EditProfileController {
 
@@ -74,7 +76,6 @@ public class EditProfileController {
                     userManagement = new UserManagement();
                 } catch (TextFileNotFoundException ex) {
                     AlertPopUpWindow.displayErrorWindow(
-                            "Error",
                             ex.getMessage()
                     );
                     ex.printStackTrace();
@@ -109,7 +110,6 @@ public class EditProfileController {
                         DataManager.clearFileData("ACTIVE_USER");
                     } catch (ClearFileFailedException ex) {
                         AlertPopUpWindow.displayErrorWindow(
-                                "Error",
                                 ex.getMessage()
                         );
                         ex.printStackTrace();
@@ -120,7 +120,6 @@ public class EditProfileController {
 
                 } catch (TextFileNotFoundException ex) {
                     AlertPopUpWindow.displayErrorWindow(
-                            "Error",
                             ex.getMessage()
                     );
                     ex.printStackTrace();
@@ -131,7 +130,6 @@ public class EditProfileController {
             } else {
 
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         "Please complete the form."
                 );
             }
@@ -156,7 +154,6 @@ public class EditProfileController {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -197,7 +194,6 @@ public class EditProfileController {
                     Main.getCurrentUser().getUsername());
         } catch (TextFileNotFoundException ex) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     ex.getMessage()
             );
             ex.printStackTrace();

@@ -10,6 +10,8 @@ import org.group.project.scenes.customer.stackViews.MenuController;
 
 /**
  * This class loads up the customer navigation bar in menu page.
+ *
+ * @author azmi_maz
  */
 public class CustomerMenuOrderNavbarController {
 
@@ -24,13 +26,17 @@ public class CustomerMenuOrderNavbarController {
      */
     public void initialize() {
 
-        ImageLoader.setUpGraphicButton(homeButton, 25, 25, "home");
+        ImageLoader.setUpGraphicButton(homeButton,
+                25, 25, "home");
 
         homeButton.setOnMousePressed(e -> {
-            CustomerScenesMap.getCustomerStage().setScene(CustomerScenesMap.getScenes().get(CustomerMapsMain.HOME));
+            CustomerScenesMap.getCustomerStage()
+                    .setScene(CustomerScenesMap.getScenes()
+                            .get(CustomerMapsMain.HOME));
         });
 
-        ImageLoader.setUpGraphicButton(cartButton, 25, 25, "cart");
+        ImageLoader.setUpGraphicButton(cartButton,
+                25, 25, "cart");
 
         cartButton.setOnMousePressed(e -> {
             if (MenuController.orderList.isEmpty()) {

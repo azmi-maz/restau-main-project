@@ -31,6 +31,8 @@ import java.util.Optional;
 
 /**
  * This class allows the customer to view the booking history.
+ *
+ * @author azmi_maz
  */
 public class CustomerBookingsHistoryViewController {
 
@@ -89,7 +91,6 @@ public class CustomerBookingsHistoryViewController {
                     ".jpg").toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -216,7 +217,6 @@ public class CustomerBookingsHistoryViewController {
 
                 } catch (IOException ex) {
                     AlertPopUpWindow.displayErrorWindow(
-                            "Error",
                             ex.getMessage()
                     );
                     ex.printStackTrace();
@@ -263,7 +263,6 @@ public class CustomerBookingsHistoryViewController {
                         refreshReservationList();
                     } catch (TextFileNotFoundException ex) {
                         AlertPopUpWindow.displayErrorWindow(
-                                "Error",
                                 ex.getMessage()
                         );
                         ex.printStackTrace();
@@ -312,7 +311,6 @@ public class CustomerBookingsHistoryViewController {
 
             } catch (IOException ex) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         ex.getMessage()
                 );
                 ex.printStackTrace();
@@ -342,7 +340,6 @@ public class CustomerBookingsHistoryViewController {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -371,7 +368,6 @@ public class CustomerBookingsHistoryViewController {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();

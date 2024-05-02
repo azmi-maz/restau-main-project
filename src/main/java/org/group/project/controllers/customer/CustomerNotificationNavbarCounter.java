@@ -12,6 +12,8 @@ import org.group.project.exceptions.TextFileNotFoundException;
 /**
  * This class loads up the notification counter of unread notifications by
  * specific customer.
+ *
+ * @author azmi_maz
  */
 public class CustomerNotificationNavbarCounter {
 
@@ -37,7 +39,6 @@ public class CustomerNotificationNavbarCounter {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -57,7 +58,6 @@ public class CustomerNotificationNavbarCounter {
             notificationBoard = new NotificationBoard();
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();

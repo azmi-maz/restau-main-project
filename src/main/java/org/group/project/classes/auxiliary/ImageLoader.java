@@ -14,6 +14,8 @@ import java.util.Objects;
  */
 public class ImageLoader {
 
+    private static final String IMAGE_FILEPATH = "images/icons/%s.png";
+
     /**
      * This method sets up a button with a png image and
      * adjust the width and height of the embedded image.
@@ -31,7 +33,10 @@ public class ImageLoader {
 
         Image img = new Image(
                 Objects.requireNonNull(Main.class.getResourceAsStream(
-                        "images/icons/" + fileName + ".png")));
+                        String.format(
+                                IMAGE_FILEPATH,
+                                fileName
+                        ))));
 
         ImageView imgView = new ImageView(img);
         imgView.setFitWidth(width);

@@ -129,7 +129,6 @@ public class LoginController {
         } catch (TextFileNotFoundException |
                  ClearFileFailedException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -164,7 +163,6 @@ public class LoginController {
 
         } catch (IOException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();

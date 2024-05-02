@@ -25,15 +25,15 @@ import java.util.List;
  * @author azmi_maz
  */
 public class Menu {
-    private List<FoodDrink> menuOfItems;
 
-    private final int DAILY_SPECIAL_TAG_HEIGHT = 55;
-    private final int DAILY_SPECIAL_TAG_WIDTH = 55;
+    private static final int DAILY_SPECIAL_TAG_HEIGHT = 55;
+    private static final int DAILY_SPECIAL_TAG_WIDTH = 55;
     private static final List<String> foodTypes =
             new ArrayList<>(Arrays.asList(
                     "Food",
                     "Drink"
             ));
+    private List<FoodDrink> menuOfItems;
 
     /**
      * The constructor sets up the menu and updates its data

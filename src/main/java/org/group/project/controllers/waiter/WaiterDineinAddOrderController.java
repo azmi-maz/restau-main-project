@@ -15,6 +15,8 @@ import java.util.List;
 
 /**
  * This class enables the waiter to add a dine-in order.
+ *
+ * @author azmi_maz
  */
 public class WaiterDineinAddOrderController {
 
@@ -44,7 +46,6 @@ public class WaiterDineinAddOrderController {
             int quantityValue = Integer.parseInt(quantityTextField.getText());
             if (quantityValue < 0) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         "Quantity cannot be less than 0"
                 );
                 quantityTextField.setText("1");
@@ -62,7 +63,6 @@ public class WaiterDineinAddOrderController {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -87,7 +87,6 @@ public class WaiterDineinAddOrderController {
 
                 } catch (TextFileNotFoundException ex) {
                     AlertPopUpWindow.displayErrorWindow(
-                            "Error",
                             ex.getMessage()
                     );
                     ex.printStackTrace();
@@ -106,7 +105,6 @@ public class WaiterDineinAddOrderController {
 
             } else {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Error",
                         "Please enter valid inputs."
                 );
                 quantityTextField.setText("1");

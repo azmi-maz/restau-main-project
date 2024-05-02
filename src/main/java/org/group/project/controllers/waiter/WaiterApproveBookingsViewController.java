@@ -23,6 +23,8 @@ import java.util.Optional;
 
 /**
  * This class enables the waiter to view pending table reservations.
+ *
+ * @author azmi_maz
  */
 public class WaiterApproveBookingsViewController {
 
@@ -76,7 +78,6 @@ public class WaiterApproveBookingsViewController {
                     ".jpg").toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
@@ -191,7 +192,6 @@ public class WaiterApproveBookingsViewController {
 
                     } catch (TextFileNotFoundException ex) {
                         AlertPopUpWindow.displayErrorWindow(
-                                "Error",
                                 ex.getMessage()
                         );
                         ex.printStackTrace();
@@ -245,7 +245,6 @@ public class WaiterApproveBookingsViewController {
 
                     } catch (TextFileNotFoundException ex) {
                         AlertPopUpWindow.displayErrorWindow(
-                                "Error",
                                 ex.getMessage()
                         );
                         ex.printStackTrace();
@@ -279,7 +278,6 @@ public class WaiterApproveBookingsViewController {
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    "Error",
                     e.getMessage()
             );
             e.printStackTrace();
