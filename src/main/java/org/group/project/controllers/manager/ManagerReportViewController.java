@@ -14,6 +14,7 @@ import org.group.project.classes.ReportManager;
 import org.group.project.classes.User;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.exceptions.TextFileNotFoundException;
+import org.group.project.scenes.MainScenesMap;
 
 import java.net.URISyntaxException;
 import java.util.Optional;
@@ -24,7 +25,17 @@ import java.util.Optional;
  * @author azmi_maz
  */
 public class ManagerReportViewController {
-
+    private static final String BG_IMAGE = "images" +
+            "/background/manager-main" +
+            ".jpg";
+    private static final String OPTION_TITLE = "Option";
+    private static final String OPTION_MESSAGE = "Do you want to display this " +
+            "report or delete it?";
+    private static final String DISPLAY = "display";
+    private static final String CONFIRMATION_TITLE = "Confirmation";
+    private static final String CONFIRMATION_MESSAGE = "Are you sure you want " +
+            "to delete this report?";
+    private static final String YES = "yes";
     @FXML
     private BorderPane borderPane;
 
@@ -60,9 +71,8 @@ public class ManagerReportViewController {
 
         Image bgImage = null;
         try {
-            bgImage = new Image(Main.class.getResource("images" +
-                    "/background/manager-main" +
-                    ".jpg").toURI().toString());
+            bgImage = new Image(Main.class
+                    .getResource(BG_IMAGE).toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
                     e.getMessage()
@@ -85,7 +95,7 @@ public class ManagerReportViewController {
         reportTypeChoiceBox.setOnAction(e -> {
 
             updateUserData();
-            Manager manager = (Manager) Main.getCurrentUser();
+            Manager manager = (Manager) MainScenesMap.getCurrentUser();
 
             String reportChosen = reportTypeChoiceBox
                     .getValue().toString();
@@ -109,18 +119,17 @@ public class ManagerReportViewController {
         generatedReportList.setOnMouseClicked(e -> {
             Report selectedReport = generatedReportList
                     .getSelectionModel().getSelectedItem();
-            Manager manager = (Manager) Main.getCurrentUser();
+            Manager manager = (Manager) MainScenesMap.getCurrentUser();
             Optional<ButtonType> userChoice = AlertPopUpWindow
                     .displayChoiceWindow(
-                            "Option",
-                            "Do you want to display this " +
-                                    "report or delete it?"
+                            OPTION_TITLE,
+                            OPTION_MESSAGE
                     );
 
             // To display report
             if (userChoice.get()
                     .getText()
-                    .equalsIgnoreCase("display")) {
+                    .equalsIgnoreCase(DISPLAY)) {
                 reportTextArea.setText(
                         selectedReport.generateReport()
                 );
@@ -129,15 +138,14 @@ public class ManagerReportViewController {
                 // Deletes selected report
                 Optional<ButtonType> userChoiceToDelete = AlertPopUpWindow
                         .displayConfirmationWindow(
-                                "Confirmation",
-                                "Are you sure you want to delete " +
-                                        "this report?"
+                                CONFIRMATION_TITLE,
+                                CONFIRMATION_MESSAGE
                         );
 
                 // Confirmed yes
                 if (userChoiceToDelete.get()
                         .getText()
-                        .equalsIgnoreCase("yes")) {
+                        .equalsIgnoreCase(YES)) {
                     try {
                         manager.deleteReportFromList(
                                 selectedReport.getReportId()
@@ -157,11 +165,11 @@ public class ManagerReportViewController {
 
     private void updateUserData() {
 
-        if (Main.getCurrentUser() == null) {
+        if (MainScenesMap.getCurrentUser() == null) {
             return;
         }
 
-        currentUser = Main.getCurrentUser();
+        currentUser = MainScenesMap.getCurrentUser();
 
     }
 

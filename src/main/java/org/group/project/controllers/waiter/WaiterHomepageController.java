@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import org.group.project.Main;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.scenes.MainScenesMap;
 
 import java.net.URISyntaxException;
 
@@ -15,7 +16,10 @@ import java.net.URISyntaxException;
  * @author azmi_maz
  */
 public class WaiterHomepageController {
-
+    private static final String BG_IMAGE = "images" +
+            "/background/waiter-main" +
+            ".jpg";
+    private static final String WELCOME_MESSAGE = "Welcome, %s!";
     @FXML
     private BorderPane borderPane;
 
@@ -29,9 +33,8 @@ public class WaiterHomepageController {
 
         Image bgImage = null;
         try {
-            bgImage = new Image(Main.class.getResource("images" +
-                    "/background/waiter-main" +
-                    ".jpg").toURI().toString());
+            bgImage = new Image(Main.class
+                    .getResource(BG_IMAGE).toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
                     e.getMessage()
@@ -56,9 +59,10 @@ public class WaiterHomepageController {
      */
     public void welcomeWaiter() {
         mainTitle.setText(
-                "Welcome, "
-                        + Main.getCurrentUser().getFirstNameForDisplay()
-                        + "!"
+                String.format(
+                        WELCOME_MESSAGE,
+                        MainScenesMap.getCurrentUser().getFirstNameForDisplay()
+                )
         );
     }
 }

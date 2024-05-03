@@ -6,12 +6,12 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.group.project.Main;
 import org.group.project.classes.Manager;
 import org.group.project.classes.Staff;
 import org.group.project.classes.UserManagement;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.exceptions.TextFileNotFoundException;
+import org.group.project.scenes.MainScenesMap;
 
 /**
  * This class allows manager to add new staff.
@@ -19,7 +19,11 @@ import org.group.project.exceptions.TextFileNotFoundException;
  * @author azmi_maz
  */
 public class ManagerAddNewStaffController {
-
+    private static final String ADD_STAFF_TITLE = "New Staff";
+    private static final String ADD_STAFF_MESSAGE = "%s was added " +
+            "successfully.";
+    private static final String OK = "Ok";
+    private static final String INCOMPLETE = "Please complete the form.";
     @FXML
     private VBox vbox;
 
@@ -55,7 +59,7 @@ public class ManagerAddNewStaffController {
 
             addStaffButton.setOnAction(e -> {
 
-                Manager manager = (Manager) Main.getCurrentUser();
+                Manager manager = (Manager) MainScenesMap.getCurrentUser();
 
                 if (
                         !firstNameTextField.getText().isBlank() &&
@@ -97,11 +101,11 @@ public class ManagerAddNewStaffController {
 
                     if (isSuccessful) {
                         AlertPopUpWindow.displayInformationWindow(
-                                "New Staff",
+                                ADD_STAFF_TITLE,
                                 String.format(
-                                        "%s was added successfully.",
+                                        ADD_STAFF_MESSAGE,
                                         newStaff.getDataForListDisplay()
-                                ), "Ok"
+                                ), OK
                         );
                     }
 
@@ -109,7 +113,7 @@ public class ManagerAddNewStaffController {
 
                 } else {
                     AlertPopUpWindow.displayErrorWindow(
-                            "Please complete the form."
+                            INCOMPLETE
                     );
                 }
 

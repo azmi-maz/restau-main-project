@@ -17,6 +17,10 @@ import java.io.IOException;
  * @author azmi_maz
  */
 public class UserProfileView {
+    private static final String EDIT_PROFILE = "smallwindows/" +
+            "user-edit-profile" +
+            ".fxml";
+    private static final String EDIT_PROFILE_TITLE = "View User Profile";
 
     /**
      * This opens up a window for users to view their profile.
@@ -25,8 +29,7 @@ public class UserProfileView {
         try {
             FXMLLoader fxmlLoader =
                     new FXMLLoader(Main.class.getResource(
-                            "smallwindows/user-edit-profile" +
-                                    ".fxml"));
+                            EDIT_PROFILE));
 
             VBox vbox = fxmlLoader.load();
 
@@ -42,7 +45,7 @@ public class UserProfileView {
             Stage editStage = new Stage();
             editStage.setScene(editScene);
 
-            editStage.setTitle("View User Profile");
+            editStage.setTitle(EDIT_PROFILE_TITLE);
 
             editStage.initModality(Modality.APPLICATION_MODAL);
 

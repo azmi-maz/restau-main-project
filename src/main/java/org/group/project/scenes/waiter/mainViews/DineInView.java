@@ -18,7 +18,8 @@ import java.io.IOException;
  * @author azmi_maz
  */
 public class DineInView implements ViewMaker {
-
+    private static final String DINE_ORDER = "waiterscenes/" +
+            "mapscenes/waiter-dineinorders.fxml";
     public static WaiterDineinOrderController controller;
     private Stage stage;
 
@@ -41,7 +42,7 @@ public class DineInView implements ViewMaker {
     public Scene getScene() {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
-                "waiterscenes/mapscenes/waiter-dineinorders.fxml"));
+                DINE_ORDER));
 
         VBox vbox = null;
         try {

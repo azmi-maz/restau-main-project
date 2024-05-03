@@ -16,7 +16,10 @@ import java.util.List;
  * @author azmi_maz
  */
 public class ChefOutstandingOrdersNavbarCounter {
-
+    private static final String PENDING_KITCHEN = "pending-kitchen";
+    private static final String COUNTER_BOX_STYLE = "counterBox";
+    private static final int LESS_THAN_TEN = 9;
+    private static final int LESS_THAN_HUNDRED = 99;
     @FXML
     private HBox counterBox;
 
@@ -49,7 +52,7 @@ public class ChefOutstandingOrdersNavbarCounter {
             // order status
             String orderStatus = outstandingOrder.getOrderStatus();
 
-            if (orderStatus.equalsIgnoreCase("pending-kitchen")) {
+            if (orderStatus.equalsIgnoreCase(PENDING_KITCHEN)) {
                 newCounter++;
             }
         }
@@ -58,17 +61,18 @@ public class ChefOutstandingOrdersNavbarCounter {
             outstandingCounter1.setText("");
             outstandingCounter2.setText("");
             counterBox.getStyleClass().clear();
-        } else if (newCounter > 0 && newCounter <= 9) {
+        } else if (newCounter > 0 && newCounter <= LESS_THAN_TEN) {
             outstandingCounter1.setText(String.valueOf(newCounter));
             outstandingCounter2.setText("");
             counterBox.getStyleClass().clear();
-            counterBox.getStyleClass().add("counterBox");
-        } else if (newCounter > 9 && newCounter <= 99) {
+            counterBox.getStyleClass().add(COUNTER_BOX_STYLE);
+        } else if (newCounter > LESS_THAN_TEN
+                && newCounter <= LESS_THAN_HUNDRED) {
             String count = String.valueOf(newCounter);
             outstandingCounter1.setText(String.valueOf(count.charAt(0)));
             outstandingCounter2.setText(String.valueOf(count.charAt(1)));
             counterBox.getStyleClass().clear();
-            counterBox.getStyleClass().add("counterBox");
+            counterBox.getStyleClass().add(COUNTER_BOX_STYLE);
         }
     }
 }

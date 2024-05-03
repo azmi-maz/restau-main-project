@@ -14,7 +14,10 @@ import org.group.project.scenes.waiter.mainViews.DeliveryView;
  * @author azmi_maz
  */
 public class WaiterPendingDeliveryNavbarController {
-
+    private static final String UNDO_BUTTON = "undo";
+    private static final String DELIVERY_BUTTON = "delivery";
+    private static final int BUTTON_WIDTH = 25;
+    private static final int BUTTON_HEIGHT = 25;
     @FXML
     private Button homeButton;
 
@@ -27,10 +30,10 @@ public class WaiterPendingDeliveryNavbarController {
     public void initialize() {
 
         ImageLoader.setUpGraphicButton(homeButton,
-                25, 25, "undo");
+                BUTTON_WIDTH, BUTTON_HEIGHT, UNDO_BUTTON);
 
         ImageLoader.setUpGraphicButton(pendingDeliveryButton,
-                25, 25, "delivery");
+                BUTTON_WIDTH, BUTTON_HEIGHT, DELIVERY_BUTTON);
 
         homeButton.setOnMousePressed(e -> {
             WaiterView.waiterMainCounterController.refreshMainCounter();

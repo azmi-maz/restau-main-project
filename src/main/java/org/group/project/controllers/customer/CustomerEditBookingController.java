@@ -7,13 +7,13 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import org.group.project.Main;
 import org.group.project.classes.Booking;
 import org.group.project.classes.Customer;
 import org.group.project.classes.Floor;
 import org.group.project.classes.Table;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.exceptions.TextFileNotFoundException;
+import org.group.project.scenes.MainScenesMap;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -25,7 +25,14 @@ import java.time.format.DateTimeFormatter;
  * @author azmi_maz
  */
 public class CustomerEditBookingController {
-
+    private static final String INVALID_DATE = "Reservation date cannot be " +
+            "less than current date.";
+    private static final String DATE_FORMAT = "dd/MM/yyyy";
+    private static final String AMENDMENT_TITLE = "Table Reservation Update";
+    private static final String AMENDMENT_MESSAGE = "Amendments were " +
+            "made successfully.";
+    private static final String OK = "Ok";
+    private static final String INCOMPLETE = "Please complete the form.";
     @FXML
     private VBox vbox;
 
@@ -61,8 +68,7 @@ public class CustomerEditBookingController {
             if (reservationDatePicker.getValue()
                     .compareTo(LocalDate.now()) < 0) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Reservation date cannot be " +
-                                "less than current date."
+                        INVALID_DATE
                 );
                 reservationDatePicker.setValue(LocalDate.now());
             }
@@ -118,7 +124,7 @@ public class CustomerEditBookingController {
         reservationDatePicker.setConverter(
                 new StringConverter<>() {
                     final DateTimeFormatter dateFormatter =
-                            DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                            DateTimeFormatter.ofPattern(DATE_FORMAT);
 
                     @Override
                     public String toString(LocalDate date) {
@@ -135,7 +141,7 @@ public class CustomerEditBookingController {
 
         saveChangesButton.setOnAction(e -> {
 
-            Customer customer = (Customer) Main.getCurrentUser();
+            Customer customer = (Customer) MainScenesMap.getCurrentUser();
 
             if (
                     reservationDatePicker.getValue() != null
@@ -168,9 +174,9 @@ public class CustomerEditBookingController {
                     );
                     if (isSuccessful) {
                         AlertPopUpWindow.displayInformationWindow(
-                                "Table Reservation Update",
-                                "Amendments were made successfully.",
-                                "Ok"
+                                AMENDMENT_TITLE,
+                                AMENDMENT_MESSAGE,
+                                OK
                         );
                     }
 
@@ -184,7 +190,7 @@ public class CustomerEditBookingController {
             } else {
 
                 AlertPopUpWindow.displayErrorWindow(
-                        "Please complete the form."
+                        INCOMPLETE
                 );
             }
 

@@ -21,7 +21,9 @@ import java.io.IOException;
  * @author azmi_maz
  */
 public class WaiterView implements ViewMaker {
-
+    private static final String HOMEPAGE = "homepages/waiter-homepage.fxml";
+    private static final String COUNTER = "navbar/waiter/" +
+            "waiter-pendingmaincounter.fxml";
     public static WaiterHomepageController controller;
     public static WaiterMainNavbarCounter waiterMainCounterController;
     private Stage stage;
@@ -46,10 +48,10 @@ public class WaiterView implements ViewMaker {
     public Scene getScene() {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
-                "homepages/waiter-homepage.fxml"));
+                HOMEPAGE));
 
         FXMLLoader fxmlLoaderNavbar = new FXMLLoader(Main.class.getResource(
-                "navbar/waiter/waiter-pendingmaincounter.fxml"));
+                COUNTER));
 
         try {
 
@@ -57,7 +59,7 @@ public class WaiterView implements ViewMaker {
             controller = fxmlLoader.getController();
 
             VBox mainCounterBox = fxmlLoaderNavbar.load();
-            Label newLabel = new Label("Hello");
+            Label newLabel = new Label();
             borderPane.getChildren().add(mainCounterBox);
             borderPane.getChildren().add(newLabel);
             waiterMainCounterController = fxmlLoaderNavbar.getController();

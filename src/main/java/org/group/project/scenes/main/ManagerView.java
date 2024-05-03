@@ -18,7 +18,7 @@ import java.io.IOException;
  * @author azmi_maz
  */
 public class ManagerView implements ViewMaker {
-
+    private static final String HOMEPAGE = "homepages/manager-homepage.fxml";
     public static ManagerHomepageController controller;
     private Stage stage;
 
@@ -42,7 +42,7 @@ public class ManagerView implements ViewMaker {
     public Scene getScene() {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
-                "homepages/manager-homepage.fxml"));
+                HOMEPAGE));
 
         BorderPane borderPane = null;
         try {

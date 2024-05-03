@@ -23,6 +23,7 @@ import org.group.project.classes.UserManagement;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.ImageLoader;
 import org.group.project.exceptions.TextFileNotFoundException;
+import org.group.project.scenes.MainScenesMap;
 import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
@@ -35,7 +36,41 @@ import java.util.Optional;
  * @author azmi_maz
  */
 public class ManagerStaffManagementViewController {
-
+    private static final String BG_IMAGE = "images" +
+            "/background/manager-main" +
+            ".jpg";
+    private static final String FIRST_NAME_COLUMN = "First Name";
+    private static final String CENTERED = "-fx-alignment: CENTER;";
+    private static final String LAST_NAME_COLUMN = "Last Name";
+    private static final String HOURS_LEFT_COLUMN = "Hours Left";
+    private static final String TOTAL_HOURS_COLUMN = "Total Hours Worked";
+    private static final String POSITION_COLUMN = "Position";
+    private static final String TO_WORK = "numOfHoursToWork";
+    private static final String TOTAL_HOURS = "numOfTotalHoursWorked";
+    private static final int COLUMN_WIDTH_150 = 150;
+    private static final int COLUMN_WIDTH_35 = 35;
+    private static final String ACTION_COLUMN = "Action";
+    private static final String EDIT_BUTTON = "edit";
+    private static final int BUTTON_WIDTH = 15;
+    private static final int BUTTON_HEIGHT = 15;
+    private static final String EDIT_USER_WINDOW = "smallwindows/" +
+            "manager-edit-user" +
+            ".fxml";
+    private static final String EDIT_USER_TITLE = "Edit Details";
+    private static final String DELETE_BUTTON = "delete";
+    private static final String USER_NOT_FOUND = "This user does not exist.";
+    private static final String OK_DONE = "OK_DONE";
+    private static final String UPDATE_TITLE = "Staff Update";
+    private static final String UPDATE_MESSAGE = "%s was deleted " +
+            "successfully.";
+    private static final String OK = "Ok";
+    private static final String ADD_STAFF_WINDOW = "smallwindows/" +
+            "manager-add-user" +
+            ".fxml";
+    private static final String ADD_STAFF_TITLE = "Add Staff";
+    private static final String DELETE_STAFF_TITLE = "Delete User Request";
+    private static final String DELETE_STAFF_MESSAGE = "Do you want to " +
+            "delete %s?";
     @FXML
     private TableColumn<Staff, String> firstNameColumn;
 
@@ -78,9 +113,8 @@ public class ManagerStaffManagementViewController {
 
         Image bgImage = null;
         try {
-            bgImage = new Image(Main.class.getResource("images" +
-                    "/background/manager-main" +
-                    ".jpg").toURI().toString());
+            bgImage = new Image(Main.class
+                    .getResource(BG_IMAGE).toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
                     e.getMessage()
@@ -100,37 +134,37 @@ public class ManagerStaffManagementViewController {
 
         refreshStaffList();
 
-        firstNameColumn.setText("First Name");
-        firstNameColumn.setMinWidth(150);
-        firstNameColumn.setStyle("-fx-alignment: CENTER;");
+        firstNameColumn.setText(FIRST_NAME_COLUMN);
+        firstNameColumn.setMinWidth(COLUMN_WIDTH_150);
+        firstNameColumn.setStyle(CENTERED);
         firstNameColumn.setCellValueFactory(cellData -> {
             String firstName = cellData.getValue().getFirstNameForDisplay();
             return new SimpleObjectProperty<>(firstName);
         });
 
-        lastNameColumn.setText("Last Name");
-        lastNameColumn.setMinWidth(150);
-        lastNameColumn.setStyle("-fx-alignment: CENTER;");
+        lastNameColumn.setText(LAST_NAME_COLUMN);
+        lastNameColumn.setMinWidth(COLUMN_WIDTH_150);
+        lastNameColumn.setStyle(CENTERED);
         lastNameColumn.setCellValueFactory(cellData -> {
             String lastName = cellData.getValue().getLastNameForDisplay();
             return new SimpleObjectProperty<>(lastName);
         });
 
-        hoursLeftColumn.setText("Hours Left");
-        hoursLeftColumn.setMinWidth(150);
-        hoursLeftColumn.setStyle("-fx-alignment: CENTER;");
+        hoursLeftColumn.setText(HOURS_LEFT_COLUMN);
+        hoursLeftColumn.setMinWidth(COLUMN_WIDTH_150);
+        hoursLeftColumn.setStyle(CENTERED);
         hoursLeftColumn.setCellValueFactory(
-                new PropertyValueFactory<>("numOfHoursToWork"));
+                new PropertyValueFactory<>(TO_WORK));
 
-        totalHoursColumn.setText("Total Hours Worked");
-        totalHoursColumn.setMinWidth(150);
-        totalHoursColumn.setStyle("-fx-alignment: CENTER;");
+        totalHoursColumn.setText(TOTAL_HOURS_COLUMN);
+        totalHoursColumn.setMinWidth(COLUMN_WIDTH_150);
+        totalHoursColumn.setStyle(CENTERED);
         totalHoursColumn.setCellValueFactory(
-                new PropertyValueFactory<>("numOfTotalHoursWorked"));
+                new PropertyValueFactory<>(TOTAL_HOURS));
 
-        positionColumn.setText("Position");
-        positionColumn.setMinWidth(150);
-        positionColumn.setStyle("-fx-alignment: CENTER;");
+        positionColumn.setText(POSITION_COLUMN);
+        positionColumn.setMinWidth(COLUMN_WIDTH_150);
+        positionColumn.setStyle(CENTERED);
         positionColumn.setCellValueFactory(cellData -> {
 
             UserManagement userManagement = null;
@@ -155,14 +189,14 @@ public class ManagerStaffManagementViewController {
             return new SimpleObjectProperty<>(userType);
         });
 
-        actionButtonColumn.setText("Action");
+        actionButtonColumn.setText(ACTION_COLUMN);
 
-        actionButtonColumn1.setMinWidth(35);
-        actionButtonColumn1.setStyle("-fx-alignment: CENTER;");
+        actionButtonColumn1.setMinWidth(COLUMN_WIDTH_35);
+        actionButtonColumn1.setStyle(CENTERED);
         actionButtonColumn1.setCellValueFactory(cellData -> {
             Button editButton = new Button();
             ImageLoader.setUpGraphicButton(editButton,
-                    15, 15, "edit");
+                    BUTTON_WIDTH, BUTTON_HEIGHT, EDIT_BUTTON);
 
             try {
 
@@ -181,9 +215,7 @@ public class ManagerStaffManagementViewController {
                     try {
                         FXMLLoader fxmlLoader =
                                 new FXMLLoader(Main.class.getResource(
-                                        "smallwindows/" +
-                                                "manager-edit-user" +
-                                                ".fxml"));
+                                        EDIT_USER_WINDOW));
 
                         VBox vbox = fxmlLoader.load();
 
@@ -202,7 +234,7 @@ public class ManagerStaffManagementViewController {
                         Stage editStage = new Stage();
                         editStage.setScene(editScene);
 
-                        editStage.setTitle("Edit Details");
+                        editStage.setTitle(EDIT_USER_TITLE);
 
                         editStage.initModality(Modality.APPLICATION_MODAL);
 
@@ -230,12 +262,12 @@ public class ManagerStaffManagementViewController {
             return new SimpleObjectProperty<>(editButton);
         });
 
-        actionButtonColumn2.setMinWidth(35);
-        actionButtonColumn2.setStyle("-fx-alignment: CENTER;");
+        actionButtonColumn2.setMinWidth(COLUMN_WIDTH_35);
+        actionButtonColumn2.setStyle(CENTERED);
         actionButtonColumn2.setCellValueFactory(cellData -> {
             Button deleteButton = new Button();
             ImageLoader.setUpGraphicButton(deleteButton,
-                    15, 15, "delete");
+                    BUTTON_WIDTH, BUTTON_HEIGHT, DELETE_BUTTON);
             String firstName = cellData.getValue().getFirstNameForDisplay();
             User currentUser = cellData.getValue();
 
@@ -251,32 +283,31 @@ public class ManagerStaffManagementViewController {
 
             if (searchUserId == -1) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "This user does not exist."
+                        USER_NOT_FOUND
                 );
             }
 
             int selectedUserId = searchUserId;
             deleteButton.setOnAction(e -> {
-                Manager manager = (Manager) Main.getCurrentUser();
+                Manager manager = (Manager) MainScenesMap.getCurrentUser();
 
                 Optional<ButtonType> userChoice =
                         promptForUserAcknowledgement(firstName);
 
                 if (userChoice.get()
                         .getButtonData().toString()
-                        .equalsIgnoreCase("OK_DONE")) {
+                        .equalsIgnoreCase(OK_DONE)) {
 
                     try {
                         boolean isSuccessful = manager
                                 .removeStaffMember(selectedUserId);
                         if (isSuccessful) {
                             AlertPopUpWindow.displayInformationWindow(
-                                    "Staff Update",
+                                    UPDATE_TITLE,
                                     String.format(
-                                            "%s was deleted successfully.",
+                                            UPDATE_MESSAGE,
                                             firstName
-                                    ),
-                                    "Ok"
+                                    ), OK
                             );
                         }
                         refreshStaffList();
@@ -300,8 +331,7 @@ public class ManagerStaffManagementViewController {
             try {
                 FXMLLoader fxmlLoader =
                         new FXMLLoader(Main.class.getResource(
-                                "smallwindows/manager-add-user" +
-                                        ".fxml"));
+                                ADD_STAFF_WINDOW));
 
                 VBox vbox = fxmlLoader.load();
 
@@ -312,7 +342,7 @@ public class ManagerStaffManagementViewController {
                 Stage editStage = new Stage();
                 editStage.setScene(editScene);
 
-                editStage.setTitle("Add Staff");
+                editStage.setTitle(ADD_STAFF_TITLE);
 
                 editStage.initModality(Modality.APPLICATION_MODAL);
 
@@ -352,8 +382,11 @@ public class ManagerStaffManagementViewController {
 
     private Optional<ButtonType> promptForUserAcknowledgement(String user) {
         return AlertPopUpWindow.displayConfirmationWindow(
-                "Delete User Request",
-                "Do you want to delete " + user + "?"
+                DELETE_STAFF_TITLE,
+                String.format(
+                        DELETE_STAFF_MESSAGE,
+                        user
+                )
         );
     }
 

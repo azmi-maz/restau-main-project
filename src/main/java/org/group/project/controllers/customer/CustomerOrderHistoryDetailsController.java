@@ -25,6 +25,43 @@ import java.util.List;
  * @author azmi_maz
  */
 public class CustomerOrderHistoryDetailsController {
+    private static final String NO_COLUMN = "No.";
+    private static final String CENTERED = "-fx-alignment: CENTER;";
+    private static final int COLUMN_WIDTH_75 = 75;
+    private static final int COLUMN_WIDTH_40 = 40;
+    private static final int COLUMN_WIDTH_217 = 217;
+    private static final String CENTER_LEFT = "-fx-alignment: CENTER-LEFT;";
+    private static final String ITEM_COLUMN = "Item";
+    private static final String ITEM_TYPE = "itemType";
+    private static final String TYPE_COLUMN = "Type";
+    private static final String QUANTITY_COLUMN = "Quantity";
+    private static final String QUANTITY = "quantity";
+    private static final String DELIVERY = "delivery";
+    private static final String TAKEAWAY = "takeaway";
+    private static final String DATE_FORMAT = "dd/MM/yyyy";
+    private static final String TIME_FORMAT = "hh:mm a";
+    private static final String DELIVERY_ORDER_TEMPLATE = "Order no. %d"
+            + System.lineSeparator() +
+            "Order date: %s  %s"
+            + System.lineSeparator() +
+            "Status: %s"
+            + System.lineSeparator() +
+            "Driver: %s"
+            + System.lineSeparator() +
+            "Est. delivery time: ";
+
+    private static final String TAKEAWAY_ORDER_TEMPLATE = "Order no. %d"
+            + System.lineSeparator() +
+            "Order date: %s  %s"
+            + System.lineSeparator() +
+            "Status: %s"
+            + System.lineSeparator() +
+            "Pickup time: ";
+
+    private static final String DINEIN_ORDER_TEMPLATE = "Order date: %s  %s"
+            + System.lineSeparator() +
+            "Status: %s"
+            + System.lineSeparator();
 
     @FXML
     private TableColumn<FoodDrink, String> noColumn;
@@ -68,9 +105,9 @@ public class CustomerOrderHistoryDetailsController {
      */
     public void initialize() {
 
-        noColumn.setText("No.");
-        noColumn.setMinWidth(40);
-        noColumn.setStyle("-fx-alignment: CENTER;");
+        noColumn.setText(NO_COLUMN);
+        noColumn.setMinWidth(COLUMN_WIDTH_40);
+        noColumn.setStyle(CENTERED);
         noColumn.setCellValueFactory(cellData -> {
             int index =
                     cellData.getTableView().getItems()
@@ -79,25 +116,25 @@ public class CustomerOrderHistoryDetailsController {
             return new SimpleObjectProperty<>(index).asString();
         });
 
-        itemNameColumn.setText("Item");
-        itemNameColumn.setMinWidth(217);
-        itemNameColumn.setStyle("-fx-alignment: CENTER-LEFT;");
+        itemNameColumn.setText(ITEM_COLUMN);
+        itemNameColumn.setMinWidth(COLUMN_WIDTH_217);
+        itemNameColumn.setStyle(CENTER_LEFT);
         itemNameColumn.setCellValueFactory(cellData -> {
             String itemName = cellData.getValue().getItemNameForDisplay();
             return new SimpleObjectProperty<>(itemName);
         });
 
-        itemTypeColumn.setText("Type");
-        itemTypeColumn.setMinWidth(75);
-        itemTypeColumn.setStyle("-fx-alignment: CENTER;");
+        itemTypeColumn.setText(TYPE_COLUMN);
+        itemTypeColumn.setMinWidth(COLUMN_WIDTH_75);
+        itemTypeColumn.setStyle(CENTERED);
         itemTypeColumn.setCellValueFactory(
-                new PropertyValueFactory<>("itemType"));
+                new PropertyValueFactory<>(ITEM_TYPE));
 
-        quantityColumn.setText("Quantity");
-        quantityColumn.setMinWidth(75);
-        quantityColumn.setStyle("-fx-alignment: CENTER;");
+        quantityColumn.setText(QUANTITY_COLUMN);
+        quantityColumn.setMinWidth(COLUMN_WIDTH_75);
+        quantityColumn.setStyle(CENTERED);
         quantityColumn.setCellValueFactory(
-                new PropertyValueFactory<>("quantity"));
+                new PropertyValueFactory<>(QUANTITY));
 
         orderHistoryTable.setItems(data);
 
@@ -121,11 +158,11 @@ public class CustomerOrderHistoryDetailsController {
         orderTime = selectedOrder.getOrderTime();
         orderType = selectedOrder.getOrderType();
         orderStatus = selectedOrder.getOrderStatus();
-        if (orderType.equalsIgnoreCase("delivery")) {
+        if (orderType.equalsIgnoreCase(DELIVERY)) {
             DeliveryOrder deliveryOrder = (DeliveryOrder) selectedOrder;
             assignedDriver = deliveryOrder.getDriver();
             deliveryTime = deliveryOrder.getDeliveryTime();
-        } else if (orderType.equalsIgnoreCase("takeaway")) {
+        } else if (orderType.equalsIgnoreCase(TAKEAWAY)) {
             TakeawayOrder takeawayOrder = (TakeawayOrder) selectedOrder;
             estimatedPickupTime = takeawayOrder.getPickupTime();
         }
@@ -145,57 +182,55 @@ public class CustomerOrderHistoryDetailsController {
 
             // Delivery order
             String deliveryOrderTemplate =
-                    "Order no. " +
-                            orderId + System.lineSeparator() +
-                            "Order date: " +
+                    String.format(
+                            DELIVERY_ORDER_TEMPLATE,
+                            orderId,
                             orderDate.format(DateTimeFormatter.ofPattern(
-                                    "dd/MM/yyyy")) + "  " +
+                                    DATE_FORMAT)),
                             orderTime.format(DateTimeFormatter.ofPattern(
-                                    "hh:mm a")) + System.lineSeparator() +
-                            "Status: " +
-                            orderStatus + System.lineSeparator() +
-                            "Driver: " +
-                            assignedDriver + System.lineSeparator() +
-                            "Est. delivery time: ";
+                                    TIME_FORMAT)),
+                            orderStatus,
+                            assignedDriver
+                    );
 
             if (deliveryTime != null) {
                 deliveryOrderTemplate += deliveryTime.format(
-                        DateTimeFormatter.ofPattern("hh:mm a"))
+                        DateTimeFormatter.ofPattern(TIME_FORMAT))
                         + System.lineSeparator();
             }
 
             // Takeaway order
             String takeawayOrderTemplate =
-                    "Order no. " +
-                            orderId + System.lineSeparator() +
-                            "Order date: " +
+                    String.format(
+                            TAKEAWAY_ORDER_TEMPLATE,
+                            orderId,
                             orderDate.format(DateTimeFormatter.ofPattern(
-                                    "dd/MM/yyyy")) + "  " +
+                                    DATE_FORMAT)),
                             orderTime.format(DateTimeFormatter.ofPattern(
-                                    "hh:mm a")) + System.lineSeparator() +
-                            "Status: " +
-                            orderStatus + System.lineSeparator() +
-                            "Pickup time: ";
+                                    TIME_FORMAT)),
+                            orderStatus
+                    );
 
             if (estimatedPickupTime != null) {
                 takeawayOrderTemplate += estimatedPickupTime.format(
-                        DateTimeFormatter.ofPattern("hh:mm " +
-                                "a")) + System.lineSeparator();
+                        DateTimeFormatter.ofPattern(TIME_FORMAT))
+                        + System.lineSeparator();
             }
 
             // Dinein order
             String dineinOrderTemplate =
-                    "Order date: " +
+                    String.format(
+                            DINEIN_ORDER_TEMPLATE,
                             orderDate.format(DateTimeFormatter.ofPattern(
-                                    "dd/MM/yyyy")) + "  " +
+                                    DATE_FORMAT)),
                             orderTime.format(DateTimeFormatter.ofPattern(
-                                    "hh:mm a")) + System.lineSeparator() +
-                            "Status: " +
-                            orderStatus + System.lineSeparator();
+                                    TIME_FORMAT)),
+                            orderStatus
+                    );
 
-            if (orderType.equalsIgnoreCase("delivery")) {
+            if (orderType.equalsIgnoreCase(DELIVERY)) {
                 orderDetailsTextArea.setText(deliveryOrderTemplate);
-            } else if (orderType.equalsIgnoreCase("takeaway")) {
+            } else if (orderType.equalsIgnoreCase(TAKEAWAY)) {
                 orderDetailsTextArea.setText(takeawayOrderTemplate);
             } else {
                 orderDetailsTextArea.setText(dineinOrderTemplate);

@@ -7,13 +7,13 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import org.group.project.Main;
 import org.group.project.classes.Booking;
 import org.group.project.classes.Customer;
 import org.group.project.classes.Floor;
 import org.group.project.classes.Table;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.exceptions.TextFileNotFoundException;
+import org.group.project.scenes.MainScenesMap;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -25,7 +25,14 @@ import java.time.format.DateTimeFormatter;
  * @author azmi_maz
  */
 public class CustomerAddBookingController {
-
+    private static final String INVALID_DATE = "Reservation date cannot be " +
+            "less than current date.";
+    private static final String DATE_FORMAT = "dd/MM/yyyy";
+    private static final String TABLE_UPDATE_TITLE = "Table Reservation Update";
+    private static final String TABLE_UPDATE_MESSAGE = "New table " +
+            "reservation was made successfully.";
+    private static final String INCOMPLETE = "Please complete the form.";
+    private static final String OK = "Ok";
     @FXML
     private VBox vbox;
 
@@ -62,8 +69,7 @@ public class CustomerAddBookingController {
             if (reservationDatePicker.getValue().compareTo(
                     LocalDate.now()) < 0) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Reservation date cannot be less " +
-                                "than current date."
+                        INVALID_DATE
                 );
                 reservationDatePicker.setValue(LocalDate.now());
             }
@@ -89,7 +95,6 @@ public class CustomerAddBookingController {
             e.printStackTrace();
         }
 
-        // TODO get from database
         numOfGuestsChoiceBox.setOnAction(e -> {
 
             try {
@@ -117,7 +122,7 @@ public class CustomerAddBookingController {
         reservationDatePicker.setConverter(
                 new StringConverter<>() {
                     final DateTimeFormatter dateFormatter = DateTimeFormatter
-                            .ofPattern("dd/MM/yyyy");
+                            .ofPattern(DATE_FORMAT);
 
                     @Override
                     public String toString(LocalDate date) {
@@ -134,7 +139,7 @@ public class CustomerAddBookingController {
 
         confirmButton.setOnAction(e -> {
 
-            Customer customer = (Customer) Main.getCurrentUser();
+            Customer customer = (Customer) MainScenesMap.getCurrentUser();
 
             if (
                     reservationDatePicker.getValue() != null
@@ -166,10 +171,9 @@ public class CustomerAddBookingController {
                     );
                     if (isSuccessful) {
                         AlertPopUpWindow.displayInformationWindow(
-                                "Table Reservation Update",
-                                "New table reservation was " +
-                                        "made successfully.",
-                                "Ok"
+                                TABLE_UPDATE_TITLE,
+                                TABLE_UPDATE_MESSAGE,
+                                OK
                         );
                     }
                 } catch (TextFileNotFoundException ex) {
@@ -184,7 +188,7 @@ public class CustomerAddBookingController {
             } else {
 
                 AlertPopUpWindow.displayErrorWindow(
-                        "Please complete the form."
+                        INCOMPLETE
                 );
             }
 

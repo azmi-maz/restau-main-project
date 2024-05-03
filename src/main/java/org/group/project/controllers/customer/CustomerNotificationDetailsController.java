@@ -17,7 +17,10 @@ import java.time.format.DateTimeFormatter;
  * @author azmi_maz
  */
 public class CustomerNotificationDetailsController {
-
+    private static final String DATE = "Date: ";
+    private static final String DATE_FORMAT = "dd/MM/yyyy";
+    private static final String TIME_FORMAT = "hh:mm a";
+    private static final String SUBJECT = "Subject: ";
     @FXML
     private VBox vbox;
 
@@ -59,14 +62,14 @@ public class CustomerNotificationDetailsController {
             String messageBody
     ) {
         dateStampLabel.setText(
-                "Date: " + notificationDate.format(
-                        DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                DATE + notificationDate.format(
+                        DateTimeFormatter.ofPattern(DATE_FORMAT))
                         + " " + notificationTime.format(
-                        DateTimeFormatter.ofPattern("hh:mm a"))
+                        DateTimeFormatter.ofPattern(TIME_FORMAT))
         );
 
         subjectLabel.setText(
-                "Subject: " + notificationType
+                SUBJECT + notificationType
         );
 
         notificationTextArea.setText(messageBody);

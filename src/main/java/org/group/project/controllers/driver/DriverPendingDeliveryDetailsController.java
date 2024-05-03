@@ -5,13 +5,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.group.project.Main;
 import org.group.project.classes.Customer;
 import org.group.project.classes.DeliveryOrder;
 import org.group.project.classes.Driver;
 import org.group.project.classes.Order;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.exceptions.TextFileNotFoundException;
+import org.group.project.scenes.MainScenesMap;
 
 /**
  * This class enables the driver to view a delivery order details.
@@ -19,7 +19,10 @@ import org.group.project.exceptions.TextFileNotFoundException;
  * @author azmi_maz
  */
 public class DriverPendingDeliveryDetailsController {
-
+    private static final String SUCCESS = "Order Delivery";
+    private static final String OK = "Ok";
+    private static final String SUCCESS_MESSAGE = "Delivery is successful " +
+            "for order no.%d!";
     @FXML
     private VBox vbox;
 
@@ -49,7 +52,7 @@ public class DriverPendingDeliveryDetailsController {
     public void initialize() {
 
         deliveryCompletedButton.setOnAction(e -> {
-            Driver driver = (Driver) Main.getCurrentUser();
+            Driver driver = (Driver) MainScenesMap.getCurrentUser();
 
             try {
                 boolean isSuccessful = driver.confirmDeliveryOrder(
@@ -96,12 +99,11 @@ public class DriverPendingDeliveryDetailsController {
     private void promptDeliverySuccessful(
             DeliveryOrder currentOrder) {
         AlertPopUpWindow.displayInformationWindow(
-                "Order Delivery",
+                SUCCESS,
                 String.format(
-                        "Delivery is successful for order" +
-                                " no.%d!",
+                        SUCCESS_MESSAGE,
                         currentOrder.getOrderId()),
-                "Ok"
+                OK
         );
     }
 

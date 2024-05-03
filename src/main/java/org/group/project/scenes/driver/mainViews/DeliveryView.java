@@ -18,7 +18,8 @@ import java.io.IOException;
  * @author azmi_maz
  */
 public class DeliveryView implements ViewMaker {
-
+    private static final String PENDING_DELIVERIES = "driverscenes/mapscenes/" +
+            "driver-pendingdeliveries.fxml";
     public static DriverPendingDeliveryViewController controller;
     private Stage stage;
 
@@ -41,8 +42,7 @@ public class DeliveryView implements ViewMaker {
     public Scene getScene() {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
-                "driverscenes/mapscenes/" +
-                        "driver-pendingdeliveries.fxml"));
+                PENDING_DELIVERIES));
 
         VBox vbox = null;
         try {

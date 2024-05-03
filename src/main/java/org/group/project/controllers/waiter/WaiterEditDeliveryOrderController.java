@@ -6,10 +6,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.group.project.Main;
 import org.group.project.classes.*;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.exceptions.TextFileNotFoundException;
+import org.group.project.scenes.MainScenesMap;
 
 /**
  * This class enables the waiter to assign driver and approve a delivery order.
@@ -17,7 +17,11 @@ import org.group.project.exceptions.TextFileNotFoundException;
  * @author azmi_maz
  */
 public class WaiterEditDeliveryOrderController {
-
+    private static final String SUCCESS_UPDATE_TITLE = "Delivery Order Update";
+    private static final String SUCCESS_UPDATE_MESSAGE = "Delivery order " +
+            "no.%d was approved successfully.";
+    private static final String OK = "Ok";
+    private static final String SELECT_DRIVER = "Select driver";
     @FXML
     private TextField customerIdTextField;
 
@@ -73,7 +77,7 @@ public class WaiterEditDeliveryOrderController {
 
             try {
 
-                Waiter waiter = (Waiter) Main.getCurrentUser();
+                Waiter waiter = (Waiter) MainScenesMap.getCurrentUser();
                 Driver selectedDriver = assignedDriverComboBox
                         .getValue();
                 int searchDriverId = selectedDriver.getUserId();
@@ -85,11 +89,9 @@ public class WaiterEditDeliveryOrderController {
                 );
                 if (isSuccessful) {
                     AlertPopUpWindow.displayInformationWindow(
-                            "Delivery Order Update",
-                            String.format("Delivery order no.%d " +
-                                            "was approved successfully.",
-                                    currentOrder.getOrderId()),
-                            "Ok"
+                            SUCCESS_UPDATE_TITLE,
+                            String.format(SUCCESS_UPDATE_MESSAGE,
+                                    currentOrder.getOrderId()), OK
                     );
                 }
 
@@ -140,7 +142,7 @@ public class WaiterEditDeliveryOrderController {
             deliveryTimeTextField.setText("");
         }
 
-        assignedDriverComboBox.setPromptText("Select driver");
+        assignedDriverComboBox.setPromptText(SELECT_DRIVER);
     }
 
     // This disables the text fields so waiter does not edit them.

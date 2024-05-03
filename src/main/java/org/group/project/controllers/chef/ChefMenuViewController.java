@@ -23,6 +23,7 @@ import org.group.project.classes.Menu;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.ImageLoader;
 import org.group.project.exceptions.TextFileNotFoundException;
+import org.group.project.scenes.MainScenesMap;
 import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
@@ -39,6 +40,10 @@ public class ChefMenuViewController {
     private static final String BG_IMAGE = "images" +
             "/background/chef-main" +
             ".jpg";
+    private static final int COLUMN_WIDTH_40 = 40;
+    private static final int COLUMN_WIDTH_75 = 75;
+    private static final int COLUMN_WIDTH_110 = 110;
+    private static final int COLUMN_WIDTH_200 = 200;
     private static final String NO_COLUMN = "No.";
     private static final String ITEM_NAME_COLUMN = "Item Name";
     private static final String TYPE_COLUMN_NAME = "Type";
@@ -118,7 +123,7 @@ public class ChefMenuViewController {
         refreshMenuItemList();
 
         noColumn.setText(NO_COLUMN);
-        noColumn.setMinWidth(40);
+        noColumn.setMinWidth(COLUMN_WIDTH_40);
         noColumn.setStyle(CENTERED);
         noColumn.setCellValueFactory(cellData -> {
             int index =
@@ -129,7 +134,7 @@ public class ChefMenuViewController {
         });
 
         itemNameColumn.setText(ITEM_NAME_COLUMN);
-        itemNameColumn.setMinWidth(200);
+        itemNameColumn.setMinWidth(COLUMN_WIDTH_200);
         itemNameColumn.setStyle(CENTER_LEFT);
         itemNameColumn.setCellValueFactory(cellData -> {
             String itemName = cellData.getValue().getItemNameForDisplay();
@@ -137,7 +142,7 @@ public class ChefMenuViewController {
         });
 
         itemTypeColumn.setText(TYPE_COLUMN_NAME);
-        itemTypeColumn.setMinWidth(75);
+        itemTypeColumn.setMinWidth(COLUMN_WIDTH_75);
         itemTypeColumn.setStyle(CENTERED);
         itemTypeColumn.setCellValueFactory(
                 new PropertyValueFactory<>(TYPE_COLUMN));
@@ -156,7 +161,7 @@ public class ChefMenuViewController {
         filled.setFitHeight(15);
 
         dailySpecialColumn.setText(SPECIAL_COLUMN);
-        dailySpecialColumn.setMinWidth(110);
+        dailySpecialColumn.setMinWidth(COLUMN_WIDTH_110);
         dailySpecialColumn.setStyle(CENTERED);
         dailySpecialColumn.setCellValueFactory(cellData -> {
             FoodDrink item = cellData.getValue();
@@ -186,7 +191,7 @@ public class ChefMenuViewController {
             });
 
             favouriteButton.setOnAction(e -> {
-                Chef chef = (Chef) Main.getCurrentUser();
+                Chef chef = (Chef) MainScenesMap.getCurrentUser();
 
                 try {
                     boolean isSuccessful = chef.chooseDailySpecial(

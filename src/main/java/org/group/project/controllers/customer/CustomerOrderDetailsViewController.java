@@ -19,6 +19,7 @@ import org.group.project.classes.Order;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.ImageLoader;
 import org.group.project.exceptions.TextFileNotFoundException;
+import org.group.project.scenes.MainScenesMap;
 import org.group.project.scenes.WindowSize;
 import org.group.project.scenes.customer.stackViews.MenuController;
 import org.group.project.scenes.customer.stackViews.OrderDetailsController;
@@ -34,7 +35,36 @@ import java.util.Optional;
  * @author azmi_maz
  */
 public class CustomerOrderDetailsViewController {
-
+    private static final String BG_IMAGE = "images" +
+            "/background/main-bg" +
+            ".jpg";
+    private static final String NO_COLUMN = "No.";
+    private static final String CENTERED = "-fx-alignment: CENTER;";
+    private static final int COLUMN_WIDTH_35 = 35;
+    private static final int COLUMN_WIDTH_75 = 75;
+    private static final int COLUMN_WIDTH_40 = 40;
+    private static final int COLUMN_WIDTH_150 = 150;
+    private static final String CENTER_LEFT = "-fx-alignment: CENTER-LEFT;";
+    private static final String ITEM_COLUMN = "Item";
+    private static final String ITEM_TYPE = "itemType";
+    private static final String TYPE_COLUMN = "Type";
+    private static final String QUANTITY_COLUMN = "Quantity";
+    private static final String QUANTITY = "quantity";
+    private static final String ACTION_COLUMN = "Action";
+    private static final String EDIT_ORDER_TOOLTIP = "Edit Order";
+    private static final String EDIT_BUTTON = "edit";
+    private static final int BUTTON_WIDTH = 15;
+    private static final int BUTTON_HEIGHT = 15;
+    private static final String EDIT_ORDER_WINDOW = "smallwindows/" +
+            "edit-order-item.fxml";
+    private static final String IMAGE_FILE = "images/menu/%s";
+    private static final String EDIT_ORDER_TITLE = "Edit Order Item";
+    private static final String DELETE_ORDER_TOOLTIP = "Delete Order";
+    private static final String DELETE_BUTTON = "delete";
+    private static final String OK_DONE = "OK_DONE";
+    private static final String CANCEL_ORDER_TITLE = "Cancel Order Request";
+    private static final String CANCEL_ORDER_MESSAGE = "Do you want to " +
+            "cancel this order?";
     @FXML
     private Button confirmButton;
 
@@ -99,9 +129,8 @@ public class CustomerOrderDetailsViewController {
 
         Image bgImage = null;
         try {
-            bgImage = new Image(Main.class.getResource("images" +
-                    "/background/main-bg" +
-                    ".jpg").toURI().toString());
+            bgImage = new Image(Main.class
+                    .getResource(BG_IMAGE).toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
                     e.getMessage()
@@ -133,9 +162,9 @@ public class CustomerOrderDetailsViewController {
             e.printStackTrace();
         }
 
-        noColumn.setText("No.");
-        noColumn.setMinWidth(40);
-        noColumn.setStyle("-fx-alignment: CENTER;");
+        noColumn.setText(NO_COLUMN);
+        noColumn.setMinWidth(COLUMN_WIDTH_40);
+        noColumn.setStyle(CENTERED);
         noColumn.setCellValueFactory(cellData -> {
             int index =
                     cellData.getTableView().getItems().indexOf(
@@ -144,35 +173,35 @@ public class CustomerOrderDetailsViewController {
             return new SimpleObjectProperty<>(index).asString();
         });
 
-        itemNameColumn.setText("Item");
-        itemNameColumn.setMinWidth(150);
-        itemNameColumn.setStyle("-fx-alignment: CENTER-LEFT;");
+        itemNameColumn.setText(ITEM_COLUMN);
+        itemNameColumn.setMinWidth(COLUMN_WIDTH_150);
+        itemNameColumn.setStyle(CENTER_LEFT);
         itemNameColumn.setCellValueFactory(cellData -> {
             String itemName = cellData.getValue().getItemNameForDisplay();
             return new SimpleObjectProperty<>(itemName);
         });
 
-        itemTypeColumn.setText("Type");
-        itemTypeColumn.setMinWidth(75);
-        itemTypeColumn.setStyle("-fx-alignment: CENTER;");
+        itemTypeColumn.setText(TYPE_COLUMN);
+        itemTypeColumn.setMinWidth(COLUMN_WIDTH_75);
+        itemTypeColumn.setStyle(CENTERED);
         itemTypeColumn.setCellValueFactory(
-                new PropertyValueFactory<>("itemType"));
+                new PropertyValueFactory<>(ITEM_TYPE));
 
-        quantityColumn.setText("Quantity");
-        quantityColumn.setMinWidth(75);
-        quantityColumn.setStyle("-fx-alignment: CENTER;");
+        quantityColumn.setText(QUANTITY_COLUMN);
+        quantityColumn.setMinWidth(COLUMN_WIDTH_75);
+        quantityColumn.setStyle(CENTERED);
         quantityColumn.setCellValueFactory(
-                new PropertyValueFactory<>("quantity"));
+                new PropertyValueFactory<>(QUANTITY));
 
-        actionButtonColumn.setText("Action");
+        actionButtonColumn.setText(ACTION_COLUMN);
 
-        actionButtonColumn1.setMinWidth(35);
-        actionButtonColumn1.setStyle("-fx-alignment: CENTER;");
+        actionButtonColumn1.setMinWidth(COLUMN_WIDTH_35);
+        actionButtonColumn1.setStyle(CENTERED);
         actionButtonColumn1.setCellValueFactory(cellData -> {
             Button editButton = new Button();
-            editButton.setTooltip(new Tooltip("Edit Order"));
+            editButton.setTooltip(new Tooltip(EDIT_ORDER_TOOLTIP));
             ImageLoader.setUpGraphicButton(editButton,
-                    15, 15, "edit");
+                    BUTTON_WIDTH, BUTTON_HEIGHT, EDIT_BUTTON);
             String imageFile = cellData.getValue().getImageFileName();
             String labelName = cellData.getValue().getItemNameForDisplay();
 
@@ -180,16 +209,17 @@ public class CustomerOrderDetailsViewController {
                 try {
                     FXMLLoader fxmlLoader =
                             new FXMLLoader(Main.class.getResource(
-                                    "smallwindows/edit-order-item" +
-                                            ".fxml"));
+                                    EDIT_ORDER_WINDOW));
 
                     BorderPane borderPane = fxmlLoader.load();
 
                     CustomerMenuOrderEditItemController controller =
                             fxmlLoader.getController();
 
-                    controller.setItemToEdit("images/menu/" + imageFile,
-                            labelName, orderList);
+                    controller.setItemToEdit(String.format(
+                            IMAGE_FILE,
+                            imageFile
+                    ), labelName, orderList);
                     Scene editScene = new Scene(borderPane,
                             WindowSize.MEDIUM.WIDTH,
                             WindowSize.MEDIUM.HEIGHT);
@@ -197,7 +227,7 @@ public class CustomerOrderDetailsViewController {
                     Stage editStage = new Stage();
                     editStage.setScene(editScene);
 
-                    editStage.setTitle("Edit Order Item");
+                    editStage.setTitle(EDIT_ORDER_TITLE);
 
                     editStage.initModality(Modality.APPLICATION_MODAL);
 
@@ -219,12 +249,12 @@ public class CustomerOrderDetailsViewController {
 
         actionButtonColumn2.setText("");
         actionButtonColumn2.setMinWidth(35);
-        actionButtonColumn2.setStyle("-fx-alignment: CENTER;");
+        actionButtonColumn2.setStyle(CENTERED);
         actionButtonColumn2.setCellValueFactory(cellData -> {
             Button deleteButton = new Button();
-            deleteButton.setTooltip(new Tooltip("Delete Order"));
+            deleteButton.setTooltip(new Tooltip(DELETE_ORDER_TOOLTIP));
             ImageLoader.setUpGraphicButton(deleteButton,
-                    15, 15, "delete");
+                    BUTTON_WIDTH, BUTTON_HEIGHT, DELETE_BUTTON);
             FoodDrink item = cellData.getValue();
 
             deleteButton.setOnMousePressed(e -> {
@@ -249,7 +279,7 @@ public class CustomerOrderDetailsViewController {
 
             if (userChoice.get()
                     .getButtonData().toString()
-                    .equalsIgnoreCase("OK_DONE")) {
+                    .equalsIgnoreCase(OK_DONE)) {
                 cancelConfirmationAndGoBackToMenu();
             }
         });
@@ -276,7 +306,7 @@ public class CustomerOrderDetailsViewController {
 
             Kitchen kitchen = new Kitchen();
             String orderType = choiceBox.getValue();
-            int customerId = Main.getCurrentUser().getUserId();
+            int customerId = MainScenesMap.getCurrentUser().getUserId();
 
             return kitchen.createNewOrder(
                     orderType,
@@ -296,8 +326,8 @@ public class CustomerOrderDetailsViewController {
 
     private Optional<ButtonType> promptForUserAcknowledgement() {
         return AlertPopUpWindow.displayConfirmationWindow(
-                "Cancel Order Request",
-                "Do you want to cancel this order?"
+                CANCEL_ORDER_TITLE,
+                CANCEL_ORDER_MESSAGE
         );
     }
 

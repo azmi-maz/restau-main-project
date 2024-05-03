@@ -16,7 +16,7 @@ import java.io.IOException;
  * @author azmi_maz
  */
 public class LoginView implements ViewMaker {
-
+    private static final String LOGIN = "homepages/login-view.fxml";
     private Stage stage;
 
     /**
@@ -38,7 +38,7 @@ public class LoginView implements ViewMaker {
     public Scene getScene() {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
-                "homepages/login-view.fxml"));
+                LOGIN));
         try {
             return new Scene(fxmlLoader.load(), WindowSize.MAIN.WIDTH,
                     WindowSize.MAIN.HEIGHT);

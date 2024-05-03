@@ -20,6 +20,7 @@ import org.group.project.classes.*;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.ImageLoader;
 import org.group.project.exceptions.TextFileNotFoundException;
+import org.group.project.scenes.MainScenesMap;
 import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
@@ -31,7 +32,30 @@ import java.net.URISyntaxException;
  * @author azmi_maz
  */
 public class DriverPendingDeliveryViewController {
-
+    private static final String BG_IMAGE = "images" +
+            "/background/driver-main" +
+            ".jpg";
+    private static final String CENTERED = "-fx-alignment: CENTER;";
+    private static final String CENTER_LEFT = "-fx-alignment: CENTER-LEFT;";
+    private static final String NO_COLUMN = "Order no.";
+    private static final String ORDER_ID = "orderId";
+    private static final String CUSTOMER_COLUMN = "Customer";
+    private static final String TIME_COLUMN = "Est. Delivery Time";
+    private static final String ADDRESS_COLUMN = "Address";
+    private static final String ACTION_COLUMN = "Action";
+    private static final int COLUMN_WIDTH_45 = 45;
+    private static final int COLUMN_WIDTH_65 = 65;
+    private static final int COLUMN_WIDTH_274 = 274;
+    private static final int COLUMN_WIDTH_115 = 115;
+    private static final int COLUMN_WIDTH_130 = 130;
+    private static final String VIEW_DETAILS_TOOLTIP = "View details";
+    private static final String VIEW_DETAILS_BUTTON = "view-details";
+    private static final int BUTTON_WIDTH = 15;
+    private static final int BUTTON_HEIGHT = 15;
+    private static final String CONFIRM_DELIVERY_WINDOW = "smallwindows/" +
+            "driver-confirmdelivery" +
+            ".fxml";
+    private static final String CONFIRM_DELIVERY_TITLE = "View Order Details";
     @FXML
     private TableColumn<DeliveryOrder, String> noColumn;
 
@@ -64,9 +88,8 @@ public class DriverPendingDeliveryViewController {
 
         Image bgImage = null;
         try {
-            bgImage = new Image(Main.class.getResource("images" +
-                    "/background/driver-main" +
-                    ".jpg").toURI().toString());
+            bgImage = new Image(Main.class
+                    .getResource(BG_IMAGE).toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
                     e.getMessage()
@@ -86,45 +109,45 @@ public class DriverPendingDeliveryViewController {
 
         refreshPendingDeliveryList();
 
-        noColumn.setText("Order no.");
-        noColumn.setMinWidth(45);
-        noColumn.setStyle("-fx-alignment: CENTER;");
+        noColumn.setText(NO_COLUMN);
+        noColumn.setMinWidth(COLUMN_WIDTH_45);
+        noColumn.setStyle(CENTERED);
         noColumn.setCellValueFactory(
-                new PropertyValueFactory<>("orderId"));
+                new PropertyValueFactory<>(ORDER_ID));
 
-        customerColumn.setText("Customer");
-        customerColumn.setMinWidth(130);
-        customerColumn.setStyle("-fx-alignment: CENTER;");
+        customerColumn.setText(CUSTOMER_COLUMN);
+        customerColumn.setMinWidth(COLUMN_WIDTH_130);
+        customerColumn.setStyle(CENTERED);
         customerColumn.setCellValueFactory(cellData -> {
             Customer customer = cellData.getValue().getCustomer();
             return new SimpleObjectProperty<>(customer);
         });
 
-        deliveryTimeColumn.setText("Est. Delivery Time");
-        deliveryTimeColumn.setMinWidth(115);
-        deliveryTimeColumn.setStyle("-fx-alignment: CENTER;");
+        deliveryTimeColumn.setText(TIME_COLUMN);
+        deliveryTimeColumn.setMinWidth(COLUMN_WIDTH_115);
+        deliveryTimeColumn.setStyle(CENTERED);
         deliveryTimeColumn.setCellValueFactory(cellData -> {
             String formattedTime = cellData.getValue().getOrderTimeInFormat();
             return new SimpleObjectProperty<>(formattedTime);
         });
 
-        addressColumn.setText("Address");
-        addressColumn.setMinWidth(274);
-        addressColumn.setStyle("-fx-alignment: CENTER-LEFT;");
+        addressColumn.setText(ADDRESS_COLUMN);
+        addressColumn.setMinWidth(COLUMN_WIDTH_274);
+        addressColumn.setStyle(CENTER_LEFT);
         addressColumn.setCellValueFactory(cellData -> {
             String customerAddress = cellData.getValue()
                     .getCustomer().getDeliveryAddress();
             return new SimpleObjectProperty<>(customerAddress);
         });
 
-        actionButtonColumn.setText("Action");
-        actionButtonColumn.setMinWidth(65);
-        actionButtonColumn.setStyle("-fx-alignment: CENTER;");
+        actionButtonColumn.setText(ACTION_COLUMN);
+        actionButtonColumn.setMinWidth(COLUMN_WIDTH_65);
+        actionButtonColumn.setStyle(CENTERED);
         actionButtonColumn.setCellValueFactory(cellData -> {
             Button viewButton = new Button();
-            viewButton.setTooltip(new Tooltip("View details"));
+            viewButton.setTooltip(new Tooltip(VIEW_DETAILS_TOOLTIP));
             ImageLoader.setUpGraphicButton(viewButton,
-                    15, 15, "view-details");
+                    BUTTON_WIDTH, BUTTON_HEIGHT, VIEW_DETAILS_BUTTON);
             Order currentOrder = cellData.getValue();
 
             viewButton.setOnAction(e -> {
@@ -132,9 +155,7 @@ public class DriverPendingDeliveryViewController {
                 try {
                     FXMLLoader fxmlLoader =
                             new FXMLLoader(Main.class.getResource(
-                                    "smallwindows/" +
-                                            "driver-confirmdelivery" +
-                                            ".fxml"));
+                                    CONFIRM_DELIVERY_WINDOW));
 
                     VBox vbox = fxmlLoader.load();
 
@@ -152,7 +173,7 @@ public class DriverPendingDeliveryViewController {
                     Stage editStage = new Stage();
                     editStage.setScene(editScene);
 
-                    editStage.setTitle("View Order Details");
+                    editStage.setTitle(CONFIRM_DELIVERY_TITLE);
 
                     editStage.initModality(Modality.APPLICATION_MODAL);
 
@@ -205,12 +226,12 @@ public class DriverPendingDeliveryViewController {
 
     private void updateUserId() {
 
-        if (Main.getCurrentUser() == null) {
+        if (MainScenesMap.getCurrentUser() == null) {
             return;
         }
 
         try {
-            User user = Main.getCurrentUser();
+            User user = MainScenesMap.getCurrentUser();
             userId = user.getUserId();
         } catch (TextFileNotFoundException ex) {
             AlertPopUpWindow.displayErrorWindow(

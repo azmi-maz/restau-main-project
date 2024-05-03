@@ -13,7 +13,9 @@ import org.group.project.scenes.main.ChefView;
  * @author azmi_maz
  */
 public class ChefReturnHomeNavbarController {
-
+    private static final String UNDO = "undo";
+    private static final int BUTTON_WIDTH = 25;
+    private static final int BUTTON_HEIGHT = 25;
     @FXML
     private Button homeButton;
 
@@ -23,7 +25,7 @@ public class ChefReturnHomeNavbarController {
     public void initialize() {
 
         ImageLoader.setUpGraphicButton(homeButton,
-                25, 25, "undo");
+                BUTTON_WIDTH, BUTTON_HEIGHT, UNDO);
 
         homeButton.setOnMousePressed(e -> {
             ChefView.chefOutstandingOrdersNavbarCounterController

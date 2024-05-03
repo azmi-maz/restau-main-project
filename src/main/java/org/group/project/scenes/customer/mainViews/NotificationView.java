@@ -18,7 +18,8 @@ import java.io.IOException;
  * @author azmi_maz
  */
 public class NotificationView implements ViewMaker {
-
+    private static final String VIEW_NOTIFICATIONS = "customerscenes/" +
+            "mapscenes/customer-viewnotifications.fxml";
     public static CustomerNotificationViewController controller;
     private Stage stage;
 
@@ -41,8 +42,7 @@ public class NotificationView implements ViewMaker {
     public Scene getScene() {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
-                "customerscenes/mapscenes/" +
-                        "customer-viewnotifications.fxml"));
+                VIEW_NOTIFICATIONS));
 
         VBox vbox = null;
         try {

@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import org.group.project.Main;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
+import org.group.project.scenes.MainScenesMap;
 
 import java.net.URISyntaxException;
 
@@ -60,7 +61,7 @@ public class ChefHomepageController {
         mainTitle.setText(
                 String.format(
                         WELCOME,
-                        Main.getCurrentUser().getFirstNameForDisplay()
+                        MainScenesMap.getCurrentUser().getFirstNameForDisplay()
                 )
         );
     }

@@ -2,13 +2,13 @@ package org.group.project.controllers.chef;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import org.group.project.Main;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.DataManager;
 import org.group.project.classes.auxiliary.ImageLoader;
 import org.group.project.controllers.main.UserProfileView;
 import org.group.project.exceptions.ClearFileFailedException;
 import org.group.project.scenes.MainScenes;
+import org.group.project.scenes.MainScenesMap;
 import org.group.project.scenes.chef.ChefMapsMain;
 import org.group.project.scenes.chef.ChefScenesMap;
 import org.group.project.scenes.chef.mainViews.OutstandingView;
@@ -93,7 +93,8 @@ public class ChefHomepageNavbarController {
                 );
                 ex.printStackTrace();
             }
-            Main.getStage().setScene(Main.getScenes()
+            MainScenesMap.getStage().setScene(
+                    MainScenesMap.getScenes()
                     .get(MainScenes.LOGIN));
         });
 

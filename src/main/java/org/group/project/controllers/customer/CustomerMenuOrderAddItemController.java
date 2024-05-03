@@ -23,7 +23,11 @@ import java.util.List;
  * @author azmi_maz
  */
 public class CustomerMenuOrderAddItemController {
-
+    private static final String INVALID_QUANTITY = "Quantity cannot be " +
+            "less than 0";
+    private static final String DEFAULT_QUANTITY = "1";
+    private static final int IMG_SUBTRACT = 10;
+    private static final double IMG_DIVIDE = 1.5;
     @FXML
     private ImageView menuImage;
 
@@ -54,9 +58,9 @@ public class CustomerMenuOrderAddItemController {
             int quantityValue = Integer.parseInt(quantityTextField.getText());
             if (quantityValue < 0) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Quantity cannot be less than 0"
+                        INVALID_QUANTITY
                 );
-                quantityTextField.setText("1");
+                quantityTextField.setText(DEFAULT_QUANTITY);
             }
         });
 
@@ -64,9 +68,9 @@ public class CustomerMenuOrderAddItemController {
             int quantityValue = Integer.parseInt(quantityTextField.getText());
             if (quantityValue < 0) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Quantity cannot be less than 0"
+                        INVALID_QUANTITY
                 );
-                quantityTextField.setText("1");
+                quantityTextField.setText(DEFAULT_QUANTITY);
             } else {
                 addNewItem(itemNameLabel.getText());
             }
@@ -93,9 +97,9 @@ public class CustomerMenuOrderAddItemController {
                 imageUrl).toURI().toString()));
 
         menuImage.fitHeightProperty().bind(borderPane.heightProperty()
-                .subtract(10).divide(1.5));
+                .subtract(IMG_SUBTRACT).divide(IMG_DIVIDE));
         menuImage.fitWidthProperty().bind(borderPane.widthProperty()
-                .subtract(10).divide(1.5));
+                .subtract(IMG_SUBTRACT).divide(IMG_DIVIDE));
         menuImage.setPreserveRatio(true);
         itemNameLabel.setText(itemName);
         this.mainList = mainList;

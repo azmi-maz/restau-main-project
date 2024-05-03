@@ -14,6 +14,7 @@ import org.group.project.classes.FoodDrink;
 import org.group.project.classes.Order;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.exceptions.TextFileNotFoundException;
+import org.group.project.scenes.MainScenesMap;
 import org.group.project.scenes.customer.stackViews.MenuController;
 import org.group.project.scenes.customer.stackViews.OrderConfirmationController;
 import org.group.project.scenes.customer.stackViews.OrderDetailsController;
@@ -31,7 +32,45 @@ import java.util.Optional;
  * @author azmi_maz
  */
 public class CustomerOrderConfirmationViewController {
-
+    private static final String BG_IMAGE = "images" +
+            "/background/main-bg" +
+            ".jpg";
+    private static final String NO_COLUMN = "No.";
+    private static final int COLUMN_WIDTH_150 = 150;
+    private static final int COLUMN_WIDTH_75 = 75;
+    private static final int COLUMN_WIDTH_40 = 40;
+    private static final String CENTERED = "-fx-alignment: CENTER;";
+    private static final String ITEM_COLUMN = "Item";
+    private static final String CENTER_LEFT = "-fx-alignment: CENTER-LEFT;";
+    private static final String TYPE_COLUMN = "Type";
+    private static final String QUANTITY_COLUMN = "Quantity";
+    private static final String ITEM_TYPE = "itemType";
+    private static final String QUANTITY = "quantity";
+    private static final String DATE_FORMAT = "dd/MM/yyyy";
+    private static final String TIME_FORMAT = "hh:mm a";
+    private static final String DELIVERY_ORDER_TEMPLATE = "Order date: %s  %s"
+            + System.lineSeparator() +
+            "Customer id: %d"
+            + System.lineSeparator() +
+            "Customer name: %s"
+            + System.lineSeparator() +
+            "Delivery address: %s";
+    private static final String TAKEAWAY_ORDER_TEMPLATE = "Order date: %s  %s"
+            + System.lineSeparator() +
+            "Customer id: %d"
+            + System.lineSeparator() +
+            "Customer name: %s";
+    private static final String DELIVERY = "delivery";
+    private static final String DELIVERY_ORDER = "Delivery Order";
+    private static final String TAKEAWAY_ORDER = "Takeaway Order";
+    private static final String OK_DONE = "OK_DONE";
+    private static final String ORDER_SUCCESS = "Order Request Successful";
+    private static final String ORDER_SUCCESS_MESSAGE = "Thank you! " +
+            "Your request is being processed now.";
+    private static final String OK = "Ok";
+    private static final String CANCEL_ORDER = "Cancel Order Request";
+    private static final String CANCEL_ORDER_MESSAGE = "Do you want " +
+            "to cancel this order?";
     @FXML
     private Label orderTypeLabel;
 
@@ -89,9 +128,8 @@ public class CustomerOrderConfirmationViewController {
 
         Image bgImage = null;
         try {
-            bgImage = new Image(Main.class.getResource("images" +
-                    "/background/main-bg" +
-                    ".jpg").toURI().toString());
+            bgImage = new Image(Main.class
+                    .getResource(BG_IMAGE).toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
                     e.getMessage()
@@ -113,9 +151,9 @@ public class CustomerOrderConfirmationViewController {
 
         data.addAll(orderDetails.getOrderedFoodDrinkLists());
 
-        noColumn.setText("No.");
-        noColumn.setMinWidth(40);
-        noColumn.setStyle("-fx-alignment: CENTER;");
+        noColumn.setText(NO_COLUMN);
+        noColumn.setMinWidth(COLUMN_WIDTH_40);
+        noColumn.setStyle(CENTERED);
         noColumn.setCellValueFactory(cellData -> {
             int index =
                     cellData.getTableView().getItems().indexOf(
@@ -124,25 +162,25 @@ public class CustomerOrderConfirmationViewController {
             return new SimpleObjectProperty<>(index).asString();
         });
 
-        itemNameColumn.setText("Item");
-        itemNameColumn.setMinWidth(150);
-        itemNameColumn.setStyle("-fx-alignment: CENTER-LEFT;");
+        itemNameColumn.setText(ITEM_COLUMN);
+        itemNameColumn.setMinWidth(COLUMN_WIDTH_150);
+        itemNameColumn.setStyle(CENTER_LEFT);
         itemNameColumn.setCellValueFactory(cellData -> {
             String itemName = cellData.getValue().getItemNameForDisplay();
             return new SimpleObjectProperty<>(itemName);
         });
 
-        itemTypeColumn.setText("Type");
-        itemTypeColumn.setMinWidth(75);
-        itemTypeColumn.setStyle("-fx-alignment: CENTER;");
+        itemTypeColumn.setText(TYPE_COLUMN);
+        itemTypeColumn.setMinWidth(COLUMN_WIDTH_75);
+        itemTypeColumn.setStyle(CENTERED);
         itemTypeColumn.setCellValueFactory(
-                new PropertyValueFactory<>("itemType"));
+                new PropertyValueFactory<>(ITEM_TYPE));
 
-        quantityColumn.setText("Quantity");
-        quantityColumn.setMinWidth(75);
-        quantityColumn.setStyle("-fx-alignment: CENTER;");
+        quantityColumn.setText(QUANTITY_COLUMN);
+        quantityColumn.setMinWidth(COLUMN_WIDTH_75);
+        quantityColumn.setStyle(CENTERED);
         quantityColumn.setCellValueFactory(
-                new PropertyValueFactory<>("quantity"));
+                new PropertyValueFactory<>(QUANTITY));
 
         orderDetailsTable.setItems(data);
 
@@ -156,35 +194,34 @@ public class CustomerOrderConfirmationViewController {
 
         // DeliveryOrder
         String deliveryOrderTemplate =
-                "Order date: " +
+                String.format(
+                        DELIVERY_ORDER_TEMPLATE,
                         orderDate.format(DateTimeFormatter.ofPattern(
-                                "dd/MM/yyyy")) + "  " +
+                                DATE_FORMAT)),
                         orderTime.format(DateTimeFormatter.ofPattern(
-                                "hh:mm a")) + System.lineSeparator() +
-                        "Customer id: " +
-                        customerId + System.lineSeparator() +
-                        "Customer name: " +
-                        customerName + System.lineSeparator() +
-                        "Delivery address: " +
-                        customerDeliveryAddress;
+                                TIME_FORMAT)),
+                        customerId,
+                        customerName,
+                        customerDeliveryAddress
+                );
 
         // TakeawayOrder
         String takeawayOrderTemplate =
-                "Order date: " +
+                String.format(
+                        TAKEAWAY_ORDER_TEMPLATE,
                         orderDate.format(DateTimeFormatter.ofPattern(
-                                "dd/MM/yyyy")) + "  " +
+                                DATE_FORMAT)),
                         orderTime.format(DateTimeFormatter.ofPattern(
-                                "hh:mm a")) + System.lineSeparator() +
-                        "Customer id: " +
-                        customerId + System.lineSeparator() +
-                        "Customer name: " +
-                        customerName;
+                                TIME_FORMAT)),
+                        customerId,
+                        customerName
+                );
 
-        if (orderType.equalsIgnoreCase("delivery")) {
-            orderTypeLabel.setText("Delivery Order");
+        if (orderType.equalsIgnoreCase(DELIVERY)) {
+            orderTypeLabel.setText(DELIVERY_ORDER);
             orderDetailsTextArea.setText(deliveryOrderTemplate);
         } else {
-            orderTypeLabel.setText("Takeaway Order");
+            orderTypeLabel.setText(TAKEAWAY_ORDER);
             orderDetailsTextArea.setText(takeawayOrderTemplate);
         }
 
@@ -205,7 +242,7 @@ public class CustomerOrderConfirmationViewController {
 
             if (userChoice.get()
                     .getButtonData().toString()
-                    .equalsIgnoreCase("OK_DONE")) {
+                    .equalsIgnoreCase(OK_DONE)) {
                 cancelConfirmationAndGoBackToMenu();
             }
 
@@ -218,7 +255,7 @@ public class CustomerOrderConfirmationViewController {
      */
     public void addOrderToDatabase() {
 
-        Customer customer = (Customer) Main.getCurrentUser();
+        Customer customer = (Customer) MainScenesMap.getCurrentUser();
 
         try {
             boolean isSuccessful = customer
@@ -239,16 +276,16 @@ public class CustomerOrderConfirmationViewController {
 
     private void promptOrderSuccessful() {
         AlertPopUpWindow.displayInformationWindow(
-                "Order Request Successful",
-                "Thank you! Your request is being processed now.",
-                "Ok"
+                ORDER_SUCCESS,
+                ORDER_SUCCESS_MESSAGE,
+                OK
         );
     }
 
     private Optional<ButtonType> promptForUserAcknowledgement() {
         return AlertPopUpWindow.displayConfirmationWindow(
-                "Cancel Order Request",
-                "Do you want to cancel this order?"
+                CANCEL_ORDER,
+                CANCEL_ORDER_MESSAGE
         );
     }
 

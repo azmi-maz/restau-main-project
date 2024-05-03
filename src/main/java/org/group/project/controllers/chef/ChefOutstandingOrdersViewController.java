@@ -15,6 +15,7 @@ import org.group.project.classes.Order;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.ImageLoader;
 import org.group.project.exceptions.TextFileNotFoundException;
+import org.group.project.scenes.MainScenesMap;
 
 import java.net.URISyntaxException;
 import java.util.Optional;
@@ -25,7 +26,38 @@ import java.util.Optional;
  * @author azmi_maz
  */
 public class ChefOutstandingOrdersViewController {
-
+    private static final String BG_IMAGE = "images" +
+            "/background/chef-main" +
+            ".jpg";
+    private static final int COLUMN_WIDTH_45 = 45;
+    private static final int COLUMN_WIDTH_65 = 65;
+    private static final int COLUMN_WIDTH_150 = 150;
+    private static final int COLUMN_WIDTH_200 = 200;
+    private static final String NO_COLUMN = "Order No.";
+    private static final String CUSTOMER_COLUMN = "Customer";
+    private static final String DATE_COLUMN = "Date";
+    private static final String TIME_COLUMN = "Time";
+    private static final String TYPE_COLUMN = "Type";
+    private static final String ITEMS_COLUMN = "Items";
+    private static final String STATUS_COLUMN = "Status";
+    private static final String ACTION_COLUMN = "Action";
+    private static final String CENTERED = "-fx-alignment: CENTER;";
+    private static final String CENTER_LEFT = "-fx-alignment: CENTER-LEFT;";
+    private static final String ORDER_ID = "orderId";
+    private static final String ORDER_TYPE = "orderType";
+    private static final String ORDER_STATUS = "orderStatus";
+    private static final String MARK_COMPLETE = "Mark as complete";
+    private static final String CONFIRM = "confirm";
+    private static final int BUTTON_WIDTH = 15;
+    private static final int BUTTON_HEIGHT = 15;
+    private static final String UPDATE_PENDING_TITLE = "Update Pending Order";
+    private static final String UPDATE_PENDING_MESSAGE = "Do you want " +
+            "to mark this order as complete?";
+    private static final String OK_DONE = "OK_DONE";
+    private static final String ORDER_STATUS_TITLE = "Order Status";
+    private static final String ORDER_STATUS_MESSAGE = "Thank you for " +
+            "completing this order.";
+    private static final String OK = "Ok";
     @FXML
     private TableColumn<Order, String> orderNoColumn;
 
@@ -65,9 +97,8 @@ public class ChefOutstandingOrdersViewController {
 
         Image bgImage = null;
         try {
-            bgImage = new Image(Main.class.getResource("images" +
-                    "/background/chef-main" +
-                    ".jpg").toURI().toString());
+            bgImage = new Image(Main.class
+                    .getResource(BG_IMAGE).toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
                     e.getMessage()
@@ -87,82 +118,82 @@ public class ChefOutstandingOrdersViewController {
 
         refreshOutstandingOrdersList();
 
-        orderNoColumn.setText("Order No.");
-        orderNoColumn.setMinWidth(65);
-        orderNoColumn.setStyle("-fx-alignment: CENTER;");
+        orderNoColumn.setText(NO_COLUMN);
+        orderNoColumn.setMinWidth(COLUMN_WIDTH_65);
+        orderNoColumn.setStyle(CENTERED);
         orderNoColumn.setCellValueFactory(
-                new PropertyValueFactory<>("orderId"));
+                new PropertyValueFactory<>(ORDER_ID));
 
-        customerColumn.setText("Customer");
-        customerColumn.setMinWidth(150);
-        customerColumn.setStyle("-fx-alignment: CENTER;");
+        customerColumn.setText(CUSTOMER_COLUMN);
+        customerColumn.setMinWidth(COLUMN_WIDTH_150);
+        customerColumn.setStyle(CENTERED);
         customerColumn.setCellValueFactory(cellData -> {
             String customerName = cellData.getValue()
                     .getCustomer().getDataForListDisplay();
             return new SimpleObjectProperty<>(customerName);
         });
 
-        orderDateColumn.setText("Date");
-        orderDateColumn.setMinWidth(150);
-        orderDateColumn.setStyle("-fx-alignment: CENTER;");
+        orderDateColumn.setText(DATE_COLUMN);
+        orderDateColumn.setMinWidth(COLUMN_WIDTH_150);
+        orderDateColumn.setStyle(CENTERED);
         orderDateColumn.setCellValueFactory(cellData -> {
             String formattedDate =
                     cellData.getValue().getOrderDateInFormat();
             return new SimpleObjectProperty<>(formattedDate);
         });
 
-        orderTimeColumn.setText("Time");
-        orderTimeColumn.setMinWidth(150);
-        orderTimeColumn.setStyle("-fx-alignment: CENTER;");
+        orderTimeColumn.setText(TIME_COLUMN);
+        orderTimeColumn.setMinWidth(COLUMN_WIDTH_150);
+        orderTimeColumn.setStyle(CENTERED);
         orderTimeColumn.setCellValueFactory(cellData -> {
             String formattedTime = cellData.getValue()
                     .getOrderTimeInFormat();
             return new SimpleObjectProperty<>(formattedTime);
         });
 
-        orderTypeColumn.setText("Type");
-        orderTypeColumn.setMinWidth(150);
-        orderTypeColumn.setStyle("-fx-alignment: CENTER;");
+        orderTypeColumn.setText(TYPE_COLUMN);
+        orderTypeColumn.setMinWidth(COLUMN_WIDTH_150);
+        orderTypeColumn.setStyle(CENTERED);
         orderTypeColumn.setCellValueFactory(
-                new PropertyValueFactory<>("orderType"));
+                new PropertyValueFactory<>(ORDER_TYPE));
 
-        itemsColumn.setText("Items");
-        itemsColumn.setMinWidth(200);
-        itemsColumn.setStyle("-fx-alignment: CENTER-LEFT;");
+        itemsColumn.setText(ITEMS_COLUMN);
+        itemsColumn.setMinWidth(COLUMN_WIDTH_200);
+        itemsColumn.setStyle(CENTER_LEFT);
         itemsColumn.setCellValueFactory(cellData -> {
             String orderList = cellData.getValue()
                     .getListOfItemsForDisplay();
             return new SimpleObjectProperty<>(orderList);
         });
 
-        orderStatusColumn.setText("Status");
-        orderStatusColumn.setMinWidth(150);
-        orderStatusColumn.setStyle("-fx-alignment: CENTER;");
+        orderStatusColumn.setText(STATUS_COLUMN);
+        orderStatusColumn.setMinWidth(COLUMN_WIDTH_150);
+        orderStatusColumn.setStyle(CENTERED);
         orderStatusColumn.setCellValueFactory(
-                new PropertyValueFactory<>("orderStatus"));
+                new PropertyValueFactory<>(ORDER_STATUS));
 
-        actionButtonColumn.setText("Action");
-        actionButtonColumn.setMinWidth(45);
-        actionButtonColumn.setStyle("-fx-alignment: CENTER;");
+        actionButtonColumn.setText(ACTION_COLUMN);
+        actionButtonColumn.setMinWidth(COLUMN_WIDTH_45);
+        actionButtonColumn.setStyle(CENTERED);
         actionButtonColumn.setCellValueFactory(cellData -> {
             Button markAsCompleteButton = new Button();
             markAsCompleteButton.setTooltip(
-                    new Tooltip("Mark as complete"));
+                    new Tooltip(MARK_COMPLETE));
             ImageLoader.setUpGraphicButton(markAsCompleteButton,
-                    15, 15, "confirm");
+                    BUTTON_WIDTH, BUTTON_HEIGHT, CONFIRM);
             Order selectedOrder = cellData.getValue();
 
             markAsCompleteButton.setOnAction(e -> {
-                Chef chef = (Chef) Main.getCurrentUser();
+                Chef chef = (Chef) MainScenesMap.getCurrentUser();
 
                 Optional<ButtonType> userChoice = promptForUserAcknowledgement(
-                        "Update Pending Order",
-                        "Do you want to mark this order as complete?"
+                        UPDATE_PENDING_TITLE,
+                        UPDATE_PENDING_MESSAGE
                 );
 
                 if (userChoice.get()
                         .getButtonData().toString()
-                        .equalsIgnoreCase("OK_DONE")) {
+                        .equalsIgnoreCase(OK_DONE)) {
 
                     boolean isSuccessful = false;
                     try {
@@ -175,15 +206,13 @@ public class ChefOutstandingOrdersViewController {
                     }
                     if (isSuccessful) {
                         AlertPopUpWindow.displayInformationWindow(
-                                "Order Status",
-                                "Thank you for completing this order.",
-                                "Ok"
+                                ORDER_STATUS_TITLE,
+                                ORDER_STATUS_MESSAGE,
+                                OK
                         );
                     }
 
                     refreshOutstandingOrdersList();
-
-
                 }
 
             });

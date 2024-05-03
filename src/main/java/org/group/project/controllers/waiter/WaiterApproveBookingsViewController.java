@@ -16,6 +16,7 @@ import org.group.project.classes.Waiter;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.ImageLoader;
 import org.group.project.exceptions.TextFileNotFoundException;
+import org.group.project.scenes.MainScenesMap;
 
 import java.net.URISyntaxException;
 import java.time.format.DateTimeFormatter;
@@ -27,7 +28,44 @@ import java.util.Optional;
  * @author azmi_maz
  */
 public class WaiterApproveBookingsViewController {
-
+    private static final String BG_IMAGE = "images" +
+            "/background/waiter-main" +
+            ".jpg";
+    private static final String CUSTOMER_COLUMN = "Customer";
+    private static final String CENTERED = "-fx-alignment: CENTER;";
+    private static final String CUSTOMER = "customer";
+    private static final String DATE_COLUMN = "Booking Date";
+    private static final String TIME_COLUMN = "Booking Time";
+    private static final String GUESTS_COLUMN = "No. of Guests";
+    private static final String NUM_OF_GUESTS = "numOfGuests";
+    private static final String SLOT_COLUMN = "Time Slot";
+    private static final String TABLE_COLUMN = "Table";
+    private static final String STATUS_COLUMN = "Status";
+    private static final String BOOKING_STATUS = "bookingStatus";
+    private static final String ACTION_COLUMN = "Action";
+    private static final String CONFIRM_BUTTON = "confirm";
+    private static final String APPROVE_TOOLTIP = "Approve";
+    private static final int BUTTON_WIDTH = 15;
+    private static final int BUTTON_HEIGHT = 15;
+    private static final int COLUMN_WIDTH_65 = 65;
+    private static final int COLUMN_WIDTH_90 = 90;
+    private static final int COLUMN_WIDTH_150 = 150;
+    private static final int COLUMN_WIDTH_200 = 200;
+    private static final String TIME_FORMAT = "hh:mm a";
+    private static final String APPROVE_TITLE = "Table Reservation Approval";
+    private static final String APPROVE_MESSAGE = "Do you want to approve this table reservation?";
+    private static final String OK = "Ok";
+    private static final String OK_DONE = "OK_DONE";
+    private static final String SUCCESS_TITLE = "Table Reservation";
+    private static final String SUCCESS_MESSAGE = "Booking no.%d was approved " +
+            "successfully.";
+    private static final String CANCEL_TOOLTIP = "Cancel";
+    private static final String CANCEL_BUTTON = "cancel";
+    private static final String CANCEL_TITLE = "Table Reservation Approval";
+    private static final String CANCEL_MESSAGE = "Do you want to cancel this table reservation?";
+    private static final String RESERVATION_CANCELLED_TITLE = "Table Reservation";
+    private static final String RESERVATION_CANCELLED_MESSAGE = "Booking no.%d was rejected " +
+            "successfully.";
     @FXML
     private TableColumn<Booking, Customer> customerColumn;
 
@@ -73,9 +111,8 @@ public class WaiterApproveBookingsViewController {
 
         Image bgImage = null;
         try {
-            bgImage = new Image(Main.class.getResource("images" +
-                    "/background/waiter-main" +
-                    ".jpg").toURI().toString());
+            bgImage = new Image(Main.class
+                    .getResource(BG_IMAGE).toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
                     e.getMessage()
@@ -95,83 +132,83 @@ public class WaiterApproveBookingsViewController {
 
         refreshReservationList();
 
-        customerColumn.setText("Customer");
-        customerColumn.setMinWidth(150);
-        customerColumn.setStyle("-fx-alignment: CENTER;");
+        customerColumn.setText(CUSTOMER_COLUMN);
+        customerColumn.setMinWidth(COLUMN_WIDTH_150);
+        customerColumn.setStyle(CENTERED);
         customerColumn.setCellValueFactory(
-                new PropertyValueFactory<>("customer"));
+                new PropertyValueFactory<>(CUSTOMER));
 
-        bookingDateColumn.setText("Booking Date");
-        bookingDateColumn.setMinWidth(150);
-        bookingDateColumn.setStyle("-fx-alignment: CENTER;");
+        bookingDateColumn.setText(DATE_COLUMN);
+        bookingDateColumn.setMinWidth(COLUMN_WIDTH_150);
+        bookingDateColumn.setStyle(CENTERED);
         bookingDateColumn.setCellValueFactory(cellData -> {
             String formattedDate =
                     cellData.getValue().getBookingDateInFormat();
             return new SimpleObjectProperty<>(formattedDate);
         });
 
-        bookingTimeColumn.setText("Booking Time");
-        bookingTimeColumn.setMinWidth(150);
-        bookingTimeColumn.setStyle("-fx-alignment: CENTER;");
+        bookingTimeColumn.setText(TIME_COLUMN);
+        bookingTimeColumn.setMinWidth(COLUMN_WIDTH_150);
+        bookingTimeColumn.setStyle(CENTERED);
         bookingTimeColumn.setCellValueFactory(cellData -> {
             String formattedTime = cellData
                     .getValue().getBookingTime()
-                    .format(DateTimeFormatter.ofPattern("hh:mm a"));
+                    .format(DateTimeFormatter.ofPattern(TIME_FORMAT));
             return new SimpleObjectProperty<>(formattedTime);
         });
 
-        numOfGuestsColumn.setText("No. of Guests");
-        numOfGuestsColumn.setMinWidth(90);
-        numOfGuestsColumn.setStyle("-fx-alignment: CENTER;");
+        numOfGuestsColumn.setText(GUESTS_COLUMN);
+        numOfGuestsColumn.setMinWidth(COLUMN_WIDTH_90);
+        numOfGuestsColumn.setStyle(CENTERED);
         numOfGuestsColumn.setCellValueFactory(
-                new PropertyValueFactory<>("numOfGuests"));
+                new PropertyValueFactory<>(NUM_OF_GUESTS));
 
-        bookingLengthColumn.setText("Time Slot");
-        bookingLengthColumn.setMinWidth(150);
-        bookingLengthColumn.setStyle("-fx-alignment: CENTER;");
+        bookingLengthColumn.setText(SLOT_COLUMN);
+        bookingLengthColumn.setMinWidth(COLUMN_WIDTH_150);
+        bookingLengthColumn.setStyle(CENTERED);
         bookingLengthColumn.setCellValueFactory(cellData -> {
             String formattedValue =
                     cellData.getValue().getTimePeriodOfBooking();
             return new SimpleObjectProperty<>(formattedValue);
         });
 
-        tablePreferenceColumn.setText("Table");
-        tablePreferenceColumn.setMinWidth(150);
-        tablePreferenceColumn.setStyle("-fx-alignment: CENTER;");
+        tablePreferenceColumn.setText(TABLE_COLUMN);
+        tablePreferenceColumn.setMinWidth(COLUMN_WIDTH_150);
+        tablePreferenceColumn.setStyle(CENTERED);
         tablePreferenceColumn.setCellValueFactory(cellData -> {
             String table = cellData.getValue().getTableNames();
             return new SimpleObjectProperty<>(table);
         });
 
-        bookingStatusColumn.setText("Status");
-        bookingStatusColumn.setMinWidth(200);
-        bookingStatusColumn.setStyle("-fx-alignment: CENTER;");
+        bookingStatusColumn.setText(STATUS_COLUMN);
+        bookingStatusColumn.setMinWidth(COLUMN_WIDTH_200);
+        bookingStatusColumn.setStyle(CENTERED);
         bookingStatusColumn.setCellValueFactory(
-                new PropertyValueFactory<>("bookingStatus"));
+                new PropertyValueFactory<>(BOOKING_STATUS));
 
-        actionButtonColumn.setText("Action");
+        actionButtonColumn.setText(ACTION_COLUMN);
 
-        actionButtonColumn1.setMinWidth(65);
-        actionButtonColumn1.setStyle("-fx-alignment: CENTER;");
+        actionButtonColumn1.setMinWidth(COLUMN_WIDTH_65);
+        actionButtonColumn1.setStyle(CENTERED);
         actionButtonColumn1.setCellValueFactory(cellData -> {
             Button confirmButton = new Button();
-            confirmButton.setTooltip(new Tooltip("Approve"));
+            confirmButton.setTooltip(new Tooltip(APPROVE_TOOLTIP));
             ImageLoader.setUpGraphicButton(confirmButton,
-                    15, 15, "confirm");
+                    BUTTON_WIDTH, BUTTON_HEIGHT, CONFIRM_BUTTON);
             Booking selectedBooking = cellData.getValue();
             Customer selectedCustomer = cellData.getValue().getCustomer();
 
             confirmButton.setOnAction(e -> {
-                Waiter waiter = (Waiter) Main.getCurrentUser();
+                Waiter waiter = (Waiter) MainScenesMap.getCurrentUser();
 
                 Optional<ButtonType> userChoice = promptForUserAcknowledgement(
-                        "Table Reservation Approval",
-                        "Do you want to approve this table reservation?"
+                        APPROVE_TITLE,
+                        APPROVE_MESSAGE
                 );
 
                 if (userChoice.get()
                         .getButtonData().toString()
-                        .equalsIgnoreCase("OK_DONE")) {
+                        .equalsIgnoreCase(OK_DONE)) {
 
                     try {
                         boolean isSuccessful = waiter.approveTableReservation(
@@ -180,12 +217,11 @@ public class WaiterApproveBookingsViewController {
                         );
                         if (isSuccessful) {
                             AlertPopUpWindow.displayInformationWindow(
-                                    "Table Reservation",
+                                    SUCCESS_TITLE,
                                     String.format(
-                                            "Booking no.%d was approved " +
-                                                    "successfully.",
+                                            SUCCESS_MESSAGE,
                                             selectedBooking.getBookingId()
-                                    ), "Ok"
+                                    ), OK
                             );
                         }
                         refreshReservationList();
@@ -202,28 +238,28 @@ public class WaiterApproveBookingsViewController {
             return new SimpleObjectProperty<>(confirmButton);
         });
 
-        actionButtonColumn2.setMinWidth(65);
-        actionButtonColumn2.setStyle("-fx-alignment: CENTER;");
+        actionButtonColumn2.setMinWidth(COLUMN_WIDTH_65);
+        actionButtonColumn2.setStyle(CENTERED);
         actionButtonColumn2.setCellValueFactory(cellData -> {
             Button cancelButton = new Button();
-            cancelButton.setTooltip(new Tooltip("Cancel"));
+            cancelButton.setTooltip(new Tooltip(CANCEL_TOOLTIP));
             ImageLoader.setUpGraphicButton(cancelButton,
-                    15, 15, "cancel");
+                    BUTTON_WIDTH, BUTTON_HEIGHT, CANCEL_BUTTON);
             Booking selectedBooking = cellData.getValue();
             Customer selectedCustomer = cellData.getValue().getCustomer();
 
             // This changes the booking status to failed
             cancelButton.setOnAction(e -> {
-                Waiter waiter = (Waiter) Main.getCurrentUser();
+                Waiter waiter = (Waiter) MainScenesMap.getCurrentUser();
 
                 Optional<ButtonType> userChoice = promptForUserAcknowledgement(
-                        "Table Reservation Approval",
-                        "Do you want to cancel this table reservation?"
+                        CANCEL_TITLE,
+                        CANCEL_MESSAGE
                 );
 
                 if (userChoice.get()
                         .getButtonData().toString()
-                        .equalsIgnoreCase("OK_DONE")) {
+                        .equalsIgnoreCase(OK_DONE)) {
 
                     try {
 
@@ -233,12 +269,11 @@ public class WaiterApproveBookingsViewController {
                         );
                         if (isSuccessful) {
                             AlertPopUpWindow.displayInformationWindow(
-                                    "Table Reservation",
+                                    RESERVATION_CANCELLED_TITLE,
                                     String.format(
-                                            "Booking no.%d was rejected " +
-                                                    "successfully.",
+                                            RESERVATION_CANCELLED_MESSAGE,
                                             selectedBooking.getBookingId()
-                                    ), "Ok"
+                                    ), OK
                             );
                         }
                         refreshReservationList();

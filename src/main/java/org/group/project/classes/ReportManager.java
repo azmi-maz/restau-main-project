@@ -2,10 +2,10 @@ package org.group.project.classes;
 
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
-import org.group.project.Main;
 import org.group.project.classes.auxiliary.DataFileStructure;
 import org.group.project.classes.auxiliary.DataManager;
 import org.group.project.exceptions.TextFileNotFoundException;
+import org.group.project.scenes.MainScenesMap;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -204,7 +204,7 @@ public class ReportManager {
         String reportId = String.valueOf(newReport.getReportId());
         String reportType = newReport.getReportType();
         String userId = String.valueOf(userManagement.getUserIdByUsername(
-                Main.getCurrentUser().getUsername()));
+                MainScenesMap.getCurrentUser().getUsername()));
         String reportDate = newReport.getGeneratedOnDateForDatabase();
         String reportTime = newReport.getGeneratedOnTimeForDatabase();
         String reportData = newReport.getReportDataForDatabase();

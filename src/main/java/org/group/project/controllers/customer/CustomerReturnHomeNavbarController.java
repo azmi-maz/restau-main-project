@@ -13,7 +13,9 @@ import org.group.project.scenes.main.CustomerView;
  * @author azmi_maz
  */
 public class CustomerReturnHomeNavbarController {
-
+    private static final String UNDO_BUTTON = "undo";
+    private static final int BUTTON_WIDTH = 25;
+    private static final int BUTTON_HEIGHT = 25;
     @FXML
     private Button returnButton;
 
@@ -23,7 +25,7 @@ public class CustomerReturnHomeNavbarController {
     public void initialize() {
 
         ImageLoader.setUpGraphicButton(returnButton,
-                25, 25, "undo");
+                BUTTON_WIDTH, BUTTON_HEIGHT, UNDO_BUTTON);
 
         returnButton.setOnMousePressed(e -> {
             CustomerView.customerNotificationNavbarController

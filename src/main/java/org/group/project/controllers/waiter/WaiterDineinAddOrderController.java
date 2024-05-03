@@ -19,7 +19,11 @@ import java.util.List;
  * @author azmi_maz
  */
 public class WaiterDineinAddOrderController {
-
+    private static final String INVALID_QUANTITY = "Quantity cannot " +
+            "be less than 0";
+    private static final String DEFAULT_QUANTITY = "1";
+    private static final String CHOOSE_ITEM = "Choose Item";
+    private static final String INVALID_INPUTS = "Please enter valid inputs.";
     @FXML
     private VBox vbox;
 
@@ -46,13 +50,13 @@ public class WaiterDineinAddOrderController {
             int quantityValue = Integer.parseInt(quantityTextField.getText());
             if (quantityValue < 0) {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Quantity cannot be less than 0"
+                        INVALID_QUANTITY
                 );
-                quantityTextField.setText("1");
+                quantityTextField.setText(DEFAULT_QUANTITY);
             }
         });
 
-        comboItemName.setValue("Choose Item");
+        comboItemName.setValue(CHOOSE_ITEM);
 
         try {
 
@@ -71,7 +75,7 @@ public class WaiterDineinAddOrderController {
         addItemButton.setOnAction(e -> {
 
             if (
-                    !comboItemName.getValue().equals("Choose Item")
+                    !comboItemName.getValue().equals(CHOOSE_ITEM)
                             && Integer.parseInt(
                             quantityTextField.getText()) > 0
             ) {
@@ -105,9 +109,9 @@ public class WaiterDineinAddOrderController {
 
             } else {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Please enter valid inputs."
+                        INVALID_INPUTS
                 );
-                quantityTextField.setText("1");
+                quantityTextField.setText(DEFAULT_QUANTITY);
             }
 
         });

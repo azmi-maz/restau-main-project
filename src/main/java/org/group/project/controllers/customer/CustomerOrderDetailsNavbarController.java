@@ -11,7 +11,9 @@ import org.group.project.scenes.customer.stackViews.OrderDetailsController;
  * @author azmi_maz
  */
 public class CustomerOrderDetailsNavbarController {
-
+    private static final String UNDO_BUTTON = "undo";
+    private static final int BUTTON_WIDTH = 25;
+    private static final int BUTTON_HEIGHT = 25;
     @FXML
     private Button returnToMenuButton;
 
@@ -21,7 +23,7 @@ public class CustomerOrderDetailsNavbarController {
     public void initialize() {
 
         ImageLoader.setUpGraphicButton(returnToMenuButton,
-                25, 25, "undo");
+                BUTTON_WIDTH, BUTTON_HEIGHT, UNDO_BUTTON);
 
         returnToMenuButton.setOnMousePressed(e -> {
             OrderDetailsController.presenter.returnToMenu();

@@ -1,5 +1,6 @@
 package org.group.project.classes;
 
+import org.group.project.classes.auxiliary.DataManager;
 import org.group.project.exceptions.TextFileNotFoundException;
 
 import java.time.LocalDate;
@@ -14,9 +15,12 @@ import java.util.List;
  */
 public class TakeawayOrder extends Order implements NotifyAction {
     private static final String TAKEAWAY_TYPE = "takeaway";
+    private static final String ORDER_FILE = "ORDERS";
     private static final String PENDING_KITCHEN = "pending-kitchen";
+    private static final String PICKUP_TIME = "estimatedPickupTime";
     private static final int HALF_HOUR = 30;
     private static final String TIME_FORMAT = "hh:mm a";
+    private static final String TIME_FORMAT_DATABASE = "H-m";
     private static final String PICKUP_UPDATE_MESSAGE = "Your order no.%d " +
             "is ready for pickup at %s.";
     private LocalTime estimatedPickupTime;
@@ -125,6 +129,28 @@ public class TakeawayOrder extends Order implements NotifyAction {
     public String getPickupTimeInFormat() {
         return estimatedPickupTime.format(
                 DateTimeFormatter.ofPattern(TIME_FORMAT));
+    }
+
+    /**
+     * This method gets the pickup time in database compatible format.
+     *
+     * @return the pickup time in the desired format.
+     */
+    public String getPickupTimeForDatabase() {
+        return estimatedPickupTime.format(
+                DateTimeFormatter.ofPattern(TIME_FORMAT_DATABASE));
+    }
+
+    /**
+     * This method updates the database of the pickup time.
+     *
+     * @throws TextFileNotFoundException - if text file is non-existent.
+     */
+    public void updateDatabaseOfPickupTime()
+            throws TextFileNotFoundException {
+        DataManager.editColumnDataByUniqueId(ORDER_FILE,
+                getOrderId(), PICKUP_TIME,
+                getPickupTimeForDatabase());
     }
 
     /**

@@ -16,7 +16,8 @@ import java.io.IOException;
  * @author azmi_maz
  */
 public class MenuView implements ViewMaker {
-
+    private static final String VIEW_MENU = "chefscenes/" +
+            "mapscenes/chef-viewmenulist.fxml";
     private Stage stage;
 
     /**
@@ -38,7 +39,7 @@ public class MenuView implements ViewMaker {
     public Scene getScene() {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
-                "chefscenes/mapscenes/chef-viewmenulist.fxml"));
+                VIEW_MENU));
 
         try {
 

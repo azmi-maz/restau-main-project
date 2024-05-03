@@ -2,13 +2,13 @@ package org.group.project.controllers.driver;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import org.group.project.Main;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.DataManager;
 import org.group.project.classes.auxiliary.ImageLoader;
 import org.group.project.controllers.main.UserProfileView;
 import org.group.project.exceptions.ClearFileFailedException;
 import org.group.project.scenes.MainScenes;
+import org.group.project.scenes.MainScenesMap;
 import org.group.project.scenes.driver.DriverMapsMain;
 import org.group.project.scenes.driver.DriverScenesMap;
 import org.group.project.scenes.driver.mainViews.DeliveryView;
@@ -19,7 +19,13 @@ import org.group.project.scenes.driver.mainViews.DeliveryView;
  * @author azmi_maz
  */
 public class DriverHomepageNavbarController {
-
+    private static final String PENDING_BUTTON = "pending";
+    private static final String HISTORY_BUTTON = "history";
+    private static final String USER_BUTTON = "user";
+    private static final String POWER_BUTTON = "power";
+    private static final int BUTTON_WIDTH = 25;
+    private static final int BUTTON_HEIGHT = 25;
+    private static final String ACTIVE_USER = "ACTIVE_USER";
     @FXML
     private Button pendingDeliveriesButton;
 
@@ -38,17 +44,16 @@ public class DriverHomepageNavbarController {
     public void initialize() {
 
         ImageLoader.setUpGraphicButton(pendingDeliveriesButton,
-                25, 25,
-                "pending");
+                BUTTON_WIDTH, BUTTON_HEIGHT, PENDING_BUTTON);
 
         ImageLoader.setUpGraphicButton(deliveryHistoryButton,
-                25, 25, "history");
+                BUTTON_WIDTH, BUTTON_HEIGHT, HISTORY_BUTTON);
 
-        ImageLoader.setUpGraphicButton(userButton, 25,
-                25, "user");
+        ImageLoader.setUpGraphicButton(userButton,
+                BUTTON_WIDTH, BUTTON_HEIGHT, USER_BUTTON);
 
-        ImageLoader.setUpGraphicButton(logOffButton, 25,
-                25, "power");
+        ImageLoader.setUpGraphicButton(logOffButton,
+                BUTTON_WIDTH, BUTTON_HEIGHT, POWER_BUTTON);
 
         pendingDeliveriesButton.setOnMousePressed(e -> {
 
@@ -70,14 +75,14 @@ public class DriverHomepageNavbarController {
         logOffButton.setOnMousePressed(e -> {
             // Log off by removing active user info
             try {
-                DataManager.clearFileData("ACTIVE_USER");
+                DataManager.clearFileData(ACTIVE_USER);
             } catch (ClearFileFailedException ex) {
                 AlertPopUpWindow.displayErrorWindow(
                         ex.getMessage()
                 );
                 ex.printStackTrace();
             }
-            Main.getStage().setScene(Main.getScenes()
+            MainScenesMap.getStage().setScene(MainScenesMap.getScenes()
                     .get(MainScenes.LOGIN));
         });
 

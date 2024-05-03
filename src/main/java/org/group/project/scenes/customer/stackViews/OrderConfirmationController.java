@@ -19,7 +19,9 @@ import java.util.List;
  * @author azmi_maz
  */
 public class OrderConfirmationController implements ControllerView {
-
+    private static final String CART_DETAILS = "customerscenes/stackscenes/" +
+            "customer-cart-confirmation" +
+            ".fxml";
     public static OrderConfirmationPresenter presenter;
     private Scene scene;
 
@@ -36,10 +38,7 @@ public class OrderConfirmationController implements ControllerView {
         try {
             FXMLLoader fxmlLoader =
                     new FXMLLoader(Main.class.getResource(
-                            "customerscenes/stackscenes/" +
-                                    "customer-cart" +
-                                    "-confirmation" +
-                                    ".fxml"));
+                            CART_DETAILS));
 
             newOrder = OrderDetailsController.newOrder;
             CustomerOrderConfirmationViewController

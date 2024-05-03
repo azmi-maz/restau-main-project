@@ -23,6 +23,7 @@ import org.group.project.classes.UserManagement;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.ImageLoader;
 import org.group.project.exceptions.TextFileNotFoundException;
+import org.group.project.scenes.MainScenesMap;
 import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
@@ -36,7 +37,31 @@ import java.time.LocalTime;
  * @author azmi_maz
  */
 public class CustomerNotificationViewController {
-
+    private static final String BG_IMAGE = "images" +
+            "/background/main-bg" +
+            ".jpg";
+    private static final int COLUMN_WIDTH_60 = 60;
+    private static final int COLUMN_WIDTH_150 = 150;
+    private static final int COLUMN_WIDTH_372 = 372;
+    private static final String DATE_COLUMN = "Date";
+    private static final String CENTERED = "-fx-alignment: CENTER;";
+    private static final String TIME_COLUMN = "Time";
+    private static final String CENTER_LEFT = "-fx-alignment: CENTER-LEFT;";
+    private static final String TYPE_COLUMN = "Type";
+    private static final String NOTIFICATION_TYPE = "notificationType";
+    private static final String MESSAGE_BODY = "messageBody";
+    private static final String ACTION_COLUMN = "Action";
+    private static final String MESSAGE_BODY_COLUMN = "Message Body";
+    private static final String VIEW_DETAILS_TOOLTIP = "View details";
+    private static final String READ_BUTTON = "read";
+    private static final int BUTTON_WIDTH = 15;
+    private static final int BUTTON_HEIGHT = 15;
+    private static final String UNREAD_BUTTON = "unread";
+    private static final String NOTIFICATION_DETAILS_WINDOW = "smallwindows/" +
+            "customer-notification-details" +
+            ".fxml";
+    private static final String NOTIFICATION_DETAIL_TITLE = "View " +
+            "Notification Details";
     @FXML
     private TableColumn<Notification, String> dateColumn;
 
@@ -69,9 +94,8 @@ public class CustomerNotificationViewController {
 
         Image bgImage = null;
         try {
-            bgImage = new Image(Main.class.getResource("images" +
-                    "/background/main-bg" +
-                    ".jpg").toURI().toString());
+            bgImage = new Image(Main.class
+                    .getResource(BG_IMAGE).toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
                     e.getMessage()
@@ -91,49 +115,49 @@ public class CustomerNotificationViewController {
 
         refreshNotificationList();
 
-        dateColumn.setText("Date");
-        dateColumn.setMinWidth(150);
-        dateColumn.setStyle("-fx-alignment: CENTER;");
+        dateColumn.setText(DATE_COLUMN);
+        dateColumn.setMinWidth(COLUMN_WIDTH_150);
+        dateColumn.setStyle(CENTERED);
         dateColumn.setCellValueFactory(cellData -> {
             String formattedDate =
                     cellData.getValue().getNotificationDateInFormat();
             return new SimpleObjectProperty<>(formattedDate);
         });
 
-        timeColumn.setText("Time");
-        timeColumn.setMinWidth(150);
-        timeColumn.setStyle("-fx-alignment: CENTER;");
+        timeColumn.setText(TIME_COLUMN);
+        timeColumn.setMinWidth(COLUMN_WIDTH_150);
+        timeColumn.setStyle(CENTERED);
         timeColumn.setCellValueFactory(cellData -> {
             String formattedDate =
                     cellData.getValue().getNotificationTimeInFormat();
             return new SimpleObjectProperty<>(formattedDate);
         });
 
-        typeColumn.setText("Type");
-        typeColumn.setMinWidth(150);
-        typeColumn.setStyle("-fx-alignment: CENTER;");
+        typeColumn.setText(TYPE_COLUMN);
+        typeColumn.setMinWidth(COLUMN_WIDTH_150);
+        typeColumn.setStyle(CENTERED);
         typeColumn.setCellValueFactory(
-                new PropertyValueFactory<>("notificationType"));
+                new PropertyValueFactory<>(NOTIFICATION_TYPE));
 
-        bodyColumn.setText("Message Body");
-        bodyColumn.setMinWidth(372);
-        bodyColumn.setStyle("-fx-alignment: CENTER-LEFT;");
+        bodyColumn.setText(MESSAGE_BODY_COLUMN);
+        bodyColumn.setMinWidth(COLUMN_WIDTH_372);
+        bodyColumn.setStyle(CENTER_LEFT);
         bodyColumn.setCellValueFactory(
-                new PropertyValueFactory<>("messageBody"));
+                new PropertyValueFactory<>(MESSAGE_BODY));
 
-        actionButtonColumn.setText("Action");
-        actionButtonColumn.setMinWidth(60);
-        actionButtonColumn.setStyle("-fx-alignment: CENTER;");
+        actionButtonColumn.setText(ACTION_COLUMN);
+        actionButtonColumn.setMinWidth(COLUMN_WIDTH_60);
+        actionButtonColumn.setStyle(CENTERED);
         actionButtonColumn.setCellValueFactory(cellData -> {
             Button viewButton = new Button();
-            viewButton.setTooltip(new Tooltip("View details"));
+            viewButton.setTooltip(new Tooltip(VIEW_DETAILS_TOOLTIP));
             boolean readStatus = cellData.getValue().getReadStatus();
             if (readStatus) {
                 ImageLoader.setUpGraphicButton(viewButton,
-                        15, 15, "read");
+                        BUTTON_WIDTH, BUTTON_HEIGHT, READ_BUTTON);
             } else {
                 ImageLoader.setUpGraphicButton(viewButton,
-                        15, 11, "unread");
+                        BUTTON_WIDTH, BUTTON_HEIGHT, UNREAD_BUTTON);
             }
             int notificationId = cellData.getValue().getNotificationId();
             LocalDate notificationDate = cellData.getValue()
@@ -145,14 +169,12 @@ public class CustomerNotificationViewController {
             String messageBody = cellData.getValue().getMessageBody();
 
             viewButton.setOnAction(e -> {
-                Customer customer = (Customer) Main.getCurrentUser();
+                Customer customer = (Customer) MainScenesMap.getCurrentUser();
 
                 try {
                     FXMLLoader fxmlLoader =
                             new FXMLLoader(Main.class.getResource(
-                                    "smallwindows/" +
-                                            "customer-notification-details" +
-                                            ".fxml"));
+                                    NOTIFICATION_DETAILS_WINDOW));
 
                     VBox vbox = fxmlLoader.load();
 
@@ -173,7 +195,7 @@ public class CustomerNotificationViewController {
                     Stage editStage = new Stage();
                     editStage.setScene(editScene);
 
-                    editStage.setTitle("View Notification Details");
+                    editStage.setTitle(NOTIFICATION_DETAIL_TITLE);
 
                     editStage.initModality(Modality.APPLICATION_MODAL);
 
@@ -232,14 +254,14 @@ public class CustomerNotificationViewController {
 
     private void updateUserId() {
 
-        if (Main.getCurrentUser() == null) {
+        if (MainScenesMap.getCurrentUser() == null) {
             return;
         }
 
         try {
             UserManagement userManagement = new UserManagement();
             userId = userManagement.getUserIdByUsername(
-                    Main.getCurrentUser().getUsername());
+                    MainScenesMap.getCurrentUser().getUsername());
         } catch (TextFileNotFoundException ex) {
             AlertPopUpWindow.displayErrorWindow(
                     ex.getMessage()

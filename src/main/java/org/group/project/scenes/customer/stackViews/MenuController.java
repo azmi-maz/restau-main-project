@@ -20,7 +20,9 @@ import java.util.List;
  * @author azmi_maz
  */
 public class MenuController implements ControllerView {
-
+    private static final String VIEW_MENU = "customerscenes/mapscenes/" +
+            "customer-menuorder" +
+            ".fxml";
     public static MenuPresenter presenter;
 
     public static List<FoodDrink> orderList = new ArrayList<>();
@@ -37,9 +39,7 @@ public class MenuController implements ControllerView {
         try {
             FXMLLoader fxmlLoader =
                     new FXMLLoader(Main.class.getResource(
-                            "customerscenes/mapscenes/" +
-                                    "customer-menuorder" +
-                                    ".fxml"));
+                            VIEW_MENU));
 
             CustomerMenuOrderViewController customerMenuOrderViewController =
                     new CustomerMenuOrderViewController(orderList);

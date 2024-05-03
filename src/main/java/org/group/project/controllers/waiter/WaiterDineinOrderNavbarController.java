@@ -13,6 +13,9 @@ import org.group.project.scenes.waiter.WaiterScenesMap;
  * @author azmi_maz
  */
 public class WaiterDineinOrderNavbarController {
+    private static final String UNDO_BUTTON = "undo";
+    private static final int BUTTON_WIDTH = 25;
+    private static final int BUTTON_HEIGHT = 25;
 
     @FXML
     private Button homeButton;
@@ -22,8 +25,8 @@ public class WaiterDineinOrderNavbarController {
      */
     public void initialize() {
 
-        ImageLoader.setUpGraphicButton(homeButton, 25, 25,
-                "undo");
+        ImageLoader.setUpGraphicButton(homeButton,
+                BUTTON_WIDTH, BUTTON_HEIGHT, UNDO_BUTTON);
 
         homeButton.setOnMousePressed(e -> {
             WaiterView.waiterMainCounterController.refreshMainCounter();

@@ -6,13 +6,13 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.group.project.Main;
 import org.group.project.classes.Manager;
 import org.group.project.classes.Staff;
 import org.group.project.classes.UserManagement;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.ImageLoader;
 import org.group.project.exceptions.TextFileNotFoundException;
+import org.group.project.scenes.MainScenesMap;
 
 /**
  * This class allows the manager to view the selected staff details.
@@ -20,7 +20,14 @@ import org.group.project.exceptions.TextFileNotFoundException;
  * @author azmi_maz
  */
 public class ManagerStaffManagementDetailsController {
-
+    private static final String UP_BUTTON = "arrow-up";
+    private static final String DOWN_BUTTON = "arrow-down";
+    private static final int BUTTON_WIDTH = 15;
+    private static final int BUTTON_HEIGHT = 15;
+    private static final String EDIT_STAFF_TITLE = "Staff Detail Edit";
+    private static final String EDIT_STAFF_MESSAGE = "Edit was done" +
+            " successfully.";
+    private static final String OK = "Ok";
     @FXML
     private VBox vbox;
 
@@ -71,9 +78,9 @@ public class ManagerStaffManagementDetailsController {
             UserManagement userManagement = new UserManagement();
 
             ImageLoader.setUpGraphicButton(incrementHoursLeftButton,
-                    15, 15, "arrow-up");
+                    BUTTON_WIDTH, BUTTON_HEIGHT, UP_BUTTON);
             ImageLoader.setUpGraphicButton(decrementHoursLeftButton,
-                    15, 15, "arrow-down");
+                    BUTTON_WIDTH, BUTTON_HEIGHT, DOWN_BUTTON);
 
             userManagement.updateStaffTypeChoiceBox(
                     positionChoiceBox
@@ -90,7 +97,7 @@ public class ManagerStaffManagementDetailsController {
             });
 
             saveButton.setOnAction(e -> {
-                Manager manager = (Manager) Main.getCurrentUser();
+                Manager manager = (Manager) MainScenesMap.getCurrentUser();
 
                 String firstName = firstNameTextField.getText().toLowerCase();
                 String lastName = lastNameTextField.getText().toLowerCase();
@@ -120,9 +127,9 @@ public class ManagerStaffManagementDetailsController {
 
                 if (isSuccessful) {
                     AlertPopUpWindow.displayInformationWindow(
-                            "Staff Detail Edit",
-                            "Edit was done successfully.",
-                            "Ok"
+                            EDIT_STAFF_TITLE,
+                            EDIT_STAFF_MESSAGE,
+                            OK
                     );
                 }
 

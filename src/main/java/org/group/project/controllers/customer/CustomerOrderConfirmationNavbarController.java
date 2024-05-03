@@ -11,7 +11,9 @@ import org.group.project.scenes.customer.stackViews.OrderConfirmationController;
  * @author azmi_maz
  */
 public class CustomerOrderConfirmationNavbarController {
-
+    private static final String UNDO_BUTTON = "undo";
+    private static final int BUTTON_WIDTH = 25;
+    private static final int BUTTON_HEIGHT = 25;
     @FXML
     private Button returnButton;
 
@@ -20,8 +22,8 @@ public class CustomerOrderConfirmationNavbarController {
      */
     public void initialize() {
 
-        ImageLoader.setUpGraphicButton(returnButton, 25,
-                25, "undo");
+        ImageLoader.setUpGraphicButton(returnButton,
+                BUTTON_WIDTH, BUTTON_HEIGHT, UNDO_BUTTON);
 
         returnButton.setOnMousePressed(e -> {
             OrderConfirmationController.presenter.returnToOrderDetails();

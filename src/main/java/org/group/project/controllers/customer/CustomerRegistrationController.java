@@ -6,7 +6,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.group.project.Main;
 import org.group.project.classes.Customer;
 import org.group.project.classes.UserManagement;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
@@ -14,6 +13,7 @@ import org.group.project.exceptions.ClearFileFailedException;
 import org.group.project.exceptions.InvalidUsernameException;
 import org.group.project.exceptions.TextFileNotFoundException;
 import org.group.project.scenes.MainScenes;
+import org.group.project.scenes.MainScenesMap;
 import org.group.project.scenes.main.CustomerView;
 
 /**
@@ -22,7 +22,15 @@ import org.group.project.scenes.main.CustomerView;
  * @author azmi_maz
  */
 public class CustomerRegistrationController {
-
+    private static final String SMALL_FONT = "-fx-font-size: 1";
+    private static final String LARGE_FONT = "-fx-font-size: 11";
+    private static final String SUCCESS = "Registration Successful!";
+    private static final String SUCCESS_MESSAGE = "Thank you for joining " +
+            "Cafe94, %s!"
+            + System.lineSeparator()
+            + "Feeling hangry?";
+    private static final String YES = "Yes, I am.";
+    private static final String INCOMPLETE = "Please complete the form.";
     @FXML
     private TextField firstName;
 
@@ -55,7 +63,7 @@ public class CustomerRegistrationController {
 
         // Resets error label
         errorUsernameLabel.setVisible(false);
-        errorUsernameLabel.setStyle("-fx-font-size: 1");
+        errorUsernameLabel.setStyle(SMALL_FONT);
 
 
         confirmButton.setOnMousePressed(e -> confirmButtonClick());
@@ -72,7 +80,7 @@ public class CustomerRegistrationController {
             // Clean up any error label.
             errorUsernameLabel.setText(null);
             errorUsernameLabel.setVisible(false);
-            errorUsernameLabel.setStyle("-fx-font-size: 1");
+            errorUsernameLabel.setStyle(SMALL_FONT);
 
             // New customer
             String customerFirstName = firstName.getText();
@@ -106,20 +114,19 @@ public class CustomerRegistrationController {
                         newCustomer
                 );
 
-                Main.setCurrentUser(userManagement.getActiveUser());
+                MainScenesMap.setCurrentUser(userManagement.getActiveUser());
 
                 AlertPopUpWindow.displayInformationWindow(
-                        "Registration Successful!",
-                        "Thank you for joining Cafe94, "
-                                + firstName.getText() +
-                                "!" + System.lineSeparator()
-                                + "Feeling hangry?",
-                        "Yes, I am."
+                        SUCCESS,
+                        String.format(
+                                SUCCESS_MESSAGE,
+                                firstName.getText()
+                        ), YES
                 );
 
                 CustomerView.controller.welcomeCustomer();
 
-                Main.getStage().setScene(Main.getScenes()
+                MainScenesMap.getStage().setScene(MainScenesMap.getScenes()
                         .get(MainScenes.CUSTOMER));
 
                 closeWindow();
@@ -127,7 +134,7 @@ public class CustomerRegistrationController {
             } else {
 
                 AlertPopUpWindow.displayErrorWindow(
-                        "Please complete the form."
+                        INCOMPLETE
                 );
 
             }
@@ -138,7 +145,7 @@ public class CustomerRegistrationController {
                     error.getMessage()
             );
             errorUsernameLabel.setVisible(true);
-            errorUsernameLabel.setStyle("-fx-font-size: 11");
+            errorUsernameLabel.setStyle(LARGE_FONT);
 
             error.printStackTrace();
         } catch (TextFileNotFoundException | ClearFileFailedException e) {

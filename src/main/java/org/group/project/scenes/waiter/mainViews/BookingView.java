@@ -20,7 +20,10 @@ import java.io.IOException;
  * @author azmi_maz
  */
 public class BookingView implements ViewMaker {
-
+    private static final String APPROVE_BOOKINGS = "waiterscenes/" +
+            "mapscenes/waiter-approvebookings.fxml";
+    private static final String COUNTER = "navbar/waiter/" +
+            "waiter-pendingdeliverycounter.fxml";
     public static WaiterApproveBookingsViewController controller;
     public static WaiterDeliveryNavbarCounter waiterDeliveryCounterController;
     private Stage stage;
@@ -44,10 +47,10 @@ public class BookingView implements ViewMaker {
     public Scene getScene() {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
-                "waiterscenes/mapscenes/waiter-approvebookings.fxml"));
+                APPROVE_BOOKINGS));
 
         FXMLLoader fxmlLoaderNavbar = new FXMLLoader(Main.class.getResource(
-                "navbar/waiter/waiter-pendingdeliverycounter.fxml"));
+                COUNTER));
 
         try {
 

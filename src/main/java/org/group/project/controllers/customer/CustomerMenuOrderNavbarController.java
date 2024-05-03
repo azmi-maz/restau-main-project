@@ -14,7 +14,14 @@ import org.group.project.scenes.customer.stackViews.MenuController;
  * @author azmi_maz
  */
 public class CustomerMenuOrderNavbarController {
-
+    private static final String HOME_BUTTON = "home";
+    private static final String CART_BUTTON = "cart";
+    private static final String EMPTY_BASKET_TITLE = "Order Request";
+    private static final String EMPTY_BASKET_MESSAGE = "Your cart is empty. " +
+            "Please select at least one item.";
+    private static final String OK = "Ok";
+    private static final int BUTTON_WIDTH = 25;
+    private static final int BUTTON_HEIGHT = 25;
     @FXML
     private Button homeButton;
 
@@ -27,7 +34,7 @@ public class CustomerMenuOrderNavbarController {
     public void initialize() {
 
         ImageLoader.setUpGraphicButton(homeButton,
-                25, 25, "home");
+                BUTTON_WIDTH, BUTTON_HEIGHT, HOME_BUTTON);
 
         homeButton.setOnMousePressed(e -> {
             CustomerScenesMap.getCustomerStage()
@@ -36,7 +43,7 @@ public class CustomerMenuOrderNavbarController {
         });
 
         ImageLoader.setUpGraphicButton(cartButton,
-                25, 25, "cart");
+                BUTTON_WIDTH, BUTTON_HEIGHT, CART_BUTTON);
 
         cartButton.setOnMousePressed(e -> {
             if (MenuController.orderList.isEmpty()) {
@@ -51,9 +58,9 @@ public class CustomerMenuOrderNavbarController {
     // To inform the user that there are no items in the cart.
     private void promptOrderlistEmpty() {
         AlertPopUpWindow.displayInformationWindow(
-                "Order Request",
-                "Your cart is empty. Please select at least one item.",
-                "Ok"
+                EMPTY_BASKET_TITLE,
+                EMPTY_BASKET_MESSAGE,
+                OK
         );
     }
 

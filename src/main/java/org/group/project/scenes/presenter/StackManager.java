@@ -17,7 +17,10 @@ import java.util.Stack;
  * @author azmi_maz
  */
 public class StackManager {
-
+    private static final String NO_PRESENTERS = "There are no more " +
+            "presenters.";
+    private static final String INITIAL_PRESENTER = "There is already " +
+            "an initial presenter.";
     private Stack<Presenter> stack;
     private Stage stage;
 
@@ -38,7 +41,7 @@ public class StackManager {
 
         if (stack.isEmpty()) {
             AlertPopUpWindow.displayErrorWindow(
-                    "There are no more presenters."
+                    NO_PRESENTERS
             );
         }
 
@@ -59,7 +62,7 @@ public class StackManager {
     public void setInitialPresenter(Presenter presenter) {
         if (stack.size() != 0) {
             AlertPopUpWindow.displayErrorWindow(
-                    "There is already an initial presenter."
+                    INITIAL_PRESENTER
             );
         }
         stack.add(presenter);
@@ -73,7 +76,7 @@ public class StackManager {
     public void popPresenter() {
         if (stack.isEmpty()) {
             AlertPopUpWindow.displayErrorWindow(
-                    "There are no more presenters."
+                    NO_PRESENTERS
             );
         }
 

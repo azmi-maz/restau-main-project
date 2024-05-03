@@ -16,7 +16,8 @@ import java.io.IOException;
  * @author azmi_maz
  */
 public class ManagementView implements ViewMaker {
-
+    private static final String STAFF_MANAGEMENT = "managerscenes/mapscenes/" +
+            "manager-staffmanagement.fxml";
     private Stage stage;
 
     /**
@@ -38,8 +39,7 @@ public class ManagementView implements ViewMaker {
     public Scene getScene() {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
-                "managerscenes/mapscenes/" +
-                        "manager-staffmanagement.fxml"));
+                STAFF_MANAGEMENT));
 
         try {
 

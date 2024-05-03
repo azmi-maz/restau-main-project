@@ -14,7 +14,10 @@ import org.group.project.scenes.waiter.mainViews.BookingView;
  * @author azmi_maz
  */
 public class WaiterPendingTableNavbarController {
-
+    private static final String UNDO_BUTTON = "undo";
+    private static final String RESERVATION_BUTTON = "reservation";
+    private static final int BUTTON_WIDTH = 25;
+    private static final int BUTTON_HEIGHT = 25;
     @FXML
     private Button homeButton;
 
@@ -26,12 +29,13 @@ public class WaiterPendingTableNavbarController {
      */
     public void initialize() {
 
-        ImageLoader.setUpGraphicButton(homeButton, 25, 25,
-                "undo");
+        ImageLoader.setUpGraphicButton(homeButton,
+                BUTTON_WIDTH, BUTTON_HEIGHT,
+                UNDO_BUTTON);
 
         ImageLoader.setUpGraphicButton(pendingTablesButton,
-                25, 25,
-                "reservation");
+                BUTTON_WIDTH, BUTTON_HEIGHT,
+                RESERVATION_BUTTON);
 
         homeButton.setOnMousePressed(e -> {
             WaiterView.waiterMainCounterController

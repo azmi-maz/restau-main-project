@@ -606,7 +606,6 @@ public class Kitchen {
             List<DeliveryOrder> pendingDeliveryData = new ArrayList<>();
             for (Order order : orderTickets) {
 
-                // TODO pending delivery by driver id
                 if (isDeliveryOrderClass(order)) {
                     DeliveryOrder deliveryOrder = (DeliveryOrder) order;
 

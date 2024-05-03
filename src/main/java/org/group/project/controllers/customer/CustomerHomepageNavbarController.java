@@ -2,13 +2,13 @@ package org.group.project.controllers.customer;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import org.group.project.Main;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.DataManager;
 import org.group.project.classes.auxiliary.ImageLoader;
 import org.group.project.controllers.main.UserProfileView;
 import org.group.project.exceptions.ClearFileFailedException;
 import org.group.project.scenes.MainScenes;
+import org.group.project.scenes.MainScenesMap;
 import org.group.project.scenes.customer.CustomerMapsMain;
 import org.group.project.scenes.customer.CustomerScenesMap;
 import org.group.project.scenes.customer.mainViews.BookingsView;
@@ -21,7 +21,17 @@ import org.group.project.scenes.customer.mainViews.OrdersView;
  * @author azmi_maz
  */
 public class CustomerHomepageNavbarController {
-
+    private static final String MENU_BUTTON = "menu";
+    private static final String RESERVATION_BUTTON = "reservation";
+    private static final String HISTORY_BUTTON = "history";
+    private static final String NOTIFICATION_BUTTON = "notification";
+    private static final String HELP_BUTTON = "help";
+    private static final String SETTINGS_BUTTON = "settings";
+    private static final String USER_BUTTON = "user";
+    private static final String POWER_BUTTON = "power";
+    private static final int BUTTON_WIDTH = 25;
+    private static final int BUTTON_HEIGHT = 25;
+    private static final String ACTIVE_USER = "ACTIVE_USER";
     @FXML
     private Button menuButton;
 
@@ -52,28 +62,28 @@ public class CustomerHomepageNavbarController {
     public void initialize() {
 
         ImageLoader.setUpGraphicButton(menuButton,
-                25, 25, "menu");
+                BUTTON_WIDTH, BUTTON_HEIGHT, MENU_BUTTON);
 
         ImageLoader.setUpGraphicButton(reservationButton,
-                25, 25, "reservation");
+                BUTTON_WIDTH, BUTTON_HEIGHT, RESERVATION_BUTTON);
 
         ImageLoader.setUpGraphicButton(historyButton,
-                25, 25, "history");
+                BUTTON_WIDTH, BUTTON_HEIGHT, HISTORY_BUTTON);
 
         ImageLoader.setUpGraphicButton(notificationButton,
-                25, 25, "notification");
+                BUTTON_WIDTH, BUTTON_HEIGHT, NOTIFICATION_BUTTON);
 
         ImageLoader.setUpGraphicButton(helpButton,
-                25, 25, "help");
+                BUTTON_WIDTH, BUTTON_HEIGHT, HELP_BUTTON);
 
         ImageLoader.setUpGraphicButton(settingButton,
-                25, 25, "settings");
+                BUTTON_WIDTH, BUTTON_HEIGHT, SETTINGS_BUTTON);
 
         ImageLoader.setUpGraphicButton(userButton,
-                25, 25, "user");
+                BUTTON_WIDTH, BUTTON_HEIGHT, USER_BUTTON);
 
         ImageLoader.setUpGraphicButton(logOffButton,
-                25, 25, "power");
+                BUTTON_WIDTH, BUTTON_HEIGHT, POWER_BUTTON);
 
         menuButton.setOnMousePressed(e -> {
             CustomerScenesMap.getCustomerStage().setScene(
@@ -118,14 +128,14 @@ public class CustomerHomepageNavbarController {
         logOffButton.setOnMousePressed(e -> {
             // Log off by removing active user info
             try {
-                DataManager.clearFileData("ACTIVE_USER");
+                DataManager.clearFileData(ACTIVE_USER);
             } catch (ClearFileFailedException ex) {
                 AlertPopUpWindow.displayErrorWindow(
                         ex.getMessage()
                 );
                 ex.printStackTrace();
             }
-            Main.getStage().setScene(Main.getScenes()
+            MainScenesMap.getStage().setScene(MainScenesMap.getScenes()
                     .get(MainScenes.LOGIN));
         });
 

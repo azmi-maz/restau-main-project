@@ -17,6 +17,7 @@ import org.group.project.classes.*;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.ImageLoader;
 import org.group.project.exceptions.TextFileNotFoundException;
+import org.group.project.scenes.MainScenesMap;
 import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
@@ -31,7 +32,49 @@ import java.util.Optional;
  * @author azmi_maz
  */
 public class WaiterDineinOrderController {
-
+    private static final String BG_IMAGE = "images" +
+            "/background/waiter-main" +
+            ".jpg";
+    private static final String PLUS_BUTTON = "circle-plus";
+    private static final int BUTTON_WIDTH = 15;
+    private static final int BUTTON_HEIGHT = 15;
+    private static final String ADD_ORDER_WINDOW = "smallwindows/" +
+            "add-dineinorder-item" +
+            ".fxml";
+    private static final String ADD_ORDER_TITLE = "Add Order Item";
+    private static final String INCOMPLETE = "Please complete table info.";
+    private static final String MIN_ONE_REQUIRED = "Please select at " +
+            "least one item.";
+    private static final String CENTERED = "-fx-alignment: CENTER;";
+    private static final String CENTER_LEFT = "-fx-alignment: CENTER-LEFT;";
+    private static final int COLUMN_WIDTH_35 = 35;
+    private static final int COLUMN_WIDTH_40 = 40;
+    private static final int COLUMN_WIDTH_75 = 75;
+    private static final int COLUMN_WIDTH_150 = 150;
+    private static final String NO_COLUMN = "No.";
+    private static final String ITEM_COLUMN = "Item";
+    private static final String TYPE_COLUMN = "Type";
+    private static final String TYPE = "type";
+    private static final String QUANTITY_COLUMN = "Quantity";
+    private static final String QUANTITY = "quantity";
+    private static final String ACTION_COLUMN = "Action";
+    private static final String EDIT_BUTTON = "edit";
+    private static final String EDIT_ORDER_WINDOW = "smallwindows/" +
+            "edit-dineinorder-item" +
+            ".fxml";
+    private static final String EDIT_ORDER_TITLE = "Edit Order Item";
+    private static final String DELETE_BUTTON = "delete";
+    private static final String DELETE_ITEM_TITLE = "Delete Item";
+    private static final String DELETE_ITEM_MESSAGE = "Do you want to " +
+            "delete %s?";
+    private static final String OK_DONE = "OK_DONE";
+    private static final String OK = "Ok";
+    private static final String ORDER_SUCCESS_TITLE = "Order Successful";
+    private static final String ORDER_SUCCESS_MESSAGE = "Thank you! Your " +
+            "request is being processed now.";
+    private static final String CANCEL_ORDER_TITLE = "Cancel Order Request";
+    private static final String CANCEL_ORDER_MESSAGE = "Do you want to " +
+            "cancel this order?";
     @FXML
     private BorderPane borderPane;
 
@@ -89,9 +132,8 @@ public class WaiterDineinOrderController {
 
         Image bgImage = null;
         try {
-            bgImage = new Image(Main.class.getResource("images" +
-                    "/background/waiter-main" +
-                    ".jpg").toURI().toString());
+            bgImage = new Image(Main.class
+                    .getResource(BG_IMAGE).toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
                     e.getMessage()
@@ -128,7 +170,7 @@ public class WaiterDineinOrderController {
         updateCustomerChoiceBox();
 
         ImageLoader.setUpGraphicButton(newItemButton,
-                15, 15, "circle-plus");
+                BUTTON_WIDTH, BUTTON_HEIGHT, PLUS_BUTTON);
 
         newItemButton.setOnAction(e -> {
 
@@ -140,9 +182,7 @@ public class WaiterDineinOrderController {
                 try {
                     FXMLLoader fxmlLoader =
                             new FXMLLoader(Main.class.getResource(
-                                    "smallwindows/" +
-                                            "add-dineinorder-item" +
-                                            ".fxml"));
+                                    ADD_ORDER_WINDOW));
 
                     VBox vbox = fxmlLoader.load();
 
@@ -160,7 +200,7 @@ public class WaiterDineinOrderController {
                     Stage editStage = new Stage();
                     editStage.setScene(editScene);
 
-                    editStage.setTitle("Add Order Item");
+                    editStage.setTitle(ADD_ORDER_TITLE);
 
                     editStage.initModality(Modality.APPLICATION_MODAL);
 
@@ -177,14 +217,14 @@ public class WaiterDineinOrderController {
 
             } else {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Please complete table info."
+                        INCOMPLETE
                 );
             }
 
         });
 
         confirmButton.setOnAction(e -> {
-            Waiter waiter = (Waiter) Main.getCurrentUser();
+            Waiter waiter = (Waiter) MainScenesMap.getCurrentUser();
 
             if (
                     tableChoiceBox.getValue() != null
@@ -223,7 +263,7 @@ public class WaiterDineinOrderController {
 
             } else {
                 AlertPopUpWindow.displayErrorWindow(
-                        "Please select at least one item."
+                        MIN_ONE_REQUIRED
                 );
             }
 
@@ -233,9 +273,9 @@ public class WaiterDineinOrderController {
             deleteAllOrder();
         });
 
-        noColumn.setText("No.");
-        noColumn.setMinWidth(40);
-        noColumn.setStyle("-fx-alignment: CENTER;");
+        noColumn.setText(NO_COLUMN);
+        noColumn.setMinWidth(COLUMN_WIDTH_40);
+        noColumn.setStyle(CENTERED);
         noColumn.setCellValueFactory(cellData -> {
             int index =
                     cellData.getTableView().getItems().indexOf(
@@ -244,34 +284,34 @@ public class WaiterDineinOrderController {
             return new SimpleObjectProperty<>(index).asString();
         });
 
-        itemNameColumn.setText("Item");
-        itemNameColumn.setMinWidth(150);
-        itemNameColumn.setStyle("-fx-alignment: CENTER-LEFT;");
+        itemNameColumn.setText(ITEM_COLUMN);
+        itemNameColumn.setMinWidth(COLUMN_WIDTH_150);
+        itemNameColumn.setStyle(CENTER_LEFT);
         itemNameColumn.setCellValueFactory(cellData -> {
             String itemName = cellData.getValue().getItemNameForDisplay();
             return new SimpleObjectProperty<>(itemName);
         });
 
-        itemTypeColumn.setText("Type");
-        itemTypeColumn.setMinWidth(75);
-        itemTypeColumn.setStyle("-fx-alignment: CENTER;");
+        itemTypeColumn.setText(TYPE_COLUMN);
+        itemTypeColumn.setMinWidth(COLUMN_WIDTH_75);
+        itemTypeColumn.setStyle(CENTERED);
         itemTypeColumn.setCellValueFactory(
-                new PropertyValueFactory<>("itemType"));
+                new PropertyValueFactory<>(TYPE));
 
-        quantityColumn.setText("Quantity");
-        quantityColumn.setMinWidth(75);
-        quantityColumn.setStyle("-fx-alignment: CENTER;");
+        quantityColumn.setText(QUANTITY_COLUMN);
+        quantityColumn.setMinWidth(COLUMN_WIDTH_75);
+        quantityColumn.setStyle(CENTERED);
         quantityColumn.setCellValueFactory(
-                new PropertyValueFactory<>("quantity"));
+                new PropertyValueFactory<>(QUANTITY));
 
-        actionButtonColumn.setText("Action");
+        actionButtonColumn.setText(ACTION_COLUMN);
 
-        actionButtonColumn1.setMinWidth(35);
-        actionButtonColumn1.setStyle("-fx-alignment: CENTER;");
+        actionButtonColumn1.setMinWidth(COLUMN_WIDTH_35);
+        actionButtonColumn1.setStyle(CENTERED);
         actionButtonColumn1.setCellValueFactory(cellData -> {
             Button editButton = new Button();
             ImageLoader.setUpGraphicButton(editButton,
-                    15, 15, "edit");
+                    BUTTON_WIDTH, BUTTON_HEIGHT, EDIT_BUTTON);
             String itemName = cellData.getValue()
                     .getItemNameForDisplay();
             String itemQuantity = String.valueOf(
@@ -282,9 +322,7 @@ public class WaiterDineinOrderController {
                 try {
                     FXMLLoader fxmlLoader =
                             new FXMLLoader(Main.class.getResource(
-                                    "smallwindows/" +
-                                            "edit-dineinorder-item" +
-                                            ".fxml"));
+                                    EDIT_ORDER_WINDOW));
 
                     VBox vbox = fxmlLoader.load();
 
@@ -304,7 +342,7 @@ public class WaiterDineinOrderController {
                     Stage editStage = new Stage();
                     editStage.setScene(editScene);
 
-                    editStage.setTitle("Edit Order Item");
+                    editStage.setTitle(EDIT_ORDER_TITLE);
 
                     editStage.initModality(Modality.APPLICATION_MODAL);
 
@@ -324,26 +362,28 @@ public class WaiterDineinOrderController {
             return new SimpleObjectProperty<>(editButton);
         });
 
-        actionButtonColumn2.setMinWidth(35);
-        actionButtonColumn2.setStyle("-fx-alignment: CENTER;");
+        actionButtonColumn2.setMinWidth(COLUMN_WIDTH_35);
+        actionButtonColumn2.setStyle(CENTERED);
         actionButtonColumn2.setCellValueFactory(cellData -> {
             Button deleteButton = new Button();
             ImageLoader.setUpGraphicButton(deleteButton,
-                    15, 15, "delete");
+                    BUTTON_WIDTH, BUTTON_HEIGHT, DELETE_BUTTON);
             String selectedItemName = cellData.getValue().getItemName();
             FoodDrink selectedItem = cellData.getValue();
 
             deleteButton.setOnAction(e -> {
 
                 Optional<ButtonType> userChoice = promptForUserAcknowledgement(
-                        "Delete Item",
-                        "Do you want to delete "
-                                + selectedItemName + "?"
+                        DELETE_ITEM_TITLE,
+                        String.format(
+                                DELETE_ITEM_MESSAGE,
+                                selectedItemName
+                        )
                 );
 
                 if (userChoice.get()
                         .getButtonData().toString()
-                        .equalsIgnoreCase("OK_DONE")) {
+                        .equalsIgnoreCase(OK_DONE)) {
                     orderList.remove(selectedItem);
                     refreshOrderList();
                 }
@@ -408,22 +448,22 @@ public class WaiterDineinOrderController {
 
     private void promptOrderSuccessful() {
         AlertPopUpWindow.displayInformationWindow(
-                "Order Successful",
-                "Thank you! Your request is being processed now.",
-                "Ok"
+                ORDER_SUCCESS_TITLE,
+                ORDER_SUCCESS_MESSAGE,
+                OK
         );
     }
 
     private void deleteAllOrder() {
 
         Optional<ButtonType> userChoice = promptForUserAcknowledgement(
-                "Cancel Order Request",
-                "Do you want to cancel this order?"
+                CANCEL_ORDER_TITLE,
+                CANCEL_ORDER_MESSAGE
         );
 
         if (userChoice.get()
                 .getButtonData().toString()
-                .equalsIgnoreCase("OK_DONE")) {
+                .equalsIgnoreCase(OK_DONE)) {
             orderList.clear();
             refreshOrderList();
         }

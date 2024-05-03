@@ -20,7 +20,9 @@ import java.io.IOException;
  * @author azmi_maz
  */
 public class ChefView implements ViewMaker {
-
+    private static final String HOMEPAGE = "homepages/chef-homepage.fxml";
+    private static final String COUNTER = "navbar/chef/" +
+            "chef-outstandingorderscounter.fxml";
     public static ChefHomepageController controller;
     public static ChefOutstandingOrdersNavbarCounter
             chefOutstandingOrdersNavbarCounterController;
@@ -46,10 +48,10 @@ public class ChefView implements ViewMaker {
     public Scene getScene() {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
-                "homepages/chef-homepage.fxml"));
+                HOMEPAGE));
 
         FXMLLoader fxmlLoaderNavbar = new FXMLLoader(Main.class.getResource(
-                "navbar/chef/chef-outstandingorderscounter.fxml"));
+                COUNTER));
 
         try {
 

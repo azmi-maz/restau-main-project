@@ -21,7 +21,9 @@ import java.util.List;
  * @author azmi_maz
  */
 public class OrderDetailsController implements ControllerView {
-
+    private static final String CART_DETAILS = "customerscenes/stackscenes/" +
+            "customer-cart-order-details" +
+            ".fxml";
     public static OrderDetailsPresenter presenter;
     public static List<Order> newOrder = new ArrayList<>();
     private Scene scene;
@@ -38,10 +40,7 @@ public class OrderDetailsController implements ControllerView {
         try {
             FXMLLoader fxmlLoader =
                     new FXMLLoader(Main.class.getResource(
-                            "customerscenes/stackscenes/" +
-                                    "customer-cart-order" +
-                                    "-details" +
-                                    ".fxml"));
+                            CART_DETAILS));
 
             orderList = MenuController.orderList;
             CustomerOrderDetailsViewController

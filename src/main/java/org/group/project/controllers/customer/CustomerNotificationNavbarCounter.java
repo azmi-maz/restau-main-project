@@ -8,6 +8,7 @@ import org.group.project.classes.NotificationBoard;
 import org.group.project.classes.UserManagement;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.exceptions.TextFileNotFoundException;
+import org.group.project.scenes.MainScenesMap;
 
 /**
  * This class loads up the notification counter of unread notifications by
@@ -35,7 +36,7 @@ public class CustomerNotificationNavbarCounter {
 
             UserManagement userManagement = new UserManagement();
             userId = userManagement.getUserIdByUsername(
-                    Main.getCurrentUser().getUsername());
+                    MainScenesMap.getCurrentUser().getUsername());
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(

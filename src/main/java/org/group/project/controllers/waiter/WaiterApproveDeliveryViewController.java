@@ -19,6 +19,7 @@ import org.group.project.classes.Waiter;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.ImageLoader;
 import org.group.project.exceptions.TextFileNotFoundException;
+import org.group.project.scenes.MainScenesMap;
 import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
@@ -32,7 +33,44 @@ import java.util.Optional;
  * @author azmi_maz
  */
 public class WaiterApproveDeliveryViewController {
-
+    private static final String BG_IMAGE = "images" +
+            "/background/waiter-main" +
+            ".jpg";
+    private static final String CENTERED = "-fx-alignment: CENTER;";
+    private static final String CENTER_LEFT = "-fx-alignment: CENTER-LEFT;";
+    private static final int COLUMN_WIDTH_65 = 65;
+    private static final int COLUMN_WIDTH_35 = 35;
+    private static final int COLUMN_WIDTH_150 = 150;
+    private static final int COLUMN_WIDTH_200 = 200;
+    private static final String NO_COLUMN = "Order No.";
+    private static final String ORDER_ID = "orderId";
+    private static final String DATE_COLUMN = "Date";
+    private static final String TIME_COLUMN = "Time";
+    private static final String ITEMS_COLUMN = "Item Ordered";
+    private static final String STATUS_COLUMN = "Status";
+    private static final String ORDER_STATUS = "orderStatus";
+    private static final String CUSTOMER_COLUMN = "Customer";
+    private static final String CUSTOMER = "customer";
+    private static final String ACTION_COLUMN = "Action";
+    private static final String VIEW_DETAILS_TOOLTIP = "View details";
+    private static final String VIEW_DETAILS_BUTTON = "view-details";
+    private static final String CANCEL_TOOLTIP = "Cancel";
+    private static final String CANCEL_BUTTON = "cancel";
+    private static final int BUTTON_WIDTH = 15;
+    private static final int BUTTON_HEIGHT = 15;
+    private static final String OK_DONE = "OK_DONE";
+    private static final String CANCEL_UPDATE_TITLE = "Delivery Order Update";
+    private static final String CANCEL_UPDATE_MESSAGE = "Delivery order " +
+            "no.%d was cancelled successfully.";
+    private static final String OK = "Ok";
+    private static final String EDIT_DELIVERY_WINDOW = "smallwindows/" +
+            "waiter-editdeliveryorder" +
+            ".fxml";
+    private static final String EDIT_DELIVERY_TITLE = "Edit Delivery Order";
+    private static final String CANCEL_DELIVERY_TITLE = "Delivery Order " +
+            "Cancellation";
+    private static final String CANCEL_DELIVERY_MESSAGE = "Do you want " +
+            "to cancel this delivery order?";
     @FXML
     private TableColumn<DeliveryOrder, String> orderNoColumn;
 
@@ -75,9 +113,8 @@ public class WaiterApproveDeliveryViewController {
 
         Image bgImage = null;
         try {
-            bgImage = new Image(Main.class.getResource("images" +
-                    "/background/waiter-main" +
-                    ".jpg").toURI().toString());
+            bgImage = new Image(Main.class
+                    .getResource(BG_IMAGE).toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
                     e.getMessage()
@@ -97,58 +134,58 @@ public class WaiterApproveDeliveryViewController {
 
         refreshPendingDeliveryList();
 
-        orderNoColumn.setText("Order No.");
-        orderNoColumn.setMinWidth(65);
-        orderNoColumn.setStyle("-fx-alignment: CENTER;");
+        orderNoColumn.setText(NO_COLUMN);
+        orderNoColumn.setMinWidth(COLUMN_WIDTH_65);
+        orderNoColumn.setStyle(CENTERED);
         orderNoColumn.setCellValueFactory(
-                new PropertyValueFactory<>("orderId"));
+                new PropertyValueFactory<>(ORDER_ID));
 
-        customerColumn.setText("Customer");
-        customerColumn.setMinWidth(150);
-        customerColumn.setStyle("-fx-alignment: CENTER;");
+        customerColumn.setText(CUSTOMER_COLUMN);
+        customerColumn.setMinWidth(COLUMN_WIDTH_150);
+        customerColumn.setStyle(CENTERED);
         customerColumn.setCellValueFactory(
-                new PropertyValueFactory<>("customer"));
+                new PropertyValueFactory<>(CUSTOMER));
 
-        orderDateColumn.setText("Date");
-        orderDateColumn.setMinWidth(150);
-        orderDateColumn.setStyle("-fx-alignment: CENTER;");
+        orderDateColumn.setText(DATE_COLUMN);
+        orderDateColumn.setMinWidth(COLUMN_WIDTH_150);
+        orderDateColumn.setStyle(CENTERED);
         orderDateColumn.setCellValueFactory(cellData -> {
             String formattedDate =
                     cellData.getValue().getOrderDateInFormat();
             return new SimpleObjectProperty<>(formattedDate);
         });
 
-        orderTimeColumn.setText("Time");
-        orderTimeColumn.setMinWidth(150);
-        orderTimeColumn.setStyle("-fx-alignment: CENTER;");
+        orderTimeColumn.setText(TIME_COLUMN);
+        orderTimeColumn.setMinWidth(COLUMN_WIDTH_150);
+        orderTimeColumn.setStyle(CENTERED);
         orderTimeColumn.setCellValueFactory(cellData -> {
             String formattedTime = cellData.getValue().getOrderTimeInFormat();
             return new SimpleObjectProperty<>(formattedTime);
         });
 
-        orderListColumn.setText("Item Ordered");
-        orderListColumn.setMinWidth(200);
-        orderListColumn.setStyle("-fx-alignment: CENTER-LEFT;");
+        orderListColumn.setText(ITEMS_COLUMN);
+        orderListColumn.setMinWidth(COLUMN_WIDTH_200);
+        orderListColumn.setStyle(CENTER_LEFT);
         orderListColumn.setCellValueFactory(cellData -> {
             String displayList = cellData.getValue().getListOfItemsForDisplay();
             return new SimpleObjectProperty<>(displayList);
         });
 
-        orderStatusColumn.setText("Status");
-        orderStatusColumn.setMinWidth(150);
-        orderStatusColumn.setStyle("-fx-alignment: CENTER;");
+        orderStatusColumn.setText(STATUS_COLUMN);
+        orderStatusColumn.setMinWidth(COLUMN_WIDTH_150);
+        orderStatusColumn.setStyle(CENTERED);
         orderStatusColumn.setCellValueFactory(
-                new PropertyValueFactory<>("orderStatus"));
+                new PropertyValueFactory<>(ORDER_STATUS));
 
-        actionButtonColumn.setText("Action");
+        actionButtonColumn.setText(ACTION_COLUMN);
 
-        actionButtonColumn1.setMinWidth(35);
-        actionButtonColumn1.setStyle("-fx-alignment: CENTER;");
+        actionButtonColumn1.setMinWidth(COLUMN_WIDTH_35);
+        actionButtonColumn1.setStyle(CENTERED);
         actionButtonColumn1.setCellValueFactory(cellData -> {
             Button viewButton = new Button();
-            viewButton.setTooltip(new Tooltip("View details"));
+            viewButton.setTooltip(new Tooltip(VIEW_DETAILS_TOOLTIP));
             ImageLoader.setUpGraphicButton(viewButton,
-                    15, 15, "view-details");
+                    BUTTON_WIDTH, BUTTON_HEIGHT, VIEW_DETAILS_BUTTON);
             DeliveryOrder selectedOrder = cellData.getValue();
 
             viewButton.setOnAction(e -> {
@@ -156,9 +193,7 @@ public class WaiterApproveDeliveryViewController {
                 try {
                     FXMLLoader fxmlLoader =
                             new FXMLLoader(Main.class.getResource(
-                                    "smallwindows/" +
-                                            "waiter-editdeliveryorder" +
-                                            ".fxml"));
+                                    EDIT_DELIVERY_WINDOW));
 
                     VBox vbox = fxmlLoader.load();
 
@@ -175,7 +210,7 @@ public class WaiterApproveDeliveryViewController {
                     Stage editStage = new Stage();
                     editStage.setScene(editScene);
 
-                    editStage.setTitle("Edit Delivery Order");
+                    editStage.setTitle(EDIT_DELIVERY_TITLE);
 
                     editStage.initModality(Modality.APPLICATION_MODAL);
 
@@ -195,27 +230,26 @@ public class WaiterApproveDeliveryViewController {
             return new SimpleObjectProperty<>(viewButton);
         });
 
-        actionButtonColumn2.setMinWidth(35);
-        actionButtonColumn2.setStyle("-fx-alignment: CENTER;");
+        actionButtonColumn2.setMinWidth(COLUMN_WIDTH_35);
+        actionButtonColumn2.setStyle(CENTERED);
         actionButtonColumn2.setCellValueFactory(cellData -> {
             Button cancelButton = new Button();
-            // TODO use tool tips for other buttons, where necessary
-            cancelButton.setTooltip(new Tooltip("Cancel"));
+            cancelButton.setTooltip(new Tooltip(CANCEL_TOOLTIP));
             ImageLoader.setUpGraphicButton(cancelButton,
-                    15, 15, "cancel");
+                    BUTTON_WIDTH, BUTTON_HEIGHT, CANCEL_BUTTON);
             DeliveryOrder selectedOrder = cellData.getValue();
 
             cancelButton.setOnAction(e -> {
-                Waiter waiter = (Waiter) Main.getCurrentUser();
+                Waiter waiter = (Waiter) MainScenesMap.getCurrentUser();
 
                 Optional<ButtonType> userChoice = promptForUserAcknowledgement(
-                        "Delivery Order Cancellation",
-                        "Do you want to cancel this delivery order?"
+                        CANCEL_DELIVERY_TITLE,
+                        CANCEL_DELIVERY_MESSAGE
                 );
 
                 if (userChoice.get()
                         .getButtonData().toString()
-                        .equalsIgnoreCase("OK_DONE")) {
+                        .equalsIgnoreCase(OK_DONE)) {
 
                     try {
                         boolean isSuccessful = waiter.cancelDeliveryOrder(
@@ -223,13 +257,11 @@ public class WaiterApproveDeliveryViewController {
                         );
                         if (isSuccessful) {
                             AlertPopUpWindow.displayInformationWindow(
-                                    "Delivery Order Update",
+                                    CANCEL_UPDATE_TITLE,
                                     String.format(
-                                            "Delivery order no.%d was " +
-                                                    "cancelled successfully.",
+                                            CANCEL_UPDATE_MESSAGE,
                                             selectedOrder.getOrderId()
-                                    ),
-                                    "Ok"
+                                    ), OK
                             );
                         }
 

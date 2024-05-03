@@ -11,6 +11,7 @@ import org.group.project.classes.Chef;
 import org.group.project.classes.Menu;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.exceptions.TextFileNotFoundException;
+import org.group.project.scenes.MainScenesMap;
 
 import java.util.List;
 
@@ -76,7 +77,7 @@ public class ChefAddNewItemController {
 
                 String itemName = itemNameTextField.getText().toLowerCase();
                 String itemType = itemTypeChoiceBox.getValue().toLowerCase();
-                Chef chef = (Chef) Main.getCurrentUser();
+                Chef chef = (Chef) MainScenesMap.getCurrentUser();
 
                 try {
                     boolean isSuccessful = chef.createNewMenuItem(itemName);

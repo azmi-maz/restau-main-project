@@ -5,7 +5,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.group.project.Main;
 import org.group.project.classes.Customer;
 import org.group.project.classes.User;
 import org.group.project.classes.UserManagement;
@@ -14,6 +13,7 @@ import org.group.project.classes.auxiliary.DataManager;
 import org.group.project.exceptions.ClearFileFailedException;
 import org.group.project.exceptions.TextFileNotFoundException;
 import org.group.project.scenes.MainScenes;
+import org.group.project.scenes.MainScenesMap;
 
 /**
  * This class allows users to edit their profile details.
@@ -21,30 +21,30 @@ import org.group.project.scenes.MainScenes;
  * @author azmi_maz
  */
 public class EditProfileController {
-
+    private static final String INFO_TITLE = "Info";
+    private static final String INFO_MESSAGE = "There were changes made to " +
+            "the user profile. Please log in again.";
+    private static final String OK = "Ok";
+    private static final String ACTIVE_USER = "ACTIVE_USER";
+    private static final String INCOMPLETE = "Please complete the form.";
+    private static final String CUSTOMER = "customer";
+    private static final String VISIBLE_STYLE = "visibility: visible";
+    private static final String HIDDEN_STYLE = "visibility: hidden";
     @FXML
     private VBox vbox;
-
     private int userId;
-
     @FXML
     private TextField firstNameTextField;
-
     @FXML
     private TextField lastNameTextField;
-
     @FXML
     private TextField usernameTextField;
-
     @FXML
     private VBox addressBox;
-
     @FXML
     private TextField addressTextField;
-
     @FXML
     private Button saveButton;
-
     @FXML
     private Button returnButton;
 
@@ -99,23 +99,22 @@ public class EditProfileController {
                         );
                     }
                     AlertPopUpWindow.displayInformationWindow(
-                            "Info",
-                            "There were changes made to the user " +
-                                    "profile. Please log in again.",
-                            "Ok"
+                            INFO_TITLE,
+                            INFO_MESSAGE,
+                            OK
                     );
 
                     // Log off by removing active user info
                     try {
-                        DataManager.clearFileData("ACTIVE_USER");
+                        DataManager.clearFileData(ACTIVE_USER);
                     } catch (ClearFileFailedException ex) {
                         AlertPopUpWindow.displayErrorWindow(
                                 ex.getMessage()
                         );
                         ex.printStackTrace();
                     }
-
-                    Main.getStage().setScene(Main.getScenes()
+                    MainScenesMap.getStage().setScene(
+                            MainScenesMap.getScenes()
                             .get(MainScenes.LOGIN));
 
                 } catch (TextFileNotFoundException ex) {
@@ -130,7 +129,7 @@ public class EditProfileController {
             } else {
 
                 AlertPopUpWindow.displayErrorWindow(
-                        "Please complete the form."
+                        INCOMPLETE
                 );
             }
 
@@ -159,7 +158,7 @@ public class EditProfileController {
             e.printStackTrace();
         }
 
-        String currentUsername = Main.getCurrentUser().getUsername();
+        String currentUsername = MainScenesMap.getCurrentUser().getUsername();
         User currentUser = userManagement.getUserByUsername(
                 currentUsername);
 
@@ -171,27 +170,27 @@ public class EditProfileController {
                 currentUser.getLastNameForDisplay());
         usernameTextField.setText(
                 currentUser.getUsername());
-        if (userType.equalsIgnoreCase("customer")) {
+        if (userType.equalsIgnoreCase(CUSTOMER)) {
             Customer customer = (Customer) currentUser;
             addressTextField.setText(
                     customer.getDeliveryAddressToRead()
             );
-            addressBox.setStyle("visibility: visible");
+            addressBox.setStyle(VISIBLE_STYLE);
         } else {
-            addressBox.setStyle("visibility: hidden");
+            addressBox.setStyle(HIDDEN_STYLE);
         }
     }
 
     private void updateUserId() {
 
-        if (Main.getCurrentUser() == null) {
+        if (MainScenesMap.getCurrentUser() == null) {
             return;
         }
 
         try {
             UserManagement userManagement = new UserManagement();
             userId = userManagement.getUserIdByUsername(
-                    Main.getCurrentUser().getUsername());
+                    MainScenesMap.getCurrentUser().getUsername());
         } catch (TextFileNotFoundException ex) {
             AlertPopUpWindow.displayErrorWindow(
                     ex.getMessage()

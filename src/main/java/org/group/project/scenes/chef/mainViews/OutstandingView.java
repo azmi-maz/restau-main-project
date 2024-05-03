@@ -18,7 +18,8 @@ import java.io.IOException;
  * @author azmi_maz
  */
 public class OutstandingView implements ViewMaker {
-
+    private static final String OUTSTANDING_ORDERS = "chefscenes/" +
+            "mapscenes/chef-outstandingorders.fxml";
     public static ChefOutstandingOrdersViewController controller;
     private Stage stage;
 
@@ -41,7 +42,7 @@ public class OutstandingView implements ViewMaker {
     public Scene getScene() {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
-                "chefscenes/mapscenes/chef-outstandingorders.fxml"));
+                OUTSTANDING_ORDERS));
 
         VBox vbox = null;
         try {

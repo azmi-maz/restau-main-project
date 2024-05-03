@@ -23,6 +23,7 @@ import org.group.project.classes.UserManagement;
 import org.group.project.classes.auxiliary.AlertPopUpWindow;
 import org.group.project.classes.auxiliary.ImageLoader;
 import org.group.project.exceptions.TextFileNotFoundException;
+import org.group.project.scenes.MainScenesMap;
 import org.group.project.scenes.WindowSize;
 
 import java.io.IOException;
@@ -35,7 +36,52 @@ import java.util.Optional;
  * @author azmi_maz
  */
 public class CustomerBookingsHistoryViewController {
-
+    private static final String BG_IMAGE = "images" +
+            "/background/main-bg" +
+            ".jpg";
+    private static final int COLUMN_WIDTH_65 = 65;
+    private static final int COLUMN_WIDTH_90 = 90;
+    private static final int COLUMN_WIDTH_150 = 150;
+    private static final int COLUMN_WIDTH_200 = 200;
+    private static final String CUSTOMER_COLUMN = "Customer";
+    private static final String CENTERED = "-fx-alignment: CENTER;";
+    private static final String CUSTOMER = "customer";
+    private static final String DATE_COLUMN = "Booking Date";
+    private static final String TIME_COLUMN = "Booking Time";
+    private static final String GUESTS_COLUMN = "No. of Guests";
+    private static final String NUM_OF_GUESTS = "numOfGuests";
+    private static final String SLOT_COLUMN = "Time Slot";
+    private static final String TABLE_COLUMN = "Table";
+    private static final String STATUS_COLUMN = "Status";
+    private static final String BOOKING_STATUS = "bookingStatus";
+    private static final String ACTION_COLUMN = "Action";
+    private static final String EDIT_BUTTON = "edit";
+    private static final int BUTTON_WIDTH = 15;
+    private static final int BIG_BUTTON_WIDTH = 25;
+    private static final int BUTTON_HEIGHT = 15;
+    private static final int BIG_BUTTON_HEIGHT = 25;
+    private static final String PENDING = "pending-approval";
+    private static final String INFO_TITLE = "Info";
+    private static final String INFO_MESSAGE = "You cannot edit " +
+            "this reservation.";
+    private static final String OK = "Ok";
+    private static final String VIEW_BOOKING_WINDOW = "smallwindows/" +
+            "customer-view-booking" +
+            ".fxml";
+    private static final String EDIT_TABLE_TITLE = "Edit Table Reservation";
+    private static final String DELETE_BUTTON = "delete";
+    private static final String OK_DONE = "OK_DONE";
+    private static final String DELETE_TITLE = "Table Reservation Update";
+    private static final String DELETE_MESSAGE = "Reservation no.%d was " +
+            "deleted successfully.";
+    private static final String ADD_BOOKING_WINDOW = "smallwindows/" +
+            "customer-add-booking" +
+            ".fxml";
+    private static final String ADD_BOOKING_TITLE = "New Reservation Request";
+    private static final String CANCEL_BOOKING_TITLE = "Cancel Table " +
+            "Reservation Request";
+    private static final String CANCEL_BOOKING_MESSAGE = "Do you want " +
+            "to cancel this reservation?";
     @FXML
     private TableColumn<Booking, Customer> customerColumn;
 
@@ -86,9 +132,8 @@ public class CustomerBookingsHistoryViewController {
 
         Image bgImage = null;
         try {
-            bgImage = new Image(Main.class.getResource("images" +
-                    "/background/main-bg" +
-                    ".jpg").toURI().toString());
+            bgImage = new Image(Main.class
+                    .getResource(BG_IMAGE).toURI().toString());
         } catch (URISyntaxException e) {
             AlertPopUpWindow.displayErrorWindow(
                     e.getMessage()
@@ -108,67 +153,67 @@ public class CustomerBookingsHistoryViewController {
 
         refreshReservationList();
 
-        customerColumn.setText("Customer");
-        customerColumn.setMinWidth(150);
-        customerColumn.setStyle("-fx-alignment: CENTER;");
+        customerColumn.setText(CUSTOMER_COLUMN);
+        customerColumn.setMinWidth(COLUMN_WIDTH_150);
+        customerColumn.setStyle(CENTERED);
         customerColumn.setCellValueFactory(
-                new PropertyValueFactory<>("customer"));
+                new PropertyValueFactory<>(CUSTOMER));
 
-        bookingDateColumn.setText("Booking Date");
-        bookingDateColumn.setMinWidth(150);
-        bookingDateColumn.setStyle("-fx-alignment: CENTER;");
+        bookingDateColumn.setText(DATE_COLUMN);
+        bookingDateColumn.setMinWidth(COLUMN_WIDTH_150);
+        bookingDateColumn.setStyle(CENTERED);
         bookingDateColumn.setCellValueFactory(cellData -> {
             String formattedDate =
                     cellData.getValue().getBookingDateInFormat();
             return new SimpleObjectProperty<>(formattedDate);
         });
 
-        bookingTimeColumn.setText("Booking Time");
-        bookingTimeColumn.setMinWidth(150);
-        bookingTimeColumn.setStyle("-fx-alignment: CENTER;");
+        bookingTimeColumn.setText(TIME_COLUMN);
+        bookingTimeColumn.setMinWidth(COLUMN_WIDTH_150);
+        bookingTimeColumn.setStyle(CENTERED);
         bookingTimeColumn.setCellValueFactory(cellData -> {
             String formattedTime = cellData.getValue()
                     .getBookingTimeInFormat();
             return new SimpleObjectProperty<>(formattedTime);
         });
 
-        numOfGuestsColumn.setText("No. of Guests");
-        numOfGuestsColumn.setMinWidth(90);
-        numOfGuestsColumn.setStyle("-fx-alignment: CENTER;");
+        numOfGuestsColumn.setText(GUESTS_COLUMN);
+        numOfGuestsColumn.setMinWidth(COLUMN_WIDTH_90);
+        numOfGuestsColumn.setStyle(CENTERED);
         numOfGuestsColumn.setCellValueFactory(
-                new PropertyValueFactory<>("numOfGuests"));
+                new PropertyValueFactory<>(NUM_OF_GUESTS));
 
-        bookingLengthColumn.setText("Time Slot");
-        bookingLengthColumn.setMinWidth(150);
-        bookingLengthColumn.setStyle("-fx-alignment: CENTER;");
+        bookingLengthColumn.setText(SLOT_COLUMN);
+        bookingLengthColumn.setMinWidth(COLUMN_WIDTH_150);
+        bookingLengthColumn.setStyle(CENTERED);
         bookingLengthColumn.setCellValueFactory(cellData -> {
             String formattedValue =
                     cellData.getValue().getTimePeriodOfBooking();
             return new SimpleObjectProperty<>(formattedValue);
         });
 
-        tablePreferenceColumn.setText("Table");
-        tablePreferenceColumn.setMinWidth(150);
-        tablePreferenceColumn.setStyle("-fx-alignment: CENTER;");
+        tablePreferenceColumn.setText(TABLE_COLUMN);
+        tablePreferenceColumn.setMinWidth(COLUMN_WIDTH_150);
+        tablePreferenceColumn.setStyle(CENTERED);
         tablePreferenceColumn.setCellValueFactory(cellData -> {
             String table = cellData.getValue().getTableNames();
             return new SimpleObjectProperty<>(table);
         });
 
-        bookingStatusColumn.setText("Status");
-        bookingStatusColumn.setMinWidth(200);
-        bookingStatusColumn.setStyle("-fx-alignment: CENTER;");
+        bookingStatusColumn.setText(STATUS_COLUMN);
+        bookingStatusColumn.setMinWidth(COLUMN_WIDTH_200);
+        bookingStatusColumn.setStyle(CENTERED);
         bookingStatusColumn.setCellValueFactory(
-                new PropertyValueFactory<>("bookingStatus"));
+                new PropertyValueFactory<>(BOOKING_STATUS));
 
-        actionButtonColumn.setText("Action");
+        actionButtonColumn.setText(ACTION_COLUMN);
 
-        actionButtonColumn1.setMinWidth(65);
-        actionButtonColumn1.setStyle("-fx-alignment: CENTER;");
+        actionButtonColumn1.setMinWidth(COLUMN_WIDTH_65);
+        actionButtonColumn1.setStyle(CENTERED);
         actionButtonColumn1.setCellValueFactory(cellData -> {
             Button editButton = new Button();
             ImageLoader.setUpGraphicButton(editButton,
-                    15, 15, "edit");
+                    BUTTON_WIDTH, BUTTON_HEIGHT, EDIT_BUTTON);
             Booking currentBooking = cellData.getValue();
 
             editButton.setOnMousePressed(e -> {
@@ -176,12 +221,12 @@ public class CustomerBookingsHistoryViewController {
                 if (!cellData
                         .getValue()
                         .getBookingStatus()
-                        .equalsIgnoreCase("pending-approval")) {
+                        .equalsIgnoreCase(PENDING)) {
 
                     AlertPopUpWindow.displayInformationWindow(
-                            "Info",
-                            "You cannot edit this reservation.",
-                            "Ok"
+                            INFO_TITLE,
+                            INFO_MESSAGE,
+                            OK
                     );
                     return;
                 }
@@ -189,9 +234,7 @@ public class CustomerBookingsHistoryViewController {
                 try {
                     FXMLLoader fxmlLoader =
                             new FXMLLoader(Main.class.getResource(
-                                    "smallwindows/" +
-                                            "customer-view-booking" +
-                                            ".fxml"));
+                                    VIEW_BOOKING_WINDOW));
 
                     VBox vbox = fxmlLoader.load();
 
@@ -207,7 +250,7 @@ public class CustomerBookingsHistoryViewController {
                     Stage editStage = new Stage();
                     editStage.setScene(editScene);
 
-                    editStage.setTitle("Edit Table Reservation");
+                    editStage.setTitle(EDIT_TABLE_TITLE);
 
                     editStage.initModality(Modality.APPLICATION_MODAL);
 
@@ -226,24 +269,24 @@ public class CustomerBookingsHistoryViewController {
             return new SimpleObjectProperty<>(editButton);
         });
 
-        actionButtonColumn2.setMinWidth(65);
-        actionButtonColumn2.setStyle("-fx-alignment: CENTER;");
+        actionButtonColumn2.setMinWidth(COLUMN_WIDTH_65);
+        actionButtonColumn2.setStyle(CENTERED);
         actionButtonColumn2.setCellValueFactory(cellData -> {
             Button deleteButton = new Button();
             ImageLoader.setUpGraphicButton(deleteButton,
-                    15, 15, "delete");
+                    BUTTON_WIDTH, BUTTON_HEIGHT, DELETE_BUTTON);
             Booking selectedBooking = cellData.getValue();
 
             // Deletes the selected reservation and refresh list.
             deleteButton.setOnMousePressed(e -> {
-                Customer customer = (Customer) Main.getCurrentUser();
+                Customer customer = (Customer) MainScenesMap.getCurrentUser();
 
                 Optional<ButtonType> userChoice =
                         promptForUserAcknowledgement();
 
                 if (userChoice.get()
                         .getButtonData().toString()
-                        .equalsIgnoreCase("OK_DONE")) {
+                        .equalsIgnoreCase(OK_DONE)) {
 
                     try {
                         boolean isSuccessful = customer.deleteBooking(
@@ -251,13 +294,11 @@ public class CustomerBookingsHistoryViewController {
                         );
                         if (isSuccessful) {
                             AlertPopUpWindow.displayInformationWindow(
-                                    "Table Reservation Update",
+                                    DELETE_TITLE,
                                     String.format(
-                                            "Reservation no.%d was " +
-                                                    "deleted successfully.",
+                                            DELETE_MESSAGE,
                                             selectedBooking.getBookingId()
-                                    ),
-                                    "Ok"
+                                    ), OK
                             );
                         }
                         refreshReservationList();
@@ -276,16 +317,16 @@ public class CustomerBookingsHistoryViewController {
         reservationTable.setItems(data);
 
         ImageLoader.setUpGraphicButton(newReservationButton,
-                25, 25, "edit");
+                BIG_BUTTON_WIDTH,
+                BIG_BUTTON_HEIGHT,
+                EDIT_BUTTON);
 
         newReservationButton.setOnAction(e -> {
 
             try {
                 FXMLLoader fxmlLoader =
                         new FXMLLoader(Main.class.getResource(
-                                "smallwindows/" +
-                                        "customer-add-booking" +
-                                        ".fxml"));
+                                ADD_BOOKING_WINDOW));
 
                 VBox vbox = fxmlLoader.load();
 
@@ -301,7 +342,7 @@ public class CustomerBookingsHistoryViewController {
                 Stage editStage = new Stage();
                 editStage.setScene(editScene);
 
-                editStage.setTitle("New Reservation Request");
+                editStage.setTitle(ADD_BOOKING_TITLE);
 
                 editStage.initModality(Modality.APPLICATION_MODAL);
 
@@ -349,14 +390,14 @@ public class CustomerBookingsHistoryViewController {
 
     private Optional<ButtonType> promptForUserAcknowledgement() {
         return AlertPopUpWindow.displayConfirmationWindow(
-                "Cancel Table Reservation Request",
-                "Do you want to cancel this reservation?"
+                CANCEL_BOOKING_TITLE,
+                CANCEL_BOOKING_MESSAGE
         );
     }
 
     private void updateUserId() {
 
-        if (Main.getCurrentUser() == null) {
+        if (MainScenesMap.getCurrentUser() == null) {
             return;
         }
 
@@ -364,7 +405,7 @@ public class CustomerBookingsHistoryViewController {
 
             UserManagement userManagement = new UserManagement();
             userId = userManagement.getUserIdByUsername(
-                    Main.getCurrentUser().getUsername());
+                    MainScenesMap.getCurrentUser().getUsername());
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(

@@ -18,7 +18,8 @@ import java.io.IOException;
  * @author azmi_maz
  */
 public class BookingsView implements ViewMaker {
-
+    private static final String VIEW_BOOKINGS = "customerscenes/mapscenes/" +
+            "customer-viewbookings.fxml";
     public static CustomerBookingsHistoryViewController controller;
     private Stage stage;
 
@@ -41,8 +42,7 @@ public class BookingsView implements ViewMaker {
     public Scene getScene() {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(
-                "customerscenes/mapscenes/" +
-                        "customer-viewbookings.fxml"));
+                VIEW_BOOKINGS));
 
         VBox vbox = null;
         try {

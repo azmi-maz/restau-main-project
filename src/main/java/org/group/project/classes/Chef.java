@@ -112,6 +112,7 @@ public class Chef extends Staff {
                     TAKEAWAY_ORDER)) {
                 TakeawayOrder takeawayOrder = (TakeawayOrder) selectedOrder;
                 takeawayOrder.setEstimatedPickupTime();
+                takeawayOrder.updateDatabaseOfPickupTime();
                 takeawayOrder.notifyCustomer(
                         takeawayOrder.getCustomer(),
                         true
