@@ -19,7 +19,7 @@ import java.util.Optional;
  */
 public class Main extends Application {
 
-    private static final String restaurantName =
+    private static final String RESTAURANT_NAME =
             "Cafe94 Restaurant";
     private static final String OK = "OK_DONE";
     private static final String ACTIVE_USER_FILE = "ACTIVE_USER";
@@ -39,7 +39,7 @@ public class Main extends Application {
         // Starts with user log in.
         MainScenesMap loadMainScenesMaps = new MainScenesMap(stage);
         stage.setScene(MainScenesMap.getScenes().get(MainScenes.LOGIN));
-        stage.setTitle(restaurantName);
+        stage.setTitle(RESTAURANT_NAME);
         stage.show();
 
         // When user wants to close the application.
