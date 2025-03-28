@@ -49,25 +49,41 @@ public class Floor {
 
         tableBookings = new HashMap<>();
         List<Table> tableList;
-        List<Booking> bookingList;
 
         try {
 
-            bookingList = getBookingDataFromDatabase();
             tableList = getTableDataFromDatabase();
+            for (Table table : tableList) {
+                if (!tableBookings.containsKey(table)) {
+                    tableBookings.put(
+                            table,
+                            new ArrayList<>());
+                }
+            }
+
+            refreshBookingList();
 
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
             throw e;
         }
 
-        for (Table table : tableList) {
-            if (!tableBookings.containsKey(table)) {
-                tableBookings.put(
-                        table,
-                        new ArrayList<>()
-                );
-            }
+    }
+
+    /**
+     * To refresh the booking list from the database.
+     * 
+     * @throws TextFileNotFoundException if the booking file does not exist.
+     */
+    public void refreshBookingList() throws TextFileNotFoundException {
+        List<Booking> bookingList;
+
+        try {
+            bookingList = getBookingDataFromDatabase();
+
+        } catch (TextFileNotFoundException e) {
+            e.printStackTrace();
+            throw e;
         }
 
         for (Booking booking : bookingList) {
@@ -75,16 +91,14 @@ public class Floor {
                     .getTablePreference()
                     .getFirst()
                     .getTableName();
-            for (Map.Entry<Table, List<Booking>> entry :
-                    tableBookings.entrySet()) {
+            for (Map.Entry<Table, List<Booking>> entry : tableBookings.entrySet()) {
                 Table table = entry.getKey();
                 String tableName = table.getTableName();
                 List<Booking> bookings = entry.getValue();
                 if (tableName
                         .equalsIgnoreCase(currentBookingTableName)) {
                     bookings.add(
-                            booking
-                    );
+                            booking);
                 }
             }
         }
@@ -201,8 +215,7 @@ public class Floor {
      */
     public List<Booking> getAllUniqueBookings() {
         List<Booking> listOfBookings = new ArrayList<>();
-        for (Map.Entry<Table, List<Booking>> entry :
-                tableBookings.entrySet()) {
+        for (Map.Entry<Table, List<Booking>> entry : tableBookings.entrySet()) {
             for (Booking booking : entry.getValue()) {
                 if (!listOfBookings.contains(booking)) {
                     listOfBookings.add(booking);
@@ -220,7 +233,7 @@ public class Floor {
      * @return the list of bookings between two dates, inclusive.
      */
     public List<Booking> getBookingsByDateRange(LocalDate dateFrom,
-                                                LocalDate dateTo) {
+            LocalDate dateTo) {
         List<Booking> allUniqueBookings = getAllUniqueBookings();
         List<Booking> filteredBookings = new ArrayList<>();
         LocalDate dateFromMinusOne = dateFrom.minusDays(1);
@@ -272,9 +285,10 @@ public class Floor {
         LocalTime endTimePlusOne = endTime.plusMinutes(1);
 
         // Time From > Time To - should not happen
-        if (startTime.compareTo(endTime) > 0) {
-            return null;
-        }
+        // if (startTime.compareTo(endTime) > 0) {
+        // return null;
+        // }
+        // Update: This happens when the search time ends at midnight or more.
 
         for (Booking booking : allUniqueBookings) {
 
@@ -290,14 +304,67 @@ public class Floor {
                     // Normal time range
                 } else {
 
-                    if (booking.getBookingTime().isAfter(startFromMinusOne) &&
-                            booking.getBookingTime().isBefore(endTimePlusOne)) {
+                    if (isTimeWithinTwoLocalTime(booking.getBookingTime(), booking.getEndTimeOfBooking(),
+                            startFromMinusOne, endTimePlusOne)) {
                         filteredBookings.add(booking);
                     }
                 }
             }
         }
         return filteredBookings;
+    }
+
+    /**
+     * This checks if the booking time is within the interval
+     * 
+     * @param bookingStart - the booking start time.
+     * @param bookingEnd   - the booking end time: start time + booking length.
+     * @param startTime    - the start time of the user desired booking.
+     * @param endTime      - the end time of the user desired booking.
+     * @return
+     */
+    public boolean isTimeWithinTwoLocalTime(LocalTime bookingStart, LocalTime bookingEnd, LocalTime startTime,
+            LocalTime endTime) {
+
+        LocalTime midnightEndTime = LocalTime.of(0, 0, 0);
+        LocalTime midnightEndTimePlusOne = LocalTime.of(0, 1, 0);
+        LocalTime sixInTheMorning = LocalTime.of(6, 0, 0);
+        boolean isMidnightEndTime = endTime.compareTo(midnightEndTimePlusOne) == 0;
+        boolean isBookingEndsAtMidnightOrMore = bookingEnd.compareTo(midnightEndTime) >= 0
+                && bookingEnd.compareTo(sixInTheMorning) < 0;
+        LocalTime realSearchStartTime = startTime.plusMinutes(1);
+
+        // if (isBookingEndsAtMidnightOrMore) {
+        // System.out.println("Booking ends at midnight or more: " +
+        // isBookingEndsAtMidnightOrMore);
+        // }
+
+        // if (isMidnightEndTime) {
+        // System.out.println("search ends at midnight: " + isMidnightEndTime);
+        // }
+
+        // Booking end time equals to search start time
+        if (bookingEnd.compareTo(realSearchStartTime) == 0) {
+            return false;
+        }
+
+        if (bookingStart.isAfter(startTime)) {
+            if (bookingEnd.isBefore(endTime)) {
+                return true;
+            } else if (bookingStart.isBefore(endTime)) {
+                return true;
+            } else if (isMidnightEndTime && bookingEnd.compareTo(startTime) > 0) {
+                return true;
+            }
+        } else if (bookingStart.isBefore(startTime)) {
+            if (bookingEnd.isAfter(startTime)) {
+                return true;
+            } else if (isBookingEndsAtMidnightOrMore && bookingEnd.compareTo(midnightEndTime) >= 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -319,8 +386,7 @@ public class Floor {
                 bookingList.add(
                         getBookingFromString(
                                 userManagement,
-                                booking)
-                );
+                                booking));
             }
 
             return bookingList;
@@ -341,65 +407,49 @@ public class Floor {
      */
     public Booking getBookingFromString(
             UserManagement userManagement,
-            String booking
-    ) throws TextFileNotFoundException {
+            String booking) throws TextFileNotFoundException {
         try {
 
             List<String> bookingDetails = List.of(booking.split(","));
             int bookingId = Integer.parseInt(bookingDetails.get(
                     DataFileStructure.getIndexColOfUniqueId(
-                            BOOKING_FILE
-                    )
-            ));
+                            BOOKING_FILE)));
             int customerId = Integer.parseInt(bookingDetails.get(
                     DataFileStructure.getIndexByColName(
                             BOOKING_FILE, USER_ID_COLUMN)));
             Customer customer = userManagement.getCustomerById(
-                    customerId
-            );
+                    customerId);
 
             LocalDate bookingDate = getLocalDateFromString(
                     bookingDetails.get(DataFileStructure
                             .getIndexByColName(
                                     BOOKING_FILE,
-                                    BOOKING_DATE_COLUMN
-                            ))
-            );
+                                    BOOKING_DATE_COLUMN)));
             LocalTime bookingTime = getLocalTimeFromString(
                     bookingDetails.get(DataFileStructure
                             .getIndexByColName(
                                     BOOKING_FILE,
-                                    BOOKING_TIME_COLUMN
-                            ))
-            );
+                                    BOOKING_TIME_COLUMN)));
             int numOfGuests = Integer.parseInt(bookingDetails.get(
                     DataFileStructure
                             .getIndexByColName(
                                     BOOKING_FILE,
-                                    NUM_GUESTS_COLUMN
-                            )
-            ));
+                                    NUM_GUESTS_COLUMN)));
             int bookingLength = Integer.parseInt(bookingDetails.get(
                     DataFileStructure
                             .getIndexByColName(
                                     BOOKING_FILE,
-                                    BOOKING_LENGTH_COLUMN
-                            )
-            ));
+                                    BOOKING_LENGTH_COLUMN)));
             String bookingTable = bookingDetails.get(
                     DataFileStructure
                             .getIndexByColName(
                                     BOOKING_FILE,
-                                    TABLE_PREFERENCE_COLUMN
-                            )
-            );
+                                    TABLE_PREFERENCE_COLUMN));
             String bookingStatus = bookingDetails.get(
                     DataFileStructure
                             .getIndexByColName(
                                     BOOKING_FILE,
-                                    BOOKING_STATUS_COLUMN
-                            )
-            );
+                                    BOOKING_STATUS_COLUMN));
             List<Table> tablePreference = new ArrayList<>();
 
             getTablesFromString(tablePreference, bookingTable);
@@ -412,8 +462,7 @@ public class Floor {
                     numOfGuests,
                     tablePreference,
                     bookingLength,
-                    bookingStatus
-            );
+                    bookingStatus);
 
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
@@ -428,10 +477,8 @@ public class Floor {
      * @return the LocalDate of that date string.
      */
     public LocalDate getLocalDateFromString(
-            String bookingDate
-    ) {
-        List<String> bookingDateDetails =
-                List.of(bookingDate.split("-"));
+            String bookingDate) {
+        List<String> bookingDateDetails = List.of(bookingDate.split("-"));
         return LocalDate.of(Integer.parseInt(bookingDateDetails.get(0)),
                 Integer.parseInt(bookingDateDetails.get(1)),
                 Integer.parseInt(bookingDateDetails.get(2)));
@@ -444,10 +491,8 @@ public class Floor {
      * @return the LocalTime of that time string.
      */
     public LocalTime getLocalTimeFromString(
-            String bookingTime
-    ) {
-        List<String> bookingTimeDetails =
-                List.of(bookingTime.split("-"));
+            String bookingTime) {
+        List<String> bookingTimeDetails = List.of(bookingTime.split("-"));
         return LocalTime.of(Integer.parseInt(bookingTimeDetails.get(0)),
                 Integer.parseInt(bookingTimeDetails.get(1)));
     }
@@ -461,8 +506,7 @@ public class Floor {
      */
     public void getTablesFromString(
             List<Table> tablePreference,
-            String searchTableName
-    ) throws TextFileNotFoundException {
+            String searchTableName) throws TextFileNotFoundException {
         try {
             List<Table> tableList = getTableDataFromDatabase();
 
@@ -498,8 +542,7 @@ public class Floor {
             LocalTime bookingTime,
             int numOfGuests,
             Table tablePreference,
-            int bookingLength
-    ) throws TextFileNotFoundException {
+            int bookingLength) throws TextFileNotFoundException {
 
         try {
 
@@ -510,8 +553,7 @@ public class Floor {
                     bookingTime,
                     numOfGuests,
                     tablePreference,
-                    bookingLength
-            );
+                    bookingLength);
 
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
@@ -559,14 +601,12 @@ public class Floor {
             LocalTime bookingTime,
             int numOfGuests,
             Table table,
-            int bookingLength
-    ) {
+            int bookingLength) {
 
         int bookingId = booking.getBookingId();
         Customer customer = booking.getCustomer();
         List<Table> tablePreference = new ArrayList<>(
-                Arrays.asList(table)
-        );
+                Arrays.asList(table));
         String bookingStatus = booking.getBookingStatus();
         return new Booking(
                 bookingId,
@@ -576,8 +616,7 @@ public class Floor {
                 numOfGuests,
                 tablePreference,
                 bookingLength,
-                bookingStatus
-        );
+                bookingStatus);
     }
 
     /**
@@ -587,8 +626,7 @@ public class Floor {
      * @throws TextFileNotFoundException - if text file is non-existent
      */
     public void addBookingToDatabase(
-            Booking newBooking
-    ) throws TextFileNotFoundException {
+            Booking newBooking) throws TextFileNotFoundException {
         String bookingId = String.valueOf(newBooking.getBookingId());
         String customerId = String.valueOf(newBooking.getCustomerId());
         String bookingDate = newBooking
@@ -598,10 +636,8 @@ public class Floor {
                 .getBookingTime()
                 .format(DateTimeFormatter.ofPattern(TIME_FORMAT_DATABASE));
         String numOfGuests = String.valueOf(newBooking.getNumOfGuests());
-        String bookingLength =
-                String.valueOf(newBooking.getBookingLengthInHour());
-        String tablePreference =
-                newBooking.getTablePreference().getFirst().getTableName();
+        String bookingLength = String.valueOf(newBooking.getBookingLengthInHour());
+        String tablePreference = newBooking.getTablePreference().getFirst().getTableName();
         String bookingStatus = newBooking.getBookingStatus();
 
         List<String> newBookingForDatabase = new ArrayList<>(Arrays.asList(
@@ -612,8 +648,7 @@ public class Floor {
                 numOfGuests,
                 bookingLength,
                 tablePreference,
-                bookingStatus
-        ));
+                bookingStatus));
 
         try {
             DataManager.appendDataToFile(
@@ -631,8 +666,7 @@ public class Floor {
      * @throws TextFileNotFoundException - if the text file is non-existent.
      */
     public void editBookingDataInDatabase(
-            Booking editedBooking
-    ) throws TextFileNotFoundException {
+            Booking editedBooking) throws TextFileNotFoundException {
         int bookingId = editedBooking.getBookingId();
         String bookingDate = editedBooking
                 .getBookingDate()
@@ -670,8 +704,7 @@ public class Floor {
      * @param data - the table view list containing the bookings for display.
      */
     public void getPendingBookingData(
-            ObservableList<Booking> data
-    ) {
+            ObservableList<Booking> data) {
 
         List<Booking> bookingData = getAllUniqueBookings();
         for (Booking booking : bookingData) {
@@ -692,8 +725,7 @@ public class Floor {
      */
     public void getBookingDataByUserId(
             ObservableList<Booking> data,
-            int userId
-    ) {
+            int userId) {
 
         List<Booking> bookingData = getAllUniqueBookings();
         for (Booking booking : bookingData) {
@@ -716,8 +748,7 @@ public class Floor {
         List<Booking> allUniqueBookings = getAllUniqueBookings();
         Boolean isBookingExist = allUniqueBookings.contains(booking);
         if (isBookingExist) {
-            for (Map.Entry<Table, List<Booking>> entry :
-                    tableBookings.entrySet()) {
+            for (Map.Entry<Table, List<Booking>> entry : tableBookings.entrySet()) {
                 if (entry.getValue().contains(booking)) {
                     entry.getValue().remove(booking);
                 }
@@ -745,19 +776,14 @@ public class Floor {
                 String tableName = tableDetails.get(
                         DataFileStructure.getIndexByColName(
                                 TABLE_FILE,
-                                TABLE_NAME_COLUMN
-                        )
-                );
+                                TABLE_NAME_COLUMN));
                 int numOfSeats = Integer.parseInt(tableDetails.get(
                         DataFileStructure.getIndexByColName(
                                 TABLE_FILE,
-                                NUM_SEATS_COLUMN
-                        )
-                ));
+                                NUM_SEATS_COLUMN)));
                 tableList.add(new Table(
                         tableName,
-                        numOfSeats
-                ));
+                        numOfSeats));
             }
             return tableList;
 
@@ -773,8 +799,7 @@ public class Floor {
      * @param tableChoiceBox - the choice box to populate with tables.
      */
     public void updateTableChoiceBox(
-            ChoiceBox<Table> tableChoiceBox
-    ) {
+            ChoiceBox<Table> tableChoiceBox) {
         Set<Table> tableList = getSetOfTables();
         List<Table> unsortedTables = new ArrayList<>();
         for (Table table : tableList) {
@@ -782,8 +807,7 @@ public class Floor {
         }
         Collections.sort(
                 unsortedTables,
-                Comparator.comparing(Table::getNumberOfSeats)
-        );
+                Comparator.comparing(Table::getNumberOfSeats));
         tableChoiceBox.getItems().addAll(unsortedTables);
     }
 
@@ -795,8 +819,7 @@ public class Floor {
      */
     public void updateTablesBasedOnGuests(
             int numOfGuests,
-            ChoiceBox<Table> tableChoiceBox
-    ) {
+            ChoiceBox<Table> tableChoiceBox) {
         tableChoiceBox.getItems().clear();
         Set<Table> tableList = getSetOfTables();
         for (Table table : tableList) {
@@ -813,17 +836,14 @@ public class Floor {
      * @param numOfGuestsChoiceBox - the choice box to be updated.
      */
     public void updateNumOfGuestsChoiceBox(
-            ChoiceBox<Integer> numOfGuestsChoiceBox
-    ) {
+            ChoiceBox<Integer> numOfGuestsChoiceBox) {
         List<Integer> uniqueNumOfGuests = new ArrayList<>();
         Set<Table> tableList = getSetOfTables();
         for (Table table : tableList) {
             if (!uniqueNumOfGuests.contains(
-                    table.getNumberOfSeats()
-            )) {
+                    table.getNumberOfSeats())) {
                 uniqueNumOfGuests.add(
-                        table.getNumberOfSeats()
-                );
+                        table.getNumberOfSeats());
             }
         }
         Collections.sort(uniqueNumOfGuests);
@@ -840,8 +860,7 @@ public class Floor {
      * @param bookingLengthChoiceBox - the choice box to be updated.
      */
     public void updateBookingLengthChoiceBox(
-            ChoiceBox<Integer> bookingLengthChoiceBox
-    ) {
+            ChoiceBox<Integer> bookingLengthChoiceBox) {
         bookingLengthChoiceBox.getItems().clear();
         for (int i = 1; i < MAX_BOOKING_LENGTH; i++) {
             bookingLengthChoiceBox.getItems().add(i);
@@ -855,13 +874,11 @@ public class Floor {
      * @param reservationTimeChoiceBox - the choice box to be updated.
      */
     public void updateReservationTimeChoiceBox(
-            ChoiceBox<LocalTime> reservationTimeChoiceBox
-    ) {
+            ChoiceBox<LocalTime> reservationTimeChoiceBox) {
 
         reservationTimeChoiceBox.getItems().clear();
-        for (LocalTime startTime = OPENING_TIME;
-             startTime.compareTo(LATEST_BOOKING_TIME) <= 0;
-             startTime = startTime.plusMinutes(HALF_HOUR_INTERVAL)) {
+        for (LocalTime startTime = OPENING_TIME; startTime.compareTo(LATEST_BOOKING_TIME) <= 0; startTime = startTime
+                .plusMinutes(HALF_HOUR_INTERVAL)) {
             reservationTimeChoiceBox
                     .getItems()
                     .add(startTime);
