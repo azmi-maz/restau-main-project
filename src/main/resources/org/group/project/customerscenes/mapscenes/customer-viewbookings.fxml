@@ -19,7 +19,7 @@
                        styleClass="mainTitle"/>
             </HBox>
             <fx:include
-                    source="../../navbar/customer/customer-returnhome-navbar.fxml"
+                    source="../../navbar/customer/customer-bookingsview-navbar.fxml"
                     fx:id="customerReturnHomeNavbar"/>
         </HBox>
         <BorderPane prefHeight="1400.0" prefWidth="700.0" fx:id="borderPane">
