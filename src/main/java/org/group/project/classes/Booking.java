@@ -53,8 +53,8 @@ public class Booking implements NotifyAction {
      * @param tableRequest - list of one table or more for the guests.
      */
     public Booking(int bookingId, Customer customer, LocalDate bookingDate,
-                   LocalTime bookingTime, int numOfGuests,
-                   List<Table> tableRequest) {
+            LocalTime bookingTime, int numOfGuests,
+            List<Table> tableRequest) {
         this.bookingId = bookingId;
         this.customer = customer;
         this.bookingDate = bookingDate;
@@ -76,8 +76,8 @@ public class Booking implements NotifyAction {
      * @param bookingLength - the booking length requested by customer.
      */
     public Booking(int bookingId, Customer customer, LocalDate bookingDate,
-                   LocalTime bookingTime, int numOfGuests,
-                   List<Table> tableRequest, int bookingLength) {
+            LocalTime bookingTime, int numOfGuests,
+            List<Table> tableRequest, int bookingLength) {
         this.bookingId = bookingId;
         this.customer = customer;
         this.bookingDate = bookingDate;
@@ -101,8 +101,8 @@ public class Booking implements NotifyAction {
      * @param status        - the status of the booking.
      */
     public Booking(int bookingId, Customer customer, LocalDate bookingDate,
-                   LocalTime bookingTime, int numOfGuests,
-                   List<Table> tableRequest, int bookingLength, String status) {
+            LocalTime bookingTime, int numOfGuests,
+            List<Table> tableRequest, int bookingLength, String status) {
         this.bookingId = bookingId;
         this.customer = customer;
         this.bookingDate = bookingDate;
@@ -134,8 +134,7 @@ public class Booking implements NotifyAction {
             LocalTime bookingTime,
             int numOfGuests,
             Table tablePreference,
-            int bookingLength
-    ) throws TextFileNotFoundException {
+            int bookingLength) throws TextFileNotFoundException {
 
         try {
 
@@ -298,14 +297,24 @@ public class Booking implements NotifyAction {
     }
 
     /**
-     * This method gets the time when a booking ends.
+     * This method gets the time in string format when a booking ends.
      *
-     * @return the time a booking ends.
+     * @return the time a booking ends in string format.
      */
     public String getEndBookingTime() {
         return bookingTime
                 .plusHours(bookingLengthInHour)
                 .format(DateTimeFormatter.ofPattern(TIME_FORMAT));
+    }
+
+    /**
+     * This method gets the LocalTime when a booking ends.
+     * 
+     * @return the LocalTime a booking ends.
+     */
+    public LocalTime getEndTimeOfBooking() {
+        return bookingTime
+                .plusHours(bookingLengthInHour);
     }
 
     /**
@@ -329,8 +338,7 @@ public class Booking implements NotifyAction {
         return String.format(
                 SUCCESS_MESSAGE,
                 getBookingDateInFormat(),
-                getBookingTimeInFormat()
-        );
+                getBookingTimeInFormat());
     }
 
     /**
@@ -343,8 +351,7 @@ public class Booking implements NotifyAction {
         return String.format(
                 FAILURE_MESSAGE,
                 getBookingDateInFormat(),
-                getBookingTimeInFormat()
-        );
+                getBookingTimeInFormat());
     }
 
     /**
@@ -409,7 +416,7 @@ public class Booking implements NotifyAction {
      */
     @Override
     public void notifyCustomer(Customer customer,
-                               boolean isSuccessfulRequest)
+            boolean isSuccessfulRequest)
             throws TextFileNotFoundException {
 
         try {
@@ -419,22 +426,18 @@ public class Booking implements NotifyAction {
             Notification newNotification = notificationBoard
                     .createNewNotification(
                             customer.getCustomerId(),
-                            notificationType
-                    );
+                            notificationType);
 
             if (isSuccessfulRequest) {
                 newNotification.setMessageBody(
-                        successfulBookingMessage()
-                );
+                        successfulBookingMessage());
             } else {
                 newNotification.setMessageBody(
-                        failedBookingMessage()
-                );
+                        failedBookingMessage());
             }
 
             notificationBoard.addNotificationToDatabase(
-                    newNotification
-            );
+                    newNotification);
 
         } catch (TextFileNotFoundException e) {
             e.printStackTrace();
