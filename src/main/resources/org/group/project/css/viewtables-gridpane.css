@@ -1,0 +1,4 @@
+.tableNotAvailable {
+    -fx-text-fill: red;
+    -fx-background-color: white;
+}
