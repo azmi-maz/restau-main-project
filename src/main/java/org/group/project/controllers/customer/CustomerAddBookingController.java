@@ -69,8 +69,7 @@ public class CustomerAddBookingController {
             if (reservationDatePicker.getValue().compareTo(
                     LocalDate.now()) < 0) {
                 AlertPopUpWindow.displayErrorWindow(
-                        INVALID_DATE
-                );
+                        INVALID_DATE);
                 reservationDatePicker.setValue(LocalDate.now());
             }
         });
@@ -79,19 +78,15 @@ public class CustomerAddBookingController {
             Floor floor = new Floor();
 
             floor.updateReservationTimeChoiceBox(
-                    reservationTimeChoiceBox
-            );
+                    reservationTimeChoiceBox);
             floor.updateNumOfGuestsChoiceBox(
-                    numOfGuestsChoiceBox
-            );
+                    numOfGuestsChoiceBox);
             floor.updateBookingLengthChoiceBox(
-                    lenOfReservationTimeChoiceBox
-            );
+                    lenOfReservationTimeChoiceBox);
 
         } catch (TextFileNotFoundException e) {
             AlertPopUpWindow.displayErrorWindow(
-                    e.getMessage()
-            );
+                    e.getMessage());
             e.printStackTrace();
         }
 
@@ -102,17 +97,14 @@ public class CustomerAddBookingController {
                 int maxGuestSelected = numOfGuestsChoiceBox.getValue();
                 floor.updateTablesBasedOnGuests(
                         maxGuestSelected,
-                        tablePreferenceChoiceBox
-                );
+                        tablePreferenceChoiceBox);
             } catch (TextFileNotFoundException ex) {
                 AlertPopUpWindow.displayErrorWindow(
-                        ex.getMessage()
-                );
+                        ex.getMessage());
                 ex.printStackTrace();
             }
 
         });
-
 
         /*
          * To reformat the date picker to be in dd/mm/yyyy format
@@ -141,13 +133,11 @@ public class CustomerAddBookingController {
 
             Customer customer = (Customer) MainScenesMap.getCurrentUser();
 
-            if (
-                    reservationDatePicker.getValue() != null
-                            && reservationTimeChoiceBox.getValue() != null
-                            && numOfGuestsChoiceBox.getValue() != null
-                            && tablePreferenceChoiceBox.getValue() != null
-                            && lenOfReservationTimeChoiceBox.getValue() != null
-            ) {
+            if (reservationDatePicker.getValue() != null
+                    && reservationTimeChoiceBox.getValue() != null
+                    && numOfGuestsChoiceBox.getValue() != null
+                    && tablePreferenceChoiceBox.getValue() != null
+                    && lenOfReservationTimeChoiceBox.getValue() != null) {
 
                 LocalDate bookingDate = reservationDatePicker.getValue();
                 LocalTime bookingTime = reservationTimeChoiceBox.getValue();
@@ -163,23 +153,19 @@ public class CustomerAddBookingController {
                             bookingTime,
                             numOfGuests,
                             tablePreference,
-                            bookingLength
-                    );
+                            bookingLength);
                     boolean isSuccessful = customer.addNewBooking(
                             newBooking,
-                            floor
-                    );
+                            floor);
                     if (isSuccessful) {
                         AlertPopUpWindow.displayInformationWindow(
                                 TABLE_UPDATE_TITLE,
                                 TABLE_UPDATE_MESSAGE,
-                                OK
-                        );
+                                OK);
                     }
                 } catch (TextFileNotFoundException ex) {
                     AlertPopUpWindow.displayErrorWindow(
-                            ex.getMessage()
-                    );
+                            ex.getMessage());
                     ex.printStackTrace();
                 }
 
@@ -188,8 +174,7 @@ public class CustomerAddBookingController {
             } else {
 
                 AlertPopUpWindow.displayErrorWindow(
-                        INCOMPLETE
-                );
+                        INCOMPLETE);
             }
 
         });
@@ -208,10 +193,29 @@ public class CustomerAddBookingController {
         this.userId = userId;
     }
 
+    /**
+     * To populate the fields with previously entered booking information.
+     * 
+     * @param bookingDate   - the desired booking date.
+     * @param bookingTime   - the desired booking time.
+     * @param bookingLength - the desired length of booking.
+     * @param selectedTable - the table selected by the user.
+     */
+    public void addExistingTableToBooking(
+            LocalDate bookingDate,
+            LocalTime bookingTime,
+            int bookingLength,
+            Table selectedTable) {
+        this.reservationDatePicker.setValue(bookingDate);
+        this.reservationTimeChoiceBox.setValue(bookingTime);
+        this.numOfGuestsChoiceBox.setValue(selectedTable.getNumberOfSeats());
+        this.lenOfReservationTimeChoiceBox.setValue(bookingLength);
+        this.tablePreferenceChoiceBox.setValue(selectedTable);
+    }
+
     private void closeWindow() {
         Stage stage = (Stage) vbox.getScene().getWindow();
         stage.close();
     }
-
 
 }
