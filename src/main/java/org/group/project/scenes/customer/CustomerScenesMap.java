@@ -6,6 +6,7 @@ import org.group.project.scenes.customer.mainViews.BookingsView;
 import org.group.project.scenes.customer.mainViews.MenuOrderView;
 import org.group.project.scenes.customer.mainViews.NotificationView;
 import org.group.project.scenes.customer.mainViews.OrdersView;
+import org.group.project.scenes.customer.mainViews.TablesView;
 import org.group.project.scenes.main.CustomerView;
 
 import java.util.HashMap;
@@ -38,6 +39,8 @@ public class CustomerScenesMap {
                 new CustomerView(stage).getScene());
         customerScenes.put(CustomerMapsMain.BOOKING,
                 new BookingsView(stage).getScene());
+        customerScenes.put(CustomerMapsMain.TABLES,
+                new TablesView(stage).getScene());
         customerScenes.put(CustomerMapsMain.MENU,
                 new MenuOrderView(stage).getScene());
         customerScenes.put(CustomerMapsMain.ORDER,

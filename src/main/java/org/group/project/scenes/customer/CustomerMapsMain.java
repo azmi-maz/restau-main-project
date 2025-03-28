@@ -6,5 +6,5 @@ package org.group.project.scenes.customer;
  * @author azmi_maz
  */
 public enum CustomerMapsMain {
-    HOME, MENU, NOTIFICATION, BOOKING, ORDER
+    HOME, MENU, NOTIFICATION, BOOKING, TABLES, ORDER
 }
