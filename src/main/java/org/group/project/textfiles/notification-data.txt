@@ -76,3 +76,5 @@
 76,1,2024-5-2,20-58,takeaway,false,Your order no.52 is ready for pickup at 09:28 PM.
 77,1,2024-5-2,21-12,takeaway,false,Your order no.52 is ready for pickup at 09:42 PM.
 78,1,2024-5-2,21-13,takeaway,false,Your order no.3 is ready for pickup at 09:42 PM.
+79,1,2025-3-25,22-32,booking,false,Good news! Your table reservation for 25/03/2025 at 08:00 PM is now confirmed.
+80,1,2025-3-25,22-34,booking,false,Good news! Your table reservation for 25/03/2025 at 08:00 PM is now confirmed.

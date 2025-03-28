@@ -15,3 +15,7 @@
 17,1,2024-4-30,10-30,10,2,Festin Fantastique (10),failed
 18,1,2024-5-1,15-0,4,2,Salle Familiale (4),approved
 19,1,2024-5-2,18-0,4,2,Convives Carré (4),pending-approval
+20,1,2025-3-27,15-0,2,3,Amoureux Alcôve (2),approved
+21,1,2025-3-27,20-0,4,2,Salle Familiale (4),approved
+22,1,2025-3-27,20-0,4,2,Quatre Quartiers (4),approved
+23,1,2025-3-27,19-0,8,3,Huit Héritage (8),approved
